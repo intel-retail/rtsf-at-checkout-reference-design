@@ -1,0 +1,143 @@
+{
+    "checkout_events": [
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1562972496852,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"Entrance",
+                            "epc_code":"30143639F8419145BEEF0009",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "timestamp":1562972496848,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1562972496854,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"Entrance",
+                            "epc_code":"30143639F8419145BEEF0009",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"moved",
+                            "timestamp":1562972496850,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1562972496856,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"Entrance",
+                            "epc_code":"30143639F8419145BEEF0009",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"departed",
+                            "timestamp":1562972496852,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1562972496858,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"Bagging",
+                            "epc_code":"30143639F8419145BEEF0009",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "timestamp":1562972496854,
+                            "location":"RSP-150001"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1565132919460,
+                    "gateway_id":"tpm-NUC7i5DNHE",
+                    "data":[
+                        {
+                            "epc_code":"300C00000000000000000062",
+                            "epc_encode_format":"tbd",
+                            "event_type":"departed",
+                            "facility_id":"Entrance",
+                            "location":"RSP-958769-0",
+                            "tid":null,
+                            "timestamp":1565132918035
+                        },
+                        {
+                            "epc_code":"300C00000000000000000062",
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "facility_id":"Bagging",
+                            "location":"RSP-95a996-0",
+                            "tid":null,
+                            "timestamp":1565132919134
+                        },
+                        {
+                            "epc_code":"300C00000000000000000060",
+                            "epc_encode_format":"tbd",
+                            "event_type":"departed",
+                            "facility_id":"Entrance",
+                            "location":"RSP-958769-0",
+                            "tid":null,
+                            "timestamp":1565132909636
+                        },
+                        {
+                            "epc_code":"300C00000000000000000060",
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "facility_id":"Bagging",
+                            "location":"RSP-95a996-0",
+                            "tid":null,
+                            "timestamp":1565132919176
+                        }
+                    ]
+                }
+            },
+            "wait_time": "1s"
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+version: '3.4'
+
+networks:
+  loss-detection-app_edgex-network:
+    external: true
+
+volumes:
+  db_vol:
+    driver: local
+  pos_vol:
+    driver: local
+
+services:
+    event-reconciler:
+      image: rtsf-at-checkout/event-reconciler:dev
+      ports:
+        - "9083:9083"
+        - "48095:48095"
+      restart: "on-failure:5"
+      container_name: event-reconciler
+      hostname: event-reconciler
+      networks:
+        - loss-detection-app_edgex-network
+
+    device-scale:
+      image: rtsf-at-checkout/device-scale:dev
+      restart: "on-failure:5"
+      container_name: device-scale
+      hostname: device-scale
+      networks:
+        - loss-detection-app_edgex-network
+      devices:
+        - /dev/:/dev/
+      privileged: true
+
+    product-lookup:
+      image: rtsf-at-checkout/product-lookup:dev
+      command: "/product-lookup -file /db_initialization/all-products.json"
+      ports:
+        - "8083:8083"
+      restart: "on-failure:5"
+      container_name: product-lookup
+      hostname: product-lookup
+      networks:
+        - loss-detection-app_edgex-network
+
+    loss-detector:
+      image: rtsf-at-checkout/loss-detector:dev
+      ports:
+        - "48096:48096"
+      restart: "on-failure:5"
+      container_name: loss-detector
+      hostname: loss-detector
+      networks:
+        - loss-detection-app_edgex-network
+
+    rsp-controller-event-handler:
+      image: rtsf-at-checkout/rsp-controller-event-handler:dev
+      restart: "on-failure:5" 
+      container_name: rsp-controller-event-handler
+      hostname: rsp-controller-event-handler
+      ports:
+        - 42222:48096
+      networks:
+        - loss-detection-app_edgex-network

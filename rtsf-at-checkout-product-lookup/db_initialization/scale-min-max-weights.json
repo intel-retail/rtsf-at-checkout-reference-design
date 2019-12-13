@@ -1,0 +1,26 @@
+[
+{
+    "barcode": "00000000098212",
+    "name": "Stapler",
+    "min_weight": 0.385,
+    "max_weight": 0.395        
+},
+{
+    "barcode": "00000000019293",
+    "name": "HP MP9",
+    "min_weight": 2.548,
+    "max_weight": 2.555        
+},
+{
+    "barcode": "00000000291811",
+    "name": "USB Cable",
+    "min_weight": 0.453,
+    "max_weight": 0.462        
+},
+{
+    "barcode": "00000000394215",
+    "name": "Logitech Mouse",
+    "min_weight": 0.290,
+    "max_weight": 0.298        
+}
+]

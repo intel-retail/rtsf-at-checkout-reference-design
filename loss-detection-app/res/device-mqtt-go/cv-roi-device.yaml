@@ -1,0 +1,23 @@
+name: "device-cv-roi-mqtt"
+manufacturer: "Intel"
+model: "CV ROI events"
+labels:
+  - "cv"
+  - "roi"
+  - "enter"
+  - "exit"
+description: "A device for CV region of interest (ROI) events"
+
+deviceResources:
+  - name: "cv-roi-event"
+    description: "A CV ROI event"
+    properties:
+      value:
+        { type: "String", readWrite: "RW", defaultValue: "" }
+      units:
+        { type: "String", readWrite: "RW", defaultValue: "" }
+
+deviceCommands:
+  - name: "cv-roi-event"
+    get:
+      - { operation: "get", object: "cv-roi-event", property: "value", parameter: "cv-roi-event" }

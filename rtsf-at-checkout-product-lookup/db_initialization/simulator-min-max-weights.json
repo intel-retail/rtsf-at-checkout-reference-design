@@ -1,0 +1,51 @@
+[
+{
+    "barcode": "00000000324588",
+    "name": "Red Apples",
+    "min_weight": 1.0,
+    "max_weight": 1.1,
+    "rfid_eligible": true        
+},
+{
+    "barcode": "00000000571111",
+    "name": "Trail Mix",
+    "min_weight": 2.0,
+    "max_weight": 2.1,
+    "rfid_eligible": true        
+},
+{
+    "barcode": "00000000884389",
+    "name": "Red Wine",
+    "min_weight": 3.0,
+    "max_weight": 3.1,
+    "rfid_eligible": true        
+},
+{
+    "barcode": "00000000735797",
+    "name": "Steak",
+    "min_weight": 2.1,
+    "max_weight": 2.2,
+    "rfid_eligible": true
+},
+{
+    "barcode": "00000000388771",
+    "name": "Cheez It",
+    "min_weight": 1.5,
+    "max_weight": 1.6,
+    "rfid_eligible": true        
+},
+{
+    "barcode": "00000000830881",
+    "name": "Salsa",
+    "min_weight": 1.3,
+    "max_weight": 1.4,
+    "rfid_eligible": true        
+},
+{
+    "barcode": "00000000941969",
+    "name": "Quaker Oats",
+    "min_weight": 3.0,
+    "max_weight": 3.1,
+    "rfid_eligible": true        
+}
+]

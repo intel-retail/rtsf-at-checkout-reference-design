@@ -1,0 +1,13 @@
+site_name: Real Time Sensor Fusion for Loss Detection at Checkout
+docs_dir: ./docs_src
+site_dir: ./docs
+theme:
+  name: 'material'
+  custom_dir: './docs_src/theme'
+plugins: []
+extra_css:
+  - 'https://fonts.googleapis.com/icon?family=Material+Icons'
+extra_javascript:
+  - 'https://unpkg.com/lunr/lunr.js'
+markdown_extensions:
+  - codehilite

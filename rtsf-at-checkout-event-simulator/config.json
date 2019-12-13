@@ -1,0 +1,7 @@
+{
+    "pos_endpoint": "http://localhost:59990/api/v1/resource/device-pos-rest",
+    "scale_endpoint": "http://localhost:59990/api/v1/resource/device-scale-rest",
+    "cv_roi_endpoint": "http://localhost:59990/api/v1/resource/device-cv-roi-rest",
+    "rfid_roi_endpoint": "http://localhost:59990/api/v1/resource/device-rfid-roi-rest",
+    "rsp_events_endpoint": "tcp://localhost:1883"
+}

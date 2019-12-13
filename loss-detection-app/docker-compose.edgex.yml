@@ -1,0 +1,238 @@
+# /*******************************************************************************
+#  * Copyright 2019 Dell Inc., Intel Corp
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  * @author: Jim White, Dell
+#  * EdgeX Foundry, Fuji, version 1.1.0
+#  * added: Jun 30, 2019
+#  *******************************************************************************/
+
+version: '3.4'
+
+# all common shared environment variables defined here:
+x-common-env-variables: &common-variables
+  EDGEX_SECURITY_SECRET_STORE: "false"
+
+networks:
+  edgex-network:
+    attachable: true
+    driver: bridge
+
+volumes:
+  db-data:
+  log-data:
+  consul-config:
+  consul-data:
+
+services:
+  volume:
+    image: edgexfoundry/docker-edgex-volume:1.1.0
+    container_name: edgex-files
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    restart: "on-failure:5"
+
+  consul:
+    image: consul:1.3.1
+    command: agent -ui -data-dir /consul/data -client 0.0.0.0 -server -bootstrap
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+    container_name: edgex-core-consul
+    hostname: edgex-core-consul
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-consul
+    volumes:
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - volume
+    restart: "on-failure:5"
+
+  config-seed:
+    image: edgexfoundry/docker-core-config-seed-go:1.1.0
+    container_name: edgex-config-seed
+    hostname: edgex-core-config-seed
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-config-seed
+    depends_on:
+      - volume
+      - consul
+    environment:
+      <<: *common-variables
+      Smtp_Host: smtp-server
+      Smtp_Port: 25
+      Smtp_Subject: EdgeX Notification Suspect List
+
+  mongo:
+    image: edgexfoundry/docker-edgex-mongo:1.1.0
+    ports:
+      - "27017:27017"
+    container_name: edgex-mongo
+    hostname: edgex-mongo
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+    depends_on:
+      - volume
+    environment:
+      <<: *common-variables
+    restart: "on-failure:5"
+
+  logging:
+    image: edgexfoundry/docker-support-logging-go:1.1.0
+    ports:
+      - "48061:48061"
+    container_name: edgex-support-logging
+    hostname: edgex-support-logging
+    networks:
+      - edgex-network
+    volumes:
+      - log-data:/edgex/logs
+    depends_on:
+      - config-seed
+      - mongo
+      - volume
+    environment:
+      <<: *common-variables
+    restart: "on-failure:5"
+
+  notifications:
+    image: edgexfoundry/docker-support-notifications-go:1.1.0
+    ports:
+      - "48060:48060"
+    container_name: edgex-support-notifications
+    hostname: edgex-support-notifications
+    networks:
+      - edgex-network
+    depends_on:
+      - mongo
+      - logging
+    environment:
+      <<: *common-variables
+    restart: "on-failure:5"
+
+  metadata:
+    image: edgexfoundry/docker-core-metadata-go:1.1.0
+    ports:
+      - "48081:48081"
+    container_name: edgex-core-metadata
+    hostname: edgex-core-metadata
+    networks:
+      - edgex-network
+    depends_on:
+      - mongo
+      - logging
+    environment:
+      <<: *common-variables
+    restart: "on-failure:5"
+
+  data:
+    image: edgexfoundry/docker-core-data-go:1.1.0
+    ports:
+      - "48080:48080"
+      - "5563:5563"
+    container_name: edgex-core-data
+    hostname: edgex-core-data
+    networks:
+      - edgex-network
+    depends_on:
+      - mongo
+      - logging
+    environment:
+      <<: *common-variables
+    restart: "on-failure:5"
+
+  command:
+    image: edgexfoundry/docker-core-command-go:1.1.0
+    ports:
+      - "48082:48082"
+    container_name: edgex-core-command
+    hostname: edgex-core-command
+    networks:
+      - edgex-network
+    depends_on:
+      - mongo
+      - metadata
+      - logging
+    environment:
+      <<: *common-variables
+    restart: "on-failure:5"
+
+  scheduler:
+    image: edgexfoundry/docker-support-scheduler-go:1.1.0
+    ports:
+      - "48085:48085"
+    container_name: edgex-support-scheduler
+    hostname: edgex-support-scheduler
+    networks:
+      - edgex-network
+    depends_on:
+      - mongo
+      - metadata
+      - logging
+    environment:
+      <<: *common-variables
+    restart: "on-failure:5"
+
+  mqtt:
+    image: eclipse-mosquitto:1.5.8
+    ports:
+      - "1883:1883"
+    container_name: mqtt
+    hostname: mqtt
+    networks:
+      - edgex-network
+
+  device-rest:
+    # TODO: Rest Device service currently has to be built locally until moved out of holding and released
+    image: edgexfoundry/docker-device-rest-go:0.0.0-dev
+    ports:
+      - "59990:59990"
+    restart: "always"
+    container_name: edgex-device-rest
+    hostname: edgex-device-rest
+    networks:
+      - edgex-network
+    depends_on:
+      - consul
+      - logging
+      - data
+    volumes:
+      - ./res/device-rest-go/:/res/
+
+  device-mqtt:
+    image: edgexfoundry/docker-device-mqtt-go:1.1.0
+    ports:
+      - "49982:49982"
+    container_name: edgex-device-mqtt
+    hostname: edgex-device-mqtt
+    networks:
+      - edgex-network
+    volumes:
+      - ./res/device-mqtt-go/:/res/
+    depends_on:
+      - mqtt
+      - consul
+      - logging
+      - data

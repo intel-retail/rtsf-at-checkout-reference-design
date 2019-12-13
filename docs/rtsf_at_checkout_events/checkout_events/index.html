@@ -1,0 +1,677 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+    
+    
+      
+        <title>Checkout events - Real Time Sensor Fusion for Loss Detection at Checkout</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#rtsf-at-checkout-events" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Real Time Sensor Fusion for Loss Detection at Checkout" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Real Time Sensor Fusion for Loss Detection at Checkout
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Checkout events
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Real Time Sensor Fusion for Loss Detection at Checkout" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Real Time Sensor Fusion for Loss Detection at Checkout
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Real Time Sensor Fusion for Loss Detection at Checkout Reference Design" class="md-nav__link">
+      Real Time Sensor Fusion for Loss Detection at Checkout Reference Design
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Configuration
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Configuration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../configuration/configuration/" title="Configuration" class="md-nav__link">
+      Configuration
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Device services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Device services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../device_services/" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Rtsf at checkout events
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Rtsf at checkout events
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Checkout events
+      </label>
+    
+    <a href="./" title="Checkout events" class="md-nav__link md-nav__link--active">
+      Checkout events
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rtsf-at-checkout-events" class="md-nav__link">
+    RTSF at Checkout Events
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pos-events" class="md-nav__link">
+    POS Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-events" class="md-nav__link">
+    Scale Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cv-roi-events" class="md-nav__link">
+    CV ROI Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rfid-roi-events" class="md-nav__link">
+    RFID ROI Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../event_simulation/" title="Event simulation" class="md-nav__link">
+      Event simulation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Troubleshooting
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Troubleshooting
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../troubleshooting/" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rtsf-at-checkout-events" class="md-nav__link">
+    RTSF at Checkout Events
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pos-events" class="md-nav__link">
+    POS Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scale-events" class="md-nav__link">
+    Scale Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cv-roi-events" class="md-nav__link">
+    CV ROI Events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rfid-roi-events" class="md-nav__link">
+    RFID ROI Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Checkout events</h1>
+                
+                <h2 id="rtsf-at-checkout-events">RTSF at Checkout Events</h2>
+<p>The following are the details for the four different RTSF at Checkout event types that provide the information for a RTSF at Checkout solution. See the <a href="#data-dictionary">Data Dictionary</a> section below for details about each of the fields in these events.</p>
+<h4 id="pos-events">POS Events</h4>
+<p>POS events are what drive the RTSF at Checkout solution. They are the ones that can not be omitted. There are five different POS events required for this reference design, which are:</p>
+<ol>
+<li><strong>Basket Open</strong> (<code>basket-open</code>)
+   Occurs when a session has started at the self checkout.
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>   <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;basket_id&quot;</span><span class="p">:</span> <span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;joe5&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;employee_id&quot;</span><span class="p">:</span> <span class="s2">&quot;mary1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736013010000</span>
+   <span class="p">}</span>
+</pre></div>
+
+
+<ol>
+<li><strong>Scanned Item</strong> (<code>scanned-item</code>)
+   Also know as the Real Time Transaction Log (RTTL)
+   Occurs when an item has been scanned at the self checkout
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>   <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;basket_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;product_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;00000000324588&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;product_id_type&quot;</span> <span class="p">:</span> <span class="s2">&quot;UPC&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;product_name&quot;</span> <span class="p">:</span> <span class="s2">&quot;Red Apples&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;quantity&quot;</span> <span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span>
+        <span class="nt">&quot;quantity_unit&quot;</span> <span class="p">:</span> <span class="s2">&quot;EA&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;unit_price&quot;</span> <span class="p">:</span> <span class="mf">0.99</span><span class="p">,</span>
+        <span class="nt">&quot;customer_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;joe5&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;employee_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;mary1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736013170000</span>
+   <span class="p">}</span>
+</pre></div>
+
+
+<ol>
+<li><strong>Payment Start</strong> (<code>payment-start</code>)
+   Occurs when the payment has started at the self checkout.
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>   <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;basket_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;customer_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;joe5&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;employee_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;mary1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736013660000</span>    
+   <span class="p">}</span>
+</pre></div>
+
+
+<ol>
+<li><strong>Payment Success</strong> (<code>payment-success</code>)
+   Occurs when the payment has successfully completed at the self checkout.
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>   <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;basket_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;customer_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;joe5&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;employee_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;mary1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736013780000</span>    
+   <span class="p">}</span>
+</pre></div>
+
+
+<ol>
+<li><strong>Basket Close</strong> (<code>basket-close</code>)
+   Occurs when the session has ended at the self checkout.
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>   <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;basket_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;customer_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;joe5&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;employee_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;mary1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736013940000</span>    
+   <span class="p">}</span>
+</pre></div>
+
+
+<h4 id="scale-events">Scale Events</h4>
+<p>Scale events track items on the scale. There is only one scale event type required for this reference design, which is:</p>
+<ol>
+<li><strong>Scale Item</strong> (<code>scale-item</code>)
+   Occurs when an item has been placed or removed from the security scale.
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>   <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;scale_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;abc123&quot;</span><span class="p">,</span> 
+        <span class="nt">&quot;total&quot;</span> <span class="p">:</span> <span class="mf">3.25</span><span class="p">,</span>
+        <span class="nt">&quot;units&quot;</span> <span class="p">:</span> <span class="s2">&quot;lbs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736013940000</span>    
+   <span class="p">}</span>
+</pre></div>
+
+
+<h4 id="cv-roi-events">CV ROI Events</h4>
+<p>CV ROI events track when objects enter or exit specific ROI . There is only one CV ROI event type required for this reference design, which is:</p>
+<ol>
+<li><strong>CV ROI Event</strong> (<code>cv-roi-event</code>)
+   Occurs when an object has entered or exited a ROI
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>   <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;abcde11&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;roi_action&quot;</span><span class="p">:</span> <span class="s2">&quot;ENTERED&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;roi_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Staging&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736014560000</span>    
+   <span class="p">}</span>
+</pre></div>
+
+
+<p><code>roi_action</code> can be either <code>ENTERED</code> or <code>EXITED</code>.</p>
+<h4 id="rfid-roi-events">RFID ROI Events</h4>
+<p>RFID events track the RFID tagged products entering and exiting specific ROI. There is only one RFID ROI event type required for this reference design, which is:</p>
+<ol>
+<li><strong>RFID ROI Event</strong> (<code>rfid-roi-event</code>)
+   Occurs when a RFID tagged object has entered or exited a ROI. 
+   Example event:</li>
+</ol>
+<div class="codehilite"><pre><span></span>    <span class="p">{</span>
+        <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;epc&quot;</span><span class="p">:</span><span class="s2">&quot;30143639F8419145BEEF0009&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;roi_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Staging&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;roi_action&quot;</span><span class="p">:</span> <span class="s2">&quot;EXITED&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736014790000</span>            
+    <span class="p">}</span> 
+</pre></div>
+
+
+<p><code>roi_action</code> can be either <code>ENTERED</code> or <code>EXITED</code>.</p>
+<p>When using <strong>Intel Retail Sensor Platform (RSP)</strong> RFID solution, the <strong>RSP Controller Event Handler</strong> service transforms the RSP Controller RFID events into the above RFID ROI events.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../device_services/" title="Index" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Index
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../event_simulation/" title="Event simulation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Event simulation
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.c648116f.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="https://unpkg.com/lunr/lunr.js"></script>
+      
+    
+  </body>
+</html>

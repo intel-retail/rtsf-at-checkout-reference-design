@@ -1,0 +1,111 @@
+{
+    "checkout_events": [{
+            "device": "POS",
+            "event": "basket-open",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "POS",
+            "event": "scanned-item",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "product_id": "00000000571111",
+                "product_id_type": "UPC",
+                "product_name": "Trail Mix",
+                "quantity": 1.0,
+                "quantity_unit": "EA",
+                "unit_price": 0.99,
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 2.1,
+                "units": "lbs"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 5.1,
+                "units": "lbs"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 2.1,
+                "units": "lbs"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "POS",
+            "event": "scanned-item",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "product_id": "00000000884389",
+                "product_id_type": "UPC",
+                "product_name": "Red Wine",
+                "quantity": 1.0,
+                "quantity_unit": "EA",
+                "unit_price": 0.99,
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 5.1,
+                "units": "lbs"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "POS",
+            "event": "payment-start",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "POS",
+            "event": "payment-success",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "POS",
+            "event": "basket-close",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        }
+    ]
+}

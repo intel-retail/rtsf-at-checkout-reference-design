@@ -1,0 +1,23 @@
+name: "device-rfid-roi-mqtt"
+manufacturer: "Intel"
+model: "RFID ROI events"
+labels:
+  - "rfid"
+  - "roi"
+  - "enter"
+  - "exit"
+description: "A device for RFID region of interest (ROI) events"
+
+deviceResources:
+  - name: "rfid-roi-event"
+    description: "A RFID ROI event"
+    properties:
+      value:
+        { type: "String", readWrite: "RW", defaultValue: "" }
+      units:
+        { type: "String", readWrite: "RW", defaultValue: "" }
+
+deviceCommands:
+  - name: "rfid-roi-event"
+    get:
+      - { operation: "get", object: "rfid-roi-event", property: "value", parameter: "rfid-roi-event" }

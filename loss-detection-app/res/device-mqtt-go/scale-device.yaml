@@ -1,0 +1,19 @@
+name: "device-scale-mqtt"
+manufacturer: "Intel"
+model: "3rd Party Scale"
+labels:
+- "scale"
+description: "Scale Device Profile"
+deviceResources:
+- name: scale-item
+  description: "JSON message containing the scale details"
+  properties:
+    value:
+      { type: "String", size: "0", readWrite: "W" ,scale: "", offset: "", base: ""  }
+    units:
+      { type: "String", readWrite: "R", defaultValue: "" }
+
+deviceCommands:
+- name: scale-item
+  get:
+  - { operation: "get", object: "scale-item", parameter: "scale-item" }

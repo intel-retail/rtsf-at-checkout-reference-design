@@ -1,0 +1,85 @@
+[{
+    "barcode": "00013000006408",
+    "name": "Ketchup",
+    "min_weight": 1.29,
+    "max_weight": 1.35,
+    "rfid_eligible": false
+},
+{
+    "barcode": "00049000050158",
+    "name": "Sprite",
+    "min_weight": 4.65,
+    "max_weight": 4.79,
+    "rfid_eligible": true
+},
+{
+    "barcode": "00021200519598",
+    "name": "Ocelo Sponges",
+    "min_weight": 0.050,
+    "max_weight": 0.060,
+    "rfid_eligible": false
+},
+{
+    "barcode": "00028400159609",
+    "name": "Ruffles",
+    "min_weight": 0.500,
+    "max_weight": 0.600,
+    "rfid_eligible": false
+},
+{
+    "barcode": "00052000338775",
+    "name": "Gatorade",
+    "min_weight": 2.200,
+    "max_weight": 2.350,
+    "rfid_eligible": false
+},
+{
+    "barcode": "00038000183713",
+    "name": "Pringles",
+    "min_weight": 0.400,
+    "max_weight": 0.490,
+    "rfid_eligible": false
+},
+{
+    "barcode": "00048001353565",
+    "name": "Mayonnaise",
+    "min_weight": 0.79,
+    "max_weight": 0.83,
+    "rfid_eligible": false
+},
+{
+    "barcode": "00043000955437",
+    "name": "Koolaid Fruit Punch",
+    "min_weight": 0.011,
+    "max_weight": 0.018,
+    "rfid_eligible": true
+},
+{
+    "barcode": "00022000008916",
+    "name": "Extra Peppermint Gum",
+    "min_weight": 0.102,
+    "max_weight": 0.109,
+    "rfid_eligible": true
+},
+{
+    "barcode": "00051700988235",
+    "name": "Finish Dishwasher Tablet",
+    "min_weight": 0.610,
+    "max_weight": 0.620,
+    "rfid_eligible": false
+},
+{
+    "barcode": "00012000163173",
+    "name": "Mountain Dew 6 Pack",
+    "min_weight": 3.200,
+    "max_weight": 3.255,
+    "rfid_eligible": true
+},
+ {
+    "barcode": "00024000566670",
+    "name": "Canned Green Beans",
+    "min_weight": 1.025,
+    "max_weight": 1.050,
+    "rfid_eligible": false
+}
+]

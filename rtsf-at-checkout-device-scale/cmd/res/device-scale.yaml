@@ -1,0 +1,20 @@
+name: "device-scale-profile"
+manufacturer: "Intel"
+model: "device-scale-simulator"
+labels:
+- "device-scale-label"
+description: "A device for reading from serial scales"
+
+deviceResources:
+- name: "scale-item"
+  description: "A scale reading"
+  properties:
+    value:
+      { type: "String", readWrite: "RW", defaultValue: "" }
+    units:
+      { type: "String", readWrite: "RW", defaultValue: "" }
+
+deviceCommands:
+- name: "device-scale"
+  get:
+  - { operation: "get", object: "scale-item", property: "value", parameter: "scale-item" }

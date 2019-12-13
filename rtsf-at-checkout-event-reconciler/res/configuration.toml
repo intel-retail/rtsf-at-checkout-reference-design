@@ -1,0 +1,65 @@
+# Copyright (C) 2019 Intel Corp.
+# 
+# SPDX-License-Identifier: Apache-2.0
+
+[Writable]
+LogLevel = 'DEBUG'
+
+[Service]
+BootTimeout = '30s'
+ClientMonitor = '15s'
+CheckInterval = '10s'
+Host = 'localhost'
+Port = 48095
+Protocol = 'http'
+ReadMaxLimit = 100
+StartupMsg = 'Event Reconciler has started'
+Timeout = '5s'
+
+[Registry]
+Host = 'localhost'
+Port = 8500
+Type = 'consul'
+
+[Clients]
+  [Clients.Data]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48080
+  Timeout = '30s'
+
+  [Clients.Logging]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48061
+
+[Binding]
+ Type="messagebus"
+ SubscribeTopic="events"
+ PublishTopic="suspect-list"
+
+[MessageBus]
+Type = 'zero'
+    [MessageBus.PublishHost]
+        Host = '*'
+        Port = 5564
+        Protocol = 'tcp'
+    [MessageBus.SubscribeHost]
+        Host = 'localhost'
+        Port = 5563
+        Protocol = 'tcp'
+
+[Logging]
+EnableRemote = false
+File = './logs/simple-filter-xml.log'
+
+[ApplicationSettings]
+  DeviceNames = "device-pos-rest, device-pos-mqtt, device-scale, device-scale-rest, device-scale-mqtt, device-cv-roi-rest, device-cv-roi-mqtt, device-rfid-roi-rest, device-rfid-roi-mqtt"
+  DevicePos = "device-pos"
+  DeviceScale = "device-scale"
+  DeviceCV = "device-cv-roi"
+  DeviceRFID = "device-rfid-roi"
+  ProductLookupEndpoint = "localhost:8083"
+  WebSocketPort = "9083"
+  ScaleToScaleTolerance = "0.02"
+  CvTimeAlignment = '-5s'

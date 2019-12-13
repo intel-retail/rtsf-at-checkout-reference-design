@@ -1,0 +1,56 @@
+# Copyright (C) 2019 Intel Corp.
+# 
+# SPDX-License-Identifier: Apache-2.0
+
+[Writable]
+LogLevel = 'DEBUG'
+
+[Service]
+BootTimeout = '30s'
+ClientMonitor = '15s'
+CheckInterval = '10s'
+Host = 'localhost'
+Port = 48096
+Protocol = 'http'
+ReadMaxLimit = 100
+StartupMsg = 'Starting Loss Detector'
+Timeout = '30s'
+
+
+[Clients]
+  [Clients.Data]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48080
+  Timeout = '30s'
+
+  [Clients.Logging]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48061
+
+
+[Registry]
+Host = 'localhost'
+Port = 8500
+Type = 'consul'
+
+[MessageBus]
+Type = 'zero'
+    [MessageBus.SubscribeHost]
+        Host = 'localhost'
+        Port = 5564
+        Protocol = 'tcp'
+
+[Binding]
+ Type="messagebus"
+ SubscribeTopic="suspect-list"
+
+[Logging]
+EnableRemote = false
+File = './logs/loss-detector.log'
+
+[ApplicationSettings]
+NotificationsURL = "http://localhost:48060"
+NotificationEmailAddresses = "cloud@abc.def,jack@abc.def"
+NotificationSlug = "sys-admin"

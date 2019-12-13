@@ -1,0 +1,63 @@
+name: "device-pos-mqtt"
+manufacturer: "Intel"
+model: "3rd Party POS"
+labels:
+  - "test"
+description: "POS Device Profile"
+deviceResources:
+  - name: basket-open
+    description: "JSON message containing the basket open details"
+    properties:
+      value:
+        { type: "String", size: "0", readWrite: "W" ,scale: "", offset: "", base: ""  }
+      units:
+        { type: "String", readWrite: "R", defaultValue: "" }
+
+  - name: scanned-item
+    description: "JSON message containing the scanned item details"
+    properties:
+      value:
+        { type: "String", size: "0", readWrite: "W" ,scale: "", offset: "", base: ""  }
+      units:
+        { type: "String", readWrite: "R", defaultValue: "" }
+
+  - name: payment-start
+    description: "JSON message containing the payment start details"
+    properties:
+      value:
+        { type: "String", size: "0", readWrite: "W" ,scale: "", offset: "", base: ""  }
+      units:
+        { type: "String", readWrite: "R", defaultValue: "" }
+
+  - name: payment-success
+    description: "JSON message containing the payment success details"
+    properties:
+      value:
+        { type: "String", size: "0", readWrite: "W" ,scale: "", offset: "", base: ""  }
+      units:
+        { type: "String", readWrite: "R", defaultValue: "" }
+
+  - name: basket-close
+    description: "JSON message containing the basket close details"
+    properties:
+      value:
+        { type: "String", size: "0", readWrite: "W" ,scale: "", offset: "", base: ""  }
+      units:
+        { type: "String", readWrite: "R", defaultValue: "" }
+
+deviceCommands:
+  - name: basket-open
+    get:
+      - { index: "1", operation: "get", object: "basket-open", parameter: "basket-open" }
+  - name: scanned-item
+    get:
+      - { index: "1", operation: "get", object: "scanned-item", parameter: "scanned-item" }
+  - name: payment-start
+    get:
+      - { index: "1", operation: "get", object: "payment-start", parameter: "payment-start" }
+  - name: payment-success
+    get:
+      - { index: "1", operation: "get", object: "payment-success", parameter: "payment-success" }
+  - name: basket-close
+    get:
+      - { index: "1", operation: "get", object: "basket-close", parameter: "basket-close" }

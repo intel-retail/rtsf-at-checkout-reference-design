@@ -1,0 +1,955 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+    
+    
+      
+        <title>Real Time Sensor Fusion for Loss Detection at Checkout</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/application.30686662.css">
+      
+      
+    
+    
+      <script src="assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#real-time-sensor-fusion-for-loss-detection-at-checkout-reference-design" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="." title="Real Time Sensor Fusion for Loss Detection at Checkout" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Real Time Sensor Fusion for Loss Detection at Checkout
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Real Time Sensor Fusion for Loss Detection at Checkout Reference Design
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="." title="Real Time Sensor Fusion for Loss Detection at Checkout" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Real Time Sensor Fusion for Loss Detection at Checkout
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Real Time Sensor Fusion for Loss Detection at Checkout Reference Design
+      </label>
+    
+    <a href="." title="Real Time Sensor Fusion for Loss Detection at Checkout Reference Design" class="md-nav__link md-nav__link--active">
+      Real Time Sensor Fusion for Loss Detection at Checkout Reference Design
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#block-diagram" class="md-nav__link">
+    Block Diagram
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-this-reference-design" class="md-nav__link">
+    How to use this reference design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-required-components" class="md-nav__link">
+    Building the required components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-solution" class="md-nav__link">
+    Running the solution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compose-files" class="md-nav__link">
+    Compose Files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-build-a-solution-using-this-reference-design" class="md-nav__link">
+    How to build a solution using this reference design
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-dictionary" class="md-nav__link">
+    Data Dictionary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references-and-links-to-the-documentation-of-the-individual-components" class="md-nav__link">
+    References and links to the documentation of the individual components
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#application-services" class="md-nav__link">
+    Application Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-services" class="md-nav__link">
+    Device Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper-services" class="md-nav__link">
+    Helper Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intel-rsp-rfid-solution" class="md-nav__link">
+    Intel RSP RFID Solution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other" class="md-nav__link">
+    Other
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Configuration
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Configuration
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="configuration/configuration/" title="Configuration" class="md-nav__link">
+      Configuration
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Device services
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Device services
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="device_services/" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Rtsf at checkout events
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Rtsf at checkout events
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="rtsf_at_checkout_events/checkout_events/" title="Checkout events" class="md-nav__link">
+      Checkout events
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="rtsf_at_checkout_events/event_simulation/" title="Event simulation" class="md-nav__link">
+      Event simulation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Troubleshooting
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Troubleshooting
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="troubleshooting/" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#block-diagram" class="md-nav__link">
+    Block Diagram
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-this-reference-design" class="md-nav__link">
+    How to use this reference design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-required-components" class="md-nav__link">
+    Building the required components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-solution" class="md-nav__link">
+    Running the solution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compose-files" class="md-nav__link">
+    Compose Files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-build-a-solution-using-this-reference-design" class="md-nav__link">
+    How to build a solution using this reference design
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-dictionary" class="md-nav__link">
+    Data Dictionary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references-and-links-to-the-documentation-of-the-individual-components" class="md-nav__link">
+    References and links to the documentation of the individual components
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#application-services" class="md-nav__link">
+    Application Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-services" class="md-nav__link">
+    Device Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper-services" class="md-nav__link">
+    Helper Services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#intel-rsp-rfid-solution" class="md-nav__link">
+    Intel RSP RFID Solution
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other" class="md-nav__link">
+    Other
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="real-time-sensor-fusion-for-loss-detection-at-checkout-reference-design">Real Time Sensor Fusion for Loss Detection at Checkout Reference Design</h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Docker </li>
+<li>Docker-Compose </li>
+<li>Go 1.12+</li>
+<li>GIT</li>
+<li>make</li>
+</ul>
+<p>The following domain knowledge is recommended:</p>
+<ul>
+<li>MQTT and REST</li>
+<li>Point-of-Sale (POS)</li>
+<li>Knowledge of POS Systems (Transactions, Real-Time Transaction Log (RTTL))</li>
+<li>You will need your own POS software to integrate</li>
+<li>Know how to customize it</li>
+<li>Familiarity with CV Concepts if using CV Components</li>
+<li>Familiarity of RFID Concepts if using RFID Components</li>
+</ul>
+<h2 id="block-diagram">Block Diagram</h2>
+<p>The following diagram below helps to understand, at a high-level, the services involved in the Real Time Sensor Fusion for Loss Detection at Checkout Reference Design (RTSF at Checkout). It is not necessarily a 1:1 mapping to each service, however it does provide a visual of all sensors involved, how EdgeX is situated among the services, and the services responsible for reconciling the sensor data that is consumed from EdgeX. </p>
+<p><img alt=" RTSF at Checkout Architecture Diagram " src="rtsf-loss-detection-at-checkout.png" /></p>
+<h2 id="how-to-use-this-reference-design">How to use this reference design</h2>
+<h3 id="getting-started">Getting Started</h3>
+<p>Use the following command to clone the repository.</p>
+<p>​   <code>git clone https://github.impcloud.net/loss-detection/rtsf-at-checkout-reference-design</code></p>
+<p><strong>[TODO: update repo URL for open source location]</strong></p>
+<h3 id="building-the-required-components">Building the required components</h3>
+<ol>
+<li>
+<p><strong>Building the RTSF Reference Design</strong> (required)</p>
+<p>The provided component services must be built and local docker images created. The docker images can be built by running <code>make docker</code>.  See <a href="#getting-started">Getting Started</a> above for details on cloning this repo and it's sub modules.</p>
+</li>
+<li>
+<p><strong>Building RSP Controller (Intel's RFID Reference Design)</strong> (optional)</p>
+<p>To use the Intel RSP RFID application with your RFID sensors, you will need to build the following docker images <code>rsp-gw</code>, <code>avahi</code>, <code>ntp</code> this can be done by running the installer located <a href="https://github.com/intel/rsp-sw-toolkit-installer#docker-environment" title="rsp-sw-toolkit-installer">here</a> inside the docker folder.  You will also need to build the docker image for the <code>rsp-mqtt-device-service</code> this service can be built by following the install instructions <a href="https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service" title="RSP MQTT Device Service">here</a>. Once these components have been installed you can continue.  </p>
+<blockquote>
+<p><em>Note that for both the installers you only need to build the docker images, you don't need to create or copy any docker-compose files, the compose file for rsp is already created in this project <code>rtsf-at-checkout-reference-design/loss-detection-app/docker-compose.rfid.yml</code>.</em>  </p>
+</blockquote>
+<p>The rsp-sw-toolkit-installer's build script runs the docker-compose file for you, you <strong>must</strong> take down that docker stack and use the compose file provided by the reference design.  This is done by running the following command.</p>
+<p><code>sh
+docker-compose -p rsp -f $PROJECTS_DIR/rsp-sw-toolkit-installer/docker/compose/docker-compose.yml down</code></p>
+</li>
+<li>
+<p><strong>Building Video Analytics Serving (Intel's CV Reference Design)</strong> (optional)</p>
+<p>To use the Intel Video Analytics Serving application follow the instructions <a href="https://github.com/intel/video-analytics-serving" title="RSP MQTT Device Service">here</a> to build the <code>video-analytic</code> docker image.  The compose file for Video Analytics Serving is <code>rtsf-at-checkout-reference-design/loss-detection-app/docker-compose.vap.yml</code></p>
+</li>
+</ol>
+<p>First the provided component services must be built and local docker images created. This is done by first cloning this repository and then executing  <code>make docker</code>.  See  <a href="#getting-started">Getting Started</a> above for details on cloning this repo and it's sub modules.</p>
+<h3 id="running-the-solution">Running the solution</h3>
+<p>Once the above steps are complete the simplest way to get everything up and running is to execute the <code>make run</code> command to startup the reference design suite using docker-compose. Now that this reference design is running, you can use the <a href="rtsf_at_checkout_events/checkout_events/">Event Simulator</a> to test it out and explore how it all works. Once you that is complete you are ready to integrate your components to create a complete <code>RTSF at Checkout</code> solution.</p>
+<blockquote>
+<p><em>Note: ALL of the services in these reference design are meant to be reference services and are intended to be examples to be built/improved upon to create your complete solution.</em></p>
+</blockquote>
+<h3 id="compose-files">Compose Files</h3>
+<p>The docker-compose files are broken out in a way that allows bringing up or down individual sensor ingestion components as needed. Be sure to visit each individual GitHub sub-repositories listed <a href="#references-and-links-to-the-documentation-of-the-individual-components">here</a> for an understanding of the responsibility of each service. </p>
+<p>Portainer is used for management of the various containers.
+<code>docker-compose -f docker-compose.portainer.yml up -d</code></p>
+<p>EdgeX and its required components can be run with: 
+<code>docker-compose -f docker-compose.edgex.yml up -d</code></p>
+<p>RTSF at Checkout Core Services and its required components  can be run with:
+<code>docker-compose -f docker-compose.loss-detection.yml up -d</code></p>
+<p>RFID Components (Intel® RSP SW Toolkit) can be run with:
+<code>docker-compose -f docker-compose.rsp.yml up -d</code></p>
+<p>The Video Analytics Pipeline (VAP) can be run with: 
+<code>docker-compose -f docker-compose.vap.yml up -d</code></p>
+<h2 id="how-to-build-a-solution-using-this-reference-design">How to build a solution using this reference design</h2>
+<p>This reference design does not provide a complete solution. It provides the base components for creating a sensor fusion based framework.  It is your choice on how many and which sensors to include. Further more, you will need to provide the follow components to complete your RTSF at Checkout solution.</p>
+<ol>
+<li>
+<p><strong>Point of Sale (POS)</strong> (required)
+   The POS system of your choice will need to integrate with either the EdgeX REST or MQTT Device Services to send the POS Events. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a> and integrating with the <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a> to send the POS Events.</p>
+</li>
+<li>
+<p><strong>Security (bagging area) Scale</strong> (optional)</p>
+</li>
+</ol>
+<p>The Scale Device Service provided is specifically for a CAS USB scale. It is a good starting point for integrating other USB scales. </p>
+<p>Alternatively, the Scale Events can be sent to either the EdgeX REST or MQTT Device Services. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#scale-events">Scale Events</a> and integrating with the <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a>  to send the Scale Events.</p>
+<ol>
+<li><strong>Computer Vision Object Detection Model</strong> (optional)</li>
+</ol>
+<p>The OPENVINO™ based object detection model used by the Video Analytics Pipeline (VAP) service is  provided as an example and is not of production quality. For a robust solution you will need to provide an improved object detection model. </p>
+<p>The VAP and CV ROI Enter Exit service used in this reference design create the CV ROI Events which are sent to the <a href="device_services/#edgex-mqtt-device-service">EdgeX MQTT Device Service</a>. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI Events</a>.</p>
+<ol>
+<li><strong>Intel RFID Sensors</strong> (optional)
+   This reference design relies on <strong><a href="https://software.intel.com/en-us/retail/rfid-sensor-platform">Intel Retail Sensor Platform (RSP)</a></strong> which has its own custom EdgeX Device Service which it sends RFID events. These events are transformed into RFID ROI Events by the provided <strong>RSP Controller Event Handler</strong> service. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI Events</a>. </li>
+</ol>
+<p>Available Intel RSP RFID Sensors:  https://software.intel.com/en-us/retail/rfid-sensor-platform#buy . </p>
+<p>In addition you may want to replace or enhance the follow components.</p>
+<ol>
+<li><strong>Reconciler service</strong>
+   This service does the analytics of reconciling all the sensor events to identify suspect items. While it does a solid job, you may have your own analytics team which can improve on this reference implementation.</li>
+<li><strong>Detector Service</strong>
+   This service simply demonstrates how to send an email notification using the EdgeX Notifications service. The contents of the email is a simple JSON list of suspect items.</li>
+<li><strong>Product Lookup Service</strong>
+    This service is a very basic implementation of a Product Information Management Lookup service. It simply uses a JSON file as a database for the product information. This service should be replaced with an interface to a real Product Information Management system; commonly referred to as an Enterprise Resource Planning (ERP) System.</li>
+<li><strong>CV Region of Interest (ROI) Solution</strong>
+   If you chose to create your own complete CV object detection and CV ROI enter/exit solution you will need to exclude running the components in the <code>docker-compose.vap.yml</code> compose file and remove the <code>cv-region-of-interest</code> from the <code>docker-compose.loss-detection.yml</code> compose file. You will also need to integrate your CV solution with either the EdgeX REST or MQTT Device Services to send the CV ROI events. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI events</a> and integrating with the <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a>  to send CV ROI events.</li>
+<li>
+<p><strong>RFID services</strong>
+   If you choose to use a different RFID solution, in addition to providing your integration to generate the RFID ROI Events you will need to exclude running the components in the <code>docker-compose.rsp.yml</code> compose file and remove the <code>rsp-controller-event-handler</code> from the <code>docker-compose.loss-detection.yml</code> compose file.  You will also need to integrate your RFID solution with either the EdgeX REST or MQTT Device Services to send the RFID events. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI events</a> and integrating with these <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a> to send RFID ROI events.</p>
+</li>
+<li>
+<p><strong>Sending Notifications Through EdgeX</strong> (optional)</p>
+<p>The EdgeX notifications service can be configured to send alerts via SMS, Email, Rest call and various other means. First, you'll need to set environment variable overrides for <code>Smtp_Host</code> and <code>Smtp_Port</code> in config-seed, config-seed will inject these variables into the notification service's registry. Additional notification service configuration properties can be found <a href="https://docs.edgexfoundry.org/Ch-AlertsNotifications.html#configuration-properties" title="EdgeX Alerts &amp; Notifications">here</a>.</p>
+<p>Below is the example docker-compose snippets for sending an Email notification.</p>
+<p>This is the config-seed environment section add this to <code>docker-compose.edgex.yml</code> under the config-seed service.</p>
+<p><code>toml
+environment:
+  &lt;&lt;: *common-variables
+  Smtp_Host: &lt;host name&gt;
+  Smtp_Port: 25
+  Smtp_Password: &lt;password if applicable&gt;
+  Smtp_Sender: &lt;some email&gt;
+  Smtp_Subject: EdgeX Notification Suspect List</code></p>
+<p>this snippet adds a development SMTP server smtp4dev to your <code>docker-compose.loss-detection.yml</code>, if you want to use Gmail or another server this step can be skipped.</p>
+<p><code>toml
+smtp-server:
+  image: rnwood/smtp4dev:linux-amd64-v3
+  ports:
+    - "3000:80"
+    - "2525:25"
+  restart: "on-failure:5"
+  container_name: smtp-server
+  networks:
+    - theft-detection-app_edgex-network</code></p>
+<p>When the reconciler receives a payment-start event it will send a message to the loss-detector containing the suspect items list.  The loss-detector sends these alerts as emails through the EdgeX notification service. The loss-detector initiates the connection to the EdgeX notifications service, so to change the message type from email to something else you would need to update the loss-detector.</p>
+</li>
+</ol>
+<h2 id="data-dictionary">Data Dictionary</h2>
+<p>The following is the data dictionary for the fields found in the JSON object for all the above <a href="rtsf_at_checkout_events/checkout_events/#rtsf-at-checkout-events">RTSF at Checkout Events</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Field Name</th>
+<th>Data Type</th>
+<th>Events used in</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lane_id</td>
+<td>string</td>
+<td>All</td>
+<td>Unique identifier of the self checkout lane</td>
+</tr>
+<tr>
+<td>event_time</td>
+<td>number</td>
+<td>All</td>
+<td>Unix nanosecond timestamp of when the event occured</td>
+</tr>
+<tr>
+<td>basket_id</td>
+<td>string</td>
+<td>All <a href="rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a></td>
+<td>Unique identifier of self checkout session basket</td>
+</tr>
+<tr>
+<td>customer_id</td>
+<td>string</td>
+<td>All <a href="rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a></td>
+<td>Optional unique identifier of the customer using the self checkout.</td>
+</tr>
+<tr>
+<td>employee_id</td>
+<td>string</td>
+<td>All <a href="rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a></td>
+<td>Optional unique identifier of the employee overseeing the self checkout.</td>
+</tr>
+<tr>
+<td>product_id</td>
+<td>string</td>
+<td>POS <a href="rtsf_at_checkout_events/checkout_events/#pos-events">Scanned Item</a></td>
+<td>Unique identifier of the product that was scanned. <br /><strong>This reference design expects a 14 digit UPC</strong></td>
+</tr>
+<tr>
+<td>product_id_type</td>
+<td>string</td>
+<td>POS <a href="rtsf_at_checkout_events/checkout_events/#pos-events">Scanned Item</a></td>
+<td>Type of the associated product ID. Value can be <code>UPC</code>, <code>SKU</code>, or <code>PLU</code>. <br /><strong>This reference design expects <code>UPC</code></strong></td>
+</tr>
+<tr>
+<td>product_name</td>
+<td>string</td>
+<td>POS <a href="rtsf_at_checkout_events/checkout_events/#pos-events">Scanned Item</a></td>
+<td>Name of the product that was scanned</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>number</td>
+<td>POS <a href="rtsf_at_checkout_events/checkout_events/#pos-events">Scanned Item</a></td>
+<td>Quantity of the products that were scanned</td>
+</tr>
+<tr>
+<td>quantity_unit</td>
+<td>string</td>
+<td>POS <a href="rtsf_at_checkout_events/checkout_events/#pos-events">Scanned Item</a></td>
+<td>Units for the associated quantity. <br />Values can be <code>EA</code>, <code>Each</code>, <code>lbs</code>, <code>g</code>, <code>kg</code> or <code>oz</code><br /><strong>This reference design expects <code>EA</code>, <code>Each</code>, or <code>lbs</code></strong></td>
+</tr>
+<tr>
+<td>unit_price</td>
+<td>number</td>
+<td>POS <a href="rtsf_at_checkout_events/checkout_events/#pos-events">Scanned Item</a></td>
+<td>Price of the individual products scanned.</td>
+</tr>
+<tr>
+<td>scale_id</td>
+<td>string</td>
+<td><a href="rtsf_at_checkout_events/checkout_events/#scale-events">Scale Item</a></td>
+<td>Unique identifier for the scale sending the events</td>
+</tr>
+<tr>
+<td>total</td>
+<td>number</td>
+<td><a href="rtsf_at_checkout_events/checkout_events/#scale-events">Scale Item</a></td>
+<td>Total weight for items on the scale</td>
+</tr>
+<tr>
+<td>units</td>
+<td>string</td>
+<td><a href="rtsf_at_checkout_events/checkout_events/#scale-events">Scale Item</a></td>
+<td>Units for the associated total weight.<br />Values can be <code>lbs</code>, <code>g</code>, <code>kg</code> or <code>oz</code> <br /><strong>This reference design expects <code>lbs</code></strong></td>
+</tr>
+<tr>
+<td>product_name</td>
+<td>string</td>
+<td><a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI</a></td>
+<td>Unique identifier of the product identified by CV object detection.</td>
+</tr>
+<tr>
+<td>roi_action</td>
+<td>string</td>
+<td><a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI</a> &amp; <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI</a></td>
+<td>Action of the associate product identified.<br />Value can be either <code>ENTERED</code> or <code>EXITED</code>.</td>
+</tr>
+<tr>
+<td>roi_name</td>
+<td>string</td>
+<td><a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI</a> &amp; <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI</a></td>
+<td>Name of the region that the associate product was identified with. See the <a href="configuration/configuration/#configuration">Configuration</a> section above for details on how these names after configured.</td>
+</tr>
+<tr>
+<td>epc</td>
+<td>string</td>
+<td><a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI</a></td>
+<td>Unique EPC code of the product identified by RFID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="references-and-links-to-the-documentation-of-the-individual-components">References and links to the documentation of the individual components</h2>
+<blockquote>
+<p>TODO: Update Links to individual RTSF at Checkout when open sourced</p>
+</blockquote>
+<h4 id="application-services">Application Services</h4>
+<p>Reconciler:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-event-reconciler </p>
+<p>Product Lookup:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-product-lookup </p>
+<p>RSP Controller Event Handler: https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-rsp-controller-event-handler</p>
+<p>Loss Detector:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-loss-detector </p>
+<h4 id="device-services">Device Services</h4>
+<p>Device Scale:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-device-scale </p>
+<h4 id="helper-services">Helper Services</h4>
+<p>CV ROI Service:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-cv-region-of-interest </p>
+<p>Event Simulator:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-event-simulator </p>
+<h4 id="intel-rsp-rfid-solution">Intel RSP RFID Solution</h4>
+<p>RSP Getting started: https://software.intel.com/en-us/getting-started-with-intel-rfid-sensor-platform-on-linux-6-use-the-web-portal  </p>
+<p>RSP installer: https://github.com/intel/rsp-sw-toolkit-installer  </p>
+<p>RSP gateway: https://github.com/intel/rsp-sw-toolkit-gw </p>
+<p>RSP user guides: https://github.com/intel/rsp-sw-toolkit-gw/tree/master/docs </p>
+<h4 id="other">Other</h4>
+<p>Documentation for Intel Video Analytics Serving: 
+https://github.com/intel/video-analytics-serving  </p>
+<p>Documentation for OPENVINO™: 
+https://software.intel.com/en-us/openvino-toolkit/documentation/featured </p>
+<p>GitHub Repos for EdgeX: 
+https://github.com/edgexfoundry</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+        
+          <a href="configuration/configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Configuration
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/application.c648116f.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
+      
+        <script src="https://unpkg.com/lunr/lunr.js"></script>
+      
+    
+  </body>
+</html>

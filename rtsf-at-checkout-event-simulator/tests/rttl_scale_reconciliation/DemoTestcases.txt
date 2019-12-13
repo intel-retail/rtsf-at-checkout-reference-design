@@ -1,0 +1,28 @@
+Test Cases 1
+Drop Object Red Apples
+Scan 3 Object Red Apples
+Drop Object Red Apples
+Drop Object Red Apples
+
+Test Case 2 -
+Group Drop 2 Trail Mix
+Scan 3 Object Trail Mix
+Drop Object Trail Mix
+Group Drop 2 Red Wine
+Scan 3 Object Red Wine
+Drop Object Red Wine
+
+Test Case 3 -
+Drop Steak
+Drop Steak
+Scan Steak
+Scan Steak
+Scan Steak
+Drop Steak
+
+Test Case 4 -
+Group Drop 2 Cheez It
+Scan Cheez It
+Scan Cheez It
+Scan Cheez It
+Drop Cheez It

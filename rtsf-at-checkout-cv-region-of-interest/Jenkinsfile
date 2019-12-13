@@ -1,0 +1,71 @@
+pipeline {
+    agent { label 'docker' }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '30'))
+        timestamps()
+    }
+    environment {
+        SCANNERS            = 'protex,checkmarx'
+        PROJECT_NAME        = 'cv-region-of-interest'
+        PROTEX_PROJECT_NAME = 'LossDetection-cv-region-of-interest'
+        SLACK_SUCCESS = '#rrp-build-success'
+        SLACK_FAIL    = '#rrp-build-failed'
+    }
+    stages {
+        stage('Bandit') {
+            agent {
+                docker {
+                    image 'amr-registry.caas.intel.com/rrp-devops/bandit-build-agent:latest'
+                    reuseNode true
+                }
+            }
+
+            steps {
+                sh 'bandit -f txt **/*.py | tee bandit_scan.txt'
+            }
+        }
+
+        stage('Static Code Analysis') {
+            steps {
+                rbheStaticCodeScan()
+            }
+        }
+        
+        // This stage will create the ECR repository
+        stage('Cloud Infrastructure') {
+            steps {
+                script {
+                    rrpCloudFormation {
+                        projectKey = 'cv-region-of-interest'
+                        dockerImageName = "loss-detection/cv-region-of-interest"
+                        useDevOpsManagedTemplate = 'ecr-repo-setup'
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    dockerBuild {
+                        pushImage = false // dont push harbor images 
+                        dockerRegistry          = 'amr-registry.caas.intel.com'
+                        ecrRegistry             = '280211473891.dkr.ecr.us-west-2.amazonaws.com'
+                        dockerImageName         = "loss-detection/cv-region-of-interest"
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts allowEmptyArchive: true, artifacts: 'bandit_scan.txt'
+        }
+        failure {
+            slackBuildNotify([failed: true, slackFailureChannel: env.SLACK_FAIL]) {}
+        }
+        success {
+            slackBuildNotify([slackSuccessChannel: env.SLACK_SUCCESS]) {}
+        }
+    }
+}

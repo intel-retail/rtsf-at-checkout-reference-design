@@ -1,0 +1,13 @@
+rrpBuildGoCode {
+    projectKey         = 'rsp-controller-event-handler'
+    buildImage         = 'amr-registry.caas.intel.com/rrp/ci-go-build-image:1.11-alpine'
+    buildPackages      = 'apk add --update --no-cache make git gcc libc-dev libsodium-dev zeromq-dev'
+    buildCommand       = "CGO_ENABLED=1 go build -a -installsuffix cgo -o ${projectKey} ./main.go"
+    testStepsInParallel = false
+    dependencyManager  = 'gomod'
+    dockerImageName = "loss-detection/${projectKey}"
+    dockerBuildOptions = ['--squash', '--build-arg GIT_COMMIT=$GIT_COMMIT']
+    ecrRegistry        = "280211473891.dkr.ecr.us-west-2.amazonaws.com"
+    pushImage = false // dont push harbor images 
+    protexProjectName = "LossDetection-rsp-controller-event-handler"
+}

@@ -1,0 +1,55 @@
+# Copyright (C) 2019 Intel Corp.
+# 
+# SPDX-License-Identifier: Apache-2.0
+
+[Writable]
+LogLevel = 'DEBUG'
+
+[Service]
+BootTimeout = '30s'
+ClientMonitor = '15s'
+CheckInterval = '10s'
+Host = 'loss-detector'
+Port = 48096
+Protocol = 'http'
+ReadMaxLimit = 100
+StartupMsg = 'Starting Loss Detector'
+Timeout = '30s'
+
+[Registry]
+Host = 'edgex-core-consul'
+Port = 8500
+Type = 'consul'
+
+
+[Clients]
+  [Clients.Data]
+  Protocol = "http"
+  Host = "edgex-core-data"
+  Port = 48080
+  Timeout = '30s'
+
+  [Clients.Logging]
+  Protocol = "http"
+  Host = "edgex-support-logging"
+  Port = 48061
+
+
+[MessageBus]
+Type = 'zero'
+    [MessageBus.SubscribeHost]
+        Host = 'event-reconciler'
+        Port = 5564
+        Protocol = 'tcp'
+        
+[Binding]
+ Type="messagebus"
+ SubscribeTopic="suspect-list"
+
+[Logging]
+EnableRemote = true
+
+[ApplicationSettings]
+NotificationsURL = "http://edgex-support-notifications:48060"
+NotificationEmailAddresses = "cloud@abc.def,jack@abc.def"
+NotificationSlug = "sys-admin"

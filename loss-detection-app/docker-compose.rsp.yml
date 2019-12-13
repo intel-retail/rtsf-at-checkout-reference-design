@@ -1,0 +1,64 @@
+version: "3.2"
+
+
+volumes:
+  rsp-cache:
+  rsp-config:
+  
+services:  
+  avahi:
+    image: rsp/avahi:0.1
+    # environment:
+      # LOG_LEVEL: debug
+      # CAP_HOST_MANAGEMENT: 1
+    # ipc: host
+    network_mode: host
+    # pid: host
+    # userns_mode: host
+    privileged: true
+    restart: "on-failure:5"
+    # networks:
+      # - rsp_gw_net
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    # deploy:
+      # mode: global
+      # placement:
+        # constraints: [node.platform.os == linux]
+
+  ntp:
+    image: rsp/ntp:0.1   
+    network_mode: host
+    cap_add:
+     - SYS_TIME
+    restart: "on-failure:5"
+
+      
+  rsp-gw:
+    image: rsp/sw-toolkit-gw:0.1
+    environment:
+      DOCKER_HOST_IP: ${HOST_IP}
+      DOCKER_HOSTNAME: ${HOSTNAME}
+      # LOG_LEVEL: debug
+      # CAP_HOST_MANAGEMENT: 1
+    # ipc: host
+    network_mode: host
+    # pid: host
+    # privileged: true
+    # userns_mode: host
+    restart: "on-failure:5"
+    volumes:
+      - rsp-cache:/opt/rsp-sw-toolkit-gw/cache/
+      - rsp-config:/opt/rsp-sw-toolkit-gw/config/
+    # networks:
+      # rsp_gw_net:
+        # aliases:
+          # - ${HOSTNAME}
+    ports:
+      - 5222:5222
+      - 8080:8080
+      - 8443:8443
+    # deploy:
+      # mode: global
+      # placement:
+        # constraints: [node.platform.os == linux]

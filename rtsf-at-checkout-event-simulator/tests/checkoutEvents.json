@@ -1,0 +1,440 @@
+{
+    "checkout_events": [
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1000000000001,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"DEFAULT_FACILITY",
+                            "epc_code":"30140000001FB28000003039",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "timestamp":1000000000001,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1000000000002,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"DEFAULT_FACILITY",
+                            "epc_code":"301400000037C5C000003039",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "timestamp":1000000000002,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1000000000003,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"DEFAULT_FACILITY",
+                            "epc_code":"3014000000565D8000003039",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "timestamp":1000000000003,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1000000000004,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"DEFAULT_FACILITY",
+                            "epc_code":"301400000047DAC000003039",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "timestamp":1000000000004,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "POS",
+            "event": "basket-open",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Red Apples",
+                "roi_action": "ENTER",
+                "roi_name": "Entrance"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Red Apples",
+                "roi_action": "DEPART",
+                "roi_name": "Entrance"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Red Apples",
+                "roi_action": "ENTER",
+                "roi_name": "Staging"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Red Apples",
+                "roi_action": "DEPART",
+                "roi_name": "Staging"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Red Apples",
+                "roi_action": "ENTER",
+                "roi_name": "Scanner"
+            },
+            "wait_time": ".5s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1000000000005,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"DEFAULT_FACILITY",
+                            "epc_code":"30140000001FB28000003039",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"moved",
+                            "timestamp":1000000000005,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "POS",
+            "event": "basket-open",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "0s"
+        },
+        {
+            "device": "POS",
+            "event": "scanned-item",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "product_id": "00000000324588",
+                "product_id_type": "UPC",
+                "product_name": "Red Apples",
+                "quantity": 1.0,
+                "quantity_unit": "EA",
+                "unit_price": 0.99,
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Red Apples",
+                "roi_action": "DEPART",
+                "roi_name": "Scanner"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1000000000006,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"DEFAULT_FACILITY",
+                            "epc_code":"30140000001FB28000003039",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"departed",
+                            "timestamp":1000000000006,
+                            "location":"RSP-150000"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RSP",
+            "event": "rfid/controller/events",
+            "data": {
+                "jsonrpc":"2.0",
+                "method":"inventory_event",
+                "params":{
+                    "sent_on":1000000000007,
+                    "gateway_id":"",
+                    "data":[{
+                            "facility_id":"DEFAULT_FACILITY",
+                            "epc_code":"30140000001FB28000003039",
+                            "tid":null,
+                            "epc_encode_format":"tbd",
+                            "event_type":"arrival",
+                            "timestamp":1000000000007,
+                            "location":"RSP-150001"
+                    }]      
+                } 
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 1,
+                "units": "lbs"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Trail Mix",
+                "roi_action": "ENTER",
+                "roi_name": "Entrance"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Trail Mix",
+                "roi_action": "DEPART",
+                "roi_name": "Entrance"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Trail Mix",
+                "roi_action": "ENTER",
+                "roi_name": "Staging"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Trail Mix",
+                "roi_action": "DEPART",
+                "roi_name": "Staging"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Trail Mix",
+                "roi_action": "ENTER",
+                "roi_name": "Scanner"
+            },
+            "wait_time": ".5s"
+        },
+        {
+            "device": "POS",
+            "event": "scanned-item",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "product_id": "00000000571111",
+                "product_id_type": "UPC",
+                "product_name": "Trail Mix",
+                "quantity": 1.0,
+                "quantity_unit": "EA",
+                "unit_price": 5.99,
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "CV-ROI",
+            "event": "cv-roi-event",
+            "data": {
+                "object_count": 1,
+                "product_name": "Trail Mix",
+                "roi_action": "DEPART",
+                "roi_name": "Scanner"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 3.0,
+                "units": "lbs"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "POS",
+            "event": "scanned-item",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "product_id": "00000000884389",
+                "product_id_type": "UPC",
+                "product_name": "Red Wine",
+                "quantity": 1.0,
+                "quantity_unit": "EA",
+                "unit_price": 10.99,
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 6.0,
+                "units": "lbs"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "POS",
+            "event": "scanned-item",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "product_id": "00000000735797",
+                "product_id_type": "UPC",
+                "product_name": "Steak",
+                "quantity": 1.0,
+                "quantity_unit": "EA",
+                "unit_price": 8.99,
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "Scale",
+            "event": "scale-item",
+            "data": {
+                "total": 8.11,
+                "units": "lbs"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "POS",
+            "event": "payment-start",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "POS",
+            "event": "payment-success",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        },
+        {
+            "device": "POS",
+            "event": "basket-close",
+            "data": {
+                "basket_id": "abc-012345-def",
+                "customer_id": "joe5",
+                "employee_id": "mary1"
+            },
+            "wait_time": "2s"
+        }
+    ]
+}

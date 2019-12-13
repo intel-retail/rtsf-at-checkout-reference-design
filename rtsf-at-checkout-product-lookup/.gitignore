@@ -1,0 +1,13 @@
+.vscode
+
+go.sum
+*.exe
+debug
+
+# binaries
+product-lookup
+initMinMax
+main
+
+# Test binary, build with `go test -c`
+*.test

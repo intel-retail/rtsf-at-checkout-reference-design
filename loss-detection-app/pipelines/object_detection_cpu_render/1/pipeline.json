@@ -1,0 +1,51 @@
+{
+	"name": "object_detection",
+	"version": 1,
+	"type": "GStreamer",
+	"template": "urisourcebin uri=\"{source[uri]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue leaky=upstream ! gvadetect device=CPU inference-id=inf0 model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvametaconvert converter=json method=detection source=\"{source[uri]}\" name=\"jsonmetaconvert\" include-no-detections=true ! queue ! gvametapublish method=\"{destination[type]}\" address=\"{destination[host]}\" topic=\"{destination[topic]}\" timeout=1000 ! gvawatermark ! queue ! videoconvert ! fpsdisplaysink video-sink=xvimagesink sync=false",
+	"description": "Object Detection Pipeline",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"every-nth-frame": {
+				"element": "detection",
+				"type": "integer",
+				"minimum": 0,
+				"maximum": 4294967295,
+				"default": 1
+			},
+			"n-threads": {
+				"element": "videoconvert",
+				"type": "integer",
+				"default": 1
+			},
+			"nireq": {
+				"element": "detection",
+				"type": "integer",
+				"minimum": 1,
+				"maximum": 64,
+				"default": 2
+			},
+			"top": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			},
+			"bottom": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			},
+			"left": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			},
+			"right": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			}
+		}
+	}
+}

@@ -1,0 +1,7 @@
+*.dll
+*.exe
+*.txt
+go.sum
+debug
+.vscode
+event-reconciler

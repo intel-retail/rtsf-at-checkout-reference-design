@@ -32,6 +32,19 @@ func scaleBasketReconciliation(scaleReading *ScaleEventEntry) {
 	}
 	if RttlogData[len(RttlogData)-1].ProductId != "" {
 		currentRTTLEntry := &RttlogData[len(RttlogData)-1]
+
+		if rttlQuantityIsEach(*currentRTTLEntry) {
+			weightRange := calculateCurrentWeightRange(currentRTTLEntry)
+			if weightRange.ExpectedMinWeight > floatingPointTolerance { //scale is not confirmed. Compare vs. .000001 and not 0 due to floating point precision
+
+				// divide by zero check, followed by check if scale delta is less than (rttl expected min weight / quantity)
+				if currentRTTLEntry.Quantity < 1 || scaleReading.Delta < weightRange.ExpectedMinWeight/currentRTTLEntry.Quantity {
+					currentRTTLEntry.ScaleConfirmed = false
+					return
+				}
+			}
+		}
+
 		if checkScaleConfirmed(currentRTTLEntry) == false {
 			//reverse iterate through scaleBuffer till associatedRTTLEntry != nil
 			for scaleBufferIterator := len(ScaleData) - 1; ScaleData[scaleBufferIterator].AssociatedRTTLEntry == nil; scaleBufferIterator-- {
@@ -59,6 +72,13 @@ func scaleBasketReconciliation(scaleReading *ScaleEventEntry) {
 	}
 }
 
+func rttlQuantityIsEach(rttlogEventEntry RTTLogEventEntry) bool {
+	if rttlogEventEntry.QuantityUnit == quantityUnitEA || rttlogEventEntry.QuantityUnit == quantityUnitEach {
+		return true
+	}
+	return false
+}
+
 func calculateCurrentWeightRange(currentRTTLEntry *RTTLogEventEntry) ProductDetails {
 	currentAllowedWeight := ProductDetails{"", currentRTTLEntry.ProductDetails.ExpectedMinWeight * currentRTTLEntry.Quantity, currentRTTLEntry.ProductDetails.ExpectedMaxWeight * currentRTTLEntry.Quantity, false}
 	for _, scaleItem := range currentRTTLEntry.AssociatedScaleItems {
@@ -70,12 +90,14 @@ func calculateCurrentWeightRange(currentRTTLEntry *RTTLogEventEntry) ProductDeta
 }
 
 func checkScaleConfirmed(rttlogEventEntry *RTTLogEventEntry) bool {
-	if rttlogEventEntry.QuantityUnit == quantityUnitEA || rttlogEventEntry.QuantityUnit == quantityUnitEach {
+	if rttlQuantityIsEach(*rttlogEventEntry) {
 		weightRange := calculateCurrentWeightRange(rttlogEventEntry)
 		if weightRange.ExpectedMinWeight > floatingPointTolerance { //scale is not confirmed. Compare vs. .000001 and not 0 due to floating point precision
 			rttlogEventEntry.ScaleConfirmed = false
 			return rttlogEventEntry.ScaleConfirmed
 		}
+
+		// scale is confirmed i.e. the weight matches the rttls
 		for weightRange.ExpectedMinWeight <= ((rttlogEventEntry.ProductDetails.ExpectedMinWeight * -1) + floatingPointTolerance) { //if overpopulated RTTL due to UPDATE in Quantity
 			//pop latest out of assoc.ScaleBuffer, re-add to suspectItems
 			lastAssociatedScaleItem := rttlogEventEntry.AssociatedScaleItems[len(rttlogEventEntry.AssociatedScaleItems)-1]

@@ -208,7 +208,7 @@ services:
     # TODO: Rest Device service currently has to be built locally until moved out of holding and released
     image: edgexfoundry/docker-device-rest-go:0.0.0-dev
     ports:
-      - "59990:59990"
+      - "49986:49986"
     restart: "always"
     container_name: edgex-device-rest
     hostname: edgex-device-rest

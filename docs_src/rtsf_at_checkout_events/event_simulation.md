@@ -2,13 +2,13 @@
 
 #### Event Simulator
 
-This reference design includes the **Event Simulator** utility. This simulator reads a JSON based script that defines the event data and wait times between sending each event, which it sends to the `Edgex REST or MQTT Device service`. 
+This reference design includes the **Event Simulator** utility. This simulator reads a JSON based script that defines the event data and wait times between sending each event, which it sends to the `EdgeX REST or MQTT Device service`. 
 
 Please note that before the simulator is run, ensure the EdgeX stack is running first via  `make run` from top folder. 
 
 To supply a customized simulation script, use the -f flag like this example: 
 
-​	`./checkout-lane-simulator –f tests/checkoutEvents.json `
+​	`./event-simulator –f tests/checkoutEvents.json `
 
 Below is an example script for sending POS and Scale events.  Scripts are provided for various `RTSF at Checkout` scenarios.
 
@@ -163,9 +163,9 @@ If having problems or issues on running EdgeX stack, please refer to the latter 
 
 #### PostMan 
 
-The [PostMan](https://www.getpostman.com/) tool can be used to send simulated events to the EdgeX REST Device service. See above [POSTing to EdgeX REST Device Service](#posting-to-edgex-rest-device-service) section for details on how to POST to the Edgex REST Device service.
+The [PostMan](https://www.getpostman.com/) tool can be used to send simulated events to the EdgeX REST Device service. See above [POSTing to EdgeX REST Device Service](#posting-to-edgex-rest-device-service) section for details on how to POST to the EdgeX REST Device service.
 
 #### MQTT.FX
 
-The [MQTT.FX](https://mqttfx.jensd.de/) tool or tools like it can be used to send simulated events to the EdgeX MQTT Device service. See above [Publishing to EdgeX MQTT Device Service](Publishing to EdgeX MQTT Device Service) section for details on how to publish to the Edgex REST Device service.
+The [MQTT.FX](https://mqttfx.jensd.de/) tool or tools like it can be used to send simulated events to the EdgeX MQTT Device service. See above [Publishing to EdgeX MQTT Device Service](Publishing to EdgeX MQTT Device Service) section for details on how to publish to the EdgeX REST Device service.
 

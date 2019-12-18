@@ -11,7 +11,7 @@
                     "gateway_id":"",
                     "data":[{
                             "facility_id":"Entrance",
-                            "epc_code":"30143639F8419145BEEF0009",
+                            "epc_code":"3014000000565D8000003039",
                             "tid":null,
                             "epc_encode_format":"tbd",
                             "event_type":"arrival",
@@ -33,7 +33,7 @@
                     "gateway_id":"",
                     "data":[{
                             "facility_id":"Entrance",
-                            "epc_code":"30143639F8419145BEEF0009",
+                            "epc_code":"3014000000565D8000003039",
                             "tid":null,
                             "epc_encode_format":"tbd",
                             "event_type":"moved",
@@ -55,7 +55,7 @@
                     "gateway_id":"",
                     "data":[{
                             "facility_id":"Entrance",
-                            "epc_code":"30143639F8419145BEEF0009",
+                            "epc_code":"301400000047DAC000003039",
                             "tid":null,
                             "epc_encode_format":"tbd",
                             "event_type":"departed",
@@ -77,7 +77,7 @@
                     "gateway_id":"",
                     "data":[{
                             "facility_id":"Bagging",
-                            "epc_code":"30143639F8419145BEEF0009",
+                            "epc_code":"3014000000565D8000003039",
                             "tid":null,
                             "epc_encode_format":"tbd",
                             "event_type":"arrival",
@@ -99,7 +99,7 @@
                     "gateway_id":"tpm-NUC7i5DNHE",
                     "data":[
                         {
-                            "epc_code":"300C00000000000000000062",
+                            "epc_code":"301400000037C5C000003039",
                             "epc_encode_format":"tbd",
                             "event_type":"departed",
                             "facility_id":"Entrance",
@@ -108,7 +108,7 @@
                             "timestamp":1565132918035
                         },
                         {
-                            "epc_code":"300C00000000000000000062",
+                            "epc_code":"301400000037C5C000003039",
                             "epc_encode_format":"tbd",
                             "event_type":"arrival",
                             "facility_id":"Bagging",
@@ -117,7 +117,7 @@
                             "timestamp":1565132919134
                         },
                         {
-                            "epc_code":"300C00000000000000000060",
+                            "epc_code":"301400000047DAC000003039",
                             "epc_encode_format":"tbd",
                             "event_type":"departed",
                             "facility_id":"Entrance",
@@ -126,7 +126,7 @@
                             "timestamp":1565132909636
                         },
                         {
-                            "epc_code":"300C00000000000000000060",
+                            "epc_code":"301400000047DAC000003039",
                             "epc_encode_format":"tbd",
                             "event_type":"arrival",
                             "facility_id":"Bagging",

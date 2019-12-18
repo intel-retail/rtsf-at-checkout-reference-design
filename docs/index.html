@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
     
     
       
@@ -59,7 +59,34 @@
     
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
+      <link rel="stylesheet" href="stylesheets/extra.css">
     
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-154731555-1", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
       
     
     
@@ -174,51 +201,30 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#block-diagram" class="md-nav__link">
-    Block Diagram
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-use-this-reference-design" class="md-nav__link">
-    How to use this reference design
+  <a href="#introduction" class="md-nav__link">
+    Introduction
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    Getting Started
+  <a href="#block-diagram" class="md-nav__link">
+    Block Diagram
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#building-the-required-components" class="md-nav__link">
-    Building the required components
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#running-the-solution" class="md-nav__link">
-    Running the solution
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compose-files" class="md-nav__link">
-    Compose Files
+  <a href="#recommended-domain-knowledge" class="md-nav__link">
+    Recommended Domain Knowledge
   </a>
   
 </li>
@@ -229,9 +235,146 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-build-a-solution-using-this-reference-design" class="md-nav__link">
-    How to build a solution using this reference design
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-clone-the-repository" class="md-nav__link">
+    Step 1: Clone the repository
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-build-the-reference-design" class="md-nav__link">
+    Step 2: Build the Reference Design
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-build-edgex-rest-device-service" class="md-nav__link">
+    Step 3: Build EdgeX REST Device service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-use-docker-compose-to-start-the-reference-design-suite-to-do-so-use" class="md-nav__link">
+    Step 4: Use docker-compose to start the reference design suite. To do so, use
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-use-the-event-simulator" class="md-nav__link">
+    Step 5: Use the Event Simulator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-integrate-your-pos-of-choice" class="md-nav__link">
+    Step 6: Integrate your POS of choice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-integrate-your-security-scale-of-choice" class="md-nav__link">
+    Step 7: Integrate your Security Scale of choice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-8-optional-build-the-intel-retail-sensor-platform-intel-rsp-controller" class="md-nav__link">
+    Step 8: (optional) Build the Intel® Retail Sensor Platform (Intel® RSP) Controller
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-9-optional-build-video-analytics-serving-intels-computer-vision-reference-design" class="md-nav__link">
+    Step 9: (optional) Build Video Analytics Serving (Intel's Computer Vision Reference Design)**
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-the-compose-files" class="md-nav__link">
+    How to Use the Compose Files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components-to-build-a-solution-based-on-this-reference-design" class="md-nav__link">
+    Components to Build a Solution based on this Reference Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#components-to-consider-adding" class="md-nav__link">
+    Components to Consider Adding
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#components-to-consider-replacing-or-enhancing" class="md-nav__link">
+    Components to Consider Replacing or Enhancing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send-notifications-through-edgex-optional" class="md-nav__link">
+    How to Send Notifications through EdgeX (optional)
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-set-environment-variables" class="md-nav__link">
+    Step 1: Set Environment Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-add-code-to-the-config-seed-environment-section" class="md-nav__link">
+    Step 2: Add code to the config-seed Environment Section
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-add-smtp-server-to-compose-file-optional" class="md-nav__link">
+    Step 3: Add SMTP Server to compose file (optional)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -243,8 +386,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#references-and-links-to-the-documentation-of-the-individual-components" class="md-nav__link">
-    References and links to the documentation of the individual components
+  <a href="#references-and-links" class="md-nav__link">
+    References and Links
   </a>
   
     <nav class="md-nav">
@@ -258,8 +401,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#device-services" class="md-nav__link">
-    Device Services
+  <a href="#device-service" class="md-nav__link">
+    Device Service
   </a>
   
 </li>
@@ -273,7 +416,7 @@
         
           <li class="md-nav__item">
   <a href="#intel-rsp-rfid-solution" class="md-nav__link">
-    Intel RSP RFID Solution
+    Intel® RSP RFID Solution
   </a>
   
 </li>
@@ -306,70 +449,46 @@
       
 
 
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
-    <label class="md-nav__link" for="nav-2">
-      Configuration
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
-        Configuration
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
   <li class="md-nav__item">
-    <a href="configuration/configuration/" title="Configuration" class="md-nav__link">
+    <a href="configuration/" title="Configuration" class="md-nav__link">
       Configuration
     </a>
   </li>
 
-        
-      </ul>
-    </nav>
-  </li>
-
     
       
       
       
 
 
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
+  <li class="md-nav__item">
+    <a href="device_services/" title="Device services" class="md-nav__link">
       Device services
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Device services
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="device_services/" title="Index" class="md-nav__link">
-      Index
     </a>
   </li>
 
-        
-      </ul>
-    </nav>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="troubleshooting/" title="Troubleshooting" class="md-nav__link">
+      Troubleshooting
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="unicenta/" title="Instructions for Integrating with uniCenta oPOS" class="md-nav__link">
+      Instructions for Integrating with uniCenta oPOS
+    </a>
   </li>
 
     
@@ -380,13 +499,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
-    <label class="md-nav__link" for="nav-4">
+    <label class="md-nav__link" for="nav-6">
       Rtsf at checkout events
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
+      <label class="md-nav__title" for="nav-6">
         Rtsf at checkout events
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -421,42 +540,6 @@
   </li>
 
     
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
-    <label class="md-nav__link" for="nav-5">
-      Troubleshooting
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
-        Troubleshooting
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="troubleshooting/" title="Index" class="md-nav__link">
-      Index
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
   </ul>
 </nav>
                   </div>
@@ -478,51 +561,30 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#block-diagram" class="md-nav__link">
-    Block Diagram
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-use-this-reference-design" class="md-nav__link">
-    How to use this reference design
+  <a href="#introduction" class="md-nav__link">
+    Introduction
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    Getting Started
+  <a href="#block-diagram" class="md-nav__link">
+    Block Diagram
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#building-the-required-components" class="md-nav__link">
-    Building the required components
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#running-the-solution" class="md-nav__link">
-    Running the solution
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compose-files" class="md-nav__link">
-    Compose Files
+  <a href="#recommended-domain-knowledge" class="md-nav__link">
+    Recommended Domain Knowledge
   </a>
   
 </li>
@@ -533,9 +595,146 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-build-a-solution-using-this-reference-design" class="md-nav__link">
-    How to build a solution using this reference design
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-clone-the-repository" class="md-nav__link">
+    Step 1: Clone the repository
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-build-the-reference-design" class="md-nav__link">
+    Step 2: Build the Reference Design
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-build-edgex-rest-device-service" class="md-nav__link">
+    Step 3: Build EdgeX REST Device service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-use-docker-compose-to-start-the-reference-design-suite-to-do-so-use" class="md-nav__link">
+    Step 4: Use docker-compose to start the reference design suite. To do so, use
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-use-the-event-simulator" class="md-nav__link">
+    Step 5: Use the Event Simulator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-integrate-your-pos-of-choice" class="md-nav__link">
+    Step 6: Integrate your POS of choice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-integrate-your-security-scale-of-choice" class="md-nav__link">
+    Step 7: Integrate your Security Scale of choice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-8-optional-build-the-intel-retail-sensor-platform-intel-rsp-controller" class="md-nav__link">
+    Step 8: (optional) Build the Intel® Retail Sensor Platform (Intel® RSP) Controller
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-9-optional-build-video-analytics-serving-intels-computer-vision-reference-design" class="md-nav__link">
+    Step 9: (optional) Build Video Analytics Serving (Intel's Computer Vision Reference Design)**
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-the-compose-files" class="md-nav__link">
+    How to Use the Compose Files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components-to-build-a-solution-based-on-this-reference-design" class="md-nav__link">
+    Components to Build a Solution based on this Reference Design
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#components-to-consider-adding" class="md-nav__link">
+    Components to Consider Adding
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#components-to-consider-replacing-or-enhancing" class="md-nav__link">
+    Components to Consider Replacing or Enhancing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send-notifications-through-edgex-optional" class="md-nav__link">
+    How to Send Notifications through EdgeX (optional)
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-set-environment-variables" class="md-nav__link">
+    Step 1: Set Environment Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-add-code-to-the-config-seed-environment-section" class="md-nav__link">
+    Step 2: Add code to the config-seed Environment Section
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-add-smtp-server-to-compose-file-optional" class="md-nav__link">
+    Step 3: Add SMTP Server to compose file (optional)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -547,8 +746,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#references-and-links-to-the-documentation-of-the-individual-components" class="md-nav__link">
-    References and links to the documentation of the individual components
+  <a href="#references-and-links" class="md-nav__link">
+    References and Links
   </a>
   
     <nav class="md-nav">
@@ -562,8 +761,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#device-services" class="md-nav__link">
-    Device Services
+  <a href="#device-service" class="md-nav__link">
+    Device Service
   </a>
   
 </li>
@@ -577,7 +776,7 @@
         
           <li class="md-nav__item">
   <a href="#intel-rsp-rfid-solution" class="md-nav__link">
-    Intel RSP RFID Solution
+    Intel® RSP RFID Solution
   </a>
   
 </li>
@@ -612,137 +811,267 @@
                 
                 
                 <h1 id="real-time-sensor-fusion-for-loss-detection-at-checkout-reference-design">Real Time Sensor Fusion for Loss Detection at Checkout Reference Design</h1>
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="introduction">Introduction</h2>
+<p>This guide helps you build and run the Real Time Sensor Fusion for Loss Detection at Checkout Reference Design.</p>
+<p>Upon completing the steps in this guide, you will be ready to integrate sensors and services to build your own complete solution.</p>
+<blockquote>
+<p><em>Important: This guide does not create a complete, ready-to-use solution. Instead, upon completing the steps in this guide, you will be ready to integrate sensors and services to build your own Real Time Sensor Fusion for Loss Detection at Checkout solution.</em></p>
+</blockquote>
+<h3 id="block-diagram">Block Diagram</h3>
+<p>The high-level diagram below shows the sensors and services used with the Real Time Sensor Fusion for Loss Detection at Checkout Reference Design. The diagram shows the sensors and services, and how they communicate through EdgeX. Intel provides the services outlined in green, and you must obtain EdgeX and the sensors and services in pink.
+<img alt="Real Time Sensor Fusion for Loss Detection at Checkout Diagram" src="rtsf-loss-detection-at-checkout.png" /></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>The following items are required to build the Real Time Sensor Fusion for Loss Detection at Checkout Reference Design. You will need additional hardware and software when you are ready to build your own solution. </p>
 <ul>
-<li>Docker </li>
-<li>Docker-Compose </li>
+<li>Point-of-Sale (POS) of choice. You must use a POS that integrates with either the EdgeX REST or MQTT Device. See <a href="rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a> for information about integration with the <a href="device_services/#edgex-rest-and-mqtt-device-services">EdgeX Device Services</a> to send POS Events</li>
+<li>Docker</li>
+<li>Docker-Compose</li>
 <li>Go 1.12+</li>
 <li>GIT</li>
 <li>make</li>
 </ul>
-<p>The following domain knowledge is recommended:</p>
+<h3 id="recommended-domain-knowledge">Recommended Domain Knowledge</h3>
 <ul>
-<li>MQTT and REST</li>
-<li>Point-of-Sale (POS)</li>
-<li>Knowledge of POS Systems (Transactions, Real-Time Transaction Log (RTTL))</li>
-<li>You will need your own POS software to integrate</li>
-<li>Know how to customize it</li>
-<li>Familiarity with CV Concepts if using CV Components</li>
-<li>Familiarity of RFID Concepts if using RFID Components</li>
+<li>MQTT</li>
+<li>REST</li>
+<li>POS systems, including customizations (Transactions, Real-Time Transaction Log (RTTL))</li>
+<li>Computer Vision concepts, if using CV Components</li>
+<li>RFID concepts, if using RFID Components</li>
 </ul>
-<h2 id="block-diagram">Block Diagram</h2>
-<p>The following diagram below helps to understand, at a high-level, the services involved in the Real Time Sensor Fusion for Loss Detection at Checkout Reference Design (RTSF at Checkout). It is not necessarily a 1:1 mapping to each service, however it does provide a visual of all sensors involved, how EdgeX is situated among the services, and the services responsible for reconciling the sensor data that is consumed from EdgeX. </p>
-<p><img alt=" RTSF at Checkout Architecture Diagram " src="rtsf-loss-detection-at-checkout.png" /></p>
-<h2 id="how-to-use-this-reference-design">How to use this reference design</h2>
-<h3 id="getting-started">Getting Started</h3>
-<p>Use the following command to clone the repository.</p>
-<p>​   <code>git clone https://github.impcloud.net/loss-detection/rtsf-at-checkout-reference-design</code></p>
-<p><strong>[TODO: update repo URL for open source location]</strong></p>
-<h3 id="building-the-required-components">Building the required components</h3>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="step-1-clone-the-repository">Step 1: Clone the repository</h3>
+<div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">clone</span>  <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">intel</span><span class="o">-</span><span class="n">iot</span><span class="o">-</span><span class="n">devkit</span><span class="o">/</span><span class="n">rtsf</span><span class="o">-</span><span class="k">at</span><span class="o">-</span><span class="n">checkout</span><span class="o">-</span><span class="n">reference</span><span class="o">-</span><span class="n">design</span>
+</pre></div>
+
+
+<h3 id="step-2-build-the-reference-design">Step 2: Build the Reference Design</h3>
+<p>You must build the provided component services and create local docker images. To do so, run</p>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">docker</span>
+</pre></div>
+
+
+<p>which builds the following docker images</p>
+<ul>
+<li><code>rtsf-at-checkout/event-reconciler</code></li>
+<li><code>rtsf-at-checkout/device-scale</code></li>
+<li><code>rtsf-at-checkout/product-lookup</code></li>
+<li><code>rtsf-at-checkout/loss-detector</code></li>
+<li><code>rtsf-at-checkout/rsp-controller-event-handler</code></li>
+<li><code>rtsf-at-checkout/cv-region-of-interest</code></li>
+</ul>
+<h3 id="step-3-build-edgex-rest-device-service">Step 3: Build EdgeX REST Device service</h3>
+<p>The EdgeX REST device service is currently the process of being released. Until a release docker image is available via Edge Foundry, we must build it locally by running the following command:</p>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">device</span><span class="o">-</span><span class="n">rest</span>
+</pre></div>
+
+
+<p>which creates the following docker image:</p>
+<ul>
+<li><code>edgexfoundry/docker-device-rest-go</code></li>
+</ul>
+<p>This make target will clone the device-rest-go repo and build the docker image.</p>
+<h3 id="step-4-use-docker-compose-to-start-the-reference-design-suite-to-do-so-use">Step 4: Use docker-compose to start the reference design suite. To do so, use</h3>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+
+
+<p>This command starts all the EdgeX services and then starts all the Loss Detection services.</p>
+<h3 id="step-5-use-the-event-simulator">Step 5: Use the Event Simulator</h3>
+<p>Use the <a href="rtsf_at_checkout_events/event_simulation/">Event Simulator</a> to test and explore the example reference design until you feel comfortable with it.</p>
+<p>You have successfully created an example reference design and are ready to integrate your components to create your own Real Time Sensor Fusion for Loss Detection at Checkout solution.</p>
+<h3 id="step-6-integrate-your-pos-of-choice">Step 6: Integrate your POS of choice</h3>
+<p>Your POS of choice must send <strong>POS Events</strong> to either the Edgex REST or MQTT Device service. See the <a href="rtsf_at_checkout_events/checkout_events/#pos_ events">POS Events</a> section for details about each <strong>POS event</strong> and the <a href="device_services/">Device Services</a> section for details on how to send the events. </p>
+<p>If you don't currently have a POS of choice, we recommend using the <strong>uniCenta </strong> open source POS to get familiar with the POS integration. The <a href="unicenta/">uniCenta </a> section has details on installing and integrating <strong>uniCenta </strong>.</p>
+<h3 id="step-7-integrate-your-security-scale-of-choice">Step 7: Integrate your Security Scale of choice</h3>
+<p>TBD</p>
+<h3 id="step-8-optional-build-the-intel-retail-sensor-platform-intel-rsp-controller">Step 8: (optional) Build the Intel® Retail Sensor Platform (Intel® RSP) Controller</h3>
+<p>If you want to use the Intel® RSP application with your RFID sensors, run the following command:</p>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">rsp</span>
+</pre></div>
+
+
+<p>which will create these docker images:</p>
+<ul>
+<li><code>rsp/mqtt-device-service</code></li>
+<li><code>rsp/sw-toolkit-gw</code></li>
+<li><code>rsp/avahi</code></li>
+<li><code>rsp/ntp</code></li>
+</ul>
+<p>This make target will clone the RSP repositories and run the appropriate scripts. Once complete you will need to stop the that docker stack that the scripts started so you can use the compose file provided by this reference design. This is required because the <code>rsp-sw-toolkit-installer</code> build script runs the RSP docker-compose file. To take down the docker stack:</p>
+<div class="codehilite"><pre><span></span>docker-compose -p rsp -f <span class="nv">$PROJECTS_DIR</span>/rsp-sw-toolkit-installer/docker/compose/docker-compose.yml down
+</pre></div>
+
+
+<p>Run the following command to start the RSP services:</p>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">rsp</span>
+</pre></div>
+
+
+<h3 id="step-9-optional-build-video-analytics-serving-intels-computer-vision-reference-design">Step 9: (optional) Build Video Analytics Serving (Intel's Computer Vision Reference Design)**</h3>
+<p>To use the Intel Video Analytics Serving application, run the following command:</p>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">vas</span>
+</pre></div>
+
+
+<p>which will create the following docker image:</p>
+<ul>
+<li><code>video_analytics_serving_gstreamer</code></li>
+</ul>
+<p>This make target will clone the VAS repo and run the appropriate scripts to create the docker image.</p>
+<p>Run the following command to start the VAP services:</p>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">vap</span>
+</pre></div>
+
+
+<h2 id="how-to-use-the-compose-files">How to Use the Compose Files</h2>
+<p>The docker-compose files are divided up to let you bring up or take down individual sensor ingestion components. Visit each individual <a href="#references-and-links-to-the-documentation-of-the-individual-components">GitHub subrepository</a> to learn about the responsibility of each service. </p>
+<table>
+<thead>
+<tr>
+<th>Compose File</th>
+<th>Purpose</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Portainer</td>
+<td>Container management</td>
+<td><code>docker-compose -f docker-compose.portainer.yml up -d</code></td>
+</tr>
+<tr>
+<td>EdgeX and its components</td>
+<td></td>
+<td><code>docker-compose -f docker-compose.edgex.yml up -d</code></td>
+</tr>
+<tr>
+<td>Real Time Sensor Fusion for Loss Detection at Checkout Core Services and its components</td>
+<td></td>
+<td><code>docker-compose -f docker-compose.loss-detection.yml up -d</code></td>
+</tr>
+<tr>
+<td>RFID Components (Intel® RSP SW Toolkit)</td>
+<td></td>
+<td><code>docker-compose -f docker-compose.rsp.yml up -d</code></td>
+</tr>
+<tr>
+<td>Video Analytics Pipeline (VAP)</td>
+<td></td>
+<td><code>docker-compose -f docker-compose.vap.yml up -d</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="components-to-build-a-solution-based-on-this-reference-design">Components to Build a Solution based on this Reference Design</h2>
+<p>The reference design you created is not a complete solution. It provides the base components for creating a sensor fusion based framework. It is your choice on how many and which sensors to include. This section provides information about components you might want to include or replace.</p>
+<h3 id="components-to-consider-adding">Components to Consider Adding</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Security scale in bagging area</td>
+<td>A Scale Device service is provided for a CAS USB scale. As an alternative, you can have Scale Events sent to either the EdgeX REST or MQTT Device Services. For more information, see  <a href="rtsf_at_checkout_events/checkout_events/#scale-events">Scale Events</a> and integrating with the <a href="device_services/#edgex-rest-and-mqtt-device-services">EdgeX Device Services</a> to send the Scale Events.</td>
+</tr>
+<tr>
+<td>Computer Vision (CV) Object Detection Model</td>
+<td>The Intel® Distribution of OpenVINO toolkit-based object detection model used by the Video Analytics Pipeline (VAP) service is provided as an example, but is not intended for your final solution. The VAP and CV ROI Enter Exit service in this reference design create the CV ROI Events that are sent to the <a href="device_services/#edgex-mqtt-device-service">EdgeX MQTT Device Service</a>. See <a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI Events</a>.</td>
+</tr>
+<tr>
+<td>Intel® RFID Sensors</td>
+<td>This reference design relies on the Intel® Retail Sensor Platform (Intel® RSP). (https://software.intel.com/en-us/retail/rfid-sensor-platform)<strong> which has its own custom EdgeX Device Service which it sends RFID events. These events are transformed into RFID ROI Events by the provided </strong>RSP Controller Event Handler** service. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI Events</a>.This RSP has its own custom EdgeX Device Service to which it sends RFID events. These events are transformed into RFID ROI Events by the provided RSP Controller Event Handler service. If you are interested in Intel® RSP RFID Sensors, see https://software.intel.com/en-us/retail/rfid-sensor-platform#buy</td>
+</tr>
+<tr>
+<td>Reconciler Service</td>
+<td>This service provided does the analytics of reconciling all the sensor events to identify suspect items. As an option, you can replace the provided service with a more advanced service.</td>
+</tr>
+<tr>
+<td>Detector Service</td>
+<td>The service provided demonstrates how to send an email notification using the EdgeX Notifications service. The contents of the email is a simple JSON list of suspect items. As an option, you can replace the provided service with a more advanced service.</td>
+</tr>
+<tr>
+<td>Computer Vision Region of Interest (ROI) Solution</td>
+<td>If you chose to create your own complete Computer Vision object detection and CV ROI enter/exit solution. Exclude running the components in the docker-compose.vap.yml compose file and remove the cv-region-of-interest from the docker-compose.loss-detection.yml compose file. Integrate your CV solution with either the EdgeX REST or MQTT Device Services to send the CV ROI events.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="components-to-consider-replacing-or-enhancing">Components to Consider Replacing or Enhancing</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reconciler service</td>
+<td>The Reconciler Service performs the analytics of reconciling the sensor events to identify suspect items. While the service provided performs adequately, your analytics team might be able to improve on this reference implementation.</td>
+</tr>
+<tr>
+<td>Detector Service</td>
+<td>The Dectector Service demonstrates how to send email notifications using the EdgeX Notifications service. The email message content is a simple JSON list of suspect items.</td>
+</tr>
+<tr>
+<td>Product Lookup Service</td>
+<td>This service provided is a basic implementation of a Product Information Management Lookup service. It uses a JSON file as a database for the product information. It is recommended that you replace the service with an Enterprise Resource Planning (ERP) System.</td>
+</tr>
+<tr>
+<td>RFID services</td>
+<td>If you choose to use a different RFID solution, in addition to providing your integration to generate the RFID ROI Events you will need to exclude running the components in the <code>docker-compose.rsp.yml</code> compose file and remove the <code>rsp-controller-event-handler</code> from the <code>docker-compose.loss-detection.yml</code> compose file.  You will also need to integrate your RFID solution with either the EdgeX REST or MQTT Device Services to send the RFID events. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI events</a> and integrating with these <a href="device_services/#edgex-rest-and-mqtt-device-services">EdgeX Device Services</a> to send RFID ROI events.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-to-send-notifications-through-edgex-optional">How to Send Notifications through EdgeX (optional)</h2>
+<p>This section provides instructions to help you configure the EdgeX notifications service to send alerts through SMS, email, Rest calls, and others. </p>
+<p>Notifications work as follows: </p>
 <ol>
 <li>
-<p><strong>Building the RTSF Reference Design</strong> (required)</p>
-<p>The provided component services must be built and local docker images created. The docker images can be built by running <code>make docker</code>.  See <a href="#getting-started">Getting Started</a> above for details on cloning this repo and it's sub modules.</p>
+<p>When the reconciler receives a payment-start event, it sends a message to the loss-detector that contain the suspect items list. </p>
 </li>
 <li>
-<p><strong>Building RSP Controller (Intel's RFID Reference Design)</strong> (optional)</p>
-<p>To use the Intel RSP RFID application with your RFID sensors, you will need to build the following docker images <code>rsp-gw</code>, <code>avahi</code>, <code>ntp</code> this can be done by running the installer located <a href="https://github.com/intel/rsp-sw-toolkit-installer#docker-environment" title="rsp-sw-toolkit-installer">here</a> inside the docker folder.  You will also need to build the docker image for the <code>rsp-mqtt-device-service</code> this service can be built by following the install instructions <a href="https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service" title="RSP MQTT Device Service">here</a>. Once these components have been installed you can continue.  </p>
-<blockquote>
-<p><em>Note that for both the installers you only need to build the docker images, you don't need to create or copy any docker-compose files, the compose file for rsp is already created in this project <code>rtsf-at-checkout-reference-design/loss-detection-app/docker-compose.rfid.yml</code>.</em>  </p>
-</blockquote>
-<p>The rsp-sw-toolkit-installer's build script runs the docker-compose file for you, you <strong>must</strong> take down that docker stack and use the compose file provided by the reference design.  This is done by running the following command.</p>
-<p><code>sh
-docker-compose -p rsp -f $PROJECTS_DIR/rsp-sw-toolkit-installer/docker/compose/docker-compose.yml down</code></p>
+<p>The loss-detector sends these alerts as email messages through the EdgeX notification service. </p>
 </li>
 <li>
-<p><strong>Building Video Analytics Serving (Intel's CV Reference Design)</strong> (optional)</p>
-<p>To use the Intel Video Analytics Serving application follow the instructions <a href="https://github.com/intel/video-analytics-serving" title="RSP MQTT Device Service">here</a> to build the <code>video-analytic</code> docker image.  The compose file for Video Analytics Serving is <code>rtsf-at-checkout-reference-design/loss-detection-app/docker-compose.vap.yml</code></p>
+<p>The loss-detector initiates the connection to the EdgeX notifications service.</p>
 </li>
 </ol>
-<p>First the provided component services must be built and local docker images created. This is done by first cloning this repository and then executing  <code>make docker</code>.  See  <a href="#getting-started">Getting Started</a> above for details on cloning this repo and it's sub modules.</p>
-<h3 id="running-the-solution">Running the solution</h3>
-<p>Once the above steps are complete the simplest way to get everything up and running is to execute the <code>make run</code> command to startup the reference design suite using docker-compose. Now that this reference design is running, you can use the <a href="rtsf_at_checkout_events/checkout_events/">Event Simulator</a> to test it out and explore how it all works. Once you that is complete you are ready to integrate your components to create a complete <code>RTSF at Checkout</code> solution.</p>
-<blockquote>
-<p><em>Note: ALL of the services in these reference design are meant to be reference services and are intended to be examples to be built/improved upon to create your complete solution.</em></p>
-</blockquote>
-<h3 id="compose-files">Compose Files</h3>
-<p>The docker-compose files are broken out in a way that allows bringing up or down individual sensor ingestion components as needed. Be sure to visit each individual GitHub sub-repositories listed <a href="#references-and-links-to-the-documentation-of-the-individual-components">here</a> for an understanding of the responsibility of each service. </p>
-<p>Portainer is used for management of the various containers.
-<code>docker-compose -f docker-compose.portainer.yml up -d</code></p>
-<p>EdgeX and its required components can be run with: 
-<code>docker-compose -f docker-compose.edgex.yml up -d</code></p>
-<p>RTSF at Checkout Core Services and its required components  can be run with:
-<code>docker-compose -f docker-compose.loss-detection.yml up -d</code></p>
-<p>RFID Components (Intel® RSP SW Toolkit) can be run with:
-<code>docker-compose -f docker-compose.rsp.yml up -d</code></p>
-<p>The Video Analytics Pipeline (VAP) can be run with: 
-<code>docker-compose -f docker-compose.vap.yml up -d</code></p>
-<h2 id="how-to-build-a-solution-using-this-reference-design">How to build a solution using this reference design</h2>
-<p>This reference design does not provide a complete solution. It provides the base components for creating a sensor fusion based framework.  It is your choice on how many and which sensors to include. Further more, you will need to provide the follow components to complete your RTSF at Checkout solution.</p>
-<ol>
-<li>
-<p><strong>Point of Sale (POS)</strong> (required)
-   The POS system of your choice will need to integrate with either the EdgeX REST or MQTT Device Services to send the POS Events. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a> and integrating with the <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a> to send the POS Events.</p>
-</li>
-<li>
-<p><strong>Security (bagging area) Scale</strong> (optional)</p>
-</li>
-</ol>
-<p>The Scale Device Service provided is specifically for a CAS USB scale. It is a good starting point for integrating other USB scales. </p>
-<p>Alternatively, the Scale Events can be sent to either the EdgeX REST or MQTT Device Services. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#scale-events">Scale Events</a> and integrating with the <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a>  to send the Scale Events.</p>
-<ol>
-<li><strong>Computer Vision Object Detection Model</strong> (optional)</li>
-</ol>
-<p>The OPENVINO™ based object detection model used by the Video Analytics Pipeline (VAP) service is  provided as an example and is not of production quality. For a robust solution you will need to provide an improved object detection model. </p>
-<p>The VAP and CV ROI Enter Exit service used in this reference design create the CV ROI Events which are sent to the <a href="device_services/#edgex-mqtt-device-service">EdgeX MQTT Device Service</a>. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI Events</a>.</p>
-<ol>
-<li><strong>Intel RFID Sensors</strong> (optional)
-   This reference design relies on <strong><a href="https://software.intel.com/en-us/retail/rfid-sensor-platform">Intel Retail Sensor Platform (RSP)</a></strong> which has its own custom EdgeX Device Service which it sends RFID events. These events are transformed into RFID ROI Events by the provided <strong>RSP Controller Event Handler</strong> service. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI Events</a>. </li>
-</ol>
-<p>Available Intel RSP RFID Sensors:  https://software.intel.com/en-us/retail/rfid-sensor-platform#buy . </p>
-<p>In addition you may want to replace or enhance the follow components.</p>
-<ol>
-<li><strong>Reconciler service</strong>
-   This service does the analytics of reconciling all the sensor events to identify suspect items. While it does a solid job, you may have your own analytics team which can improve on this reference implementation.</li>
-<li><strong>Detector Service</strong>
-   This service simply demonstrates how to send an email notification using the EdgeX Notifications service. The contents of the email is a simple JSON list of suspect items.</li>
-<li><strong>Product Lookup Service</strong>
-    This service is a very basic implementation of a Product Information Management Lookup service. It simply uses a JSON file as a database for the product information. This service should be replaced with an interface to a real Product Information Management system; commonly referred to as an Enterprise Resource Planning (ERP) System.</li>
-<li><strong>CV Region of Interest (ROI) Solution</strong>
-   If you chose to create your own complete CV object detection and CV ROI enter/exit solution you will need to exclude running the components in the <code>docker-compose.vap.yml</code> compose file and remove the <code>cv-region-of-interest</code> from the <code>docker-compose.loss-detection.yml</code> compose file. You will also need to integrate your CV solution with either the EdgeX REST or MQTT Device Services to send the CV ROI events. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI events</a> and integrating with the <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a>  to send CV ROI events.</li>
-<li>
-<p><strong>RFID services</strong>
-   If you choose to use a different RFID solution, in addition to providing your integration to generate the RFID ROI Events you will need to exclude running the components in the <code>docker-compose.rsp.yml</code> compose file and remove the <code>rsp-controller-event-handler</code> from the <code>docker-compose.loss-detection.yml</code> compose file.  You will also need to integrate your RFID solution with either the EdgeX REST or MQTT Device Services to send the RFID events. See below for details on <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI events</a> and integrating with these <a href="device_services/#edgex-rest-and-mqtt-device-services">Edgex Device Services</a> to send RFID ROI events.</p>
-</li>
-<li>
-<p><strong>Sending Notifications Through EdgeX</strong> (optional)</p>
-<p>The EdgeX notifications service can be configured to send alerts via SMS, Email, Rest call and various other means. First, you'll need to set environment variable overrides for <code>Smtp_Host</code> and <code>Smtp_Port</code> in config-seed, config-seed will inject these variables into the notification service's registry. Additional notification service configuration properties can be found <a href="https://docs.edgexfoundry.org/Ch-AlertsNotifications.html#configuration-properties" title="EdgeX Alerts &amp; Notifications">here</a>.</p>
-<p>Below is the example docker-compose snippets for sending an Email notification.</p>
-<p>This is the config-seed environment section add this to <code>docker-compose.edgex.yml</code> under the config-seed service.</p>
-<p><code>toml
-environment:
-  &lt;&lt;: *common-variables
-  Smtp_Host: &lt;host name&gt;
-  Smtp_Port: 25
-  Smtp_Password: &lt;password if applicable&gt;
-  Smtp_Sender: &lt;some email&gt;
-  Smtp_Subject: EdgeX Notification Suspect List</code></p>
-<p>this snippet adds a development SMTP server smtp4dev to your <code>docker-compose.loss-detection.yml</code>, if you want to use Gmail or another server this step can be skipped.</p>
-<p><code>toml
-smtp-server:
-  image: rnwood/smtp4dev:linux-amd64-v3
-  ports:
-    - "3000:80"
-    - "2525:25"
-  restart: "on-failure:5"
-  container_name: smtp-server
-  networks:
-    - theft-detection-app_edgex-network</code></p>
-<p>When the reconciler receives a payment-start event it will send a message to the loss-detector containing the suspect items list.  The loss-detector sends these alerts as emails through the EdgeX notification service. The loss-detector initiates the connection to the EdgeX notifications service, so to change the message type from email to something else you would need to update the loss-detector.</p>
-</li>
-</ol>
+<p>To change the message type from email to a different medium, you must update the loss-detector.</p>
+<h3 id="step-1-set-environment-variables">Step 1: Set Environment Variables</h3>
+<p>Set environment variable overrides for <code>Smtp_Host</code> and <code>Smtp_Port</code> in 'config-seed', which will inject these variables into the notification service's registry. </p>
+<p>Additional notification service configuration properties are <a href="https://docs.edgexfoundry.org/Ch-AlertsNotifications.html#configuration-properties" title="EdgeX Alerts &amp; Notifications">here</a>.</p>
+<h3 id="step-2-add-code-to-the-config-seed-environment-section">Step 2: Add code to the config-seed Environment Section</h3>
+<p>The code snippet below is a docker-compose example that sends an email notification. Add this code to the config-seed environment section in <code>docker-compose.edgex.yml</code>, under the config-seed service.</p>
+<div class="codehilite"><pre><span></span><span class="nt">environment</span><span class="p">:</span>
+  <span class="nt">&lt;&lt;</span><span class="p">:</span> <span class="nv">*common-variables</span>
+  <span class="nt">Smtp_Host</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;host name&gt;</span>
+  <span class="nt">Smtp_Port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">25</span>
+  <span class="nt">Smtp_Password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;password if applicable&gt;</span>
+  <span class="nt">Smtp_Sender</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;some email&gt;</span>
+  <span class="nt">Smtp_Subject</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">EdgeX Notification Suspect List</span>
+</pre></div>
+
+
+<h3 id="step-3-add-smtp-server-to-compose-file-optional">Step 3: Add SMTP Server to compose file (optional)</h3>
+<p>The snipped below adds a development SMTP server smtp4dev to your <code>docker-compose.loss-detection.yml</code>. 
+Skip this step if you want to use Gmail or another server.</p>
+<div class="codehilite"><pre><span></span><span class="nt">smtp-server</span><span class="p">:</span>
+  <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rnwood/smtp4dev:linux-amd64-v3</span>
+  <span class="nt">ports</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="s">&quot;3000:80&quot;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&quot;2525:25&quot;</span>
+  <span class="nt">restart</span><span class="p">:</span> <span class="s">&quot;on-failure:5&quot;</span>
+  <span class="nt">container_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">smtp-server</span>
+  <span class="nt">networks</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">theft-detection-app_edgex-network</span>
+</pre></div>
+
+
 <h2 id="data-dictionary">Data Dictionary</h2>
-<p>The following is the data dictionary for the fields found in the JSON object for all the above <a href="rtsf_at_checkout_events/checkout_events/#rtsf-at-checkout-events">RTSF at Checkout Events</a>.</p>
+<p>The data dictionary table below describes the JSON object fields for the <a href="rtsf_at_checkout_events/checkout_events/#rtsf-at-checkout-events">Real Time Sensor Fusion for Loss Detection at Checkout Events</a>.</p>
 <table>
 <thead>
 <tr>
@@ -853,7 +1182,7 @@ smtp-server:
 <td>roi_name</td>
 <td>string</td>
 <td><a href="rtsf_at_checkout_events/checkout_events/#cv-roi-events">CV ROI</a> &amp; <a href="rtsf_at_checkout_events/checkout_events/#rfid-roi-events">RFID ROI</a></td>
-<td>Name of the region that the associate product was identified with. See the <a href="configuration/configuration/#configuration">Configuration</a> section above for details on how these names after configured.</td>
+<td>Name of the region that the associate product was identified with. See the <a href="configuration/#configuration">Configuration</a> section above for details on how these names after configured.</td>
 </tr>
 <tr>
 <td>epc</td>
@@ -863,32 +1192,121 @@ smtp-server:
 </tr>
 </tbody>
 </table>
-<h2 id="references-and-links-to-the-documentation-of-the-individual-components">References and links to the documentation of the individual components</h2>
+<h2 id="references-and-links">References and Links</h2>
 <blockquote>
 <p>TODO: Update Links to individual RTSF at Checkout when open sourced</p>
 </blockquote>
-<h4 id="application-services">Application Services</h4>
-<p>Reconciler:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-event-reconciler </p>
-<p>Product Lookup:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-product-lookup </p>
-<p>RSP Controller Event Handler: https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-rsp-controller-event-handler</p>
-<p>Loss Detector:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-loss-detector </p>
-<h4 id="device-services">Device Services</h4>
-<p>Device Scale:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-device-scale </p>
-<h4 id="helper-services">Helper Services</h4>
-<p>CV ROI Service:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-cv-region-of-interest </p>
-<p>Event Simulator:  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-event-simulator </p>
-<h4 id="intel-rsp-rfid-solution">Intel RSP RFID Solution</h4>
-<p>RSP Getting started: https://software.intel.com/en-us/getting-started-with-intel-rfid-sensor-platform-on-linux-6-use-the-web-portal  </p>
-<p>RSP installer: https://github.com/intel/rsp-sw-toolkit-installer  </p>
-<p>RSP gateway: https://github.com/intel/rsp-sw-toolkit-gw </p>
-<p>RSP user guides: https://github.com/intel/rsp-sw-toolkit-gw/tree/master/docs </p>
-<h4 id="other">Other</h4>
-<p>Documentation for Intel Video Analytics Serving: 
-https://github.com/intel/video-analytics-serving  </p>
-<p>Documentation for OPENVINO™: 
-https://software.intel.com/en-us/openvino-toolkit/documentation/featured </p>
-<p>GitHub Repos for EdgeX: 
-https://github.com/edgexfoundry</p>
+<h3 id="application-services">Application Services</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reconciler</td>
+<td>https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-event-reconciler</td>
+</tr>
+<tr>
+<td>Product Lookup</td>
+<td>https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-product-lookup</td>
+</tr>
+<tr>
+<td>RSP Controller Event Handler</td>
+<td>https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-rsp-controller-event-handler</td>
+</tr>
+<tr>
+<td>Loss Detector</td>
+<td>https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-loss-detector</td>
+</tr>
+</tbody>
+</table>
+<h3 id="device-service">Device Service</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Device Scale</td>
+<td>https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-device-scale</td>
+</tr>
+</tbody>
+</table>
+<h3 id="helper-services">Helper Services</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CV ROI Service</td>
+<td>https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-cv-region-of-interest</td>
+</tr>
+<tr>
+<td>Event Simulator</td>
+<td>https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-event-simulator</td>
+</tr>
+</tbody>
+</table>
+<h3 id="intel-rsp-rfid-solution">Intel® RSP RFID Solution</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intel® RSP Getting started</td>
+<td>https://software.intel.com/en-us/getting-started-with-intel-rfid-sensor-platform-on-linux-6-use-the-web-portal</td>
+</tr>
+<tr>
+<td>Intel® RSP installer</td>
+<td>https://github.com/intel/rsp-sw-toolkit-installer</td>
+</tr>
+<tr>
+<td>Intel® RSP gateway</td>
+<td>https://github.com/intel/rsp-sw-toolkit-gw</td>
+</tr>
+<tr>
+<td>Intel® RSP user guides</td>
+<td>https://github.com/intel/rsp-sw-toolkit-gw/tree/master/docs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="other">Other</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intel® Video Analytics Serving Documentation</td>
+<td>https://github.com/intel/video-analytics-serving</td>
+</tr>
+<tr>
+<td>Intel® Distribution of OpenVINO toolkit Documentation</td>
+<td>https://software.intel.com/en-us/openvino-toolkit/documentation/featured</td>
+</tr>
+<tr>
+<td>EdgeX GitHub Repos</td>
+<td>https://github.com/edgexfoundry</td>
+</tr>
+</tbody>
+</table>
                 
                   
                 
@@ -910,7 +1328,7 @@ https://github.com/edgexfoundry</p>
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="configuration/configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
@@ -944,7 +1362,7 @@ https://github.com/edgexfoundry</p>
       
     </div>
     
-      <script src="assets/javascripts/application.c648116f.js"></script>
+      <script src="assets/javascripts/application.ac79c3b0.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
       

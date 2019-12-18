@@ -1,3 +1,5 @@
 .env
 .idea
 /site
+/docs/assets/fonts
+/docs/assets/javascripts

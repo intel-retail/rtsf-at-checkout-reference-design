@@ -52,9 +52,22 @@ vas:
 	./build.sh build=build_gstreamer
 
 rsp:
+	git clone https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service && \
+	cd rsp-sw-toolkit-im-suite-mqtt-device-service && \
+    docker build \
+    	 --build-arg http_proxy \
+    	 --build-arg https_proxy \
+    	 -t rsp/mqtt-device-service:dev \
+    	 .;
 	git clone https://github.com/intel/rsp-sw-toolkit-installer && \
 	cd rsp-sw-toolkit-installer/docker && \
 	./build.sh
+
+clean-deps:
+	rm -rf rsp-sw-toolkit-im-suite-mqtt-device-service
+	rm -rf rsp-sw-toolkit-installer
+	rm -rf video-analytics-serving
+	rm -rf device-rest-go
 
 all: simulator docker
 
@@ -62,7 +75,7 @@ simulator:
 	cd rtsf-at-checkout-event-simulator; \
 	go build -o event-simulator
 
-clean: down
+clean: down clean-deps
 	rm -f rtsf-at-checkout-event-simulator/event-simulator && \
 	docker rmi $$(docker images | grep rtsf-at-checkout | awk '{print $$3}') && \
 	docker volume prune -f && \
@@ -115,7 +128,7 @@ product-lookup:
 		-t rtsf-at-checkout/product-lookup:$(DOCKER_TAG) \
 		.
 
-event-handler:
+rsp-event-handler:
 	cd rtsf-at-checkout-rsp-controller-event-handler; \
 	docker build \
 	    --build-arg http_proxy \

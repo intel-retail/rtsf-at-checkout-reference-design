@@ -1,8 +1,8 @@
-## Edgex REST and MQTT Device services
+## EdgeX REST and MQTT Device services
 
 The EdgeX REST and MQTT device services allow for an easy point of integration with this reference design. The above events can be sent to the underlying EdgeX framework using either of these device services. Note that the **Intel Retail Sensor Platform (RSP) **RFID solution has it's own custom EdgeX Device Service. 
 
-#### Edgex REST Device service
+#### EdgeX REST Device service
 
 This reference design has configured the EdgeX REST device service to have the following devices which accept the above events.  
 
@@ -51,7 +51,7 @@ Example URL for POSTing `basket-open` JSON data:
 }
 ```
 
-#### Edgex MQTT Device service
+#### EdgeX MQTT Device service
 
 This reference design has configured the EdgeX MQTT device service to have the following devices which accept the above events.
 

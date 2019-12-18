@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
     
     
       
@@ -59,7 +59,34 @@
     
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-154731555-1", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
       
     
     
@@ -158,70 +185,46 @@
       
 
 
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
-    <label class="md-nav__link" for="nav-2">
-      Configuration
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
-        Configuration
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
   <li class="md-nav__item">
-    <a href="../../configuration/configuration/" title="Configuration" class="md-nav__link">
+    <a href="../../configuration/" title="Configuration" class="md-nav__link">
       Configuration
     </a>
   </li>
 
-        
-      </ul>
-    </nav>
-  </li>
-
     
       
       
       
 
 
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
+  <li class="md-nav__item">
+    <a href="../../device_services/" title="Device services" class="md-nav__link">
       Device services
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Device services
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../device_services/" title="Index" class="md-nav__link">
-      Index
     </a>
   </li>
 
-        
-      </ul>
-    </nav>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../troubleshooting/" title="Troubleshooting" class="md-nav__link">
+      Troubleshooting
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../unicenta/" title="Instructions for Integrating with uniCenta oPOS" class="md-nav__link">
+      Instructions for Integrating with uniCenta oPOS
+    </a>
   </li>
 
     
@@ -234,13 +237,13 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
     
-    <label class="md-nav__link" for="nav-4">
+    <label class="md-nav__link" for="nav-6">
       Rtsf at checkout events
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
+      <label class="md-nav__title" for="nav-6">
         Rtsf at checkout events
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -336,42 +339,6 @@
   </li>
 
     
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
-    <label class="md-nav__link" for="nav-5">
-      Troubleshooting
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
-        Troubleshooting
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../troubleshooting/" title="Index" class="md-nav__link">
-      Index
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
   </ul>
 </nav>
                   </div>
@@ -445,10 +412,10 @@
                 
                 <h2 id="event-simulation">Event Simulation</h2>
 <h4 id="event-simulator">Event Simulator</h4>
-<p>This reference design includes the <strong>Event Simulator</strong> utility. This simulator reads a JSON based script that defines the event data and wait times between sending each event, which it sends to the <code>Edgex REST or MQTT Device service</code>. </p>
+<p>This reference design includes the <strong>Event Simulator</strong> utility. This simulator reads a JSON based script that defines the event data and wait times between sending each event, which it sends to the <code>EdgeX REST or MQTT Device service</code>. </p>
 <p>Please note that before the simulator is run, ensure the EdgeX stack is running first via  <code>make run</code> from top folder. </p>
 <p>To supply a customized simulation script, use the -f flag like this example: </p>
-<p>​   <code>./checkout-lane-simulator –f tests/checkoutEvents.json</code></p>
+<p>​   <code>./event-simulator –f tests/checkoutEvents.json</code></p>
 <p>Below is an example script for sending POS and Scale events.  Scripts are provided for various <code>RTSF at Checkout</code> scenarios.</p>
 <blockquote>
 <p>Note: The simulator adds the <code>event_time</code> field to each event so that the values are dynamic.</p>
@@ -600,9 +567,9 @@
 
 <p>If having problems or issues on running EdgeX stack, please refer to the latter section <a href="#troubleshooting-guide">Troubleshooting Guide</a> on some of common issues. </p>
 <h4 id="postman">PostMan</h4>
-<p>The <a href="https://www.getpostman.com/">PostMan</a> tool can be used to send simulated events to the EdgeX REST Device service. See above <a href="#posting-to-edgex-rest-device-service">POSTing to EdgeX REST Device Service</a> section for details on how to POST to the Edgex REST Device service.</p>
+<p>The <a href="https://www.getpostman.com/">PostMan</a> tool can be used to send simulated events to the EdgeX REST Device service. See above <a href="#posting-to-edgex-rest-device-service">POSTing to EdgeX REST Device Service</a> section for details on how to POST to the EdgeX REST Device service.</p>
 <h4 id="mqttfx">MQTT.FX</h4>
-<p>The <a href="https://mqttfx.jensd.de/">MQTT.FX</a> tool or tools like it can be used to send simulated events to the EdgeX MQTT Device service. See above <a href="Publishing to EdgeX MQTT Device Service">Publishing to EdgeX MQTT Device Service</a> section for details on how to publish to the Edgex REST Device service.</p>
+<p>The <a href="https://mqttfx.jensd.de/">MQTT.FX</a> tool or tools like it can be used to send simulated events to the EdgeX MQTT Device service. See above <a href="Publishing to EdgeX MQTT Device Service">Publishing to EdgeX MQTT Device Service</a> section for details on how to publish to the EdgeX REST Device service.</p>
                 
                   
                 
@@ -638,20 +605,6 @@
           </a>
         
         
-          <a href="../../troubleshooting/" title="Index" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Index
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
       </nav>
     </div>
   
@@ -672,7 +625,7 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application.c648116f.js"></script>
+      <script src="../../assets/javascripts/application.ac79c3b0.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

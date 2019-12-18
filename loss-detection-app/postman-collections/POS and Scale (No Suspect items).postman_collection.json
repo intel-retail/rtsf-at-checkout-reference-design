@@ -1,0 +1,400 @@
+{
+	"info": {
+		"_postman_id": "63afcd16-2271-40b6-a898-7cc875636e42",
+		"name": "POS and Scale (No Suspect items)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basket Open",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013930000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/basket-open",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"basket-open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scanned Item (Trail Mix)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000571111\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Trail Mix\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 5.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013940000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"scanned-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scale Item  (Trail Mix)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013950000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-scale-rest",
+						"scale-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scanned Item (Red Wine)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000884389\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Red Wine\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 10.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013960000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"scanned-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scale Item  (Red Wine)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013970000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-scale-rest",
+						"scale-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scanned Item (Steak)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000735797\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Steak\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 8.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013980000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"scanned-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scale Item (Steak)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 7.1,\n    \"units\": \"lbs\",\n    \"event_time\":15736013990000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-scale-rest",
+						"scale-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Start",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014100000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/payment-start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"payment-start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Success",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014200000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/payment-success",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"payment-success"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Basket Close",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014300000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/basket-close",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"basket-close"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -5,3 +5,4 @@ go.sum
 debug
 .vscode
 event-reconciler
+**/events/test.log

@@ -93,6 +93,10 @@ func removeRTTLItemFromBuffer(rttlogReading RTTLogEventEntry) error {
 }
 
 func deleteLastScaleItem(list *[]*ScaleEventEntry) {
+	if list == nil || len(*list) < 1 {
+		return
+	}
+
 	*list = (*list)[:len(*list)-1]
 }
 
@@ -100,10 +104,10 @@ func wrapSuspectItems() ([]byte, error) {
 	suspectList := SuspectLists{
 		CVSuspect:    getSuspectCVItems(),
 		RFIDSuspect:  getSuspectRFIDItems(),
-		ScaleSuspect: SuspectScaleItems,
+		ScaleSuspect: getSuspectScaleItems(),
 	}
 
-	byteSuspects, err := json.Marshal(suspectList)
+	byteSuspects, err := json.MarshalIndent(suspectList,"","   ")
 	if err != nil {
 		return nil, err
 	}
@@ -190,6 +194,29 @@ func getExistingRFIDDataByEPC(rfidReading RFIDEventEntry) *RFIDEventEntry {
 		}
 	}
 	return nil
+}
+
+func getSuspectScaleItems() map[int64]*ScaleEventEntry {
+
+	scaleEntries := make(map[int64]*ScaleEventEntry)
+
+	for key, scaleItem := range SuspectScaleItems {
+		newEntry := ScaleEventEntry{
+			Delta:        scaleItem.Delta,
+			Total:        scaleItem.Total,
+			MinTolerance: scaleItem.MinTolerance,
+			MaxTolerance: scaleItem.MaxTolerance,
+			Units:        scaleItem.Units,
+			SettlingTime: scaleItem.SettlingTime,
+			MaxWeight:    scaleItem.MaxWeight,
+			LaneId:       scaleItem.LaneId,
+			ScaleId:      scaleItem.ScaleId,
+			EventTime:    scaleItem.EventTime,
+			Status:       scaleItem.Status,
+		}
+		scaleEntries[key] = &newEntry
+	}
+	return scaleEntries
 }
 
 func getSuspectCVItems() []CVEventEntry {

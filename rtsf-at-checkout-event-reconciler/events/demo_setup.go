@@ -141,7 +141,7 @@ func InitWebSocketConnection(edgexSdk *appsdk.AppFunctionsSDK) {
 func sendWebsocketMessage(message []byte, edgexcontext *appcontext.Context) {
 
 	if conn == nil {
-		edgexcontext.LoggingClient.Warn("websocket not connected")
+		edgexcontext.LoggingClient.Trace("websocket not connected")
 		return
 	}
 

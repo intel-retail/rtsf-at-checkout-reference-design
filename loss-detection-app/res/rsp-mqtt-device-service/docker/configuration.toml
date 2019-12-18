@@ -1,0 +1,132 @@
+[Writable]
+LogLevel = "DEBUG"
+
+[Service]
+Host = "mqtt-device-service"
+Port = 49982
+ConnectRetries = 3
+Labels = []
+OpenMsg = "mqtt-device-service started"
+Timeout = 5000
+EnableAsyncReadings = true
+AsyncBufferSize = 16
+
+[Registry]
+Host = "edgex-core-consul"
+Port = 8500
+CheckInterval = "10s"
+FailLimit = 3
+FailWaitTime = 10
+Type = "consul"
+
+[Logging]
+EnableRemote = true
+
+[Clients]
+  [Clients.Data]
+  Name = "edgex-core-data"
+  Protocol = "http"
+  Host = "edgex-core-data"
+  Port = 48080
+  Timeout = 50000
+
+  [Clients.Metadata]
+  Name = "edgex-core-metadata"
+  Protocol = "http"
+  Host = "edgex-core-metadata"
+  Port = 48081
+  Timeout = 50000
+
+  [Clients.Logging]
+  Name = "edgex-support-logging"
+  Protocol = "http"
+  Host = "edgex-support-logging"
+  Port = 48061
+
+[Device]
+  DataTransform = true
+  InitCmd = ""
+  InitCmdArgs = ""
+  MaxCmdOps = 128
+  MaxCmdValueLen = 256
+  RemoveCmd = ""
+  RemoveCmdArgs = ""
+  ProfilesDir = "./res"
+
+# Pre-define Devices
+[[DeviceList]]
+  Name = "rsp-controller"
+  Profile = "RSP.Controller.Device.MQTT.Profile"
+  Description = "RSP Controller Device MQTT Broker Connection"
+  Labels = [ "MQTT", "RSP", "RSP Controller", "RFID"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       Scheme = "tcp"
+
+# Driver configs
+[Driver]
+# device name used for sending data received on the IncomingTopics into Edgex
+ControllerName = "rsp-controller"
+# maximum wait time in seconds for a command request to time out
+MaxWaitTimeForReq = "10"
+# maximum amount of time to wait for connection/re-connection to mqtt broker before we panic()
+MaxReconnectWaitSeconds = "600"
+# when set to "true", this will diable certificate checking of TLS connections to the MQTT broker
+TlsInsecureSkipVerify = "true"
+# topic to send commands on
+CommandTopic = "rfid/controller/command"
+# topic to listen for responses on
+ResponseTopic = "rfid/controller/response"
+# Incoming topics containing data to be ingested
+IncomingTopics = "rfid/controller/events"
+
+# RspControllerNotifications is the types of notifications we want to receive from the RSP Controller
+RspControllerNotifications = "\
+  scheduler_run_state,\
+  sensor_config_notification,\
+  sensor_connection_state_notification"
+
+# JSONRPC methods are validated against schemas in this directory;
+# the schema names are looked up via <schemasDir>/<incoming | responses>/<method>_schema.json
+#
+# If a message comes in on any of the IncomingTopics, it's checked for a `method`,
+# which is used to look up a schema at "{SchemasDir}/incoming/{method}_schema.json".
+# The entire message (including JSONRPC elemnets) is validated against that schema.
+# If it doesn't have a `method`, the schema doesn't exist, or the validation fails,
+# the message is dropped and an error is logged.
+#
+# For messages that come in on the ResponseTopic, it's checked for the JSONRPC
+# elements. If the message has an `error` element, it's logged and the generic
+# error response is sent back to EdgeX. If it has `params`, they are validated
+# (without the rest of the JSONRPC message) against the schema located at
+# "{SchemasDir/responses/{meethod}_schema.json". If the method or schema is
+# missing, or the validation fails, an error is logged and the message is dropped.
+#
+# There aren't Command schemas, since the CommandTopic is used for publishing
+# messages constructed within the service.
+SchemasDir = "/res/schemas"
+
+# Mqtt Connection Info
+MqttScheme = "tcp"
+MqttHost = "mosquitto-server"
+MqttPort = "1883"
+MqttUser = ""
+MqttPassword = ""
+# keepalive in seconds
+MqttKeepAlive = "120"
+IncomingQos = "1"
+ResponseQos = "1"
+CommandQos = "1"
+MqttClientId = "MqttDeviceService"
+
+# Tag data decoder settings
+# sgtin decoder converts tag data into GS1 EPC Pure Identity URIs:
+#     `urn:epc:id:sgtin:{company prefix}.{indicator digit}{item ref}.{serial}`
+# bittag decoder settings decode tag data into URIs compliant with RFC-4151:
+#     `tag:{authorityName},{authorityDate}:{field1}.[...].{fieldN}`
+# where {field1} through {fieldN} are decimal representations of the tag's data.
+TagFormats = "sgtin,bittag"      # which conversions to attempt, in order
+TagBitBoundary = "8,44,44"          # bit lengths of tag data fields
+TagURIAuthorityName = "example.com" # fully-qualified domain name
+TagURIAuthorityDate = "2019-01-31"  # YYYY-MM-dd during which domain was owned
+SGTINStrictDecoding = "true"        # if true, tags with SGTIN headers must conform to GS1 standards

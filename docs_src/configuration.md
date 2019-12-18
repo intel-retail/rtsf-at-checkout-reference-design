@@ -14,7 +14,7 @@ The following items can be configured via the `Driver` section of the service's 
 
 #### EdgeX MQTT Device Service
 
-This reference design uses the [MQTT Device Service](https://github.com/edgexfoundry/device-mqtt-go) from Edgex with custom device profiles. These device profiles YAML files are located at  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go and are volume mounted into the device service's running Docker container.
+This reference design uses the [MQTT Device Service](https://github.com/edgexfoundry/device-mqtt-go) from EdgeX with custom device profiles. These device profiles YAML files are located at  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go and are volume mounted into the device service's running Docker container.
 
 The service's  [configuration.toml]( https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-mqtt-go/docker/configuration.toml ) file has been customized to add the devices to the ` DeviceList ` section for each device profile and the following `Driver` section settings have been customized:
 
@@ -35,7 +35,7 @@ The service's  [configuration.toml]( https://github.impcloud.net/loss-prevention
 
 #### EdgeX REST Device Service
 
-This reference design uses the [REST Device Service](https://github.com/edgexfoundry-holding/device-rest-go) [**TODO: Update link**] from Edgex Foundry with custom device profiles. These device profiles YAML files are located at   https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go and are volume mounted into the device service's running Docker container.
+This reference design uses the [REST Device Service](https://github.com/edgexfoundry-holding/device-rest-go) [**TODO: Update link**] from EdgeX Foundry with custom device profiles. These device profiles YAML files are located at   https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go and are volume mounted into the device service's running Docker container.
 
 The service's  [configuration.toml](  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-rest-go/docker/configuration.toml  ) file has been customized to add the devices to the ` DeviceList ` section for each device profile.
 
@@ -91,7 +91,7 @@ Below is an example of two facilities Staging and Checkout.
 
 Below is what the new configuration should look like.  
 
- ![RSP Configuration](../rsp-configuration.png)
+ ![RSP Configuration](./rsp-configuration.png)
 
 #### RSP Controller Event Handler
 

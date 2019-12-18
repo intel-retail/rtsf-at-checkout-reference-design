@@ -54,11 +54,11 @@ services:
       networks:
         - loss-detection-app_edgex-network
 
-    rsp-controller-event-handler:
+    rsp-event-handler:
       image: rtsf-at-checkout/rsp-controller-event-handler:dev
       restart: "on-failure:5" 
-      container_name: rsp-controller-event-handler
-      hostname: rsp-controller-event-handler
+      container_name: rsp-event-handler
+      hostname: rsp-event-handler
       ports:
         - 42222:48096
       networks:

@@ -5,8 +5,12 @@ theme:
   name: 'material'
   custom_dir: './docs_src/theme'
 plugins: []
+google_analytics:
+  - 'UA-154731555-1'
+  - 'auto'
 extra_css:
   - 'https://fonts.googleapis.com/icon?family=Material+Icons'
+  - './stylesheets/extra.css'
 extra_javascript:
   - 'https://unpkg.com/lunr/lunr.js'
 markdown_extensions:

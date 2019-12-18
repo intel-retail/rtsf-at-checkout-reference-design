@@ -82,7 +82,7 @@ func TestScaleBasketReconciliationDropDropScan4DropDrop(t *testing.T) {
 	assert.NotNil(t, ScaleData[0].AssociatedRTTLEntry)
 	assert.NotNil(t, ScaleData[len(ScaleData)-1].AssociatedRTTLEntry)
 	assert.Equal(t, len(SuspectScaleItems), 0)
-	assert.Equal(t, len(RttlogData[len(RttlogData)-1].AssociatedScaleItems), 3)
+	assert.Equal(t, len(RttlogData[len(RttlogData)-1].AssociatedScaleItems), 3) // last rttl has 3 scale events assoc
 	assert.False(t, RttlogData[len(RttlogData)-1].ScaleConfirmed)
 
 	scaleEvent4 := ScaleDrop(21) //outside of range, should not be consolidated with ItemA
@@ -185,6 +185,42 @@ func TestScaleBasketReconciliationDropDropScanScanScanDrop(t *testing.T) {
 	assert.Equal(t, ScaleData[len(ScaleData)-1].Total, expectedTotalWeight)
 	assert.True(t, RttlogData[len(RttlogData)-1].ScaleConfirmed)
 
+}
+
+func TestScaleBasketReconciliationScanHeavyItem_DropLightItem(t *testing.T) {
+	expectedTotalWeightOnScale := 0.0
+
+	BasketOpen()
+
+	RTTLScanItemA(1) // item weighs 10lbs
+
+	scaleEvent1 := ScaleDrop(5.0)
+	expectedTotalWeightOnScale = expectedTotalWeightOnScale + 5.0
+
+	scaleBasketReconciliation(scaleEvent1)
+
+	assert.Equal(t, len(SuspectScaleItems), 1)
+	assert.Nil(t, ScaleData[len(ScaleData)-1].AssociatedRTTLEntry)
+	assert.False(t, RttlogData[len(RttlogData)-1].ScaleConfirmed)
+}
+
+func TestScaleBasketReconciliationScanLightItem_DropHeavyItem(t *testing.T) {
+
+	expectedTotalWeightOnScale := 0.0
+
+	BasketOpen()
+
+	RTTLScanItemA(1) // item weighs 10lbs
+
+	scaleEvent1 := ScaleDrop(20.0)
+	expectedTotalWeightOnScale = expectedTotalWeightOnScale + 20.0
+
+	scaleBasketReconciliation(scaleEvent1)
+	// should produce a suspect item
+
+	assert.Equal(t, len(SuspectScaleItems), 1)
+	assert.Nil(t, ScaleData[len(ScaleData)-1].AssociatedRTTLEntry)
+	assert.False(t, RttlogData[len(RttlogData)-1].ScaleConfirmed)
 }
 
 func TestCheckScaleConfirmedQuantityLbsScaleConfirmedPerfectMatch(t *testing.T) {

@@ -96,10 +96,10 @@ func ProcessCheckoutEvents(edgexcontext *appcontext.Context, params ...interface
 		sendWebsocketMessage(msg, edgexcontext)
 	}
 
-	edgexcontext.LoggingClient.Debug(fmt.Sprintf("RTTLog: %v", RttlogData))
-	edgexcontext.LoggingClient.Debug(fmt.Sprintf("ScaleData: %v", ScaleData))
-	edgexcontext.LoggingClient.Debug(fmt.Sprintf("CvData: %v", CurrentCVData))
-	edgexcontext.LoggingClient.Debug(fmt.Sprintf("RfidData: %v", CurrentRFIDData))
+	edgexcontext.LoggingClient.Trace(fmt.Sprintf("RTTLog: %v", RttlogData))
+	edgexcontext.LoggingClient.Trace(fmt.Sprintf("ScaleData: %v", ScaleData))
+	edgexcontext.LoggingClient.Trace(fmt.Sprintf("CvData: %v", CurrentCVData))
+	edgexcontext.LoggingClient.Trace(fmt.Sprintf("RfidData: %v", CurrentRFIDData))
 
 	return false, nil
 }
@@ -246,7 +246,7 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 				edgexcontext.LoggingClient.Error(fmt.Sprintf("Product Lookup failed for product: %s. Not adding to RTTL. Error Message: %s", rttLogReading.ProductId, err.Error()))
 				return
 			}
-			edgexcontext.LoggingClient.Debug(fmt.Sprintf("Found product detail for %s", rttLogReading.ProductId))
+			edgexcontext.LoggingClient.Trace(fmt.Sprintf("Found product detail for %s", rttLogReading.ProductId))
 		} else {
 			rttLogReading.ProductDetails = ProductDetails{"", rttLogReading.Quantity, rttLogReading.Quantity, false}
 		}
@@ -271,10 +271,14 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 			if err != nil {
 				edgexcontext.LoggingClient.Error("Failed to marshal suspect items for output")
 			}
-			edgexcontext.LoggingClient.Info("Pushing suspect items to message bus")
+			edgexcontext.LoggingClient.Info("Suspect items detected, sending to message bus")
 			//export suspect  items
+			// Not using logger so that it pretty prints
 			fmt.Println(string(outputData))
 			edgexcontext.Complete(outputData)
+		} else {
+			// Not using logger so it stands out in docker log
+			fmt.Println("No suspect items detected")
 		}
 
 	case paymentSuccessEvent:
@@ -284,7 +288,7 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 		edgexcontext.LoggingClient.Error(fmt.Sprintf("Unkown POS event: %s", eventName))
 	}
 
-	edgexcontext.LoggingClient.Debug(fmt.Sprintf("Adding %s to RTT Log", eventName))
+	edgexcontext.LoggingClient.Trace(fmt.Sprintf("Adding %s to RTT Log", eventName))
 
 	if len(RttlogData) == 0 {
 		RttlogData = append(RttlogData, rttLogReading)

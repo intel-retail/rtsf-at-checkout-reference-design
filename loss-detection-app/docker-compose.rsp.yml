@@ -1,14 +1,29 @@
-version: "3.2"
+version: "3.4"
 
+networks:
+  loss-detection-app_edgex-network:
+    external: true
 
 volumes:
   rsp-cache:
   rsp-config:
   
-services:  
-  avahi:
+services:
+  rsp-mqtt-device-service:
+    image: rsp/mqtt-device-service:dev
+    container_name: rsp-mqtt-device-service
+    networks:
+      - loss-detection-app_edgex-network
+    extra_hosts:
+      - "mosquitto-server:172.17.0.1"
+    volumes:
+      - ./res/rsp-mqtt-device-service/docker:/res/docker
+      - ./res/rsp-mqtt-device-service/schemas/inventory_event_schema.json:/res/schemas/incoming/inventory_event_schema.json
+
+  rsp-avahi:
     image: rsp/avahi:0.1
-    # environment:
+    container_name: rsp-avahi
+      # environment:
       # LOG_LEVEL: debug
       # CAP_HOST_MANAGEMENT: 1
     # ipc: host
@@ -26,16 +41,18 @@ services:
       # placement:
         # constraints: [node.platform.os == linux]
 
-  ntp:
-    image: rsp/ntp:0.1   
+  rsp-ntp:
+    image: rsp/ntp:0.1
+    container_name: rsp-ntp
     network_mode: host
     cap_add:
      - SYS_TIME
     restart: "on-failure:5"
 
-      
+
   rsp-gw:
     image: rsp/sw-toolkit-gw:0.1
+    container_name: rsp-gw
     environment:
       DOCKER_HOST_IP: ${HOST_IP}
       DOCKER_HOSTNAME: ${HOSTNAME}

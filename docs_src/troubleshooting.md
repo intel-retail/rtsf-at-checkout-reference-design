@@ -20,7 +20,7 @@ We can type “device” in the search bar and see all the device service contai
 
 **[TODO: UPDATE SCREENSHOT WITH VALID T&B NAMES]** 
 
-![Portainer](../portainer.PNG)
+![Portainer](./portainer.PNG)
 
 However, if the state is “running”, we can dig a little deeper by viewing the logs. Though, before we dig into the logs, it is important to call out that we will want to ensure that the logging level is set to “TRACE” for each service we intended to inspect. This can be accomplished by going to Consul located at [http://localhost:8500](http://localhost:8500/), and navigating to the LogLevel property located in the Writable section of the service of interest. 
 
@@ -30,7 +30,7 @@ However, if the state is “running”, we can dig a little deeper by viewing th
 
 After ensuring that data is flowing properly to the Device Services, the next place to check would be EdgeX’s Core Data service. You can follow the same steps as above to see if data is flowing and check the logs. However, using a tool such as Robo 3T or Mongo Compass to inspect the database is the best way to ensure data has been properly processed by Core Data
 
-![MongoDB contents](../MongoDB-contents.png)
+![MongoDB contents](./MongoDB-contents.png)
 
 You’ll find the events in the “coredata” database under the “event” collection and more importantly the reading values under the “reading” collection. If you sort by “created” in descending order and filter for the specific device that is giving you trouble, it can help to narrow down the data you are looking for. It is also a good idea to check and make sure all the device names and values are what you expect them to be. It is often the case that a device-name or reading-name may not match what it is intended and this could cause issues in your app service. 
 

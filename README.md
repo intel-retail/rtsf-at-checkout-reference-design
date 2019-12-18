@@ -1,5 +1,5 @@
 # rtsf-at-checkout-reference-design
 
-Please refer to the following link for complete documentation of the *Real Time Sensor Fusion for Loss Detection at Checkout Reference Design*
+See the following link for complete *Real Time Sensor Fusion for Loss Detection at Checkout Reference Design* documentation.
 
-https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design
+https://pages.github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/

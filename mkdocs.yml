@@ -3,8 +3,21 @@ docs_dir: ./docs_src
 site_dir: ./docs
 theme:
   name: 'material'
-  custom_dir: './docs_src/theme'
 plugins: []
+nav:
+  - 'index.md'
+  - Phases:
+      - './phases/phase1.md'
+      - './phases/phase2.md'
+      - './phases/phase3.md'
+  - "RTSF at Checkout Events":
+    - './rtsf_at_checkout_events/checkout_events.md'
+    - './rtsf_at_checkout_events/event_simulation.md'
+  - 'device_services.md'
+  - 'configuration.md'
+  - 'notifications.md'
+  - 'troubleshooting.md'
+  - 'references.md'
 google_analytics:
   - 'UA-154731555-1'
   - 'auto'
@@ -15,3 +28,4 @@ extra_javascript:
   - 'https://unpkg.com/lunr/lunr.js'
 markdown_extensions:
   - codehilite
+  - admonition

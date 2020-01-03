@@ -3,7 +3,7 @@
 
 .PHONY: run-portainer run-base run-vap run-full all simulator docker
 
-DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup event-handler
+DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup rsp-event-handler
 
 .PHONY: $(DOCKERS)
 

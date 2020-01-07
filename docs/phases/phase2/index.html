@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -40,17 +40,17 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.30686662.css">
       
       
     
     
-      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -493,26 +493,26 @@
 <p>If you don't currently have a POS of choice, we recommend using an open source POS to get familiar with the POS integration. The following guide has general integration instructions for integrating your POS of choice.</p>
 <h3 id="upload-products-list">Upload Products List</h3>
 <p>For any POS you choose, you'll want to ensure that it is loaded with the products below. It is provided in CSV format:</p>
-<div class="codehilite"><pre><span></span><span class="err">Reference,Barcode,Name,Buy Price,Sell Price,Tax,Category,Default,Supplier</span>
-<span class="err">ABE391,013000006408,Ketchup,$0.00,$1.99,000,ALL,1,Jonah Albert</span>
-<span class="err">PKL121,049000050158,Sprite 2L,$0.00,$1.99,000,ALL,2,Benjamin Wooten</span>
-<span class="err">DKK435,021200519598,Ocelo Sponges,$0.00,$4.99,000,ALL,3,Garrison Calhoun</span>
-<span class="err">SCO091,028400159609,Ruffles,$0.00,$2.99,000,ALL,4,Tanner Hampton</span>
-<span class="err">POU311,052000338775,Gatorade,$0.00,$1.99,000,ALL,5,Gil Mayer</span>
-<span class="err">KFS842,038000183713,Pringles,$0.00,$2.99,000,ALL,6,Scott Herman</span>
-<span class="err">IFG952,048001353565,Mayonnaise,$0.00,$5.99,000,ALL,7,Kermit Bean</span>
-<span class="err">OLP122,043000955437,Koolaid Fruit Punch,$0.00,$0.99,000,ALL,7,Ben Ben</span>
-<span class="err">IKA931,022000008916,Extra Peppermint Gum,$0.00,$1.99,000,ALL,7,Kermit Bean</span>
-<span class="err">QWE211,051700988235,Finish Dishwasher Tablet,$0.00,$12.99,000,ALL,7,Kermit Bean</span>
-<span class="err">IKA321,012000163173,Mountain Dew 6 Pack,$0.00,$3.49,000,ALL,7,Ben Ben</span>
-<span class="err">YKG351,024000566670,Canned Green Beans,$0.00,$0.89,000,ALL,7,Ben Ben</span>
-<span class="err">ABE392,00000000324588,Red Apples,$0.00,$0.99,000,ALL,1,Jonah Albert</span>
-<span class="err">PKL125,00000000571111,Trail Mix,$0.00,$5.99,000,ALL,2,Benjamin Wooten</span>
-<span class="err">DKK439,00000000884389,Red Wine,$0.00,$10.99,000,ALL,3,Garrison Calhoun</span>
-<span class="err">SCO098,00000000735797,Steak,$0.00,$8.99,000,ALL,4,Tanner Hampton</span>
-<span class="err">POU312,00000000388771,Cheez It,$0.00,$3.99,000,ALL,5,Gil Mayer</span>
-<span class="err">KFS843,00000000830881,Salsa,$0.00,$4.99,000,ALL,6,Scott Herman</span>
-<span class="err">IFG953,00000000941969,Quaker Oats,$0.00,$8.99,000,ALL,7,Kermit Bean</span>
+<div class="codehilite"><pre><span></span><span class="n">Reference</span><span class="p">,</span><span class="n">Barcode</span><span class="p">,</span><span class="n">Name</span><span class="p">,</span><span class="n">Buy</span> <span class="n">Price</span><span class="p">,</span><span class="n">Sell</span> <span class="n">Price</span><span class="p">,</span><span class="n">Tax</span><span class="p">,</span><span class="n">Category</span><span class="p">,</span><span class="k">Default</span><span class="p">,</span><span class="n">Supplier</span>
+<span class="n">ABE391</span><span class="p">,</span><span class="mi">013000006408</span><span class="p">,</span><span class="n">Ketchup</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">1</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Jonah</span> <span class="n">Albert</span>
+<span class="n">PKL121</span><span class="p">,</span><span class="mi">049000050158</span><span class="p">,</span><span class="n">Sprite</span> <span class="mi">2</span><span class="n">L</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">1</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">Benjamin</span> <span class="n">Wooten</span>
+<span class="n">DKK435</span><span class="p">,</span><span class="mi">021200519598</span><span class="p">,</span><span class="n">Ocelo</span> <span class="n">Sponges</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">4</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">Garrison</span> <span class="n">Calhoun</span>
+<span class="n">SCO091</span><span class="p">,</span><span class="mi">028400159609</span><span class="p">,</span><span class="n">Ruffles</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">2</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">Tanner</span> <span class="n">Hampton</span>
+<span class="n">POU311</span><span class="p">,</span><span class="mi">052000338775</span><span class="p">,</span><span class="n">Gatorade</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">1</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">Gil</span> <span class="n">Mayer</span>
+<span class="n">KFS842</span><span class="p">,</span><span class="mi">038000183713</span><span class="p">,</span><span class="n">Pringles</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">2</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">Scott</span> <span class="n">Herman</span>
+<span class="n">IFG952</span><span class="p">,</span><span class="mi">048001353565</span><span class="p">,</span><span class="n">Mayonnaise</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">5</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">Kermit</span> <span class="n">Bean</span>
+<span class="n">OLP122</span><span class="p">,</span><span class="mi">043000955437</span><span class="p">,</span><span class="n">Koolaid</span> <span class="n">Fruit</span> <span class="n">Punch</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">Ben</span> <span class="n">Ben</span>
+<span class="n">IKA931</span><span class="p">,</span><span class="mi">022000008916</span><span class="p">,</span><span class="n">Extra</span> <span class="n">Peppermint</span> <span class="n">Gum</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">1</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">Kermit</span> <span class="n">Bean</span>
+<span class="n">QWE211</span><span class="p">,</span><span class="mi">051700988235</span><span class="p">,</span><span class="n">Finish</span> <span class="n">Dishwasher</span> <span class="n">Tablet</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">12</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">Kermit</span> <span class="n">Bean</span>
+<span class="n">IKA321</span><span class="p">,</span><span class="mi">012000163173</span><span class="p">,</span><span class="n">Mountain</span> <span class="n">Dew</span> <span class="mi">6</span> <span class="n">Pack</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">3</span><span class="p">.</span><span class="mi">49</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">Ben</span> <span class="n">Ben</span>
+<span class="n">YKG351</span><span class="p">,</span><span class="mi">024000566670</span><span class="p">,</span><span class="n">Canned</span> <span class="n">Green</span> <span class="n">Beans</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">89</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">Ben</span> <span class="n">Ben</span>
+<span class="n">ABE392</span><span class="p">,</span><span class="mi">00000000324588</span><span class="p">,</span><span class="n">Red</span> <span class="n">Apples</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Jonah</span> <span class="n">Albert</span>
+<span class="n">PKL125</span><span class="p">,</span><span class="mi">00000000571111</span><span class="p">,</span><span class="n">Trail</span> <span class="n">Mix</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">5</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">Benjamin</span> <span class="n">Wooten</span>
+<span class="n">DKK439</span><span class="p">,</span><span class="mi">00000000884389</span><span class="p">,</span><span class="n">Red</span> <span class="n">Wine</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">10</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">Garrison</span> <span class="n">Calhoun</span>
+<span class="n">SCO098</span><span class="p">,</span><span class="mi">00000000735797</span><span class="p">,</span><span class="n">Steak</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">8</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">Tanner</span> <span class="n">Hampton</span>
+<span class="n">POU312</span><span class="p">,</span><span class="mi">00000000388771</span><span class="p">,</span><span class="n">Cheez</span> <span class="n">It</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">3</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">Gil</span> <span class="n">Mayer</span>
+<span class="n">KFS843</span><span class="p">,</span><span class="mi">00000000830881</span><span class="p">,</span><span class="n">Salsa</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">4</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">Scott</span> <span class="n">Herman</span>
+<span class="n">IFG953</span><span class="p">,</span><span class="mi">00000000941969</span><span class="p">,</span><span class="n">Quaker</span> <span class="n">Oats</span><span class="p">,</span><span class="err">$</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="p">,</span><span class="err">$</span><span class="mi">8</span><span class="p">.</span><span class="mi">99</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="k">ALL</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">Kermit</span> <span class="n">Bean</span>
 </pre></div>
 
 
@@ -554,7 +554,6 @@
 <p>By the end of this guide. You should no longer require the event simulator to send <a href="../../rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a>. You should now be able to leverage your POS of choice to replace the <a href="../../rtsf_at_checkout_events/checkout_events/#pos-events">POS Events</a>  being sent by the simulator in Phase 1. </p>
                 
                   
-                
                 
               
               
@@ -622,7 +621,7 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

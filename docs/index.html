@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -40,17 +40,17 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="assets/stylesheets/application.30686662.css">
       
       
     
     
-      <script src="assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="assets/javascripts/modernizr.74668098.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -668,7 +668,8 @@
 <p>Upon completing the steps in this guide, you will be ready to integrate sensors and services to build your own complete solution.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>This guide does not create a complete, ready-to-use solution. Instead, upon completing the steps in this guide, you will be ready to integrate sensors and services to build your own Real Time Sensor Fusion for Loss Detection at Checkout solution.*</p>
+<p>This guide does not create a complete, ready-to-use solution. Instead, upon completing the steps in this guide, you will be ready to integrate sensors and services to build your own Real Time Sensor Fusion for Loss Detection at Checkout solution.</p>
+<p>Certain third-party software or hardware identified in this document only may be used upon securing a license directly from the third-party software or hardware owner. The identification of non-Intel software, tools, or services in this document does not constitute a sponsorship, endorsement, or warranty by Intel.</p>
 </div>
 <h3 id="block-diagram">Block Diagram</h3>
 <p>The high-level diagram below shows the sensors and services used with the Real Time Sensor Fusion for Loss Detection at Checkout Reference Design. The diagram shows the sensors and services, and how they communicate through EdgeX. Intel provides the services outlined in green, and you must obtain EdgeX and the sensors and services in pink.
@@ -693,13 +694,13 @@
 </ul>
 <h2 id="getting-started">Getting Started</h2>
 <h3 id="step-1-clone-the-repository">Step 1: Clone the repository</h3>
-<div class="codehilite"><pre><span></span><span class="err">git clone  https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design &amp;&amp; cd ./rtsf-at-checkout-reference-design</span>
+<div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">clone</span>  <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">intel</span><span class="o">-</span><span class="n">iot</span><span class="o">-</span><span class="n">devkit</span><span class="o">/</span><span class="n">rtsf</span><span class="o">-</span><span class="k">at</span><span class="o">-</span><span class="n">checkout</span><span class="o">-</span><span class="n">reference</span><span class="o">-</span><span class="n">design</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="p">.</span><span class="o">/</span><span class="n">rtsf</span><span class="o">-</span><span class="k">at</span><span class="o">-</span><span class="n">checkout</span><span class="o">-</span><span class="n">reference</span><span class="o">-</span><span class="n">design</span>
 </pre></div>
 
 
 <h3 id="step-2-build-the-reference-design">Step 2: Build the Reference Design</h3>
 <p>You must build the provided component services and create local docker images. To do so, run:</p>
-<div class="codehilite"><pre><span></span><span class="err">make docker</span>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">docker</span>
 </pre></div>
 
 
@@ -726,7 +727,7 @@ simply repeat the <code>make docker</code> command.</p>
 </div>
 <h3 id="step-3-build-edgex-rest-device-service">Step 3: Build EdgeX REST Device service</h3>
 <p>The EdgeX REST device service is currently the process of being released. Until a release docker image is available via Edge Foundry, we must build it locally by running the following command:</p>
-<div class="codehilite"><pre><span></span><span class="err">make device-rest</span>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">device</span><span class="o">-</span><span class="n">rest</span>
 </pre></div>
 
 
@@ -744,7 +745,7 @@ simply repeat the <code>make docker</code> command.</p>
 simply repeat the <code>make device-rest</code> command.</p>
 </div>
 <h3 id="step-4-use-docker-compose-to-start-the-reference-design-suite-to-do-so-use">Step 4: Use docker-compose to start the reference design suite. To do so, use</h3>
-<div class="codehilite"><pre><span></span><span class="err">make run-base</span>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">base</span>
 </pre></div>
 
 
@@ -1070,7 +1071,6 @@ simply repeat the <code>make device-rest</code> command.</p>
                 
                   
                 
-                
               
               
                 
@@ -1123,7 +1123,7 @@ simply repeat the <code>make device-rest</code> command.</p>
       
     </div>
     
-      <script src="assets/javascripts/application.808e90bb.js"></script>
+      <script src="assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
       

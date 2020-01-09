@@ -35,7 +35,7 @@ The service's  [configuration.toml](https://github.com/intel-iot-devkit/rtsf-at-
 
 #### EdgeX REST Device Service
 
-This reference design uses the [REST Device Service](https://github.com/edgexfoundry-holding/device-rest-go) [**TODO: Update link**] from EdgeX Foundry with custom device profiles. These device profiles YAML files are located at [https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go]) and are volume mounted into the device service's running Docker container.
+This reference design uses the [REST Device Service](https://github.com/edgexfoundry/device-rest-go) [**TODO: Update link**] from EdgeX Foundry with custom device profiles. These device profiles YAML files are located at [https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go]) and are volume mounted into the device service's running Docker container.
 
 The service's  [configuration.toml](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-rest-go/docker/configuration.toml) file has been customized to add the devices to the ` DeviceList ` section for each device profile.
 

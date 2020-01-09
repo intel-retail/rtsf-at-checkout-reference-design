@@ -9,18 +9,18 @@ This reference design has configured the EdgeX REST device service to have the f
 - `basket-open`
 - `scanned-item`
 - `payment-start`
-- `payment-complete`
+- `payment-success`
 - `basket-close`
 
 `device-scale-rest` - Accepts the above Scale events and defines the following device resource for the single Scale Event:
 
 - `scale-item`
 
-`device-cv-rest` - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:
+`device-cv-roi-rest` - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:
 
 - `cv-roi-event`
 
-`device-rfid-rest`- Accepts the above RFID ROI events and defines the following device resource for the single RFID ROI Event:
+`device-rfid-roi-rest`- Accepts the above RFID ROI events and defines the following device resource for the single RFID ROI Event:
 
 - `rfid-roi-event`
 
@@ -58,18 +58,18 @@ This reference design has configured the EdgeX MQTT device service to have the f
 - `basket-open`
 - `scanned-item`
 - `payment-start`
-- `payment-complete`
+- `payment-success`
 - `basket-close`
 
 `device-scale-mqtt` - Accepts the above Scale events and defines the following device command for the single Scale Event:
 
 - `scale-item`
 
-`device-cv-mqtt` - Accepts the above ROI events and defines the following device command for the single CV ROI Event:
+`device-cv-roi-mqtt` - Accepts the above ROI events and defines the following device command for the single CV ROI Event:
 
 - `cv-roi-event`
 
-`device-rfid-mqtt` Accepts the above RFID events and defines the following device command for the single RFID ROI Event:
+`device-rfid-roi-mqtt` Accepts the above RFID events and defines the following device command for the single RFID ROI Event:
 
 - `rfid-roi-event`
 

@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
     
     
       
@@ -500,18 +500,18 @@
 <li><code>basket-open</code></li>
 <li><code>scanned-item</code></li>
 <li><code>payment-start</code></li>
-<li><code>payment-complete</code></li>
+<li><code>payment-success</code></li>
 <li><code>basket-close</code></li>
 </ul>
 <p><code>device-scale-rest</code> - Accepts the above Scale events and defines the following device resource for the single Scale Event:</p>
 <ul>
 <li><code>scale-item</code></li>
 </ul>
-<p><code>device-cv-rest</code> - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:</p>
+<p><code>device-cv-roi-rest</code> - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:</p>
 <ul>
 <li><code>cv-roi-event</code></li>
 </ul>
-<p><code>device-rfid-rest</code>- Accepts the above RFID ROI events and defines the following device resource for the single RFID ROI Event:</p>
+<p><code>device-rfid-roi-rest</code>- Accepts the above RFID ROI events and defines the following device resource for the single RFID ROI Event:</p>
 <ul>
 <li><code>rfid-roi-event</code></li>
 </ul>
@@ -543,18 +543,18 @@ where the JSON body is:</p>
 <li><code>basket-open</code></li>
 <li><code>scanned-item</code></li>
 <li><code>payment-start</code></li>
-<li><code>payment-complete</code></li>
+<li><code>payment-success</code></li>
 <li><code>basket-close</code></li>
 </ul>
 <p><code>device-scale-mqtt</code> - Accepts the above Scale events and defines the following device command for the single Scale Event:</p>
 <ul>
 <li><code>scale-item</code></li>
 </ul>
-<p><code>device-cv-mqtt</code> - Accepts the above ROI events and defines the following device command for the single CV ROI Event:</p>
+<p><code>device-cv-roi-mqtt</code> - Accepts the above ROI events and defines the following device command for the single CV ROI Event:</p>
 <ul>
 <li><code>cv-roi-event</code></li>
 </ul>
-<p><code>device-rfid-mqtt</code> Accepts the above RFID events and defines the following device command for the single RFID ROI Event:</p>
+<p><code>device-rfid-roi-mqtt</code> Accepts the above RFID events and defines the following device command for the single RFID ROI Event:</p>
 <ul>
 <li><code>rfid-roi-event</code></li>
 </ul>
@@ -573,9 +573,9 @@ and <code>&lt;command name&gt;</code> is one of the defined commands for that de
 and <code>&lt;event data json&gt;</code> is a string containing the event data JSON, i.e not embedded JSON.</p>
 <p>Example JSON for publishing <code>scale-item</code> data:</p>
 <div class="codehilite"><pre><span></span><span class="p">{</span>
-    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;device-pos&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;device-scale-mqtt&quot;</span><span class="p">,</span>
     <span class="nt">&quot;cmd&quot;</span> <span class="p">:</span> <span class="s2">&quot;scale-item&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;scale-item&quot;</span> <span class="p">:</span> <span class="s2">&quot;{\&quot;lane_id\&quot;:\&quot;1\&quot;,\&quot;ScaleId\&quot;:\&quot;abc123\&quot;,\&quot;total\&quot;:3.25,                                 \&quot;delta\&quot;:1.15,\&quot;units\&quot;:\&quot;lbs\&quot;,\&quot;event_time\&quot;:15736013940000}&quot;</span>
+    <span class="nt">&quot;scale-item&quot;</span> <span class="p">:</span> <span class="s2">&quot;{\&quot;lane_id\&quot;:\&quot;1\&quot;,\&quot;ScaleId\&quot;:\&quot;abc123\&quot;,\&quot;total\&quot;:3.25,\&quot;delta\&quot;:1.15,\&quot;units\&quot;:\&quot;lbs\&quot;,\&quot;event_time\&quot;:15736013940000}&quot;</span>
 <span class="p">}</span>
 </pre></div>
                 
@@ -647,7 +647,7 @@ and <code>&lt;event data json&gt;</code> is a string containing the event data J
       
     </div>
     
-      <script src="../assets/javascripts/application.c648116f.js"></script>
+      <script src="../assets/javascripts/application.ac79c3b0.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

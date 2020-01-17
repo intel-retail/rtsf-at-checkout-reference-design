@@ -2,13 +2,14 @@
 
 The following are the details for the four different RTSF at Checkout event types that provide the information for a RTSF at Checkout solution. See the [Data Dictionary](#data-dictionary) section below for details about each of the fields in these events.
 
-#### POS Events
+### POS Events
 
 POS events are what drive the RTSF at Checkout solution. They are the ones that can not be omitted. There are five different POS events required for this reference design, which are:
 
-1. **Basket Open** (`basket-open`)
-   Occurs when a session has started at the self checkout.
-   Example event:
+#### Basket Open
+`basket-open` Occurs when a session has started at the self checkout.
+
+Example event:
 
 ``` json
    {
@@ -20,10 +21,11 @@ POS events are what drive the RTSF at Checkout solution. They are the ones that 
    }
 ```
    
-2. **Scanned Item** (`scanned-item`)
-   Also know as the Real Time Transaction Log (RTTL)
-   Occurs when an item has been scanned at the self checkout
-   Example event:
+#### Scanned Item 
+`scanned-item` Also know as the Real Time Transaction Log (RTTL)
+Occurs when an item has been scanned at the self checkout
+
+Example event:
 
 ``` json
    {
@@ -41,9 +43,10 @@ POS events are what drive the RTSF at Checkout solution. They are the ones that 
    }
 ```
 
-3. **Payment Start** (`payment-start`)
-   Occurs when the payment has started at the self checkout.
-   Example event:
+#### Payment Start 
+`payment-start` occurs when the payment has started at the self checkout.
+
+Example event:
 
 ``` json
    {
@@ -57,9 +60,10 @@ POS events are what drive the RTSF at Checkout solution. They are the ones that 
 
    
 
-4. **Payment Success** (`payment-success`)
-   Occurs when the payment has successfully completed at the self checkout.
-   Example event:
+#### Payment Success 
+`payment-success` occurs when the payment has successfully completed at the self checkout.
+
+Example event:
 
 ``` json
    {
@@ -73,9 +77,11 @@ POS events are what drive the RTSF at Checkout solution. They are the ones that 
 
    
 
-5. **Basket Close** (`basket-close`)
-   Occurs when the session has ended at the self checkout.
-   Example event:
+#### Basket Close
+
+`basket-close` occurs when the session has ended at the self checkout.
+
+Example event:
 
 ``` json
    {
@@ -87,13 +93,14 @@ POS events are what drive the RTSF at Checkout solution. They are the ones that 
    }
 ```
 
-#### Scale Events
+### Scale Events
 
 Scale events track items on the scale. There is only one scale event type required for this reference design, which is:
 
-1. **Scale Item** (`scale-item`)
-   Occurs when an item has been placed or removed from the security scale.
-   Example event:
+#### Scale Item 
+`scale-item` occurs when an item has been placed or removed from the security scale.
+
+Example event:
 
 ``` json
    {
@@ -105,13 +112,14 @@ Scale events track items on the scale. There is only one scale event type requir
    }
 ```
 
-#### CV ROI Events
+### CV ROI Events
 
 CV ROI events track when objects enter or exit specific ROI . There is only one CV ROI event type required for this reference design, which is:
 
-1. **CV ROI Event** (`cv-roi-event`)
-   Occurs when an object has entered or exited a ROI
-   Example event:
+#### CV ROI Event 
+`cv-roi-event` occurs when an object has entered or exited a ROI
+
+Example event:
 
 ``` json
    {
@@ -123,15 +131,16 @@ CV ROI events track when objects enter or exit specific ROI . There is only one 
    }
 ```
 
-   `roi_action` can be either `ENTERED` or `EXITED`.
+`roi_action` can be either `ENTERED` or `EXITED`.
 
-#### RFID ROI Events
+### RFID ROI Events
 
 RFID events track the RFID tagged products entering and exiting specific ROI. There is only one RFID ROI event type required for this reference design, which is:
 
-1. **RFID ROI Event** (`rfid-roi-event`)
-   Occurs when a RFID tagged object has entered or exited a ROI. 
-   Example event:
+#### RFID ROI Event 
+`rfid-roi-event` occurs when a RFID tagged object has entered or exited a ROI. 
+
+Example event:
    
 ``` json
     {

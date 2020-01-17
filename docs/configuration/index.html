@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
     
     
       
@@ -184,6 +184,126 @@
       
       
 
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Phases
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Phases
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phases/phase1/" title="Phase 1 - Simulate Events" class="md-nav__link">
+      Phase 1 - Simulate Events
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phases/phase2/" title="Phase 2 - Bring Your Own Software" class="md-nav__link">
+      Phase 2 - Bring Your Own Software
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../phases/phase3/" title="Phase 3 - Bring Your Own Hardware" class="md-nav__link">
+      Phase 3 - Bring Your Own Hardware
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      RTSF at Checkout Events
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        RTSF at Checkout Events
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rtsf_at_checkout_events/checkout_events/" title="Checkout events" class="md-nav__link">
+      Checkout events
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../rtsf_at_checkout_events/event_simulation/" title="Event simulation" class="md-nav__link">
+      Event simulation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../device_services/" title="Device services" class="md-nav__link">
+      Device services
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -308,8 +428,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../device_services/" title="Device services" class="md-nav__link">
-      Device services
+    <a href="../notifications/" title="How to Send Notifications through EdgeX (optional)" class="md-nav__link">
+      How to Send Notifications through EdgeX (optional)
     </a>
   </li>
 
@@ -332,57 +452,9 @@
 
 
   <li class="md-nav__item">
-    <a href="../unicenta/" title="Instructions for Integrating with uniCenta oPOS" class="md-nav__link">
-      Instructions for Integrating with uniCenta oPOS
+    <a href="../references/" title="References" class="md-nav__link">
+      References
     </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
-    
-    <label class="md-nav__link" for="nav-6">
-      Rtsf at checkout events
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-6">
-        Rtsf at checkout events
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../rtsf_at_checkout_events/checkout_events/" title="Checkout events" class="md-nav__link">
-      Checkout events
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../rtsf_at_checkout_events/event_simulation/" title="Event simulation" class="md-nav__link">
-      Event simulation
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
   </li>
 
     
@@ -509,7 +581,7 @@
                 <h2 id="rtsf-at-checkout-configuration">RTSF at Checkout Configuration</h2>
 <h4 id="scale-device-service">Scale Device Service</h4>
 <p>The security scale used in this reference design is the <a href="http://www.cas-usa.com/products/pd-2">CAS PD-2 POS/Checkout Scale</a> which communicates over a serial connection. The vid:pid values of the scale are <code>VID = "0403"</code> and <code>PID = "6001"</code>. These values change depending on the model of scale you are using.  If you use a different scale, the logic to read and write to the scale will most likely be different. In this case, simply use this service as a reference for creating your custom Scale Device Service. </p>
-<p>The following items can be configured via the <code>Driver</code> section of the service's <a href="https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-device-scale/blob/master/cmd/res/docker/configuration.toml">configuration.toml</a> file. All values are strings.  </p>
+<p>The following items can be configured via the <code>Driver</code> section of the service's <a href="https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-device-scale/blob/master/cmd/res/docker/configuration.toml">configuration.toml</a> file. All values are strings.  </p>
 <ul>
 <li>ScaleVID - VID value for the scale</li>
 <li>ScalePID - PID value for the scale</li>
@@ -518,8 +590,8 @@
 <li>TimeOutMilli - Time out for when reading from the scale in milliseconds </li>
 </ul>
 <h4 id="edgex-mqtt-device-service">EdgeX MQTT Device Service</h4>
-<p>This reference design uses the <a href="https://github.com/edgexfoundry/device-mqtt-go">MQTT Device Service</a> from EdgeX with custom device profiles. These device profiles YAML files are located at  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go and are volume mounted into the device service's running Docker container.</p>
-<p>The service's  <a href="https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-mqtt-go/docker/configuration.toml">configuration.toml</a> file has been customized to add the devices to the <code>DeviceList</code> section for each device profile and the following <code>Driver</code> section settings have been customized:</p>
+<p>This reference design uses the <a href="https://github.com/edgexfoundry/device-mqtt-go">MQTT Device Service</a> from EdgeX with custom device profiles. These device profiles YAML files are located at <a href="https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go">https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go</a> and are volume mounted into the device service's running Docker container.</p>
+<p>The service's  <a href="https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-mqtt-go/docker/configuration.toml">configuration.toml</a> file has been customized to add the devices to the <code>DeviceList</code> section for each device profile and the following <code>Driver</code> section settings have been customized:</p>
 <ul>
 <li>IncomingTopic - Subscribe topic for the incoming MQTT Broker</li>
 <li>IncomingHost - Host name of the incoming MQTT Broker</li>
@@ -537,10 +609,10 @@
 <li>ResponseKeepAlive - Keep alive duration for the response MQTT Broker</li>
 </ul>
 <h4 id="edgex-rest-device-service">EdgeX REST Device Service</h4>
-<p>This reference design uses the <a href="https://github.com/edgexfoundry-holding/device-rest-go">REST Device Service</a> [<strong>TODO: Update link</strong>] from EdgeX Foundry with custom device profiles. These device profiles YAML files are located at   https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go and are volume mounted into the device service's running Docker container.</p>
-<p>The service's  <a href="https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-rest-go/docker/configuration.toml">configuration.toml</a> file has been customized to add the devices to the <code>DeviceList</code> section for each device profile.</p>
+<p>This reference design uses the <a href="https://github.com/edgexfoundry-holding/device-rest-go">REST Device Service</a> [<strong>TODO: Update link</strong>] from EdgeX Foundry with custom device profiles. These device profiles YAML files are located at <a href="https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go]">https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go</a> and are volume mounted into the device service's running Docker container.</p>
+<p>The service's  <a href="https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-rest-go/docker/configuration.toml">configuration.toml</a> file has been customized to add the devices to the <code>DeviceList</code> section for each device profile.</p>
 <h4 id="intel-rsp-rfid-solution">Intel RSP RFID Solution</h4>
-<p>This reference design uses the <a href="https://software.intel.com/en-us/retail/rfid-sensor-platform">Intel Retail Sensor Platform (RSP)</a> . Once installed you need to configure the custom facility ids by navigating to the web portal at http://localhost:8080/web-admin/ </p>
+<p>This reference design uses the <a href="https://software.intel.com/en-us/retail/rfid-sensor-platform">Intel Retail Sensor Platform (RSP)</a> . Once installed you need to configure the custom facility ids by navigating to the web portal at <a href="http://localhost:8080/web-admin/">http://localhost:8080/web-admin/</a>.</p>
 <p>Then navigate to the Cluster Config section using the dropdown menu and upload a custom cluster config file.  </p>
 <p>Below is an example of two facilities Staging and Checkout. </p>
 <div class="codehilite"><pre><span></span><span class="p">{</span> 
@@ -586,7 +658,7 @@
 
 
 <p>Below is what the new configuration should look like.  </p>
-<p><img alt="RSP Configuration" src="../rsp-configuration.png" /></p>
+<p><img alt="RSP Configuration" src="../images/rsp-configuration.png" /></p>
 <h4 id="rsp-controller-event-handler">RSP Controller Event Handler</h4>
 <p>This service filters events from the RSP Controller and transforms them into a format that’s consumable by the Checkout Event Reconciler. The RSP Controller device name and the value descriptor for the events must be configured in the <code>ApplicationSettings</code> configuration section as follows: </p>
 <ul>
@@ -637,7 +709,7 @@
 </pre></div>
 
 
-<p>For additional support see the Video Analytics Serving repo https://github.com/intel/video-analytics-serving.  </p>
+<p>For additional support see the Video Analytics Serving repo <a href="https://github.com/intel/video-analytics-serving">https://github.com/intel/video-analytics-serving</a>.  </p>
 <h4 id="product-lookup">Product Lookup</h4>
 <p>Product information values are stored in a JSON file. This inventory is used to lookup product information such as the product name, barcode, maximum and minimum weights and whether a product is RFID eligible.  </p>
 <p>Example product lookup inventory is shown below:  </p>
@@ -768,7 +840,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href=".." title="Real Time Sensor Fusion for Loss Detection at Checkout Reference Design" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../device_services/" title="Device services" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -777,19 +849,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Real Time Sensor Fusion for Loss Detection at Checkout Reference Design
+                Device services
               </span>
             </div>
           </a>
         
         
-          <a href="../device_services/" title="Device services" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../notifications/" title="How to Send Notifications through EdgeX (optional)" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Device services
+                How to Send Notifications through EdgeX (optional)
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -817,7 +889,7 @@
       
     </div>
     
-      <script src="../assets/javascripts/application.ac79c3b0.js"></script>
+      <script src="../assets/javascripts/application.c648116f.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

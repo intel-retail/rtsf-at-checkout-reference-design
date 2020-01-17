@@ -36,7 +36,7 @@
     
     
       
-        <title>Device services - Real Time Sensor Fusion for Loss Detection at Checkout</title>
+        <title>How to Send Notifications through EdgeX (optional) - Real Time Sensor Fusion for Loss Detection at Checkout</title>
       
     
     
@@ -104,7 +104,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#edgex-rest-device-service" tabindex="1" class="md-skip">
+      <a href="#how-to-send-notifications-through-edgex-optional" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -130,7 +130,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Device services
+                How to Send Notifications through EdgeX (optional)
               
             </span>
           
@@ -292,78 +292,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Device services
-      </label>
-    
-    <a href="./" title="Device services" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../device_services/" title="Device services" class="md-nav__link">
       Device services
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#edgex-rest-device-service" class="md-nav__link">
-    EdgeX REST Device service
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#posting-to-edgex-rest-device-service" class="md-nav__link">
-    POSTing to EdgeX REST Device Service
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#edgex-mqtt-device-service" class="md-nav__link">
-    EdgeX MQTT Device service
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#publishing-to-edgex-mqtt-device-service" class="md-nav__link">
-    Publishing to EdgeX MQTT Device Service
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -383,11 +316,63 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="../notifications/" title="How to Send Notifications through EdgeX (optional)" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        How to Send Notifications through EdgeX (optional)
+      </label>
+    
+    <a href="./" title="How to Send Notifications through EdgeX (optional)" class="md-nav__link md-nav__link--active">
       How to Send Notifications through EdgeX (optional)
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-set-environment-variables" class="md-nav__link">
+    Step 1: Set Environment Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-add-code-to-the-config-seed-environment-section" class="md-nav__link">
+    Step 2: Add code to the config-seed Environment Section
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-add-smtp-server-to-compose-file-optional" class="md-nav__link">
+    Step 3: Add SMTP Server to compose file (optional)
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
     
@@ -429,47 +414,30 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#edgex-rest-device-service" class="md-nav__link">
-    EdgeX REST Device service
+  <a href="#step-1-set-environment-variables" class="md-nav__link">
+    Step 1: Set Environment Variables
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#posting-to-edgex-rest-device-service" class="md-nav__link">
-    POSTing to EdgeX REST Device Service
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#edgex-mqtt-device-service" class="md-nav__link">
-    EdgeX MQTT Device service
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#publishing-to-edgex-mqtt-device-service" class="md-nav__link">
-    Publishing to EdgeX MQTT Device Service
+  <a href="#step-2-add-code-to-the-config-seed-environment-section" class="md-nav__link">
+    Step 2: Add code to the config-seed Environment Section
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-add-smtp-server-to-compose-file-optional" class="md-nav__link">
+    Step 3: Add SMTP Server to compose file (optional)
+  </a>
   
 </li>
       
@@ -490,93 +458,48 @@
               
                 
                 
-                  <h1>Device services</h1>
-                
-                <p>The EdgeX REST and MQTT device services allow for an easy point of integration with this reference design. The above events can be sent to the underlying EdgeX framework using either of these device services. Note that the <strong>Intel Retail Sensor Platform (RSP) </strong>RFID solution has it's own custom EdgeX Device Service. </p>
-<h2 id="edgex-rest-device-service">EdgeX REST Device service</h2>
-<p>This reference design has configured the EdgeX REST device service to have the following devices which accept the above events.  </p>
-<p><code>device-pos-rest</code> - Accepts the above POS events and defines the following device resources for each POS Event:</p>
-<ul>
-<li><code>basket-open</code></li>
-<li><code>scanned-item</code></li>
-<li><code>payment-start</code></li>
-<li><code>payment-complete</code></li>
-<li><code>basket-close</code></li>
-</ul>
-<p><code>device-scale-rest</code> - Accepts the above Scale events and defines the following device resource for the single Scale Event:</p>
-<ul>
-<li><code>scale-item</code></li>
-</ul>
-<p><code>device-cv-rest</code> - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:</p>
-<ul>
-<li><code>cv-roi-event</code></li>
-</ul>
-<p><code>device-rfid-rest</code>- Accepts the above RFID ROI events and defines the following device resource for the single RFID ROI Event:</p>
-<ul>
-<li><code>rfid-roi-event</code></li>
-</ul>
-<h3 id="posting-to-edgex-rest-device-service">POSTing to EdgeX REST Device Service</h3>
-<p>This EdgeX REST Device service defines a parametrized endpoint for POSTing the JSON data for the event. This endpoint has the form:</p>
-<div class="codehilite"><pre><span></span>/resource/{device name}/{resource name}
+                <h1 id="how-to-send-notifications-through-edgex-optional">How to Send Notifications through EdgeX (optional)</h1>
+<p>This section provides instructions to help you configure the EdgeX notifications service to send alerts through SMS, email, Rest calls, and others. </p>
+<p>Notifications work as follows: </p>
+<ol>
+<li>
+<p>When the reconciler receives a payment-start event, it sends a message to the loss-detector that contain the suspect items list. </p>
+</li>
+<li>
+<p>The loss-detector sends these alerts as email messages through the EdgeX notification service. </p>
+</li>
+<li>
+<p>The loss-detector initiates the connection to the EdgeX notifications service.</p>
+</li>
+</ol>
+<p>To change the message type from email to a different medium, you must update the loss-detector.</p>
+<h2 id="step-1-set-environment-variables">Step 1: Set Environment Variables</h2>
+<p>Set environment variable overrides for <code>Smtp_Host</code> and <code>Smtp_Port</code> in 'config-seed', which will inject these variables into the notification service's registry. </p>
+<p>Additional notification service configuration properties are <a href="https://docs.edgexfoundry.org/Ch-AlertsNotifications.html#configuration-properties" title="EdgeX Alerts &amp; Notifications">here</a>.</p>
+<h2 id="step-2-add-code-to-the-config-seed-environment-section">Step 2: Add code to the config-seed Environment Section</h2>
+<p>The code snippet below is a docker-compose example that sends an email notification. Add this code to the config-seed environment section in <code>docker-compose.edgex.yml</code>, under the config-seed service.</p>
+<div class="codehilite"><pre><span></span><span class="nt">environment</span><span class="p">:</span>
+  <span class="nt">&lt;&lt;</span><span class="p">:</span> <span class="nv">*common-variables</span>
+  <span class="nt">Smtp_Host</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;host name&gt;</span>
+  <span class="nt">Smtp_Port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">25</span>
+  <span class="nt">Smtp_Password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;password if applicable&gt;</span>
+  <span class="nt">Smtp_Sender</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;some email&gt;</span>
+  <span class="nt">Smtp_Subject</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">EdgeX Notification Suspect List</span>
 </pre></div>
 
 
-<p>where <code>{device name}</code> is one of the above defined devices 
-and <code>{resource name}</code> is one of the defined resource for that device.</p>
-<p>Example URL for POSTing <code>basket-open</code> JSON data:</p>
-<p><a href="https://localhost:59990/device-pos-rest/basket-open">https://localhost:59990/device-pos-rest/basket-open</a>
-where the JSON body is:</p>
-<div class="codehilite"><pre><span></span><span class="p">{</span>
-    <span class="nt">&quot;lane_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;basket_id&quot;</span><span class="p">:</span> <span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;customer_id&quot;</span><span class="p">:</span> <span class="s2">&quot;joe5&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;employee_id&quot;</span><span class="p">:</span> <span class="s2">&quot;mary1&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;event_time&quot;</span> <span class="p">:</span> <span class="mi">15736013010000</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h2 id="edgex-mqtt-device-service">EdgeX MQTT Device service</h2>
-<p>This reference design has configured the EdgeX MQTT device service to have the following devices which accept the above events.</p>
-<p><code>device-pos-mqtt</code> - Accepts the above POS events and defines the following device commands for each POS Event:</p>
-<ul>
-<li><code>basket-open</code></li>
-<li><code>scanned-item</code></li>
-<li><code>payment-start</code></li>
-<li><code>payment-complete</code></li>
-<li><code>basket-close</code></li>
-</ul>
-<p><code>device-scale-mqtt</code> - Accepts the above Scale events and defines the following device command for the single Scale Event:</p>
-<ul>
-<li><code>scale-item</code></li>
-</ul>
-<p><code>device-cv-mqtt</code> - Accepts the above ROI events and defines the following device command for the single CV ROI Event:</p>
-<ul>
-<li><code>cv-roi-event</code></li>
-</ul>
-<p><code>device-rfid-mqtt</code> Accepts the above RFID events and defines the following device command for the single RFID ROI Event:</p>
-<ul>
-<li><code>rfid-roi-event</code></li>
-</ul>
-<h3 id="publishing-to-edgex-mqtt-device-service">Publishing to EdgeX MQTT Device Service</h3>
-<p>This EdgeX MQTT Device service accepts events published to the <code>edgex/#</code> topic. Events published to this topic must conform to the follow JSON schema:</p>
-<div class="codehilite"><pre><span></span><span class="p">{</span>
-    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;device name&gt;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;cmd&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;command name&gt;&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;&lt;command name&gt;&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;event data json&gt;&quot;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>where <code>&lt;device name&gt;</code> is one of the above defined devices 
-and <code>&lt;command name&gt;</code> is one of the defined commands for that device
-and <code>&lt;event data json&gt;</code> is a string containing the event data JSON, i.e not embedded JSON.</p>
-<p>Example JSON for publishing <code>scale-item</code> data:</p>
-<div class="codehilite"><pre><span></span><span class="p">{</span>
-    <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;device-pos&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;cmd&quot;</span> <span class="p">:</span> <span class="s2">&quot;scale-item&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;scale-item&quot;</span> <span class="p">:</span> <span class="s2">&quot;{\&quot;lane_id\&quot;:\&quot;1\&quot;,\&quot;ScaleId\&quot;:\&quot;abc123\&quot;,\&quot;total\&quot;:3.25,                                 \&quot;delta\&quot;:1.15,\&quot;units\&quot;:\&quot;lbs\&quot;,\&quot;event_time\&quot;:15736013940000}&quot;</span>
-<span class="p">}</span>
+<h2 id="step-3-add-smtp-server-to-compose-file-optional">Step 3: Add SMTP Server to compose file (optional)</h2>
+<p>The snipped below adds a development SMTP server smtp4dev to your <code>docker-compose.loss-detection.yml</code>. 
+Skip this step if you want to use Gmail or another server.</p>
+<div class="codehilite"><pre><span></span><span class="nt">smtp-server</span><span class="p">:</span>
+  <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rnwood/smtp4dev:linux-amd64-v3</span>
+  <span class="nt">ports</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="s">&quot;3000:80&quot;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&quot;2525:25&quot;</span>
+  <span class="nt">restart</span><span class="p">:</span> <span class="s">&quot;on-failure:5&quot;</span>
+  <span class="nt">container_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">smtp-server</span>
+  <span class="nt">networks</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">theft-detection-app_edgex-network</span>
 </pre></div>
                 
                   
@@ -598,7 +521,7 @@ and <code>&lt;event data json&gt;</code> is a string containing the event data J
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../rtsf_at_checkout_events/event_simulation/" title="Event simulation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -607,19 +530,19 @@ and <code>&lt;event data json&gt;</code> is a string containing the event data J
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Event simulation
+                Configuration
               </span>
             </div>
           </a>
         
         
-          <a href="../configuration/" title="Configuration" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../troubleshooting/" title="Troubleshooting" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Configuration
+                Troubleshooting
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

@@ -1,0 +1,837 @@
+{
+	"info": {
+		"_postman_id": "00e0cb02-8d33-455c-a9d6-ce99a6a3f673",
+		"name": "POS, Scale, CV (No Suspect items)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basket Open",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013930000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/basket-open",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"basket-open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item ENTERED Staging (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"object_count\": 1,\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Staging\",\n     \"event_time\":15736013931000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scanned Item (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "287a7ef9-7611-40cf-8e60-e4d2ca1d8ef4",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000571111\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Trail Mix\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 5.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013932000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"scanned-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item EXITED Staging (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"object_count\": 1,\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Bagging\",\n     \"event_time\":15736013933000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item ENTERED Scanner (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Scanner\",\n    \"event_time\":15736013934000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scale Item  (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5777fd09-0334-49eb-8f81-75d3560d27e7",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013935000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-scale-rest",
+						"scale-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item EXITED Scanner (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"EXITED\",\n    \"roi_name\": \"Scanner\",\n    \"event_time\":15736013936000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item ENTERED Bagging (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Bagging\",\n    \"event_time\":15736013937000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item ENTERED Staging (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Staging\",\n     \"event_time\":15736013938000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scanned Item (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1346316d-3c26-4554-adbe-698f1e5704cf",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000884389\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Red Wine\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 10.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013939000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"scanned-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item EXITED Staging (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"EXITED\",\n    \"roi_name\": \"Staging\",\n     \"event_time\":15736013940000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item ENTERED Scanner (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Scanner\",\n     \"event_time\":15736013941000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scale Item  (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b5d77cba-10ee-468d-bd81-30be7b1aee70",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013942000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-scale-rest",
+						"scale-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item EXITED Scanner (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"EXITED\",\n    \"roi_name\": \"Scanner\",\n     \"event_time\":15736013943000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CV ROI Item ENTERED Bagging (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Bagging\",\n    \"event_time\":15736013944000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-cv-roi-rest/cv-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-cv-roi-rest",
+						"cv-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Start",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8d6f5a86-3c86-4561-8f2a-e643553c2e98",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013946000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/payment-start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"payment-start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0be006dd-19ed-4ce3-b029-a20f9e16d470",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014200000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/payment-success",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"payment-success"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Basket Close",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dbac5459-58f7-4cf8-a839-85ed378a6a52",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013947000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/basket-close",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-pos-rest",
+						"basket-close"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

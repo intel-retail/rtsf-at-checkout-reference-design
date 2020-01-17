@@ -4,7 +4,7 @@
 
 The security scale used in this reference design is the [CAS PD-2 POS/Checkout Scale](http://www.cas-usa.com/products/pd-2) which communicates over a serial connection. The vid:pid values of the scale are `VID = "0403"` and `PID = "6001"`. These values change depending on the model of scale you are using.  If you use a different scale, the logic to read and write to the scale will most likely be different. In this case, simply use this service as a reference for creating your custom Scale Device Service. 
 
-The following items can be configured via the `Driver` section of the service's [configuration.toml]( https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-device-scale/blob/master/cmd/res/docker/configuration.toml ) file. All values are strings.  
+The following items can be configured via the `Driver` section of the service's [configuration.toml]( https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-device-scale/blob/master/cmd/res/docker/configuration.toml ) file. All values are strings.  
 
 - ScaleVID - VID value for the scale
 - ScalePID - PID value for the scale
@@ -14,9 +14,9 @@ The following items can be configured via the `Driver` section of the service's 
 
 #### EdgeX MQTT Device Service
 
-This reference design uses the [MQTT Device Service](https://github.com/edgexfoundry/device-mqtt-go) from EdgeX with custom device profiles. These device profiles YAML files are located at  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go and are volume mounted into the device service's running Docker container.
+This reference design uses the [MQTT Device Service](https://github.com/edgexfoundry/device-mqtt-go) from EdgeX with custom device profiles. These device profiles YAML files are located at [https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-mqtt-go) and are volume mounted into the device service's running Docker container.
 
-The service's  [configuration.toml]( https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-mqtt-go/docker/configuration.toml ) file has been customized to add the devices to the ` DeviceList ` section for each device profile and the following `Driver` section settings have been customized:
+The service's  [configuration.toml](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-mqtt-go/docker/configuration.toml) file has been customized to add the devices to the `DeviceList` section for each device profile and the following `Driver` section settings have been customized:
 
 - IncomingTopic - Subscribe topic for the incoming MQTT Broker
 - IncomingHost - Host name of the incoming MQTT Broker
@@ -35,13 +35,13 @@ The service's  [configuration.toml]( https://github.impcloud.net/loss-prevention
 
 #### EdgeX REST Device Service
 
-This reference design uses the [REST Device Service](https://github.com/edgexfoundry-holding/device-rest-go) [**TODO: Update link**] from EdgeX Foundry with custom device profiles. These device profiles YAML files are located at   https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go and are volume mounted into the device service's running Docker container.
+This reference design uses the [REST Device Service](https://github.com/edgexfoundry/device-rest-go) [**TODO: Update link**] from EdgeX Foundry with custom device profiles. These device profiles YAML files are located at [https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/tree/master/loss-detection-app/res/device-rest-go]) and are volume mounted into the device service's running Docker container.
 
-The service's  [configuration.toml](  https://github.impcloud.net/loss-prevention-at-pos/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-rest-go/docker/configuration.toml  ) file has been customized to add the devices to the ` DeviceList ` section for each device profile.
+The service's  [configuration.toml](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/rtsf-at-checkout-reference-design/blob/master/loss-detection-app/res/device-rest-go/docker/configuration.toml) file has been customized to add the devices to the ` DeviceList ` section for each device profile.
 
 #### Intel RSP RFID Solution
 
-This reference design uses the [Intel Retail Sensor Platform (RSP)](https://software.intel.com/en-us/retail/rfid-sensor-platform) . Once installed you need to configure the custom facility ids by navigating to the web portal at http://localhost:8080/web-admin/ 
+This reference design uses the [Intel Retail Sensor Platform (RSP)](https://software.intel.com/en-us/retail/rfid-sensor-platform) . Once installed you need to configure the custom facility ids by navigating to the web portal at [http://localhost:8080/web-admin/](http://localhost:8080/web-admin/).
 
 Then navigate to the Cluster Config section using the dropdown menu and upload a custom cluster config file.  
 
@@ -91,7 +91,7 @@ Below is an example of two facilities Staging and Checkout.
 
 Below is what the new configuration should look like.  
 
- ![RSP Configuration](./rsp-configuration.png)
+ ![RSP Configuration](./images/rsp-configuration.png)
 
 #### RSP Controller Event Handler
 
@@ -145,7 +145,7 @@ volumes:
   - ./models:/models 
 ```
 
-For additional support see the Video Analytics Serving repo https://github.com/intel/video-analytics-serving.  
+For additional support see the Video Analytics Serving repo [https://github.com/intel/video-analytics-serving](https://github.com/intel/video-analytics-serving).  
 
 #### Product Lookup
 

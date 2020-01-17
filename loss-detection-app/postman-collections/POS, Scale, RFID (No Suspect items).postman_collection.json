@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "39698b17-5d63-45de-979d-eb414b23fde3",
-		"name": "POS and Scale (Suspect scale item)",
+		"_postman_id": "a8f27ce4-cd71-4eb3-af2a-c0fa6c5e4442",
+		"name": "POS, Scale, RFID (No Suspect items)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -31,12 +31,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013930000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013930000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/basket-open",
@@ -51,6 +46,98 @@
 						"resource",
 						"device-pos-rest",
 						"basket-open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFID Item ENTERED Staging (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000037C5C000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013931000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-rfid-roi-rest/rfid-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-rfid-roi-rest",
+						"rfid-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFID Item EXITED Staging (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000037C5C000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"EXITED\",\n    \"event_time\":15736013932000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-rfid-roi-rest/rfid-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-rfid-roi-rest",
+						"rfid-roi-event"
 					]
 				}
 			},
@@ -82,12 +169,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000571111\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Trail Mix\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 5.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013940000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000571111\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Trail Mix\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 5.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013933000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
@@ -133,12 +215,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013950000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013934000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
@@ -153,6 +230,144 @@
 						"resource",
 						"device-scale-rest",
 						"scale-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFID Item ENTERED Bagging (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000037C5C000003039\",\n    \"roi_name\": \"Bagging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013935000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-rfid-roi-rest/rfid-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-rfid-roi-rest",
+						"rfid-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFID Item ENTERED Staging (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"3014000000565D8000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013936000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-rfid-roi-rest/rfid-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-rfid-roi-rest",
+						"rfid-roi-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFID Item EXITED Staging (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"3014000000565D8000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"EXITED\",\n    \"event_time\":15736013937000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:49986/api/v1/resource/device-rfid-roi-rest/rfid-roi-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "49986",
+					"path": [
+						"api",
+						"v1",
+						"resource",
+						"device-rfid-roi-rest",
+						"rfid-roi-event"
 					]
 				}
 			},
@@ -184,12 +399,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000884389\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Red Wine\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 10.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013960000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n \t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000884389\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Red Wine\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 10.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013938000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
@@ -235,12 +445,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013970000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013939000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
@@ -261,12 +466,12 @@
 			"response": []
 		},
 		{
-			"name": "Scanned Item (Steak)",
+			"name": "RFID Item ENTERED Bagging (Red Wine)",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c40c9782-dc1d-45a0-93af-fc2033a00956",
+						"id": "51f68fe0-9354-4d00-9e4d-866d7fc6e5c8",
 						"exec": [
 							"setTimeout(function(){}, [50]);"
 						],
@@ -286,15 +491,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000735797\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Steak\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 8.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013980000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"3014000000565D8000003039\",\n    \"roi_name\": \"Bagging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013940000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item",
+					"raw": "http://localhost:49986/api/v1/resource/device-rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -304,110 +504,8 @@
 						"api",
 						"v1",
 						"resource",
-						"device-pos-rest",
-						"scanned-item"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Scale Item (Steak)",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "c739e496-d873-4e22-a1c2-26a57b24f67e",
-						"exec": [
-							"setTimeout(function(){}, [50]);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 7.11,\n    \"units\": \"lbs\",\n    \"event_time\":15736013990000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "49986",
-					"path": [
-						"api",
-						"v1",
-						"resource",
-						"device-scale-rest",
-						"scale-item"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Scale Item (Suspect item)",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "e25f605a-b7fe-457a-8185-8cab7e4f6f76",
-						"exec": [
-							"setTimeout(function(){}, [50]);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 10.6,\n    \"units\": \"lbs\",\n    \"event_time\":15736014000000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "49986",
-					"path": [
-						"api",
-						"v1",
-						"resource",
-						"device-scale-rest",
-						"scale-item"
+						"device-rfid-roi-rest",
+						"rfid-roi-event"
 					]
 				}
 			},
@@ -439,12 +537,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014100000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013946000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/payment-start",
@@ -490,12 +583,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014200000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014200000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/payment-success",
@@ -541,12 +629,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014300000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013947000\n}"
 				},
 				"url": {
 					"raw": "http://localhost:49986/api/v1/resource/device-pos-rest/basket-close",
@@ -566,6 +649,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

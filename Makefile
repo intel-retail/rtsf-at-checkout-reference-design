@@ -3,7 +3,7 @@
 
 .PHONY: run-portainer run-base run-vap run-full all simulator docker
 
-DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup event-handler
+DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup rsp-event-handler
 
 .PHONY: $(DOCKERS)
 
@@ -42,7 +42,7 @@ down:
 	docker-compose -f docker-compose.edgex.yml down
 
 device-rest:
-	git clone https://github.com/edgexfoundry-holding/device-rest-go && \
+	git clone https://github.com/edgexfoundry/device-rest-go && \
 	cd device-rest-go && \
 	make docker
 

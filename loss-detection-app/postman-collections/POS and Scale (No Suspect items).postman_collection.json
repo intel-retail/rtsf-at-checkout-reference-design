@@ -1,12 +1,24 @@
 {
 	"info": {
-		"_postman_id": "63afcd16-2271-40b6-a898-7cc875636e42",
+		"_postman_id": "5bd5e0ec-9fcc-4424-bbc8-26eff903197c",
 		"name": "POS and Scale (No Suspect items)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Basket Open",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ca7abdf9-5c20-47ed-93ae-e78a0462caf9",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -46,6 +58,18 @@
 		},
 		{
 			"name": "Scanned Item (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dfea0bdb-ff54-4f28-976e-f14c79dec02f",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -85,6 +109,18 @@
 		},
 		{
 			"name": "Scale Item  (Trail Mix)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d4db2c44-b9ae-415d-ab10-a13c8f671703",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -124,6 +160,18 @@
 		},
 		{
 			"name": "Scanned Item (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8f1252d7-6fae-4d24-a35e-043747fb29a1",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -163,6 +211,18 @@
 		},
 		{
 			"name": "Scale Item  (Red Wine)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a263941a-141f-458a-a876-59b909dd8fa5",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -202,6 +262,18 @@
 		},
 		{
 			"name": "Scanned Item (Steak)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1986cd2f-5437-44aa-a8b7-8379f2720b25",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -241,6 +313,18 @@
 		},
 		{
 			"name": "Scale Item (Steak)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "78c9743e-1b72-4b7d-a8bf-80a4413089da",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -253,7 +337,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 7.1,\n    \"units\": \"lbs\",\n    \"event_time\":15736013990000\n}",
+					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 7.11,\n    \"units\": \"lbs\",\n    \"event_time\":15736013990000\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -280,6 +364,18 @@
 		},
 		{
 			"name": "Payment Start",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "63c19a3e-f308-4e8b-a5df-642c3e301b9a",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -319,6 +415,18 @@
 		},
 		{
 			"name": "Payment Success",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8863496b-5262-4518-a18e-6bf1c1f3a68a",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -358,6 +466,18 @@
 		},
 		{
 			"name": "Basket Close",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f8566314-c7b9-4d36-9d3a-753f3df193e8",
+						"exec": [
+							"setTimeout(function(){}, [50]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [

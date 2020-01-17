@@ -95,6 +95,6 @@ Example JSON for publishing `scale-item` data:
 {
 	"name" : "device-scale-mqtt",
     "cmd" : "scale-item",
-    "scale-item" : "{\"lane_id\":\"1\",\"ScaleId\":\"abc123\",\"total\":3.25, 		                          \"delta\":1.15,\"units\":\"lbs\",\"event_time\":15736013940000}"
+    "scale-item" : "{\"lane_id\":\"1\",\"ScaleId\":\"abc123\",\"total\":3.25,\"delta\":1.15,\"units\":\"lbs\",\"event_time\":15736013940000}"
 }
 ```

@@ -205,8 +205,8 @@ services:
       - edgex-network
 
   device-rest:
-    # TODO: Rest Device service currently has to be built locally until moved out of holding and released
-    image: edgexfoundry/docker-device-rest-go:0.0.0-dev
+    # TODO: Rest Device service currently not released. Once release update to proper path
+    image: nexus3.edgexfoundry.org:10004/docker-device-rest-go:0.0.1-dev.1
     ports:
       - "49986:49986"
     restart: "always"

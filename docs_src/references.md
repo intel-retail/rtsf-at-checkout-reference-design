@@ -1,6 +1,3 @@
-> TODO: Update Links to individual RTSF at Checkout when open sourced
-
-
 ## Application Services
 
 | Service                       | Link                                                                                             |

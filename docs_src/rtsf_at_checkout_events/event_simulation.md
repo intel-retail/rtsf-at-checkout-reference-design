@@ -1,16 +1,37 @@
-## Event Simulation
+There are three different ways to simulate data in this reference design.
 
-#### Event Simulator
+- [Event Simulator](#event-simulator)
+- [Postman](#postman)
+- [MQTT.fx](#mqtt.fx)
 
-This reference design includes the **Event Simulator** utility. This simulator reads a JSON based script that defines the event data and wait times between sending each event, which it sends to the `EdgeX REST or MQTT Device service`. 
 
-Please note that before the simulator is run, ensure the EdgeX stack is running first via  `make run` from top folder. 
+### Event Simulator
 
-To supply a customized simulation script, use the -f flag like this example: 
+This reference design includes the **Event Simulator** utility which reads a JSON-based script that defines the event data and wait times between sending each event. Events are sent to the `EdgeX REST or MQTT Device service`. 
 
-​	`./event-simulator –f tests/checkoutEvents.json `
 
-Below is an example script for sending POS and Scale events.  Scripts are provided for various `RTSF at Checkout` scenarios.
+#### Troubleshooting
+If you have problems running the EdgeX stack, see [Troubleshooting Guide](#troubleshooting-guide).
+
+#### Getting Started
+
+- Open the docker logs in a terminal window. This lets you make sure checkout events are processed correctly. To open the docker logs:
+```
+docker logs -f event-reconciler
+```
+- Make sure the EdgeX stack is running. To do so, from the top folder, run:
+```
+make run-base
+``` 
+
+Optional: To supply a customized simulation script, use the -f flag as in this example: 
+```
+./event-simulator –f tests/checkoutEvents.json
+``` 
+   
+#### Example Script
+
+The script below provides and example to send POS and Scale events. Scripts are provided for various `RTSF at Checkout` scenarios.
 
 > Note: The simulator adds the `event_time` field to each event so that the values are dynamic.
 
@@ -159,13 +180,13 @@ Below is an example script for sending POS and Scale events.  Scripts are provid
 }
 ```
 
-If having problems or issues on running EdgeX stack, please refer to the latter section [Troubleshooting Guide](#troubleshooting-guide) on some of common issues. 
+### Postman 
 
-#### PostMan 
+You can use the [Postman](https://www.getpostman.com/) tool to send simulated events to the EdgeX REST Device Service. See [POSTing to EdgeX REST Device Service](../device_services.md#posting-to-edgex-rest-device-service) for information.
 
-The [PostMan](https://www.getpostman.com/) tool can be used to send simulated events to the EdgeX REST Device service. See above [POSTing to EdgeX REST Device Service](#posting-to-edgex-rest-device-service) section for details on how to POST to the EdgeX REST Device service.
+### MQTT.FX
 
-#### MQTT.FX
+You can use the [MQTT.FX](https://mqttfx.jensd.de/) tool or a similar tool to send simulated events to the EdgeX MQTT Device Service. See [Publishing to EdgeX MQTT Device Service](../device_services.md#publishing-to-edgex-mqtt-device-service) for information.
 
-The [MQTT.FX](https://mqttfx.jensd.de/) tool or tools like it can be used to send simulated events to the EdgeX MQTT Device service. See above [Publishing to EdgeX MQTT Device Service](Publishing to EdgeX MQTT Device Service) section for details on how to publish to the EdgeX REST Device service.
+
 

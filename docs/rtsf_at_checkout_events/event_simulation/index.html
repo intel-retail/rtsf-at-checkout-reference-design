@@ -104,7 +104,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#event-simulation" tabindex="1" class="md-skip">
+      <a href="#event-simulator" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -302,36 +302,50 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#event-simulation" class="md-nav__link">
-    Event Simulation
+  <a href="#event-simulator" class="md-nav__link">
+    Event Simulator
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#event-simulator" class="md-nav__link">
-    Event Simulator
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#postman" class="md-nav__link">
-    PostMan
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#mqttfx" class="md-nav__link">
-    MQTT.FX
+  <a href="#example-script" class="md-nav__link">
+    Example Script
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postman" class="md-nav__link">
+    Postman
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mqttfx" class="md-nav__link">
+    MQTT.FX
+  </a>
   
 </li>
       
@@ -430,36 +444,50 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#event-simulation" class="md-nav__link">
-    Event Simulation
+  <a href="#event-simulator" class="md-nav__link">
+    Event Simulator
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#event-simulator" class="md-nav__link">
-    Event Simulator
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#postman" class="md-nav__link">
-    PostMan
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#mqttfx" class="md-nav__link">
-    MQTT.FX
+  <a href="#example-script" class="md-nav__link">
+    Example Script
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postman" class="md-nav__link">
+    Postman
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mqttfx" class="md-nav__link">
+    MQTT.FX
+  </a>
   
 </li>
       
@@ -482,13 +510,38 @@
                 
                   <h1>Event simulation</h1>
                 
-                <h2 id="event-simulation">Event Simulation</h2>
-<h4 id="event-simulator">Event Simulator</h4>
-<p>This reference design includes the <strong>Event Simulator</strong> utility. This simulator reads a JSON based script that defines the event data and wait times between sending each event, which it sends to the <code>EdgeX REST or MQTT Device service</code>. </p>
-<p>Please note that before the simulator is run, ensure the EdgeX stack is running first via  <code>make run</code> from top folder. </p>
-<p>To supply a customized simulation script, use the -f flag like this example: </p>
-<p>​   <code>./event-simulator –f tests/checkoutEvents.json</code></p>
-<p>Below is an example script for sending POS and Scale events.  Scripts are provided for various <code>RTSF at Checkout</code> scenarios.</p>
+                <p>There are three different ways to simulate data in this reference design.</p>
+<ul>
+<li><a href="#event-simulator">Event Simulator</a></li>
+<li><a href="#postman">Postman</a></li>
+<li><a href="#mqtt.fx">MQTT.fx</a></li>
+</ul>
+<h3 id="event-simulator">Event Simulator</h3>
+<p>This reference design includes the <strong>Event Simulator</strong> utility which reads a JSON-based script that defines the event data and wait times between sending each event. Events are sent to the <code>EdgeX REST or MQTT Device service</code>. </p>
+<h4 id="troubleshooting">Troubleshooting</h4>
+<p>If you have problems running the EdgeX stack, see <a href="#troubleshooting-guide">Troubleshooting Guide</a>.</p>
+<h4 id="getting-started">Getting Started</h4>
+<ul>
+<li>Open the docker logs in a terminal window. This lets you make sure checkout events are processed correctly. To open the docker logs:</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="n">docker</span> <span class="n">logs</span> <span class="o">-</span><span class="n">f</span> <span class="n">event</span><span class="o">-</span><span class="n">reconciler</span>
+</pre></div>
+
+
+<ul>
+<li>Make sure the EdgeX stack is running. To do so, from the top folder, run:</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="n">make</span> <span class="n">run</span><span class="o">-</span><span class="n">base</span>
+</pre></div>
+
+
+<p>Optional: To supply a customized simulation script, use the -f flag as in this example: </p>
+<div class="codehilite"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">event</span><span class="o">-</span><span class="n">simulator</span> <span class="err">–</span><span class="n">f</span> <span class="n">tests</span><span class="o">/</span><span class="n">checkoutEvents</span><span class="p">.</span><span class="n">json</span>
+</pre></div>
+
+
+<h4 id="example-script">Example Script</h4>
+<p>The script below provides and example to send POS and Scale events. Scripts are provided for various <code>RTSF at Checkout</code> scenarios.</p>
 <blockquote>
 <p>Note: The simulator adds the <code>event_time</code> field to each event so that the values are dynamic.</p>
 </blockquote>
@@ -637,11 +690,10 @@
 </pre></div>
 
 
-<p>If having problems or issues on running EdgeX stack, please refer to the latter section <a href="#troubleshooting-guide">Troubleshooting Guide</a> on some of common issues. </p>
-<h4 id="postman">PostMan</h4>
-<p>The <a href="https://www.getpostman.com/">PostMan</a> tool can be used to send simulated events to the EdgeX REST Device service. See above <a href="#posting-to-edgex-rest-device-service">POSTing to EdgeX REST Device Service</a> section for details on how to POST to the EdgeX REST Device service.</p>
-<h4 id="mqttfx">MQTT.FX</h4>
-<p>The <a href="https://mqttfx.jensd.de/">MQTT.FX</a> tool or tools like it can be used to send simulated events to the EdgeX MQTT Device service. See above <a href="Publishing to EdgeX MQTT Device Service">Publishing to EdgeX MQTT Device Service</a> section for details on how to publish to the EdgeX REST Device service.</p>
+<h3 id="postman">Postman</h3>
+<p>You can use the <a href="https://www.getpostman.com/">Postman</a> tool to send simulated events to the EdgeX REST Device Service. See <a href="../../device_services/#posting-to-edgex-rest-device-service">POSTing to EdgeX REST Device Service</a> for information.</p>
+<h3 id="mqttfx">MQTT.FX</h3>
+<p>You can use the <a href="https://mqttfx.jensd.de/">MQTT.FX</a> tool or a similar tool to send simulated events to the EdgeX MQTT Device Service. See <a href="../../device_services/#publishing-to-edgex-mqtt-device-service">Publishing to EdgeX MQTT Device Service</a> for information.</p>
                 
                   
                 

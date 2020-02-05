@@ -41,11 +41,6 @@ down:
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
-device-rest:
-	git clone https://github.com/edgexfoundry/device-rest-go && \
-	cd device-rest-go && \
-	make docker
-
 vas:
 	git clone https://github.com/intel/video-analytics-serving && \
 	cd video-analytics-serving && \
@@ -67,7 +62,6 @@ clean-deps:
 	rm -rf rsp-sw-toolkit-im-suite-mqtt-device-service
 	rm -rf rsp-sw-toolkit-installer
 	rm -rf video-analytics-serving
-	rm -rf device-rest-go
 
 all: simulator docker
 

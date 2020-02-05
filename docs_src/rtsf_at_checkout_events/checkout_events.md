@@ -1,5 +1,3 @@
-## RTSF at Checkout Events
-
 The following are the details for the four different RTSF at Checkout event types that provide the information for a RTSF at Checkout solution. See the [Data Dictionary](#data-dictionary) section below for details about each of the fields in these events.
 
 ### POS Events

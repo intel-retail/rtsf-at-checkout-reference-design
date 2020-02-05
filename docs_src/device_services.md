@@ -36,7 +36,7 @@ and `{resource name}` is one of the defined resource for that device.
 
 Example URL for POSTing `basket-open` JSON data:
 
-[https://localhost:59990/device-pos-rest/basket-open](https://localhost:59990/device-pos-rest/basket-open)
+[http://localhost:49986/api/v1/resource/device-pos-rest/basket-open](https://localhost:49986/device-pos-rest/basket-open)
 where the JSON body is:
 
 ``` json

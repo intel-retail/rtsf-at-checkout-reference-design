@@ -205,8 +205,7 @@ services:
       - edgex-network
 
   device-rest:
-    # TODO: Rest Device service currently not released. Once release update to proper path
-    image: nexus3.edgexfoundry.org:10004/docker-device-rest-go:0.0.1-dev.1
+    image: edgexfoundry/docker-device-rest-go:1.0.0
     ports:
       - "49986:49986"
     restart: "always"

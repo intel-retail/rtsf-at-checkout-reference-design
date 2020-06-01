@@ -1,13 +1,18 @@
 {
-	"name": "object_detection",
-	"version": 1,
 	"type": "GStreamer",
-	"template": "v4l2src device=\"{source[path]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue leaky=upstream ! gvadetect device=GPU inference-id=inf0 model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvametaconvert converter=json method=detection source=\"{source[uri]}\" name=\"jsonmetaconvert\" include-no-detections=true ! queue ! gvametapublish method=\"{destination[type]}\" address=\"{destination[host]}\" topic=\"{destination[topic]}\" timeout=1000 ! gvawatermark ! queue leaky=upstream ! videoconvert ! theoraenc ! oggmux ! tcpserversink host=0.0.0.0 port=7001",
+	"template": "v4l2src device=\"{source[path]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue leaky=upstream ! gvadetect device=GPU model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvametaconvert source=\"{source[uri]}\" name=\"jsonmetaconvert\" add-empty-results=true ! queue ! gvametapublish address=\"{destination[host]}\" topic=\"{destination[topic]}\" timeout=1000 ! gvawatermark ! queue leaky=upstream ! videoconvert ! theoraenc ! oggmux ! tcpserversink host=0.0.0.0 port=7001",
 	"description": "Object Detection Pipeline",
 	"parameters": {
 		"type": "object",
 		"properties": {
-			"every-nth-frame": {
+			"method": {
+				"element": "gvametapublish",
+				"type": "integer",
+				"minimum": 0,
+				"maximum": 4,
+				"default": 2
+			},
+			"inference-interval": {
 				"element": "detection",
 				"type": "integer",
 				"minimum": 0,

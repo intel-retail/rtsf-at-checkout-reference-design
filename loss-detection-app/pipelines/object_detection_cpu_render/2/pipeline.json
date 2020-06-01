@@ -1,14 +1,19 @@
 {
-    "name": "object_detection",
-    "version": 1,
     "type": "GStreamer",
-    "template":"v4l2src device=\"{source[path]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue ! gvadetect inference-id=inf0 device=CPU model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvaidentify tracker=true ! gvametaconvert converter=json method=detection source=\"{source[path]}\" name=\"jsonmetaconvert\" include-no-detections=true ! gvametapublish method=\"{destination[type]}\" address=\"{destination[host]}\" topic=\"{destination[topic]}\" timeout=1000 ! gvawatermark ! queue ! ximagesink sync=false",
+    "template":"v4l2src device=\"{source[path]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue ! gvadetect device=CPU model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvaidentify tracker=true ! gvametaconvert source=\"{source[path]}\" name=\"jsonmetaconvert\" add-empty-results=true ! gvametapublish address=\"{destination[host]}\" topic=\"{destination[topic]}\" timeout=1000 ! gvawatermark ! queue ! ximagesink sync=false",
     "description": "Object Detection Pipeline",
 
     "parameters": {
 		"type" : "object",
 		"properties" : {
-			"every-nth-frame": {
+			"method": {
+				"element": "gvametapublish",
+				"type": "integer",
+				"minimum": 0,
+				"maximum": 4,
+				"default": 2
+			},
+			"inference-interval": {
 				"element":"detection",
 				"type": "integer",
 				"minimum": 0,

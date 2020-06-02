@@ -28,7 +28,7 @@ services:
       - video-analytic
 
   video-analytic:
-    image: video_analytics_serving_gstreamer:latest
+    image: video-analytics-serving-gstreamer:latest
     ports:
       - "8090:8080"
       - "7001:7001"
@@ -44,6 +44,6 @@ services:
       - /dev/dri:/dev/dri
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./pipelines:/pipelines
-      - ./models:/models
+      - ./pipelines:/home/video-analytics-serving/pipelines
+      - ./models:/home/video-analytics-serving/models
 

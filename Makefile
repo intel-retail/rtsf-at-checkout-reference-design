@@ -43,7 +43,8 @@ down:
 
 vas:
 	git clone https://github.com/intel/video-analytics-serving && \
-	cd video-analytics-serving && \
+	cd video-analytics-serving/docker && \
+        git checkout v0.3.0-alpha && \
 	./build.sh build=build_gstreamer
 
 rsp:

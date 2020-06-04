@@ -167,7 +167,7 @@ def create_pipelines():
                 'type': srcType
             },
             'destination': {
-                "type": 2,
+                "type": "mqtt",
                 "host": mqttDestHost,
                 "topic": "AnalyticsData"
             }, 

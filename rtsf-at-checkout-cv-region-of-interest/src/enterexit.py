@@ -168,7 +168,7 @@ def create_pipelines():
             },
             'destination': {
                 "type": "mqtt",
-                "address": mqttDestHost,
+                "host": mqttDestHost,
                 "topic": "AnalyticsData",
                 "timeout": 1000
             }, 

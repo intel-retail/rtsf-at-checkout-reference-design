@@ -168,8 +168,9 @@ def create_pipelines():
             },
             'destination': {
                 "type": "mqtt",
-                "host": mqttDestHost,
-                "topic": "AnalyticsData"
+                "address": mqttDestHost,
+                "topic": "AnalyticsData",
+                "timeout": 1000
             }, 
             'tags': {'roi_name':roiName},
             'parameters' :{

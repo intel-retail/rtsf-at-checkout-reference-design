@@ -1,18 +1,11 @@
 {
     "type": "GStreamer",
-    "template":"v4l2src device=\"{source[path]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue ! gvadetect device=GPU model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvaidentify ! gvametaconvert name=\"metaconvert\" source=\"{source[path]}\" add-empty-results=true ! gvametapublish name=\"metapublish\" address=\"{destination[host]}\" topic=\"{destination[topic]}\" timeout=1000 ! gvawatermark ! queue ! ximagesink sync=false",
+    "template":"v4l2src device=\"{source[path]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue ! gvadetect device=GPU model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvaidentify ! gvametaconvert name=\"metaconvert\" source=\"{source[path]}\" add-empty-results=true ! gvametapublish name=\"destination\" ! gvawatermark ! queue ! ximagesink sync=false",
     "description": "Object Detection Pipeline",
 
     "parameters": {
 		"type" : "object",
 		"properties" : {
-			"method": {
-				"element": "gvametapublish",
-				"type": "integer",
-				"minimum": 0,
-				"maximum": 4,
-				"default": 2
-			},
 			"inference-interval": {
 				"element":"detection",
 				"type": "integer",

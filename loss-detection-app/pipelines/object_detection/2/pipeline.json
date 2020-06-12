@@ -5,7 +5,7 @@
 		" ! gvadetect model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\"",
 		" ! gvametaconvert name=\"metaconvert\" add-empty-results=true",
 		" ! queue",
-		" ! gvametapublish name=\"destination\" file-path=\"/results/results.txt\"",
+		" ! gvametapublish name=\"destination\"",
 		" ! queue",
 		" ! appsink name=appsink"
 	],

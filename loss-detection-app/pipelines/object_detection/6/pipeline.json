@@ -2,7 +2,7 @@
     "type": "GStreamer",
 	"template":["v4l2src name=\"source\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw",
 		" ! videocrop name=\"videocrop\" ! queue",
-		" ! gvadetect model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\"",
+		" ! gvadetect name=\"detection\" device=\"{parameters[inference_device]}\" model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\"",
 		" ! gvaidentify",
 		" ! gvametaconvert name=\"metaconvert\" add-empty-results=true",
 		" ! gvametapublish name=\"destination\"",

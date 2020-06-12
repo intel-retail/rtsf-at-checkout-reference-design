@@ -41,10 +41,11 @@ down:
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
+VAS_VERSION=v0.3.0-alpha
 vas:
 	git clone https://github.com/intel/video-analytics-serving && \
 	cd video-analytics-serving/docker && \
-        git checkout v0.3.0-alpha && \
+        git checkout ${VAS_VERSION} && \
 	./build.sh build=build_gstreamer
 
 rsp:

@@ -1,6 +1,14 @@
 {
 	"type": "GStreamer",
-	"template":"urisourcebin uri=\"{source[uri]}\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw ! videocrop name=\"videocrop\" ! queue leaky=upstream ! gvadetect device=CPU model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvametaconvert name=\"metaconvert\" source=\"{source[uri]}\" add-empty-results=true ! queue ! gvametapublish name=\"destination\" ! queue ! appsink name=appsink",
+	"template":["urisourcebin name=\"source\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw",
+		" ! videocrop name=\"videocrop\" ! queue leaky=upstream",
+		" ! gvadetect device=CPU model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\"",
+		" ! gvametaconvert name=\"metaconvert\" add-empty-results=true",
+		" ! queue",
+		" ! gvametapublish name=\"destination\"",
+		" ! queue",
+		" ! appsink name=appsink"
+		],
 	"description": "Object Detection Pipeline",
 
 	"parameters": {

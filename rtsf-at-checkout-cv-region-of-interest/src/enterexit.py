@@ -160,7 +160,7 @@ def create_pipelines():
         if camSrc == None or roiName == None:
             break # should break out of the loop when no more CAMERA env vars are found
 
-        srcPath, srcType = ('uri', 'uri') if ('rtsp' in camSrc) else ('path', 'string')       
+        srcPath, srcType = ('uri', 'uri') if ('rtsp' in camSrc) else ('path', 'device')
         jsonConfig = {
             'source': {
                 srcPath: camSrc,
@@ -178,7 +178,8 @@ def create_pipelines():
                 "left":int(camCrops["left"]),
                 "right":int(camCrops["right"]),
                 "bottom":int(camCrops["bottom"]),
-                "port":int(camStreamPort)
+                "port":int(camStreamPort),
+                "inference_device":"CPU"
             },
             'camEndpoint': camEndpoint
         }

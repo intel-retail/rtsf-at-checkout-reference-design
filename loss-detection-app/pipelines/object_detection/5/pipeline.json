@@ -1,14 +1,20 @@
 {
-    "name": "object_detection",
-    "version": 1,
     "type": "GStreamer",
-    "template":"v4l2src device=\"{source[path]}\" ! concat name=c ! decodebin ! video/x-raw ! videoconvert name=\"videoconvert\" ! gvadetect inference-id=inf0 model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\" name=\"detection\" ! gvaidentify tracker=true ! gvametaconvert converter=json method=detection source=\"{source[path]}\" name=\"jsonmetaconvert\" include-no-detections=true ! gvametapublish method=file filepath=\"/results/results.txt\" ! queue ! appsink name=appsink",
+	"template":["v4l2src name=\"source\" ! concat name=c ! decodebin ! video/x-raw",
+		" ! videoconvert name=\"videoconvert\"",
+		" ! gvadetect name=\"detection\" device=\"{parameters[inference_device]}\" model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\"",
+		" ! gvaidentify",
+		" ! gvametaconvert name=\"metaconvert\" add-empty-results=true",
+		" ! gvametapublish name=\"destination\"",
+		" ! queue",
+		" ! appsink name=appsink"
+	],
     "description": "Object Detection Pipeline",
 
     "parameters": {
 		"type" : "object",
 		"properties" : {
-			"every-nth-frame": {
+			"inference-interval": {
 				"element":"detection",
 				"type": "integer",
 				"minimum": 0,

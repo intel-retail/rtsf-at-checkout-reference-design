@@ -1,12 +1,13 @@
-# Copyright © 2019 Intel Corporation. All rights reserved.
+# Copyright © 2019 - 2020 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
-FROM golang:1.12-alpine3.10 AS builder
+
+FROM golang:1.13-alpine AS builder
 
 ENV GO111MODULE=on
 WORKDIR /product-lookup
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-    copyright='Copyright (c) 2018, 2019: Intel'
+    copyright='Copyright (c) 2018 - 2020: Intel'
 
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
 
@@ -25,7 +26,7 @@ RUN CGO_ENABLED=0 go build -o product-lookup main.go
 FROM alpine:3.10
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-    copyright='Copyright (c) 2018, 2019: Intel'
+    copyright='Copyright (c) 2018 - 2020: Intel'
 
 ENV APP_PORT=8083
 EXPOSE $APP_PORT

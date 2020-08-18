@@ -1,0 +1,133 @@
+[Writable]
+LogLevel = "INFO"
+
+[Service]
+Host = "localhost"
+Port = 49982
+Protocol = 'http'
+BootTimeout = 30000
+CheckInterval = '10s'
+ClientMonitor = 15000
+ConnectRetries = 3
+Labels = []
+StartupMsg = "Device MQTT started"
+Timeout = 5000
+EnableAsyncReadings = true
+AsyncBufferSize = 16
+
+[Registry]
+Host = "localhost"
+Port = 8500
+CheckInterval = "10s"
+FailLimit = 3
+FailWaitTime = 10
+Type = "consul"
+
+[Clients]
+  [Clients.Data]
+  Name = "edgex-core-data"
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48080
+  Timeout = 50000
+
+  [Clients.Metadata]
+  Name = "edgex-core-metadata"
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48081
+  Timeout = 50000
+
+[Device]
+  DataTransform = true
+  InitCmd = ""
+  InitCmdArgs = ""
+  MaxCmdOps = 128
+  MaxCmdValueLen = 256
+  RemoveCmd = ""
+  RemoveCmdArgs = ""
+  ProfilesDir = "./res"
+
+[Logging]
+EnableRemote = false
+File = ""
+
+[[DeviceList]]
+  Name = "device-pos-mqtt"
+  Profile = "device-pos-mqtt"
+  Description = "MQTT device for POS"
+  Labels = [ "MQTT", "pos"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       Schema = "tcp"
+       Host = "mqtt"
+       Port = "1883"
+       ClientId = "edgex-mqtt-pos-command-pub"
+       User = ""
+       Password = ""
+       Topic = "EdgeXPosCommand"
+[[DeviceList]]
+  Name = "device-scale-mqtt"
+  Profile = "device-scale-mqtt"
+  Description = "MQTT device for Scale"
+  Labels = [ "MQTT", "scale"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       Schema = "tcp"
+       Host = "mqtt"
+       Port = "1883"
+       ClientId = "edgex-mqtt-scale-command-pub"
+       User = ""
+       Password = ""
+       Topic = "EdgeXScaleCommand"
+[[DeviceList]]
+  Name = "device-rfid-roi-mqtt"
+  Profile = "device-rfid-roi-mqtt"
+  Description = "MQTT device for RFID ROI events"
+  Labels = [ "MQTT", "rfid"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       Schema = "tcp"
+       Host = "mqtt"
+       Port = "1883"
+       ClientId = "edgex-mqtt-rfid-command-pub"
+       User = ""
+       Password = ""
+       Topic = "EdgeXRfidCommand"
+[[DeviceList]]
+  Name = "device-cv-roi-mqtt"
+  Profile = "device-cv-roi-mqtt"
+  Description = "MQTT device for CV ROI events"
+  Labels = [ "MQTT", "cv", "ROI"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       Schema = "tcp"
+       Host = "localhost"
+       Port = "1883"
+       ClientId = "edgex-mqtt-roi-command-pub"
+       User = ""
+       Password = ""
+       Topic = "EdgeXRoiCommand"
+
+# Driver configs
+[Driver]
+IncomingSchema = "tcp"
+IncomingHost = "0.0.0.0"
+IncomingPort = "1883"
+IncomingUser = ""
+IncomingPassword = ""
+IncomingQos = "0"
+IncomingKeepAlive = "100"
+IncomingClientId = "edgex-mqtt-sub"
+IncomingTopic = "edgex/#"
+ResponseSchema = "tcp"
+ResponseHost = "0.0.0.0"
+ResponsePort = "1883"
+ResponseUser = ""
+ResponsePassword = ""
+ResponseQos = "0"
+ResponseKeepAlive = "100"
+ResponseClientId = "edgex-mqtt-command-sub"
+ResponseTopic = "Edgex-command-response"
+ConnEstablishingRetry = '10'
+ConnRetryWaitTime = '5'

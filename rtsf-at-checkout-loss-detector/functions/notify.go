@@ -12,10 +12,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/pkg/startup"
-
-	"github.com/edgexfoundry/go-mod-core-contracts/clients/types"
-
 	"github.com/edgexfoundry/app-functions-sdk-go/appsdk"
 	"github.com/edgexfoundry/go-mod-core-contracts/clients"
 	"github.com/edgexfoundry/go-mod-core-contracts/clients/notifications"
@@ -25,8 +21,6 @@ import (
 
 const (
 	notificationsURL = "NotificationsURL"
-	useRegistry      = false
-	interval         = -1
 )
 
 // NotifySuspectList sends a notification to edgex-go
@@ -46,21 +40,12 @@ func NotifySuspectList(edgexcontext *appcontext.Context, params ...interface{}) 
 		return false, nil
 	}
 
-	content := "Suspicious Items:\n" + string(contentFormated)
-
-	url, ok := edgexcontext.Configuration.ApplicationSettings[notificationsURL]
-	if !ok {
-		edgexcontext.LoggingClient.Error(notificationsURL + " setting not found")
+	if edgexcontext.NotificationsClient == nil {
+		edgexcontext.LoggingClient.Error("cannot send notification: NotificationsClient is not configured or missing")
 		return false, nil
 	}
 
-	endpointParams := types.EndpointParams{
-		ServiceKey:  clients.SupportNotificationsServiceKey,
-		Path:        clients.ApiNotificationRoute,
-		UseRegistry: useRegistry,
-		Url:         url + clients.ApiNotificationRoute,
-		Interval:    interval,
-	}
+	content := "Suspicious Items:\n" + string(contentFormated)
 
 	notification := notifications.Notification{
 		Slug:        "suspect-items-" + time.Now().String(),
@@ -74,9 +59,7 @@ func NotifySuspectList(edgexcontext *appcontext.Context, params ...interface{}) 
 		},
 	}
 
-	nc := notifications.NewNotificationsClient(endpointParams, startup.Endpoint{})
-
-	if err = nc.SendNotification(notification, context.Background()); err != nil {
+	if err = edgexcontext.NotificationsClient.SendNotification(context.Background(), notification); err != nil {
 		edgexcontext.LoggingClient.Error(err.Error())
 	}
 

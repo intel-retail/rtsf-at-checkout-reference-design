@@ -14,13 +14,13 @@ services:
       - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
       - CAMERA0_SRC=rtsp://admin:Intel123!@10.0.1.69:554/Streaming/Channels/101
       - CAMERA0_ROI_NAME=Staging
-      - CAMERA0_CROP_TBLR=245,210,260,800
+      - CAMERA0_CROP_TBLR=0,0,0,0
       - CAMERA0_PORT=7001
 
       - CAMERA1_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
       - CAMERA1_SRC=rtsp://admin:Intel123!@10.0.1.69:554/Streaming/Channels/101
       - CAMERA1_ROI_NAME=Scanner
-      - CAMERA1_CROP_TBLR=240,210,500,520
+      - CAMERA1_CROP_TBLR=0,0,0,0
       - CAMERA1_PORT=7002
     networks:
       - loss-detection-app_edgex-network
@@ -28,7 +28,7 @@ services:
       - video-analytic
 
   video-analytic:
-    image: video_analytics_serving_gstreamer:latest
+    image: video-analytics-serving-gstreamer:latest
     ports:
       - "8090:8080"
       - "7001:7001"
@@ -44,6 +44,6 @@ services:
       - /dev/dri:/dev/dri
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./pipelines:/pipelines
-      - ./models:/models
+      - ./pipelines:/home/video-analytics-serving/pipelines
+      - ./models:/home/video-analytics-serving/models
 

@@ -1,9 +1,9 @@
-# Copyright (C) 2019 Intel Corp.
+# Copyright (C) 2019 - 2020 Intel Corp.
 # 
 # SPDX-License-Identifier: Apache-2.0
 
 [Writable]
-LogLevel = 'DEBUG'
+LogLevel = 'INFO'
 
 [Service]
 BootTimeout = '30s'
@@ -26,12 +26,6 @@ Type = 'consul'
   Protocol = "http"
   Host = "localhost"
   Port = 48080
-  Timeout = '30s'
-
-  [Clients.Logging]
-  Protocol = "http"
-  Host = "localhost"
-  Port = 48061
 
 [Binding]
  Type="messagebus"
@@ -46,7 +40,7 @@ Type = 'zero'
 
 [Logging]
 EnableRemote = false
-File = './logs/rsp-controller-event-handler.log'
+File = ""
 
 [ApplicationSettings]
 DeviceNames = "rsp-controller"

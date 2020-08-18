@@ -11,7 +11,7 @@ MQTT_BROKER_PORT = 1883
 MQTT_KEEPALIVE = 60
 MQTT_INCOMING_TOPIC_NAME = "AnalyticsData"
 MQTT_OUTBOUND_TOPIC_NAME = "edgex"
-EDGEX_DEVICE_NAME = "device-cv-mqtt"
+EDGEX_DEVICE_NAME = "device-cv-roi-mqtt"
 EDGEX_ROI_EVENT = "cv-roi-event"
 EDGEX_ENTER_EVENT = 'ENTERED'
 EDGEX_EXIT_EVENT = 'EXITED'
@@ -160,7 +160,7 @@ def create_pipelines():
         if camSrc == None or roiName == None:
             break # should break out of the loop when no more CAMERA env vars are found
 
-        srcPath, srcType = ('uri', 'uri') if ('rtsp' in camSrc) else ('path', 'string')       
+        srcPath, srcType = ('uri', 'uri') if ('rtsp' in camSrc) else ('path', 'device')       
         jsonConfig = {
             'source': {
                 srcPath: camSrc,
@@ -169,7 +169,8 @@ def create_pipelines():
             'destination': {
                 "type": "mqtt",
                 "host": mqttDestHost,
-                "topic": "AnalyticsData"
+                "topic": "AnalyticsData",
+                "timeout": 1000
             }, 
             'tags': {'roi_name':roiName},
             'parameters' :{
@@ -177,7 +178,8 @@ def create_pipelines():
                 "left":int(camCrops["left"]),
                 "right":int(camCrops["right"]),
                 "bottom":int(camCrops["bottom"]),
-                "port":int(camStreamPort)
+                "port":int(camStreamPort),
+                "inference_device":"CPU"
             },
             'camEndpoint': camEndpoint
         }

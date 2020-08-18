@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2019 - 2020 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package main
@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	version     string = "1.0"
+	version     string = "1.1"
 	serviceName string = "device-scale"
 )
 

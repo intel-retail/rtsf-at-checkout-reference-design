@@ -28,7 +28,6 @@ EnableRemote = true
   Protocol = "http"
   Host = "edgex-core-data"
   Port = 48080
-  Timeout = 50000
 
   [Clients.Metadata]
   Name = "edgex-core-metadata"
@@ -36,12 +35,6 @@ EnableRemote = true
   Host = "edgex-core-metadata"
   Port = 48081
   Timeout = 50000
-
-  [Clients.Logging]
-  Name = "edgex-support-logging"
-  Protocol = "http"
-  Host = "edgex-support-logging"
-  Port = 48061
 
 [Device]
   DataTransform = true

@@ -1,0 +1,84 @@
+[Writable]
+LogLevel = 'INFO'
+
+[Service]
+Host = "localhost"
+Port = 49986
+Protocol = 'http'
+BootTimeout = 30000
+CheckInterval = '10s'
+ClientMonitor = 15000
+ConnectRetries = 20
+Labels = []
+StartupMsg = "Device REST started"
+Timeout = 5000
+EnableAsyncReadings = true
+AsyncBufferSize = 16
+
+[Registry]
+Host = "localhost"
+Port = 8500
+Type = "consul"
+CheckInterval = "10s"
+FailLimit = 3
+FailWaitTime = 10
+
+[Clients]
+  [Clients.Data]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48080
+
+  [Clients.Metadata]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 48081
+
+[Device]
+  DataTransform = true
+  InitCmd = ""
+  InitCmdArgs = ""
+  MaxCmdOps = 128
+  MaxCmdValueLen = 256
+  RemoveCmd = ""
+  RemoveCmdArgs = ""
+  ProfilesDir = "./res"
+
+# Driver configs
+[Driver]
+Port = "48085"
+Timeout = "5000"
+
+[Logging]
+EnableRemote = false
+File = ""
+
+# Pre-define Devices
+[[DeviceList]]
+  Name = "device-pos-rest"
+  Profile = "device-pos-rest"
+  Description = "RESTful Device that sends in JSON POS data"
+  Labels = [ "REST", "json", "pos" ]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]
+[[DeviceList]]
+  Name = "device-cv-roi-rest"
+  Profile = "device-cv-roi-rest"
+  Description = "RESTful device for CV ROI events"
+  Labels = [ "REST", "cv", "ROI"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]
+[[DeviceList]]
+  Name = "device-rfid-roi-rest"
+  Profile = "device-rfid-roi-rest"
+  Description = "RESTful device for RFID ROI events"
+  Labels = [ "REST", "RFID", "ROI"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]
+[[DeviceList]]
+  Name = "device-scale-rest"
+  Profile = "device-scale-rest"
+  Description = "RESTful device for Scale"
+  Labels = [ "REST", "scale"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]

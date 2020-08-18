@@ -6,9 +6,9 @@ package driver
 import (
 	"strconv"
 
-	sdk "github.com/edgexfoundry/device-sdk-go"
-
 	"device-scale/scale"
+
+	device "github.com/edgexfoundry/device-sdk-go/pkg/service"
 )
 
 type scaleDevice struct {
@@ -50,7 +50,7 @@ func newScaleDevice(serialPort string) *scaleDevice {
 
 	driver.lc.Debug("Creating new scale device")
 
-	config := sdk.DriverConfigs()
+	config := device.DriverConfigs()
 
 	timeout, err := strconv.ParseInt(config["TimeOutMilli"], 10, 64)
 	if err == nil {

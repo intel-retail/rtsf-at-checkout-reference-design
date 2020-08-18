@@ -12,8 +12,8 @@ import (
 	"sync"
 	"time"
 
-	sdk "github.com/edgexfoundry/device-sdk-go"
 	dsModels "github.com/edgexfoundry/device-sdk-go/pkg/models"
+	device "github.com/edgexfoundry/device-sdk-go/pkg/service"
 	"go.bug.st/serial.v1/enumerator"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/clients/logger"
@@ -46,9 +46,9 @@ func (drv *ScaleDriver) DisconnectDevice(deviceName string, protocols map[string
 }
 
 // Initialize initialize device
-func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.AsyncValues) error {
+func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.AsyncValues, deviceCh chan<- []dsModels.DiscoveredDevice) error {
 
-	config := sdk.DriverConfigs()
+	config := device.DriverConfigs()
 
 	drv.lc = lc
 	drv.asyncCh = asyncCh
@@ -80,7 +80,7 @@ func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsMo
 }
 
 func processScaleData(scaleData map[string]interface{}, deviceResName string) (*dsModels.CommandValue, error) {
-	config := sdk.DriverConfigs()
+	config := device.DriverConfigs()
 	scaleData["lane_id"] = config["LaneID"]
 	scaleData["scale_id"] = config["ScaleID"]
 	scaleData["event_time"] = (time.Now().UnixNano() / 1000000)

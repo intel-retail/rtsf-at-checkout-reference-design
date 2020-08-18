@@ -1,16 +1,20 @@
-# Copyright (C) 2019 Intel Corp.
+# Copyright (C) 2020 Intel Corp.
 # 
 # SPDX-License-Identifier: Apache-2.0
 
 [Writable]
-LogLevel = "DEBUG"
+LogLevel = "INFO"
 
 [Service]
 Host = "localhost"
 Port = 26599
+Protocol = 'http'
+BootTimeout = 30000
+CheckInterval = '10s'
+ClientMonitor = 15000
 ConnectRetries = 3
 Labels = []
-OpenMsg = "device scale started"
+StartupMsg = 'device scale started'
 ReadMaxLimit = 256
 Timeout = 5000
 EnableAsyncReadings = true
@@ -25,26 +29,19 @@ FailWaitTime = 10
 Type = "consul"
 
 [Logging]
-EnableRemote = true
-File = "/edgex/logs/device-random.log"
+EnableRemote = false
+File = ""
 
 [Clients]
   [Clients.Data]
   Protocol = "http"
   Host = "localhost"
   Port = 48080
-  Timeout = 5000
 
   [Clients.Metadata]
   Protocol = "http"
   Host = "localhost"
   Port = 48081
-  Timeout = 5000
-
-  [Clients.Logging]
-  Protocol = "http"
-  Host = "localhost"
-  Port = 48061
 
 [Device]
   DataTransform = true
@@ -62,7 +59,7 @@ File = "/edgex/logs/device-random.log"
   ScaleID = "123"
   LaneID = "123"
   ScaleVID = "0403"
-  ScalePID = "6001"   
+  ScalePID = "6001" 
   TimeOutMilli = "500"
  
 # Pre-define Devices

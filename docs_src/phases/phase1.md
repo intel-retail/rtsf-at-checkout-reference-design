@@ -45,11 +45,13 @@ Continue to the next section to start using Postman to create a simulated scenar
 1. Open Postman.
 2. Send an HTTP GET request to <http://localhost:49986/api/v1/ping> to test the device-rest operation. This makes sure the service is online.
 
+![Ping Request](../images/ping-get.png)
+
 !!! success
-    You see a `pong` message returned.
+    You see the `version number` of the service returned and a status code of `200`.
 
 !!! failure
-    If you get a Response Status Code 404 or get no response, make sure you correctly built and ran device-rest, according to the instructions in step 3 of [Getting Started](rtsf-at-checkout-reference-design/#step-1-clone-the-repository). Do not continue until you successfully receive a 'pong' message
+    If you get a Response Status Code 404 or get no response, make sure you correctly built and ran device-rest, according to the instructions in step 3 of [Getting Started](rtsf-at-checkout-reference-design/#step-1-clone-the-repository). Do not continue until you successfully receive a status code of '200'
 
 You are ready to initiate your first transaction.
 
@@ -67,6 +69,9 @@ You are ready to initiate your first transaction.
     "event_time":15736013930000
 }
 ```
+
+![Basket Open Request](../images/basket-open-post.png)
+
 
 ## Scan an item
 

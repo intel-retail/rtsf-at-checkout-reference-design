@@ -41,7 +41,7 @@ down:
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
-vdown:
+vas-down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down
 

@@ -12,16 +12,10 @@ services:
     environment:
       - MQTT_DESTINATION_HOST=mqtt:1883
       - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
-      - CAMERA0_SRC=rtsp://admin:Intel123!@10.0.1.69:554/Streaming/Channels/101
+      # - CAMERA0_SRC=rtsp://admin:{PASSWORD}@{URL}:554/{STREAM-END-POINT}
+      - CAMERA0_SRC=file:///home/video-analytics-serving/video-samples/grocery-test.mp4
       - CAMERA0_ROI_NAME=Staging
       - CAMERA0_CROP_TBLR=0,0,0,0
-      - CAMERA0_PORT=7001
-
-      - CAMERA1_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
-      - CAMERA1_SRC=rtsp://admin:Intel123!@10.0.1.69:554/Streaming/Channels/101
-      - CAMERA1_ROI_NAME=Scanner
-      - CAMERA1_CROP_TBLR=0,0,0,0
-      - CAMERA1_PORT=7002
     networks:
       - loss-detection-app_edgex-network
     depends_on:
@@ -31,8 +25,6 @@ services:
     image: video-analytics-serving-gstreamer:latest
     ports:
       - "8090:8080"
-      - "7001:7001"
-      - "7002:7002"
     container_name: video-analytic
     hostname: video-analytic
     privileged: true
@@ -46,4 +38,4 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./pipelines:/home/video-analytics-serving/pipelines
       - ./models:/home/video-analytics-serving/models
-
+      - ./video-samples:/home/video-analytics-serving/video-samples

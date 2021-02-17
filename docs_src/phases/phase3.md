@@ -72,13 +72,13 @@ environment:
   - CAMERA0_CROP_TBLR=0,0,0,0
 ```
 
-- MQTT_DESTINATION_HOST: location of mqtt broker
-- CAMERA0_ENDPOINT: VAS pipeline to run (explained in greater detail below)
-- CAMERA0_SRC: Camera source (explained in greater detail below)
-- CAMERA0_ROI_NAME: camera region of interest.  i.e "Staging", "Scanning", "Bagging", "Cart"
-- CAMERA0_CROP_TBLR: Camera crop top, bottom, left, right.  
+- MQTT_DESTINATION_HOST - the destination of the MQTT broker, to use the MQTT broker running in the compose file simply just use `mqtt:1883` 
+- CAMERA{i}_ENDPOINT - the destination of the pipeline resource you wish to run the analytics on. Use [http://video-analytic:8080](http://video-analytic:8080/) to hit the container running the VAS software then just add the route to the pipeline you are targeting. 
+- CAMERA{i}_SRC - the path to the camera either RTSP or the Linux path to the camera resource 
+- CAMERA{i}_ROI_NAME - the name of the ROI location this camera represents, this is a configurable parameter of the reconciler also and these ROI locations will need to match what is defined there as well. 
+- CAMERA{i}_CROP_TBLR - the camera’s crop number of pixels to cut from the top, bottom, left, right. Try and crop the camera to just include the ROI of interest.
 
-Each of the CAMERA{x}_ environment variables can be incremented up to the number of cameras you wish to include in your solution.  For example, if you have two cameras your environment variables section would have the following values: 
+Each of the CAMERA{i}_ environment variables can be incremented up to the number of cameras you wish to include in your solution.  For example, if you have two cameras your environment variables section would have the following values: 
 
 - MQTT_DESTINATION_HOST
 - CAMERA0_ENDPOINT

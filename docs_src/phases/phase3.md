@@ -60,13 +60,88 @@ which will create the following docker image:
 
 This make target will clone the VAS repo and run the appropriate scripts to create the docker image.
 
-Run the following command to start the VAP services:
+### Environment variable section of docker-compose.vap.yml
+
+``` yaml
+environment:
+  - MQTT_DESTINATION_HOST=mqtt:1883
+  - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
+  # Fill in camera source info
+  - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}
+  - CAMERA0_ROI_NAME=Staging
+  - CAMERA0_CROP_TBLR=0,0,0,0
+```
+
+- MQTT_DESTINATION_HOST: location of mqtt broker
+- CAMERA0_ENDPOINT: VAS pipeline to run (explained in greater detail below)
+- CAMERA0_SRC: Camera source (explained in greater detail below)
+- CAMERA0_ROI_NAME: camera region of interest.  i.e "Staging", "Scanning", "Bagging", "Cart"
+- CAMERA0_CROP_TBLR: Camera crop top, bottom, left, right.  
+
+Each of the CAMERA{x}_ environment variables can be incremented up to the number of cameras you wish to include in your solution.  For example, if you have two cameras your environment variables section would have the following values: 
+
+- MQTT_DESTINATION_HOST
+- CAMERA0_ENDPOINT
+- CAMERA0_SRC
+- CAMERA0_ROI_NAME
+- CAMERA0_CROP_TBLR
+- CAMERA1_ENDPOINT
+- CAMERA1_SRC
+- CAMERA1_ROI_NAME
+- CAMERA1_CROP_TBLR
+
+### Camera Source
+Before you run Video Analytics Serving you'll need to specify your camera source in the docker compose file `docker-compose.vap.yml`.
+
+Possible camera sources include:
+
+- rtsp
+- usb camera
+- local file (debugging only)
+
+#### RTSP
+
+For an RTSP feed edit the CAMERA0_SRC environment variable to point to the URL of the RTSP feed.
+
+`CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}`
+
+If the RTSP camera has username and password auth append those values to the beginning of the URL. i.e. `CAMERA0_SRC=rtsp://{USERNAME}:{PASSWORD}@{URL}:{PORT}/{STREAM-END-POINT}`.
+
+#### USB camera
+First, add the camera device to the `video-analytic` container.
+
+``` yaml
+devices:
+    - /dev/video0:/dev/video0
+```
+
+Then edit the CAMERA0_SRC environment variable to point to the video source
+`CAMERA0_SRC=/dev/video0`
+
+#### Local video file
+
+To use a local video sample add the path to the video file in the container to the CAMERA0_SRC environment variable.  The keyword `file` lets VAS know the URI is a local file and not a RTSP URL.
+
+`CAMERA0_SRC=file:///home/video-analytics-serving/video-samples/grocery-test.mp4`
+
+### Pipelines
+
+There are a few pipelines included with this build, you can find them in the `pipelines` directory.  The pipelines are object_detection_cpu, object_detection_cpu_render, and object_detection_cpu_restream.  
+
+- object_detection_cpu_render is the default pipeline which opens a x11 window to show the inference results in realtime.  (when using this default pipeline in order to let docker's x11 client create a window be sure to run `xhost +` at the command prompt to disable x11 access control temporally)
+- object_detection_cpu_restream is similar but instead of opening an x11 window the pipeline starts an RTSP server where you can view the realtime inference results.
+- object_detection_cpu does the same inferencing but doesn't display any results.
+
+### Starting the Video Analytics Container
+
+Once the configuration changes are applied to the compose file run the following command to start the VAP services:
 
 ``` sh
+xhost +
 make run-vap
 ```
 
-
+Once VAS is up and running you can check the logs for `cv-region-of-interest` and `video-analytic`.  And you should see a x11 window showing the inference results.  These inference results are sent to EdgeX and handled by reconciler service to ensure products are entering and exiting the correct regions of interest.
 
 ## End Results
 

@@ -12,8 +12,8 @@ services:
     environment:
       - MQTT_DESTINATION_HOST=mqtt:1883
       - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
-      # - CAMERA0_SRC=rtsp://admin:{PASSWORD}@{URL}:554/{STREAM-END-POINT}
-      - CAMERA0_SRC=file:///home/video-analytics-serving/video-samples/grocery-test.mp4
+      # Fill in camera source info
+      - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}
       - CAMERA0_ROI_NAME=Staging
       - CAMERA0_CROP_TBLR=0,0,0,0
     networks:

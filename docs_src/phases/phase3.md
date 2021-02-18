@@ -64,12 +64,15 @@ This make target will clone the VAS repo and run the appropriate scripts to crea
 
 ``` yaml
 environment:
-  - MQTT_DESTINATION_HOST=mqtt:1883
-  - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
-  # Fill in camera source info
-  - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}
-  - CAMERA0_ROI_NAME=Staging
-  - CAMERA0_CROP_TBLR=0,0,0,0
+    - MQTT_DESTINATION_HOST=mqtt:1883
+    - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
+    # Fill in camera source info below
+    # for RTSP cameras
+    # - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}
+    # or for USB cameras
+    # - CAMERA0_SRC=/dev/video0
+    - CAMERA0_ROI_NAME=Staging
+    - CAMERA0_CROP_TBLR=0,0,0,0
 ```
 
 - MQTT_DESTINATION_HOST - the destination of the MQTT broker, to use the MQTT broker running in the compose file simply just use `mqtt:1883` 
@@ -131,6 +134,8 @@ There are a few pipelines included with this build, you can find them in the `pi
 - object_detection_cpu_render is the default pipeline which opens a x11 window to show the inference results in realtime.  (when using this default pipeline in order to let docker's x11 client create a window be sure to run `xhost +` at the command prompt to disable x11 access control temporally)
 - object_detection_cpu_restream is similar but instead of opening an x11 window the pipeline starts an RTSP server where you can view the realtime inference results.
 - object_detection_cpu does the same inferencing but doesn't display any results.
+
+For all of the pipelines version 1 is rtsp or local file and version 2 is USB camera.
 
 ### Starting the Video Analytics Container
 

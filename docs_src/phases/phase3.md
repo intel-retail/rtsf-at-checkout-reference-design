@@ -108,7 +108,7 @@ For an RTSP feed edit the CAMERA0_SRC environment variable to point to the URL o
 If the RTSP camera has username and password auth append those values to the beginning of the URL. i.e. `CAMERA0_SRC=rtsp://{USERNAME}:{PASSWORD}@{URL}:{PORT}/{STREAM-END-POINT}`.
 
 #### USB camera
-First, add the camera device to the `video-analytic` container.
+First, add the camera device to the `video-analytic` service in the docker-compose file.
 
 ``` yaml
 devices:

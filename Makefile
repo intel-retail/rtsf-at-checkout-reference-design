@@ -41,12 +41,16 @@ down:
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
-VAS_VERSION=v0.3.0-alpha
+vas-down:
+	cd ./loss-detection-app && \
+	docker-compose -f docker-compose.vap.yml down
+
+VAS_VERSION=v0.4.1-beta
 vas:
 	git clone https://github.com/intel/video-analytics-serving && \
 	cd video-analytics-serving/docker && \
 	git checkout ${VAS_VERSION} && \
-	./build.sh build=build_gstreamer
+	./build.sh 
 
 rsp:
 	git clone https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service && \

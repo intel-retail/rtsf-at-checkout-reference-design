@@ -12,7 +12,7 @@ Upon completing the steps in this guide, you will be ready to integrate sensors 
 
 ### Block diagram
 The high-level diagram below shows the sensors and services used with the Real Time Sensor Fusion for Loss Detection at Checkout Reference Design. The diagram shows the sensors and services, and how they communicate through EdgeX. Intel provides the services outlined in green, and you must obtain EdgeX and the sensors and services in pink.
-![Real Time Sensor Fusion for Loss Detection at Checkout Diagram](./images/rtsf-loss-detection-at-checkout.png)
+![Real Time Sensor Fusion for Loss Detection at Checkout Diagram](./images/rtsf-architecture.jpg)
 
 ### Prerequisites
 

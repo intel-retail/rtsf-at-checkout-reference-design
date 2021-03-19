@@ -674,12 +674,15 @@
 <p>This make target will clone the VAS repo and run the appropriate scripts to create the docker image.</p>
 <h3 id="environment-variable-section-of-docker-composevapyml">Environment variable section of docker-compose.vap.yml</h3>
 <div class="codehilite"><pre><span></span><code><span class="nt">environment</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">MQTT_DESTINATION_HOST=mqtt:1883</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1</span>
-  <span class="c1"># Fill in camera source info</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CAMERA0_ROI_NAME=Staging</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CAMERA0_CROP_TBLR=0,0,0,0</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">MQTT_DESTINATION_HOST=mqtt:1883</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1</span>
+    <span class="c1"># Fill in camera source info below</span>
+    <span class="c1"># for RTSP cameras</span>
+    <span class="c1"># - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}</span>
+    <span class="c1"># or for USB cameras</span>
+    <span class="c1"># - CAMERA0_SRC=/dev/video0</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CAMERA0_ROI_NAME=Staging</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CAMERA0_CROP_TBLR=0,0,0,0</span>
 </code></pre></div>
 
 <ul>

@@ -55,7 +55,7 @@ services:
         - loss-detection-app_edgex-network
       environment:
         <<: *common-variables
-        Service_Host: checkout-lane-reconciler
+        Service_Host: event-reconciler
         MessageBus_SubscribeHost_Host: edgex-core-data
         ApplicationSettings_ProductLookupEndpoint: product-lookup:8083
 
@@ -110,5 +110,5 @@ services:
         - loss-detection-app_edgex-network
       environment:
         <<: *common-variables
-        Service_Host: rsp-controller-event-handler
+        Service_Host: rsp-event-handler
         MessageBus_SubscribeHost_Host: edgex-core-data

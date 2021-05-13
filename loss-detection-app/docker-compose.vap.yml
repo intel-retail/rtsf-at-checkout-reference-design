@@ -2,7 +2,7 @@ version: '3.4'
 
 networks:
   loss-detection-app_edgex-network:
-    external: true   
+    external: true
 
 services:
   cv-region-of-interest:
@@ -10,36 +10,62 @@ services:
     container_name: cv-region-of-interest
     hostname: cv-region-of-interest
     environment:
+      - no_proxy=video-analytic,mqtt
       - MQTT_DESTINATION_HOST=mqtt:1883
-      - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
+      - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu/frame_store
       # Fill in camera source info below
       # for RTSP cameras
-      # - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}
+      - CAMERA0_SRC=file:///tmp/EnterExitEvent_2second.mp4
       # or for USB cameras
       # - CAMERA0_SRC=/dev/video0
       - CAMERA0_ROI_NAME=Staging
       - CAMERA0_CROP_TBLR=0,0,0,0
+      - CAMERA0_FRAME_STORE=/tmp/my-frame-store
+    user: "${UID}:${GID}"
     networks:
       - loss-detection-app_edgex-network
+    volumes:
+      - /tmp:/tmp
     depends_on:
       - video-analytic
+      - mqtt
 
   video-analytic:
     image: video-analytics-serving-gstreamer:latest
     ports:
-      - "8090:8080"
+      - "8080:8080"
     container_name: video-analytic
     hostname: video-analytic
     privileged: true
     networks:
       - loss-detection-app_edgex-network
     environment:
-      DISPLAY: ${DISPLAY}
+      - ENABLE_RTSP=true
+    user: "${UID}:${GID}"
     devices:
       - /dev/video0:/dev/video0
       - /dev/dri:/dev/dri
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /tmp:/tmp
       - ./pipelines:/home/video-analytics-serving/pipelines
       - ./models:/home/video-analytics-serving/models
-      - ./video-samples:/home/video-analytics-serving/video-samples
+      - ./extensions:/home/video-analytics-serving/extensions
+
+  enter-exit-event:
+    image: eclipse-mosquitto:1.6
+    container_name: enter-exit-event
+    hostname: enter-exit-event
+    networks:
+      - loss-detection-app_edgex-network
+    entrypoint: /usr/bin/mosquitto_sub -h mqtt -t edgex
+    depends_on:
+      - mqtt
+
+  mqtt:
+    image: eclipse-mosquitto:1.6
+    ports:
+      - "1883:1883"
+    container_name: mqtt
+    hostname: mqtt
+    networks:
+      - loss-detection-app_edgex-network

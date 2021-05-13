@@ -45,7 +45,7 @@ vas-down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down
 
-VAS_VERSION=v0.4.1-beta
+VAS_VERSION=v0.5.0-beta
 vas:
 	git clone https://github.com/intel/video-analytics-serving && \
 	cd video-analytics-serving/docker && \

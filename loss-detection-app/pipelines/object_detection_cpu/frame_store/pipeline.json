@@ -1,0 +1,56 @@
+{
+	"type": "GStreamer",
+    "template":["urisourcebin name=source ! decodebin ! videoconvert name=videoconvert ! video/x-raw",
+        " ! tee name=t ! queue",
+		" ! videocrop name=videocrop ! queue leaky=upstream",
+		" ! gvadetect name=detection model={models[object_detection][1][network]}",
+        " ! gvametaconvert name=metaconvert add-empty-results=true",
+        " ! gvapython name=gvapython module=/home/video-analytics-serving/extensions/add_frame_id.py class=FrameCounter",
+		" ! gvametapublish name=destination",
+        " ! appsink name=appsink",
+        " t. ! queue ! videoconvert ! jpegenc ! multifilesink name=filesink"
+	],
+	"description": "Object detection pipeline with frame store support",
+	"parameters": {
+		"type" : "object",
+		"properties" : {
+			"inference-interval": {
+				"element":"detection",
+				"type": "integer"
+            },
+			"max-files": {
+				"element": "filesink",
+				"type": "integer",
+				"default": 1000
+			},
+			"file-location": {
+				"element": {
+					"name": "filesink",
+					"property" : "location"
+				},
+				"type": "string",
+				"default": "/tmp/%08d.jpg"
+			},
+			"top": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			},
+			"bottom": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			},
+			"left": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			},
+			"right": {
+				"element": "videocrop",
+				"type": "integer",
+				"default": 0
+			}
+		}
+	}
+}

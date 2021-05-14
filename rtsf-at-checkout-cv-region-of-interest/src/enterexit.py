@@ -17,7 +17,6 @@ EDGEX_DEVICE_NAME = "device-cv-roi-mqtt"
 EDGEX_ROI_EVENT = "cv-roi-event"
 EDGEX_ENTER_EVENT = 'ENTERED'
 EDGEX_EXIT_EVENT = 'EXITED'
-
 MQTT_BROKER_ADDRESS = MQTT_BROKER_HOST + ":" + str(MQTT_BROKER_PORT)
 
 FRAME_STORE_SPECIFIER = "img%08d.jpg"
@@ -26,28 +25,26 @@ oldFrameDict = {}
 
 def create_event_message(source, key, event_type, roi_name, frame_path):
     milliSinceEPOCH = int(round(time.time() * 1000))
-    newEnterExitElement = {}
-    newEnterExitElement["source"] = source
-    newEnterExitElement["event_time"] = milliSinceEPOCH
-    newEnterExitElement["product_name"] = key
-    newEnterExitElement["roi_action"] = event_type
-    newEnterExitElement["roi_name"] = roi_name
+    enter_exit_event = {}
+    enter_exit_event["source"] = source
+    enter_exit_event["event_time"] = milliSinceEPOCH
+    enter_exit_event["product_name"] = key
+    enter_exit_event["roi_action"] = event_type
+    enter_exit_event["roi_name"] = roi_name
     if frame_path:
-        newEnterExitElement["frame_path"] = frame_path
-    edgexMQTTWrapper = {}
-    edgexMQTTWrapper["name"] = EDGEX_DEVICE_NAME
-    edgexMQTTWrapper["cmd"] = EDGEX_ROI_EVENT
-    edgexMQTTWrapper[EDGEX_ROI_EVENT] = json.dumps(newEnterExitElement)
-    return json.dumps(edgexMQTTWrapper)
+        enter_exit_event["frame_path"] = frame_path
+    edgex_message = {}
+    edgex_message["name"] = EDGEX_DEVICE_NAME
+    edgex_message["cmd"] = EDGEX_ROI_EVENT
+    edgex_message[EDGEX_ROI_EVENT] = json.dumps(enter_exit_event)
+    return json.dumps(edgex_message)
 
 def on_connect(client, userdata, message, rc):
     print("Connected to mqtt broker")
     client.subscribe(MQTT_INCOMING_TOPIC_NAME)
 
-
 def on_subscribe(client, userdata, message, qos):
     print("Subscribed to topic")
-
 
 def on_message(client, userdata, message):
     newFrameDict = {}
@@ -63,9 +60,6 @@ def on_message(client, userdata, message):
     template = python_obj["tags"].get("file-location")
     if frame_id and template:
         frame_path = template % frame_id
-
-    # Calculate timestamp for reporting
-    milliSinceEPOCH = int(round(time.time() * 1000))
 
     if 'objects' in python_obj:
         # Broken down
@@ -123,13 +117,6 @@ def on_message(client, userdata, message):
 
     #Replace the old frame data with the new frame data
     oldFrameDict[roi_name] = newFrameDict.copy()
-
-def wrap_edgex_event(device_name, cmd_name, data):
-    edgexMQTTWrapper = {}
-    edgexMQTTWrapper["name"] = device_name
-    edgexMQTTWrapper["cmd"] = cmd_name
-    edgexMQTTWrapper[cmd_name] = data
-    return json.dumps(edgexMQTTWrapper)
 
 def create_pipelines():
     print("creating video analytics pipelines")
@@ -195,11 +182,13 @@ def create_pipelines():
             'camEndpoint': camEndpoint
         }
         cameraConfiguration.append(jsonConfig)
+
         # Delete existing frame_store and then re-create it writeable by all
         print("Setting up frame store in %s" % camFrameStore)
         if os.path.isdir(camFrameStore):
             shutil.rmtree(camFrameStore)
         os.mkdir(camFrameStore, 0o777)
+
         i += 1
 
     if len(cameraConfiguration) < 1:

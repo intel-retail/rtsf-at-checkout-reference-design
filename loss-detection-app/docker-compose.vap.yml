@@ -28,7 +28,6 @@ services:
       - /tmp:/tmp
     depends_on:
       - video-analytic
-      - mqtt
 
   video-analytic:
     image: video-analytics-serving-gstreamer:latest
@@ -50,22 +49,3 @@ services:
       - ./pipelines:/home/video-analytics-serving/pipelines
       - ./models:/home/video-analytics-serving/models
       - ./extensions:/home/video-analytics-serving/extensions
-
-  enter-exit-event:
-    image: eclipse-mosquitto:1.6
-    container_name: enter-exit-event
-    hostname: enter-exit-event
-    networks:
-      - loss-detection-app_edgex-network
-    entrypoint: /usr/bin/mosquitto_sub -h mqtt -t edgex
-    depends_on:
-      - mqtt
-
-  mqtt:
-    image: eclipse-mosquitto:1.6
-    ports:
-      - "1883:1883"
-    container_name: mqtt
-    hostname: mqtt
-    networks:
-      - loss-detection-app_edgex-network

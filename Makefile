@@ -48,9 +48,9 @@ vas-down:
 VAS_VERSION=v0.5.0-beta
 vas:
 	git clone https://github.com/intel/video-analytics-serving && \
-	cd video-analytics-serving/docker && \
+	cd video-analytics-serving && \
 	git checkout ${VAS_VERSION} && \
-	./build.sh 
+	docker/build.sh --models NONE --pipelines NONE --tag video-analytics-serving-rtsf:0.5.0
 
 rsp:
 	git clone https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service && \

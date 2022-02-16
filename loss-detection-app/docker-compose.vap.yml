@@ -30,7 +30,7 @@ services:
       - video-analytic
 
   video-analytic:
-    image: video-analytics-serving-gstreamer:latest
+    image: video-analytics-serving-rtsf:0.5.0
     ports:
       - "8080:8080"
     container_name: video-analytic

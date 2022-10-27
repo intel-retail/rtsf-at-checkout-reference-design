@@ -4,128 +4,108 @@
 package functions
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
-	"net/http"
-	"strings"
-	"time"
+	"fmt"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/appsdk"
-	"github.com/edgexfoundry/go-mod-core-contracts/clients"
-	"github.com/edgexfoundry/go-mod-core-contracts/clients/notifications"
-
-	"github.com/edgexfoundry/app-functions-sdk-go/appcontext"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
+	clientInterfaces "github.com/edgexfoundry/go-mod-core-contracts/v2/clients/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/requests"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/google/uuid"
 )
 
 const (
-	notificationsURL = "NotificationsURL"
+	notificationsURL       = "NotificationsURL"
+	sender                 = "Loss Detector"
+	securityCategory       = "SECURITY"
+	notificationReceiver   = "SystemAdministrator"
+	subscriptionAdminState = "UNLOCKED"
 )
 
 // NotifySuspectList sends a notification to edgex-go
-func NotifySuspectList(edgexcontext *appcontext.Context, params ...interface{}) (bool, interface{}) {
+func NotifySuspectList(ctx interfaces.AppFunctionContext, data interface{}) (bool, interface{}) {
+	lc := ctx.LoggingClient()
 
-	edgexcontext.LoggingClient.Info("Notifying suspect list")
+	lc.Info("Notifying suspect list")
 
-	if len(params) < 1 {
-		return false, nil
-	}
-
-	contentBytes, _ := params[0].([]byte)
+	contentBytes, _ := data.([]byte)
 	contentFormated, err := json.MarshalIndent(json.RawMessage(contentBytes), "", "  ")
 
 	if err != nil {
-		edgexcontext.LoggingClient.Error("Failed to post notification, %s", err.Error())
+		lc.Error("Failed to post notification, %s", err.Error())
 		return false, nil
 	}
-
-	if edgexcontext.NotificationsClient == nil {
-		edgexcontext.LoggingClient.Error("cannot send notification: NotificationsClient is not configured or missing")
+	notificationClient := ctx.NotificationClient()
+	if notificationClient == nil {
+		lc.Error("cannot send notification: NotificationsClient is not configured or missing")
 		return false, nil
 	}
 
 	content := "Suspicious Items:\n" + string(contentFormated)
 
-	notification := notifications.Notification{
-		Slug:        "suspect-items-" + time.Now().String(),
-		Sender:      "Loss Detector",
-		Category:    notifications.SECURITY,
-		Severity:    notifications.CRITICAL,
-		Content:     content,
-		Description: "Suspect lists for CV, RFID, and scale",
-		Labels: []string{
-			string(notifications.SECURITY),
+	notification := dtos.NewNotification(
+		[]string{
+			string(securityCategory),
 		},
-	}
+		securityCategory,
+		content,
+		"Loss Detector",
+		models.Critical,
+	)
 
-	if err = edgexcontext.NotificationsClient.SendNotification(context.Background(), notification); err != nil {
-		edgexcontext.LoggingClient.Error(err.Error())
+	req := requests.NewAddNotificationRequest(notification)
+	_, err = notificationClient.SendNotification(context.Background(), []requests.AddNotificationRequest{req})
+	if err != nil {
+		lc.Error(err.Error())
 	}
 
 	return false, nil
 }
 
 // SubscribeToNotificationService configures an email notification with edgex-go
-func SubscribeToNotificationService(edgexSdk *appsdk.AppFunctionsSDK) error {
+func SubscribeToNotificationService(appService interfaces.ApplicationService, subscriptionClient clientInterfaces.SubscriptionClient, lc logger.LoggingClient) error {
 
-	edgexSdk.LoggingClient.Info("setting up subscription to edgex notification")
+	lc.Info("setting up subscription to edgex notification")
 
-	appSettings := edgexSdk.ApplicationSettings()
-	url, ok := appSettings[notificationsURL]
-	if !ok {
-		errorMessage := notificationsURL + " setting not found"
-		edgexSdk.LoggingClient.Error(errorMessage)
-		return errors.New(errorMessage)
-	}
-
-	endpoint := url + clients.ApiSubscriptionRoute
-
-	notificationEmailAddresses, ok := appSettings["NotificationEmailAddresses"]
-	if !ok {
+	emailAddresses, err := appService.GetAppSettingStrings("NotificationEmailAddresses")
+	if err != nil {
 		errorMessage := "NotificationEmailAddresses setting not found"
-		edgexSdk.LoggingClient.Error(errorMessage)
+		lc.Error(errorMessage)
+		return errors.New(errorMessage)
+	}
+	notificationName, err := appService.GetAppSetting("NotificationName")
+	if err != nil {
+		errorMessage := "NotificationName setting not found"
+		lc.Error(errorMessage)
 		return errors.New(errorMessage)
 	}
 
-	emailAddresses := strings.Split(notificationEmailAddresses, ",")
-
-	slug, ok := appSettings["NotificationSlug"]
-	if !ok {
-		errorMessage := "NotificationSlug setting not found"
-		edgexSdk.LoggingClient.Error(errorMessage)
-		return errors.New(errorMessage)
-	}
-
-	subscriptionMessage := map[string]interface{}{
-		"slug":     slug,
-		"receiver": "System Administrator",
-		"subscribedCategories": []string{
-			string(notifications.SECURITY),
-		},
-		"subscribedLabels": []string{
-			string(notifications.SECURITY),
-		},
-		"channels": []map[string]interface{}{
+	dto := dtos.Subscription{
+		Id:   uuid.NewString(),
+		Name: notificationName,
+		Channels: []dtos.Address{
 			{
-				"type":          "EMAIL",
-				"mailAddresses": emailAddresses,
+				Type:         "EMAIL",
+				EmailAddress: dtos.EmailAddress{Recipients: emailAddresses},
 			},
 		},
+		Receiver: notificationReceiver,
+		Labels: []string{
+			securityCategory,
+		},
+		Categories: []string{
+			securityCategory,
+		},
+		AdminState: subscriptionAdminState,
 	}
-
-	byteMessage, err := json.Marshal(subscriptionMessage)
+	reqs := []requests.AddSubscriptionRequest{requests.NewAddSubscriptionRequest(dto)}
+	_, err = subscriptionClient.Add(context.Background(), reqs)
 	if err != nil {
-		return err
-	}
-
-	resp, err := http.Post(endpoint, "application/json", bytes.NewBuffer(byteMessage))
-	if err != nil {
-		return err
-	}
-
-	if resp.StatusCode != http.StatusCreated && resp.StatusCode != http.StatusConflict { // http.StatusConflict means the subscription is already created
-		return errors.New("Error subscribing to notification http status code: " + resp.Status)
+		return fmt.Errorf("failed to subscribe to the EdgeX notification service: %s", err.Error())
 	}
 
 	return nil

@@ -1,14 +1,14 @@
 {
 	"type": "GStreamer",
-	"template": ["urisourcebin name=\"source\" ! queue ! decodebin ! videoconvert name=\"videoconvert\" ! video/x-raw",
+	"template": [" {auto_source}",
+		" ! queue ! decodebin ",
+		" ! videoconvert name=\"videoconvert\" ! video/x-raw",
 		" ! videocrop name=\"videocrop\" ! queue leaky=upstream",
 		" ! gvadetect name=\"detection\" model=\"{models[object_detection][1][network]}\" model-proc=\"{models[object_detection][1][proc]}\"",
 		" ! gvametaconvert name=\"metaconvert\" add-empty-results=true",
 		" ! queue",
 		" ! gvametapublish name=\"destination\"",
-		" ! gvawatermark",
-		" ! queue",
-		" ! videoconvert ! fpsdisplaysink video-sink=ximagesink sync=false"
+		" ! gvawatermark"
 	],
 	"description": "Object Detection Pipeline",
 	"parameters": {

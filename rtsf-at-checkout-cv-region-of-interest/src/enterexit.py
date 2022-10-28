@@ -193,7 +193,7 @@ def create_pipelines():
     
     for camConfig in cameraConfiguration:
         data = {}
-        data['source'] = camConfig['source']
+        data['source'] = '{"device":"/dev/video0","type":"webcam"}'
         data['destination'] =  camConfig['destination']   
         data['tags'] =  camConfig['tags']  
         data['parameters'] = camConfig['parameters']       
@@ -202,6 +202,7 @@ def create_pipelines():
         print(jsonData)
         headers = {'Content-type': 'application/json'}
         r = requests.post(url = endpoint, data = jsonData, headers = headers) 
+        print(r.url)
         if r.status_code == 200:
             print("Created new pipeline with id: %s"%r.text)
         else:

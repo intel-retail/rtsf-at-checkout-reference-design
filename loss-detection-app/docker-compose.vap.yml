@@ -11,12 +11,12 @@ services:
     hostname: cv-region-of-interest
     environment:
       - MQTT_DESTINATION_HOST=mqtt:1883
-      - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
+      - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu/1
       # Fill in camera source info below
       # for RTSP cameras
       # - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}
       # or for USB cameras
-      - CAMERA0_SRC=/dev/video0
+      - CAMERA0_SRC=file:///home/pipeline-server/video-samples/grocery-test.mp4
       - CAMERA0_ROI_NAME=Staging
       - CAMERA0_CROP_TBLR=0,0,0,0
     networks:
@@ -34,14 +34,15 @@ services:
     networks:
       - loss-detection-app_edgex-network
     environment:
-      # DISPLAY: ${DISPLAY}
+      - DISPLAY=${DISPLAY}
       - ENABLE_RTSP=true
       - RTSP_PORT=9554  
     devices:
       - /dev/video0:/dev/video0
       - /dev/dri:/dev/dri
     volumes:
-      # - /tmp/.X11-unix:/tmp/.X11-unix
+      - /tmp/.X11-unix:/tmp/.X11-unix
       - ./pipelines:/home/pipeline-server/pipelines
       - ./models:/home/pipeline-server/models
       - ./video-samples:/home/pipeline-server/video-samples
+      - ./pipeline-server/results:/tmp/results

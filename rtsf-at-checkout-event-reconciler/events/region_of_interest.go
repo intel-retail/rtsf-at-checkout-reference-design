@@ -6,7 +6,7 @@ package events
 import (
 	"fmt"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/appcontext"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 )
 
 const (
@@ -23,7 +23,8 @@ const (
 	ROIActionErrorMessage = "Could not recognize ROI Action: %s\n"
 )
 
-func updateCVObjectLocation(cvEvent CVEventEntry, currentCVItem *CVEventEntry, edgexcontext *appcontext.Context) {
+func updateCVObjectLocation(cvEvent CVEventEntry, currentCVItem *CVEventEntry, lc logger.LoggingClient) {
+
 	currentCVItem.ROIName = cvEvent.ROIName
 	currentCVItem.ROIAction = cvEvent.ROIAction
 	currentCVItem.EventTime = cvEvent.EventTime
@@ -40,7 +41,7 @@ func updateCVObjectLocation(cvEvent CVEventEntry, currentCVItem *CVEventEntry, e
 	case ROIActionExit:
 		roiLocation.AtLocation = false
 	default:
-		edgexcontext.LoggingClient.Error(fmt.Sprintf(ROIActionErrorMessage, cvEvent.ROIAction))
+		lc.Error(fmt.Sprintf(ROIActionErrorMessage, cvEvent.ROIAction))
 		return //dont update ROI if action is unrecoginzed E.G. not "ENTERED" or "EXITED"
 	}
 
@@ -50,7 +51,8 @@ func updateCVObjectLocation(cvEvent CVEventEntry, currentCVItem *CVEventEntry, e
 
 }
 
-func updateRFIDObjectLocation(rfidRoiEvent RFIDEventEntry, currentRFIDItem *RFIDEventEntry, edgexcontext *appcontext.Context) {
+func updateRFIDObjectLocation(rfidRoiEvent RFIDEventEntry, currentRFIDItem *RFIDEventEntry, lc logger.LoggingClient) {
+
 	currentRFIDItem.ROIName = rfidRoiEvent.ROIName
 	currentRFIDItem.ROIAction = rfidRoiEvent.ROIAction
 	currentRFIDItem.EventTime = rfidRoiEvent.EventTime
@@ -66,7 +68,7 @@ func updateRFIDObjectLocation(rfidRoiEvent RFIDEventEntry, currentRFIDItem *RFID
 	case ROIActionExit:
 		roiLocation.AtLocation = false
 	default:
-		edgexcontext.LoggingClient.Error(fmt.Sprintf(ROIActionErrorMessage, rfidRoiEvent.ROIAction))
+		lc.Error(fmt.Sprintf(ROIActionErrorMessage, rfidRoiEvent.ROIAction))
 		return
 
 	}

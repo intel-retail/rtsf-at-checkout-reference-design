@@ -9,8 +9,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/appcontext"
-	"github.com/edgexfoundry/app-functions-sdk-go/appsdk"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/gorilla/websocket"
 )
 
@@ -108,13 +108,13 @@ func formatWebsocketMessage(eventName string) []byte {
 }
 
 // InitWebSocketConnection initializes the websocket
-func InitWebSocketConnection(edgexSdk *appsdk.AppFunctionsSDK) {
+func InitWebSocketConnection(service interfaces.ApplicationService, lc logger.LoggingClient) {
 
 	var wsAddr string
-	appSettings := edgexSdk.ApplicationSettings()
+	appSettings := service.ApplicationSettings()
 	if wsPortConfig, ok := appSettings["WebSocketPort"]; !ok {
 		defaultPort := "9083"
-		edgexSdk.LoggingClient.Error(fmt.Sprintf("WebSocketAddress setting not found defaulting to %v", defaultPort))
+		lc.Errorf(fmt.Sprintf("WebSocketAddress setting not found defaulting to %v", defaultPort))
 		wsAddr = fmt.Sprintf(":%s", defaultPort)
 	} else {
 		wsAddr = fmt.Sprintf(":%s", wsPortConfig)
@@ -125,32 +125,32 @@ func InitWebSocketConnection(edgexSdk *appsdk.AppFunctionsSDK) {
 		upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 		conn, err = upgrader.Upgrade(w, r, nil)
 		if err != nil {
-			edgexSdk.LoggingClient.Error(fmt.Sprintf("upgrade: %s\n", err))
+			lc.Errorf(fmt.Sprintf("upgrade: %s\n", err))
 			return
 		}
 	})
 
 	go func() {
-		edgexSdk.LoggingClient.Info(fmt.Sprintf("websocket listening to: %v \n", wsAddr))
+		lc.Infof(fmt.Sprintf("websocket listening to: %v \n", wsAddr))
 		if err := http.ListenAndServe(wsAddr, nil); err != nil {
-			edgexSdk.LoggingClient.Error(err.Error())
+			lc.Error(err.Error())
 		}
 	}()
 }
 
-func sendWebsocketMessage(message []byte, edgexcontext *appcontext.Context) {
-
+func sendWebsocketMessage(message []byte, edgexcontext interfaces.AppFunctionContext) {
+	lc := edgexcontext.LoggingClient()
 	if conn == nil {
-		edgexcontext.LoggingClient.Trace("websocket not connected")
+		lc.Trace("websocket not connected")
 		return
 	}
 
 	Mu.Lock()
 	defer Mu.Unlock()
-	edgexcontext.LoggingClient.Trace(fmt.Sprintf("websocket message: %v\n", string(message)))
+	lc.Trace(fmt.Sprintf("websocket message: %v\n", string(message)))
 	err := conn.WriteMessage(websocket.TextMessage, message)
 	if err != nil {
-		edgexcontext.LoggingClient.Info(fmt.Sprintf("write: %s", err))
+		lc.Info(fmt.Sprintf("write: %s", err))
 		return
 	}
 }

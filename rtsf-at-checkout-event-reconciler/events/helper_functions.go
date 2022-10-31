@@ -107,7 +107,7 @@ func wrapSuspectItems() ([]byte, error) {
 		ScaleSuspect: getSuspectScaleItems(),
 	}
 
-	byteSuspects, err := json.MarshalIndent(suspectList,"","   ")
+	byteSuspects, err := json.MarshalIndent(suspectList, "", "   ")
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
@@ -9,11 +9,17 @@ import (
 	"math"
 	"time"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/appcontext"
-	"github.com/edgexfoundry/go-mod-core-contracts/models"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 
+	"event-reconciler/config"
 	"event-reconciler/rfidgtin"
 )
+
+type EventsProcessor struct {
+	ProcessConfig *config.ReconcilerConfig
+}
 
 const (
 	quantityUnitEA         = "EA"
@@ -34,61 +40,43 @@ var NextRFIDData = []RFIDEventEntry{}
 var firstBasketOpenComplete = false
 var afterPaymentSuccess = false
 
-func ProcessCheckoutEvents(edgexcontext *appcontext.Context, params ...interface{}) (bool, interface{}) {
+func (eventsProcessing *EventsProcessor) ProcessCheckoutEvents(edgexcontext interfaces.AppFunctionContext, params interface{}) (bool, interface{}) {
+	lc := edgexcontext.LoggingClient()
 
+	devicePos := eventsProcessing.ProcessConfig.DevicePos
 
-	if len(params) < 1 {
-		edgexcontext.LoggingClient.Error("Didn't receive an event")
-		return false, nil
-	}
+	deviceScale := eventsProcessing.ProcessConfig.DeviceScale
 
-	appsettings := edgexcontext.Configuration.ApplicationSettings
-	devicePos, ok := appsettings["DevicePos"]
-	if !ok {
-		edgexcontext.LoggingClient.Error("DevicePos setting not found")
-		return false, nil
-	}
-	deviceScale, ok := appsettings["DeviceScale"]
-	if !ok {
-		edgexcontext.LoggingClient.Error("DeviceScale setting not found")
-		return false, nil
-	}
-	deviceCV, ok := appsettings["DeviceCV"]
-	if !ok {
-		edgexcontext.LoggingClient.Error("DeviceCV setting not found")
-		return false, nil
-	}
-	deviceRFID, ok := appsettings["DeviceRFID"]
-	if !ok {
-		edgexcontext.LoggingClient.Error("DeviceRFID setting not found")
-		return false, nil
-	}
+	deviceCV := eventsProcessing.ProcessConfig.DeviceCV
 
-	result, _ := params[0].(models.Event)
+	deviceRFID := eventsProcessing.ProcessConfig.DeviceRFID
+
+	result, _ := params.(models.Event)
 	for _, reading := range result.Readings {
-		eventName := reading.Name
-		edgexcontext.LoggingClient.Debug(fmt.Sprintf("Processing Checkout Event: %s", eventName))
+		readingData := reading.(models.ObjectReading)
+		eventName := readingData.ResourceName
+		lc.Debug(fmt.Sprintf("Processing Checkout Event: %s", eventName))
 		eventOk := checkEventOrderValid(eventName, edgexcontext)
 		if !eventOk {
-			edgexcontext.LoggingClient.Error(fmt.Sprintf("Error: event occurred out of order: %v", eventName))
+			lc.Error(fmt.Sprintf("Error: event occurred out of order: %v", eventName))
 			continue
 		}
 
-		switch reading.Device {
-		case devicePos+"-rest", devicePos+"-mqtt":
-			processDevicePosReading(reading, edgexcontext)
+		switch readingData.DeviceName {
+		case devicePos + "-rest", devicePos + "-mqtt":
+			eventsProcessing.processDevicePosReading(readingData, edgexcontext)
 
-		case deviceScale, deviceScale+"-rest", deviceScale+"-mqtt":
-			processDeviceScaleReading(reading, edgexcontext)
+		case deviceScale, deviceScale + "-rest", deviceScale + "-mqtt":
+			eventsProcessing.processDeviceScaleReading(readingData, lc)
 
-		case deviceCV+"-rest", deviceCV+"-mqtt":
-			processDeviceCVReading(reading, edgexcontext)
+		case deviceCV + "-rest", deviceCV + "-mqtt":
+			eventsProcessing.processDeviceCVReading(readingData, lc)
 
-		case deviceRFID+"-rest", deviceRFID+"-mqtt":
-			processDeviceRFIDReading(reading, edgexcontext)
+		case deviceRFID + "-rest", deviceRFID + "-mqtt":
+			eventsProcessing.processDeviceRFIDReading(readingData, lc)
 
 		default:
-			edgexcontext.LoggingClient.Error(fmt.Sprintf("Did not recognize Device: %s", reading.Device))
+			lc.Error(fmt.Sprintf("Did not recognize Device: %s", readingData.DeviceName))
 			continue
 		}
 
@@ -96,21 +84,21 @@ func ProcessCheckoutEvents(edgexcontext *appcontext.Context, params ...interface
 		sendWebsocketMessage(msg, edgexcontext)
 	}
 
-	edgexcontext.LoggingClient.Trace(fmt.Sprintf("RTTLog: %v", RttlogData))
-	edgexcontext.LoggingClient.Trace(fmt.Sprintf("ScaleData: %v", ScaleData))
-	edgexcontext.LoggingClient.Trace(fmt.Sprintf("CvData: %v", CurrentCVData))
-	edgexcontext.LoggingClient.Trace(fmt.Sprintf("RfidData: %v", CurrentRFIDData))
+	lc.Trace(fmt.Sprintf("RTTLog: %v", RttlogData))
+	lc.Trace(fmt.Sprintf("ScaleData: %v", ScaleData))
+	lc.Trace(fmt.Sprintf("CvData: %v", CurrentCVData))
+	lc.Trace(fmt.Sprintf("RfidData: %v", CurrentRFIDData))
 
 	return false, nil
 }
 
-func processDeviceCVReading(reading models.Reading, edgexcontext *appcontext.Context) {
+func (eventsProcessing *EventsProcessor) processDeviceCVReading(reading models.ObjectReading, lc logger.LoggingClient) {
 	cvReading := CVEventEntry{
 		ROIs: make(map[string]ROILocation),
 	}
-	err := json.Unmarshal([]byte(reading.Value), &cvReading)
+	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &cvReading)
 	if err != nil {
-		edgexcontext.LoggingClient.Error(fmt.Sprintf("CV unmarshal failure: %v", err))
+		lc.Error(fmt.Sprintf("CV unmarshal failure: %v", err))
 		return
 	}
 
@@ -118,14 +106,14 @@ func processDeviceCVReading(reading models.Reading, edgexcontext *appcontext.Con
 
 	if cvObject == nil {
 		//object does not exist in CurrentCVData
-		updateCVObjectLocation(cvReading, &cvReading, edgexcontext)
+		updateCVObjectLocation(cvReading, &cvReading, lc)
 		if afterPaymentSuccess {
 			NextCVData = append(NextCVData, cvReading)
 		} else {
 			CurrentCVData = append(CurrentCVData, cvReading)
 		}
 	} else {
-		updateCVObjectLocation(cvReading, cvObject, edgexcontext)
+		updateCVObjectLocation(cvReading, cvObject, lc)
 	}
 
 	for rttlIndex, rttl := range RttlogData {
@@ -135,26 +123,26 @@ func processDeviceCVReading(reading models.Reading, edgexcontext *appcontext.Con
 	}
 }
 
-func processDeviceRFIDReading(reading models.Reading, edgexcontext *appcontext.Context) {
+func (eventsProcessing *EventsProcessor) processDeviceRFIDReading(reading models.ObjectReading, lc logger.LoggingClient) {
 	rfidReading := RFIDEventEntry{
 		ROIs: make(map[string]ROILocation),
 	}
-	err := json.Unmarshal([]byte(reading.Value), &rfidReading)
+	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &rfidReading)
 	if err != nil {
-		edgexcontext.LoggingClient.Error(fmt.Sprintf("RFID unmarshal failure: %v", err))
+		lc.Error(fmt.Sprintf("RFID unmarshal failure: %v", err))
 		return
 	}
 
 	upc, err := rfidgtin.GetGtin14(rfidReading.EPC)
 	if err != nil {
-		edgexcontext.LoggingClient.Error(fmt.Sprintf("Bad EPC value. Not adding RFID tag to buffer: %v", err))
+		lc.Error(fmt.Sprintf("Bad EPC value. Not adding RFID tag to buffer: %v", err))
 		return
 	}
 
 	//check if UPC is in Product lookup database. If not, don't add RFID tag to buffer
-	prodDetails, err := productLookup(upc, edgexcontext)
+	prodDetails, err := productLookup(upc, lc, eventsProcessing.ProcessConfig.ProductLookupEndpoint)
 	if err != nil {
-		edgexcontext.LoggingClient.Warn(fmt.Sprintf("Could not find RFID tagged product (%s) in database. Not adding to buffer: %v", upc, err))
+		lc.Warn(fmt.Sprintf("Could not find RFID tagged product (%s) in database. Not adding to buffer: %v", upc, err))
 		return
 	}
 	rfidReading.UPC = upc
@@ -164,7 +152,7 @@ func processDeviceRFIDReading(reading models.Reading, edgexcontext *appcontext.C
 
 	if rfidObject == nil {
 		//Add new RFID Entry to CurrentRFIDData
-		updateRFIDObjectLocation(rfidReading, &rfidReading, edgexcontext)
+		updateRFIDObjectLocation(rfidReading, &rfidReading, lc)
 		if afterPaymentSuccess {
 			NextRFIDData = append(NextRFIDData, rfidReading)
 		} else {
@@ -173,15 +161,16 @@ func processDeviceRFIDReading(reading models.Reading, edgexcontext *appcontext.C
 
 	} else {
 		//Update existing RFID entry in CurrentRFIDData
-		updateRFIDObjectLocation(rfidReading, rfidObject, edgexcontext)
+		updateRFIDObjectLocation(rfidReading, rfidObject, lc)
 	}
 }
 
-func processDeviceScaleReading(reading models.Reading, edgexcontext *appcontext.Context) {
+func (eventsProcessing *EventsProcessor) processDeviceScaleReading(reading models.ObjectReading, lc logger.LoggingClient) {
+
 	scaleReading := ScaleEventEntry{}
-	err := json.Unmarshal([]byte(reading.Value), &scaleReading)
+	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &scaleReading)
 	if err != nil {
-		edgexcontext.LoggingClient.Error(fmt.Sprintf("Scale unmarshal failure: %v", err))
+		lc.Error(fmt.Sprintf("Scale unmarshal failure: %v", err))
 		return
 	}
 
@@ -190,19 +179,21 @@ func processDeviceScaleReading(reading models.Reading, edgexcontext *appcontext.
 		return
 	}
 
-	edgexcontext.LoggingClient.Debug(fmt.Sprintf("Adding %s to Scale Log", reading.Name))
+	lc.Debug(fmt.Sprintf("Adding %s to Scale Log", reading.ResourceName))
 
 	ScaleData = append(ScaleData, scaleReading)
 
 	scaleBasketReconciliation(&ScaleData[len(ScaleData)-1])
 }
 
-func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Context) {
-	eventName := reading.Name
+func (eventsProcessing *EventsProcessor) processDevicePosReading(reading models.ObjectReading, edgexcontext interfaces.AppFunctionContext) {
+	lc := edgexcontext.LoggingClient()
+	eventName := reading.ResourceName
+
 	rttLogReading := RTTLogEventEntry{EventType: eventName}
-	err := json.Unmarshal([]byte(reading.Value), &rttLogReading)
+	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &rttLogReading)
 	if err != nil {
-		edgexcontext.LoggingClient.Error(fmt.Sprintf("RTTlog unmarshal failure: %v", err))
+		lc.Error(fmt.Sprintf("RTTlog unmarshal failure: %v", err))
 		return
 	}
 
@@ -232,7 +223,7 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 	case removeItemEvent:
 		err := removeRTTLItemFromBuffer(rttLogReading)
 		if err != nil {
-			edgexcontext.LoggingClient.Error(fmt.Sprintf("Remove Item Error: %v", err))
+			lc.Error(fmt.Sprintf("Remove Item Error: %v", err))
 		}
 
 		EventOccurred[posItemEvent] = checkRTTLForPOSItems()
@@ -241,12 +232,12 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 	case posItemEvent:
 		if rttLogReading.QuantityUnit == quantityUnitEA || rttLogReading.QuantityUnit == quantityUnitEach {
 			//if QuantityUnit is "EA", there is a expected minimum and maximum weight. Otherwise, you only consider the weight of the purchase
-			rttLogReading.ProductDetails, err = productLookup(rttLogReading.ProductId, edgexcontext)
+			rttLogReading.ProductDetails, err = productLookup(rttLogReading.ProductId, lc, eventsProcessing.ProcessConfig.ProductLookupEndpoint)
 			if err != nil {
-				edgexcontext.LoggingClient.Error(fmt.Sprintf("Product Lookup failed for product: %s. Not adding to RTTL. Error Message: %s", rttLogReading.ProductId, err.Error()))
+				lc.Error(fmt.Sprintf("Product Lookup failed for product: %s. Not adding to RTTL. Error Message: %s", rttLogReading.ProductId, err.Error()))
 				return
 			}
-			edgexcontext.LoggingClient.Trace(fmt.Sprintf("Found product detail for %s", rttLogReading.ProductId))
+			lc.Trace(fmt.Sprintf("Found product detail for %s", rttLogReading.ProductId))
 		} else {
 			rttLogReading.ProductDetails = ProductDetails{"", rttLogReading.Quantity, rttLogReading.Quantity, false}
 		}
@@ -256,7 +247,7 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 		if isRFIDEligible(rttLogReading) {
 			err := rfidBasketReconciliation(&rttLogReading)
 			if err != nil {
-				edgexcontext.LoggingClient.Error(fmt.Sprintf("EPC to UPC transform failure for RFID Basket Reconciliation: %v", err))
+				lc.Error(fmt.Sprintf("EPC to UPC transform failure for RFID Basket Reconciliation: %v", err))
 			}
 		}
 
@@ -269,13 +260,13 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 		if len(SuspectScaleItems) > 0 || len(suspectCVItems) > 0 || len(suspectRFIDItems) > 0 {
 			outputData, err := wrapSuspectItems()
 			if err != nil {
-				edgexcontext.LoggingClient.Error("Failed to marshal suspect items for output")
+				lc.Error("Failed to marshal suspect items for output")
 			}
-			edgexcontext.LoggingClient.Info("Suspect items detected, sending to message bus")
+			lc.Info("Suspect items detected, sending to message bus")
 			//export suspect  items
 			// Not using logger so that it pretty prints
 			fmt.Println(string(outputData))
-			edgexcontext.Complete(outputData)
+			edgexcontext.SetResponseData(outputData)
 		} else {
 			// Not using logger so it stands out in docker log
 			fmt.Println("No suspect items detected")
@@ -285,10 +276,10 @@ func processDevicePosReading(reading models.Reading, edgexcontext *appcontext.Co
 		afterPaymentSuccess = true
 
 	default:
-		edgexcontext.LoggingClient.Error(fmt.Sprintf("Unkown POS event: %s", eventName))
+		lc.Error(fmt.Sprintf("Unkown POS event: %s", eventName))
 	}
 
-	edgexcontext.LoggingClient.Trace(fmt.Sprintf("Adding %s to RTT Log", eventName))
+	lc.Trace(fmt.Sprintf("Adding %s to RTT Log", eventName))
 
 	if len(RttlogData) == 0 {
 		RttlogData = append(RttlogData, rttLogReading)

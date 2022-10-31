@@ -3,7 +3,7 @@
 
 package events
 
-import "github.com/edgexfoundry/app-functions-sdk-go/appcontext"
+import "github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
 
 const (
 	posItemEvent        = "scanned-item"
@@ -27,7 +27,7 @@ func ResetEventsOccurrence() {
 	}
 }
 
-func checkEventOrderValid(event string, edgexcontext *appcontext.Context) bool {
+func checkEventOrderValid(event string, edgexcontext interfaces.AppFunctionContext) bool {
 	eventValid := true
 	switch event {
 	case basketOpenEvent:

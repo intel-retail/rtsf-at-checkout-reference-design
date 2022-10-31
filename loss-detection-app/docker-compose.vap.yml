@@ -18,14 +18,14 @@ services:
       # or for USB cameras
       - CAMERA0_SRC=file:///home/pipeline-server/video-samples/grocery-test.mp4
       - CAMERA0_ROI_NAME=Staging
-      - CAMERA0_CROP_TBLR=0,0,0,0
+      - CAMERA0_CROP_TBLR=245,210,260,800
     networks:
       - loss-detection-app_edgex-network
     depends_on:
       - video-analytic
 
   video-analytic:
-    image: intel/dlstreamer-pipeline-server:latest
+    image: intel/dlstreamer-pipeline-server:2022.2.0-ubuntu20-gpu419.40
     ports:
       - "8090:8080"
       - "9554:9554"

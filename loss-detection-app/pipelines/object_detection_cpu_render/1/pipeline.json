@@ -1,6 +1,6 @@
 {
 	"type": "GStreamer",
-	"template": [" {auto_source}",
+	"template":[" {auto_source}",
 		" ! queue ! decodebin ",
 		" ! videoconvert name=\"videoconvert\" ! video/x-raw",
 		" ! videocrop name=\"videocrop\" ! queue leaky=upstream",
@@ -8,7 +8,9 @@
 		" ! gvametaconvert name=\"metaconvert\" add-empty-results=true",
 		" ! queue",
 		" ! gvametapublish name=\"destination\"",
-		" ! gvawatermark"
+		" ! gvawatermark",
+		" ! queue",
+		" ! videoconvert ! fpsdisplaysink video-sink=ximagesink sync=false"
 	],
 	"description": "Object Detection Pipeline",
 	"parameters": {

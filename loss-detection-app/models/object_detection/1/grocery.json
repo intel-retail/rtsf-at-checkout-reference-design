@@ -3,7 +3,7 @@
     "input_preproc":[],
     "output_postproc":[
         {
-            "converter":"DetectionOutput",
+            "converter":"detection_output",
             "labels":["unknown","kcup","Sprite 2L","Koolaid Fruit Punch","Extra Peppermint Gum","Ocelo Sponges","Finish Dishwasher Tablet","Mountain Dew 6 Pack","Mayonnaise","Gatorade","Ketchup","Ruffles","Pringles","Canned Green Beans"],
             "layer_name":"868"
         }

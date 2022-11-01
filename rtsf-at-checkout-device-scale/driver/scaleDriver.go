@@ -91,7 +91,7 @@ func processScaleData(scaleData map[string]interface{}, deviceResName string) (*
 		return nil, err
 	}
 
-	commandvalue, err := dsModels.NewCommandValueWithOrigin(
+	commandValue, err := dsModels.NewCommandValueWithOrigin(
 		deviceResName,
 		edgexcommon.ValueTypeString,
 		string(scaleBytes),
@@ -101,7 +101,7 @@ func processScaleData(scaleData map[string]interface{}, deviceResName string) (*
 		return nil, fmt.Errorf("error on NewCommandValueWithOrigin for %v: %v", deviceResName, err)
 	}
 
-	return commandvalue, nil
+	return commandValue, nil
 }
 
 // HandleReadCommands handle AutoEvents

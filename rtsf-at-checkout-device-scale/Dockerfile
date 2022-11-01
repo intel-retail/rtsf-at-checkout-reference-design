@@ -1,7 +1,6 @@
 # Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-# FROM golang:1.13-alpine AS builder
 FROM golang:1.18-alpine3.16 AS builder
 
 ENV GO111MODULE=on

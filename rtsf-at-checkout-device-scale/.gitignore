@@ -41,4 +41,3 @@ data/
 
 #Ignore temp files
 *~
-go.sum

@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 // Package driver - This package provides a implementation of a ProtocolDriver interface.
@@ -12,12 +12,13 @@ import (
 	"sync"
 	"time"
 
-	dsModels "github.com/edgexfoundry/device-sdk-go/pkg/models"
-	device "github.com/edgexfoundry/device-sdk-go/pkg/service"
+	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
+	device "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"go.bug.st/serial.v1/enumerator"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	edgexcommon "github.com/edgexfoundry/go-mod-core-contracts/v2/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
 // ScaleDriver the driver for a collection of scales
@@ -90,10 +91,17 @@ func processScaleData(scaleData map[string]interface{}, deviceResName string) (*
 		return nil, err
 	}
 
-	now := time.Now().UnixNano() / int64(time.Millisecond)
+	commandvalue, err := dsModels.NewCommandValueWithOrigin(
+		deviceResName,
+		edgexcommon.ValueTypeString,
+		string(scaleBytes),
+		time.Now().UnixNano()/int64(time.Millisecond),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("error on NewCommandValueWithOrigin for %v: %v", deviceResName, err)
+	}
 
-	result := dsModels.NewStringValue(deviceResName, now, string(scaleBytes))
-	return result, nil
+	return commandvalue, nil
 }
 
 // HandleReadCommands handle AutoEvents

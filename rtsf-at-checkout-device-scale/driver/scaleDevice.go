@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package driver
@@ -8,7 +8,7 @@ import (
 
 	"device-scale/scale"
 
-	device "github.com/edgexfoundry/device-sdk-go/pkg/service"
+	device "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 )
 
 type scaleDevice struct {

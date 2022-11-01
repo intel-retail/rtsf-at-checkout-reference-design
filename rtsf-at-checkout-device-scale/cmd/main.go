@@ -1,4 +1,4 @@
-// Copyright © 2019 - 2020 Intel Corporation. All rights reserved.
+// Copyright © 2019 - 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package main
@@ -6,7 +6,7 @@ package main
 import (
 	"device-scale/driver"
 
-	"github.com/edgexfoundry/device-sdk-go/pkg/startup"
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/startup"
 )
 
 const (

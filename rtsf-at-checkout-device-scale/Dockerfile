@@ -9,10 +9,8 @@ WORKDIR /device-scale
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
     copyright='Copyright (c) 2018 - 2020: Intel'
 
-RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
-
 # add git for go modules
-RUN apk update && apk add --no-cache make git gcc libc-dev zeromq-dev linux-headers
+RUN apk update && apk add --no-cache make git gcc libc-dev zeromq-dev
 
 COPY go.mod .
 
@@ -21,13 +19,15 @@ RUN go mod download
 COPY . .
 
 RUN go mod tidy
-RUN CGO_ENABLED=1 GOOS=linux go build -o device-scale -ldflags='-s -w' -a -installsuffix cgo cmd/main.go
+RUN CGO_ENABLED=1 go build -o device-scale cmd/main.go
 
 # Next image - Copy built Go binary into new workspace
-FROM golang:1.16-alpine
+FROM alpine:3.16
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
     copyright='Copyright (c) 2018 - 2022: Intel'
+
+RUN apk add --update --no-cache zeromq
 
 WORKDIR /
 COPY --from=builder /device-scale/device-scale /device-scale

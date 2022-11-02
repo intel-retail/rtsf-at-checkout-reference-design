@@ -2,7 +2,6 @@
 *.exe
 *.txt
 *.log
-go.sum
 debug
 .vscode
 loss-detector

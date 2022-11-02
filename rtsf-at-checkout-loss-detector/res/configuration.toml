@@ -1,4 +1,4 @@
-# Copyright (C) 2019 - 2020 Intel Corp.
+# Copyright (C) 2019 - 2022 Intel Corp.
 # 
 # SPDX-License-Identifier: Apache-2.0
 
@@ -6,15 +6,15 @@
 LogLevel = 'INFO'
 
 [Service]
-BootTimeout = '30s'
-ClientMonitor = '15s'
-CheckInterval = '10s'
+HealthCheckInterval = '10s'
 Host = 'localhost'
+MaxRequestSize = 0
+MaxResultCount = 0
 Port = 48096
-Protocol = 'http'
 ReadMaxLimit = 100
+RequestTimeout = '30s'
+ServerBindAddr = ""
 StartupMsg = 'Starting Loss Detector'
-Timeout = '30s'
 
 [Registry]
 Host = 'localhost'
@@ -23,32 +23,38 @@ Type = 'consul'
 
 
 [Clients]
-  [Clients.CoreData]
+  # Used for version check on start-up
+  [Clients.core-metadata]
   Protocol = "http"
   Host = "localhost"
-  Port = 48080
+  Port = 59881
 
-  [Clients.Notifications]
-  Protocol = 'http'
-  Host = 'localhost'
-  Port = 48060
+  # Used for Notification and Subscription clients
+  [Clients.support-notifications]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59860
 
-[MessageBus]
-Type = 'zero'
-    [MessageBus.SubscribeHost]
-        Host = 'localhost'
-        Port = 5564
-        Protocol = 'tcp'
+
+[Trigger]
+Type="edgex-messagebus"
+  [Trigger.EdgexMessageBus]
+  Type = "mqtt"
+    [Trigger.EdgexMessageBus.SubscribeHost]
+    Host = "localhost"
+    Port = 1883
+    Protocol = "tcp"
+    SubscribeTopics="edgex/events/#"
+    [Trigger.EdgexMessageBus.Optional]
+    authmode = "none"
+    ClientId ="loss-detector"
+    Qos =  "0" # Quality of Sevice values are 0 (At most once), 1 (At least once) or 2 (Exactly once)
+    KeepAlive =  "10" # Seconds (must be 2 or greater)
+    Retained = "false"
+    AutoReconnect = "true"
+    ConnectTimeout = "5" # Seconds
+    SkipCertVerify = "false"
         
-[Binding]
- Type="messagebus"
- SubscribeTopic="suspect-list"
-
-[Logging]
-EnableRemote = false
-File = ""
-
 [ApplicationSettings]
-NotificationsURL = "http://localhost:48060"
 NotificationEmailAddresses = "cloud@abc.def,jack@abc.def"
-NotificationSlug = "sys-admin"
+NotificationName = "sys-admin"

@@ -10,12 +10,12 @@ services:
     container_name: cv-region-of-interest
     hostname: cv-region-of-interest
     environment:
-      - no_proxy=video-analytic,mqtt
+      - no_proxy=pipeline-server,mqtt
       - MQTT_DESTINATION_HOST=mqtt:1883
-      - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu/frame_store
+      - CAMERA0_ENDPOINT=http://pipeline-server:8080/pipelines/object_detection/product
       # Fill in camera source info below
       # for RTSP cameras
-      - CAMERA0_SRC=file:///tmp/EnterExitEvent_2second.mp4
+      - CAMERA0_SRC=file:///home/pipeline-server/video-samples/grocery-test.mp4
       # or for USB cameras
       # - CAMERA0_SRC=/dev/video0
       - CAMERA0_ROI_NAME=Staging
@@ -30,11 +30,12 @@ services:
       - video-analytic
 
   video-analytic:
-    image: video-analytics-serving-rtsf:0.5.0
+    image: intel/dlstreamer-pipeline-server
     ports:
       - "8080:8080"
-    container_name: video-analytic
-    hostname: video-analytic
+      - "8554:8554"
+    container_name: pipeline-server
+    hostname: pipeline-server
     privileged: true
     networks:
       - loss-detection-app_edgex-network
@@ -46,6 +47,7 @@ services:
       - /dev/dri:/dev/dri
     volumes:
       - /tmp:/tmp
-      - ./pipelines:/home/video-analytics-serving/pipelines
-      - ./models:/home/video-analytics-serving/models
-      - ./extensions:/home/video-analytics-serving/extensions
+      - ./pipelines:/home/pipeline-server/pipelines
+      - ./models:/home/pipeline-server/models
+      - ./extensions:/home/pipeline-server/extensions
+      - ./video-samples:/home/pipeline-server/video-samples

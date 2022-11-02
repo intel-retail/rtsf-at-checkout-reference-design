@@ -45,12 +45,11 @@ vas-down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down
 
-VAS_VERSION=v0.5.0-beta
-vas:
-	git clone https://github.com/intel/video-analytics-serving && \
-	cd video-analytics-serving && \
-	git checkout ${VAS_VERSION} && \
-	docker/build.sh --models NONE --pipelines NONE --tag video-analytics-serving-rtsf:0.5.0
+models:
+	if [ ! -d pipeline-server ] ; then git clone https://github.com/dlstreamer/pipeline-server; fi && \
+	cd pipeline-server && \
+	git checkout 2022.2.0 && \
+	./tools/model_downloader/model_downloader.sh --model-list $(shell pwd)/loss-detection-app/models.yml --output $(shell pwd)/loss-detection-app
 
 rsp:
 	git clone https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service && \

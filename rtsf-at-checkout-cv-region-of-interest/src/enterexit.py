@@ -148,7 +148,7 @@ def create_pipelines():
         if camSrc == None or roiName == None:
             break # should break out of the loop when no more CAMERA env vars are found
 
-        srcPath, srcType = ('uri', 'uri') if '://' in camSrc else ('path', 'device')
+        srcPath, srcType = ('uri', 'uri') if '://' in camSrc else ('device', 'webcam')
         jsonConfig = {
             'source': {
                 srcPath: camSrc,
@@ -210,7 +210,7 @@ def create_pipelines():
         if r.status_code == 200:
             print("Created new pipeline with id: %s"%r.text)
         else:
-            print("Error creating pipeline: %s"%r)
+            print("Error creating pipeline: %s"%r.text)
 
 # TODO fix this for cam endpoints
 # def delete_pipeline(instance):

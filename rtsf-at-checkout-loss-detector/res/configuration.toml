@@ -4,6 +4,12 @@
 
 [Writable]
 LogLevel = 'INFO'
+    [Writable.InsecureSecrets]
+        [Writable.InsecureSecrets.DB]
+        path = "redisdb"
+            [Writable.InsecureSecrets.DB.Secrets]
+            username = ""
+            password = ""
 
 [Service]
 HealthCheckInterval = '10s'
@@ -11,7 +17,6 @@ Host = 'localhost'
 MaxRequestSize = 0
 MaxResultCount = 0
 Port = 48096
-ReadMaxLimit = 100
 RequestTimeout = '30s'
 ServerBindAddr = ""
 StartupMsg = 'Starting Loss Detector'
@@ -55,6 +60,9 @@ Type="edgex-messagebus"
     ConnectTimeout = "5" # Seconds
     SkipCertVerify = "false"
         
-[ApplicationSettings]
+[LossDetector]
 NotificationEmailAddresses = "cloud@abc.def,jack@abc.def"
 NotificationName = "sys-admin"
+NotificationReceiver   = "SystemAdministrator"
+SecurityCategory       = "SECURITY"
+SubscriptionAdminState = "UNLOCKED"

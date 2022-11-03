@@ -6,8 +6,9 @@ package functions
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
+	"loss-detector/config"
+	"strings"
 
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
 	clientInterfaces "github.com/edgexfoundry/go-mod-core-contracts/v2/clients/interfaces"
@@ -67,22 +68,12 @@ func NotifySuspectList(ctx interfaces.AppFunctionContext, data interface{}) (boo
 }
 
 // SubscribeToNotificationService configures an email notification with edgex-go
-func SubscribeToNotificationService(appService interfaces.ApplicationService, subscriptionClient clientInterfaces.SubscriptionClient, lc logger.LoggingClient) error {
+func SubscribeToNotificationService(lossDetectorConfig config.LossDetectorConfig, subscriptionClient clientInterfaces.SubscriptionClient, lc logger.LoggingClient) error {
 
 	lc.Info("setting up subscription to edgex notification")
 
-	emailAddresses, err := appService.GetAppSettingStrings("NotificationEmailAddresses")
-	if err != nil {
-		errorMessage := "NotificationEmailAddresses setting not found"
-		lc.Error(errorMessage)
-		return errors.New(errorMessage)
-	}
-	notificationName, err := appService.GetAppSetting("NotificationName")
-	if err != nil {
-		errorMessage := "NotificationName setting not found"
-		lc.Error(errorMessage)
-		return errors.New(errorMessage)
-	}
+	emailAddresses := strings.Split(lossDetectorConfig.NotificationEmailAddresses,",")
+	notificationName := lossDetectorConfig.NotificationName
 
 	dto := dtos.Subscription{
 		Id:   uuid.NewString(),
@@ -103,7 +94,7 @@ func SubscribeToNotificationService(appService interfaces.ApplicationService, su
 		AdminState: subscriptionAdminState,
 	}
 	reqs := []requests.AddSubscriptionRequest{requests.NewAddSubscriptionRequest(dto)}
-	_, err = subscriptionClient.Add(context.Background(), reqs)
+	_, err := subscriptionClient.Add(context.Background(), reqs)
 	if err != nil {
 		return fmt.Errorf("failed to subscribe to the EdgeX notification service: %s", err.Error())
 	}

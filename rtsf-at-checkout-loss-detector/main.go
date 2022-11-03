@@ -9,6 +9,7 @@ import (
 
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg"
 
+	"loss-detector/config"
 	"loss-detector/functions"
 )
 
@@ -18,12 +19,24 @@ const (
 
 func main() {
 	var ok bool
-	service, ok := pkg.NewAppServiceWithTargetType(serviceKey,&[]byte{})
+	service, ok := pkg.NewAppServiceWithTargetType(serviceKey, &[]byte{})
 	if !ok {
 		os.Exit(-1)
 	}
 
 	lc := service.LoggingClient()
+
+	// retrieve the required configurations
+	serviceConfig := &config.ServiceConfig{}
+	if err := service.LoadCustomConfig(serviceConfig, "LossDetector"); err != nil {
+		lc.Errorf("failed load custom ControllerBoardStatus configuration: %s", err.Error())
+		os.Exit(-1)
+	}
+
+	if err := serviceConfig.LossDetector.Validate(); err != nil {
+		lc.Errorf("failed to validate ControllerBoardStatus configuration: %v", err)
+		os.Exit(-1)
+	}
 
 	subscriptionClient := service.SubscriptionClient()
 	if subscriptionClient == nil {
@@ -37,14 +50,18 @@ func main() {
 		os.Exit(-1)
 	}
 
-	service.SetFunctionsPipeline(functions.NotifySuspectList)
+	err := service.SetFunctionsPipeline(functions.NotifySuspectList)
+	if err != nil {
+		lc.Errorf("failed to set function pipline: %v", err)
+		os.Exit(-1)
+	}
 
-	if err := functions.SubscribeToNotificationService(service, subscriptionClient, lc); err != nil {
+	if err := functions.SubscribeToNotificationService(serviceConfig.LossDetector, subscriptionClient, lc); err != nil {
 		lc.Info(fmt.Sprintf("Error subscribing to edgex notification service %s", err.Error()))
 		os.Exit(-1)
 	}
 
-	err := service.MakeItRun()
+	err = service.MakeItRun()
 	if err != nil {
 		lc.Errorf("MakeItRun returned error: %s", err.Error())
 		os.Exit(-1)

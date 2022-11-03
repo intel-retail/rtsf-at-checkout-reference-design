@@ -4,12 +4,17 @@
 
 [Writable]
 LogLevel = 'INFO'
+    [Writable.InsecureSecrets]
+        [Writable.InsecureSecrets.DB]
+        path = "redisdb"
+            [Writable.InsecureSecrets.DB.Secrets]
+            username = ""
+            password = ""
 
 [Service]
 HealthCheckInterval = '10s'
 Host = 'localhost'
 Port = 48095
-ReadMaxLimit = 100
 StartupMsg = 'Event Reconciler has started'
 RequestTimeout = '30s'
 MaxRequestSize = 0
@@ -55,4 +60,4 @@ Type= "edgex-messagebus"
   ProductLookupEndpoint = "localhost:8083"
   WebSocketPort = 9083
   ScaleToScaleTolerance = 0.02
-  CvTimeAlignment = '-5s'
+  CvTimeAlignment = '5s'

@@ -1,11 +1,9 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
 
 import (
-	"fmt"
-
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 )
 
@@ -20,7 +18,7 @@ const (
 	ROIActionEnter = "ENTERED"
 	ROIActionExit  = "EXITED"
 
-	ROIActionErrorMessage = "Could not recognize ROI Action: %s\n"
+	ROIActionErrorMessage = "Could not recognize ROI Action: %s"
 )
 
 func updateCVObjectLocation(cvEvent CVEventEntry, currentCVItem *CVEventEntry, lc logger.LoggingClient) {
@@ -41,7 +39,7 @@ func updateCVObjectLocation(cvEvent CVEventEntry, currentCVItem *CVEventEntry, l
 	case ROIActionExit:
 		roiLocation.AtLocation = false
 	default:
-		lc.Error(fmt.Sprintf(ROIActionErrorMessage, cvEvent.ROIAction))
+		lc.Errorf(ROIActionErrorMessage, cvEvent.ROIAction)
 		return //dont update ROI if action is unrecoginzed E.G. not "ENTERED" or "EXITED"
 	}
 
@@ -68,7 +66,7 @@ func updateRFIDObjectLocation(rfidRoiEvent RFIDEventEntry, currentRFIDItem *RFID
 	case ROIActionExit:
 		roiLocation.AtLocation = false
 	default:
-		lc.Error(fmt.Sprintf(ROIActionErrorMessage, rfidRoiEvent.ROIAction))
+		lc.Errorf(ROIActionErrorMessage, rfidRoiEvent.ROIAction)
 		return
 
 	}

@@ -4,7 +4,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -66,10 +65,8 @@ func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string, 
 		return 1
 	}
 
-	// defaultTolerance := 0.02
 	events.ScaleToScaleTolerance = app.serviceConfig.Reconciler.ScaleToScaleTolerance
 
-	// var defaultCvTimeAlignment = 5 * time.Second
 	tempDuration, err := time.ParseDuration(app.serviceConfig.Reconciler.CvTimeAlignment)
 	if err != nil {
 		app.lc.Errorf("failed to parse CvTimeAlignment duration: %v", err)
@@ -80,7 +77,7 @@ func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string, 
 	deviceNamesList := strings.TrimSpace(app.serviceConfig.Reconciler.DeviceNames)
 
 	deviceNames := strings.Split(deviceNamesList, ",")
-	app.lc.Info(fmt.Sprintf("Running the application functions for %v devices...", deviceNames))
+	app.lc.Infof("Running the application functions for %v devices...", deviceNames)
 
 	app.service.AddRoute("/current-state", func(writer http.ResponseWriter, req *http.Request) {
 		app.lc.Info("Sending current state message to UI")

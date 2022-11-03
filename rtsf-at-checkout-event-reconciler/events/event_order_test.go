@@ -75,7 +75,7 @@ func TestCheckEventOrderValid(t *testing.T) {
 			}
 		}
 		if eventValid != table.expectedResult {
-			t.Errorf("Test failed. Name: %s\n. Expected: %t, Actual: %t\n", table.name, table.expectedResult, eventValid)
+			t.Errorf("Test failed. Name: %s. Expected: %t, Actual: %t", table.name, table.expectedResult, eventValid)
 		}
 	}
 

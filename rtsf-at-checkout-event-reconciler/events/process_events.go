@@ -40,7 +40,7 @@ var NextRFIDData = []RFIDEventEntry{}
 var firstBasketOpenComplete = false
 var afterPaymentSuccess = false
 
-func (eventsProcessing *EventsProcessor) ProcessCheckoutEvents(edgexcontext interfaces.AppFunctionContext, params interface{}) (bool, interface{}) {
+func (eventsProcessing *EventsProcessor) ProcessCheckoutEvents(edgexcontext interfaces.AppFunctionContext, param interface{}) (bool, interface{}) {
 	lc := edgexcontext.LoggingClient()
 
 	devicePos := eventsProcessing.ProcessConfig.DevicePos
@@ -51,14 +51,14 @@ func (eventsProcessing *EventsProcessor) ProcessCheckoutEvents(edgexcontext inte
 
 	deviceRFID := eventsProcessing.ProcessConfig.DeviceRFID
 
-	result, _ := params.(models.Event)
+	result, _ := param.(models.Event)
 	for _, reading := range result.Readings {
 		readingData := reading.(models.ObjectReading)
 		eventName := readingData.ResourceName
-		lc.Debug(fmt.Sprintf("Processing Checkout Event: %s", eventName))
+		lc.Debugf("Processing Checkout Event: %s", eventName)
 		eventOk := checkEventOrderValid(eventName, edgexcontext)
 		if !eventOk {
-			lc.Error(fmt.Sprintf("Error: event occurred out of order: %v", eventName))
+			lc.Errorf("Error: event occurred out of order: %v", eventName)
 			continue
 		}
 
@@ -76,7 +76,7 @@ func (eventsProcessing *EventsProcessor) ProcessCheckoutEvents(edgexcontext inte
 			eventsProcessing.processDeviceRFIDReading(readingData, lc)
 
 		default:
-			lc.Error(fmt.Sprintf("Did not recognize Device: %s", readingData.DeviceName))
+			lc.Errorf("Did not recognize Device: %s", readingData.DeviceName)
 			continue
 		}
 
@@ -84,10 +84,10 @@ func (eventsProcessing *EventsProcessor) ProcessCheckoutEvents(edgexcontext inte
 		sendWebsocketMessage(msg, edgexcontext)
 	}
 
-	lc.Trace(fmt.Sprintf("RTTLog: %v", RttlogData))
-	lc.Trace(fmt.Sprintf("ScaleData: %v", ScaleData))
-	lc.Trace(fmt.Sprintf("CvData: %v", CurrentCVData))
-	lc.Trace(fmt.Sprintf("RfidData: %v", CurrentRFIDData))
+	lc.Tracef("RTTLog: %v", RttlogData)
+	lc.Tracef("ScaleData: %v", ScaleData)
+	lc.Tracef("CvData: %v", CurrentCVData)
+	lc.Tracef("RfidData: %v", CurrentRFIDData)
 
 	return false, nil
 }
@@ -98,7 +98,7 @@ func (eventsProcessing *EventsProcessor) processDeviceCVReading(reading models.O
 	}
 	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &cvReading)
 	if err != nil {
-		lc.Error(fmt.Sprintf("CV unmarshal failure: %v", err))
+		lc.Errorf("CV unmarshal failure: %v", err)
 		return
 	}
 
@@ -129,20 +129,20 @@ func (eventsProcessing *EventsProcessor) processDeviceRFIDReading(reading models
 	}
 	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &rfidReading)
 	if err != nil {
-		lc.Error(fmt.Sprintf("RFID unmarshal failure: %v", err))
+		lc.Errorf("RFID unmarshal failure: %v", err)
 		return
 	}
 
 	upc, err := rfidgtin.GetGtin14(rfidReading.EPC)
 	if err != nil {
-		lc.Error(fmt.Sprintf("Bad EPC value. Not adding RFID tag to buffer: %v", err))
+		lc.Errorf("Bad EPC value. Not adding RFID tag to buffer: %v", err)
 		return
 	}
 
 	//check if UPC is in Product lookup database. If not, don't add RFID tag to buffer
 	prodDetails, err := productLookup(upc, lc, eventsProcessing.ProcessConfig.ProductLookupEndpoint)
 	if err != nil {
-		lc.Warn(fmt.Sprintf("Could not find RFID tagged product (%s) in database. Not adding to buffer: %v", upc, err))
+		lc.Warnf("Could not find RFID tagged product (%s) in database. Not adding to buffer: %v", upc, err)
 		return
 	}
 	rfidReading.UPC = upc
@@ -170,7 +170,7 @@ func (eventsProcessing *EventsProcessor) processDeviceScaleReading(reading model
 	scaleReading := ScaleEventEntry{}
 	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &scaleReading)
 	if err != nil {
-		lc.Error(fmt.Sprintf("Scale unmarshal failure: %v", err))
+		lc.Errorf("Scale unmarshal failure: %v", err)
 		return
 	}
 
@@ -179,7 +179,7 @@ func (eventsProcessing *EventsProcessor) processDeviceScaleReading(reading model
 		return
 	}
 
-	lc.Debug(fmt.Sprintf("Adding %s to Scale Log", reading.ResourceName))
+	lc.Debugf("Adding %s to Scale Log", reading.ResourceName)
 
 	ScaleData = append(ScaleData, scaleReading)
 
@@ -193,7 +193,7 @@ func (eventsProcessing *EventsProcessor) processDevicePosReading(reading models.
 	rttLogReading := RTTLogEventEntry{EventType: eventName}
 	err := json.Unmarshal([]byte(reading.ObjectValue.(string)), &rttLogReading)
 	if err != nil {
-		lc.Error(fmt.Sprintf("RTTlog unmarshal failure: %v", err))
+		lc.Errorf("RTTlog unmarshal failure: %v", err)
 		return
 	}
 
@@ -223,7 +223,7 @@ func (eventsProcessing *EventsProcessor) processDevicePosReading(reading models.
 	case removeItemEvent:
 		err := removeRTTLItemFromBuffer(rttLogReading)
 		if err != nil {
-			lc.Error(fmt.Sprintf("Remove Item Error: %v", err))
+			lc.Errorf("Remove Item Error: %v", err)
 		}
 
 		EventOccurred[posItemEvent] = checkRTTLForPOSItems()
@@ -234,10 +234,10 @@ func (eventsProcessing *EventsProcessor) processDevicePosReading(reading models.
 			//if QuantityUnit is "EA", there is a expected minimum and maximum weight. Otherwise, you only consider the weight of the purchase
 			rttLogReading.ProductDetails, err = productLookup(rttLogReading.ProductId, lc, eventsProcessing.ProcessConfig.ProductLookupEndpoint)
 			if err != nil {
-				lc.Error(fmt.Sprintf("Product Lookup failed for product: %s. Not adding to RTTL. Error Message: %s", rttLogReading.ProductId, err.Error()))
+				lc.Errorf("Product Lookup failed for product: %s. Not adding to RTTL. Error Message: %s", rttLogReading.ProductId, err.Error())
 				return
 			}
-			lc.Trace(fmt.Sprintf("Found product detail for %s", rttLogReading.ProductId))
+			lc.Tracef("Found product detail for %s", rttLogReading.ProductId)
 		} else {
 			rttLogReading.ProductDetails = ProductDetails{"", rttLogReading.Quantity, rttLogReading.Quantity, false}
 		}
@@ -247,7 +247,7 @@ func (eventsProcessing *EventsProcessor) processDevicePosReading(reading models.
 		if isRFIDEligible(rttLogReading) {
 			err := rfidBasketReconciliation(&rttLogReading)
 			if err != nil {
-				lc.Error(fmt.Sprintf("EPC to UPC transform failure for RFID Basket Reconciliation: %v", err))
+				lc.Errorf("EPC to UPC transform failure for RFID Basket Reconciliation: %v", err)
 			}
 		}
 
@@ -276,10 +276,10 @@ func (eventsProcessing *EventsProcessor) processDevicePosReading(reading models.
 		afterPaymentSuccess = true
 
 	default:
-		lc.Error(fmt.Sprintf("Unkown POS event: %s", eventName))
+		lc.Errorf("Unkown POS event: %s", eventName)
 	}
 
-	lc.Trace(fmt.Sprintf("Adding %s to RTT Log", eventName))
+	lc.Tracef("Adding %s to RTT Log", eventName)
 
 	if len(RttlogData) == 0 {
 		RttlogData = append(RttlogData, rttLogReading)

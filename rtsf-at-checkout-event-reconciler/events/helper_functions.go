@@ -87,7 +87,7 @@ func removeRTTLItemFromBuffer(rttlogReading RTTLogEventEntry) error {
 		}
 	}
 	if quantityToRemove > floatingPointTolerance {
-		return fmt.Errorf("Error: Remove item failed: %s\n", rttlogReading.ProductName)
+		return fmt.Errorf("Error: Remove item failed: %s", rttlogReading.ProductName)
 	}
 	return nil
 }

@@ -1,3 +1,6 @@
+// Copyright © 2022 Intel Corporation. All rights reserved.
+// SPDX-License-Identifier: BSD-3-Clause
+
 package config
 
 import (
@@ -45,14 +48,6 @@ func (bs *ReconcilerConfig) Validate() error {
 
 		if _, ok := field.(string); ok && len(field.(string)) == 0 {
 			return fmt.Errorf("%v is empty", fieldName)
-		}
-
-		if _, ok := field.(float64); ok && field.(float64) == 0.0 {
-			return fmt.Errorf("%v is set to 0", fieldName)
-		}
-
-		if _, ok := field.(int); ok && field.(int) == 0 {
-			return fmt.Errorf("%v is set to 0", fieldName)
 		}
 	}
 	return nil

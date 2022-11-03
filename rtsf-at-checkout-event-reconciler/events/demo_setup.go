@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
@@ -114,7 +114,7 @@ func InitWebSocketConnection(service interfaces.ApplicationService, lc logger.Lo
 	appSettings := service.ApplicationSettings()
 	if wsPortConfig, ok := appSettings["WebSocketPort"]; !ok {
 		defaultPort := "9083"
-		lc.Errorf(fmt.Sprintf("WebSocketAddress setting not found defaulting to %v", defaultPort))
+		lc.Errorf("WebSocketAddress setting not found defaulting to %v", defaultPort)
 		wsAddr = fmt.Sprintf(":%s", defaultPort)
 	} else {
 		wsAddr = fmt.Sprintf(":%s", wsPortConfig)
@@ -125,13 +125,13 @@ func InitWebSocketConnection(service interfaces.ApplicationService, lc logger.Lo
 		upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 		conn, err = upgrader.Upgrade(w, r, nil)
 		if err != nil {
-			lc.Errorf(fmt.Sprintf("upgrade: %s\n", err))
+			lc.Errorf("upgrade: %s", err)
 			return
 		}
 	})
 
 	go func() {
-		lc.Infof(fmt.Sprintf("websocket listening to: %v \n", wsAddr))
+		lc.Infof("websocket listening to: %v", wsAddr)
 		if err := http.ListenAndServe(wsAddr, nil); err != nil {
 			lc.Error(err.Error())
 		}
@@ -147,10 +147,10 @@ func sendWebsocketMessage(message []byte, edgexcontext interfaces.AppFunctionCon
 
 	Mu.Lock()
 	defer Mu.Unlock()
-	lc.Trace(fmt.Sprintf("websocket message: %v\n", string(message)))
+	lc.Tracef("websocket message: %v", string(message))
 	err := conn.WriteMessage(websocket.TextMessage, message)
 	if err != nil {
-		lc.Info(fmt.Sprintf("write: %s", err))
+		lc.Infof("write: %s", err)
 		return
 	}
 }

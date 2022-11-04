@@ -4,12 +4,12 @@
 
 [Writable]
 LogLevel = 'INFO'
-    [Writable.InsecureSecrets]
-        [Writable.InsecureSecrets.DB]
-        path = "redisdb"
-            [Writable.InsecureSecrets.DB.Secrets]
-            username = ""
-            password = ""
+  [Writable.InsecureSecrets]
+    [Writable.InsecureSecrets.DB]
+    path = "redisdb"
+      [Writable.InsecureSecrets.DB.Secrets]
+      username = ""
+      password = ""
 
 [Service]
 HealthCheckInterval = '10s'
@@ -63,6 +63,3 @@ Type="edgex-messagebus"
 [LossDetector]
 NotificationEmailAddresses = "cloud@abc.def,jack@abc.def"
 NotificationName = "sys-admin"
-NotificationReceiver   = "SystemAdministrator"
-SecurityCategory       = "SECURITY"
-SubscriptionAdminState = "UNLOCKED"

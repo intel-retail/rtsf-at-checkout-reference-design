@@ -8,6 +8,8 @@ import (
 	"os"
 
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 
 	"loss-detector/config"
 	"loss-detector/functions"
@@ -17,55 +19,67 @@ const (
 	serviceKey = "app-loss-detector"
 )
 
+type LossDetectorApp struct {
+	service       interfaces.ApplicationService
+	lc            logger.LoggingClient
+	serviceConfig *config.ServiceConfig
+}
+
 func main() {
+	app := LossDetectorApp{}
+	code := app.CreateAndRunAppService(serviceKey, pkg.NewAppService)
+	os.Exit(code)
+}
+
+func (app *LossDetectorApp) CreateAndRunAppService(serviceKey string, newServiceFactory func(string) (interfaces.ApplicationService, bool)) int {
 	var ok bool
-	service, ok := pkg.NewAppServiceWithTargetType(serviceKey, &[]byte{})
+	app.service, ok = pkg.NewAppServiceWithTargetType(serviceKey, &[]byte{})
 	if !ok {
-		os.Exit(-1)
+		return 1
 	}
 
-	lc := service.LoggingClient()
+	app.lc = app.service.LoggingClient()
 
 	// retrieve the required configurations
-	serviceConfig := &config.ServiceConfig{}
-	if err := service.LoadCustomConfig(serviceConfig, "LossDetector"); err != nil {
-		lc.Errorf("failed load custom ControllerBoardStatus configuration: %s", err.Error())
-		os.Exit(-1)
+	app.serviceConfig = &config.ServiceConfig{}
+	if err := app.service.LoadCustomConfig(app.serviceConfig, "LossDetector"); err != nil {
+		app.lc.Errorf("failed load custom ControllerBoardStatus configuration: %s", err.Error())
+		return 1
 	}
 
-	if err := serviceConfig.LossDetector.Validate(); err != nil {
-		lc.Errorf("failed to validate ControllerBoardStatus configuration: %v", err)
-		os.Exit(-1)
+	if err := app.serviceConfig.LossDetector.Validate(); err != nil {
+		app.lc.Errorf("failed to validate ControllerBoardStatus configuration: %v", err)
+		return 1
 	}
 
-	subscriptionClient := service.SubscriptionClient()
+	subscriptionClient := app.service.SubscriptionClient()
 	if subscriptionClient == nil {
-		lc.Errorf("error notification service missing from client's configuration")
-		os.Exit(-1)
+		app.lc.Errorf("error notification service missing from client's configuration")
+		return 1
 	}
 
-	notificationClient := service.NotificationClient()
+	notificationClient := app.service.NotificationClient()
 	if notificationClient == nil {
-		lc.Error("error notification service missing from client's configuration")
-		os.Exit(-1)
+		app.lc.Error("error notification service missing from client's configuration")
+		return 1
 	}
 
-	err := service.SetFunctionsPipeline(functions.NotifySuspectList)
+	err := app.service.SetFunctionsPipeline(functions.NotifySuspectList)
 	if err != nil {
-		lc.Errorf("failed to set function pipline: %v", err)
-		os.Exit(-1)
+		app.lc.Errorf("failed to set function pipline: %v", err)
+		return 1
 	}
 
-	if err := functions.SubscribeToNotificationService(serviceConfig.LossDetector, subscriptionClient, lc); err != nil {
-		lc.Info(fmt.Sprintf("Error subscribing to edgex notification service %s", err.Error()))
-		os.Exit(-1)
+	if err := functions.SubscribeToNotificationService(app.serviceConfig.LossDetector, subscriptionClient, app.lc); err != nil {
+		app.lc.Info(fmt.Sprintf("Error subscribing to edgex notification service %s", err.Error()))
+		return 1
 	}
 
-	err = service.MakeItRun()
+	err = app.service.MakeItRun()
 	if err != nil {
-		lc.Errorf("MakeItRun returned error: %s", err.Error())
-		os.Exit(-1)
+		app.lc.Errorf("MakeItRun returned error: %s", err.Error())
+		return 1
 	}
 
-	os.Exit(0)
+	return 0
 }

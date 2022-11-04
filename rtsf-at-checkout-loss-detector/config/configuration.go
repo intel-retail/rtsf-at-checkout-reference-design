@@ -15,9 +15,6 @@ type ServiceConfig struct {
 type LossDetectorConfig struct {
 	NotificationEmailAddresses string
 	NotificationName           string
-	NotificationReceiver       string
-	SecurityCategory           string
-	SubscriptionAdminState     string
 }
 
 // UpdateFromRaw updates the service's full configuration from raw data received from

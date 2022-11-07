@@ -5,7 +5,7 @@ labels:
 - "scale"
 description: "Scale Device Profile"
 deviceResources:
-- name: scale-item
+- name: weight
   description: "JSON message containing the scale details"
   properties:
     value:
@@ -14,6 +14,6 @@ deviceResources:
       { type: "String", readWrite: "R", defaultValue: "" }
 
 deviceCommands:
-- name: scale-item
+- name: weight
   get:
-  - { operation: "get", object: "scale-item", parameter: "scale-item" }
+  - { operation: "get", object: "weight", parameter: "weight" }

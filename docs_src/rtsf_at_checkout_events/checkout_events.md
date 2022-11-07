@@ -96,7 +96,7 @@ Example event:
 Scale events track items on the scale. There is only one scale event type required for this reference design, which is:
 
 #### Scale Item 
-`scale-item` occurs when an item has been placed or removed from the security scale.
+`weight` occurs when an item has been placed or removed from the security scale.
 
 Example event:
 

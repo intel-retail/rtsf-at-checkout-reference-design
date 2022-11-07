@@ -9,7 +9,7 @@ After [phase 2](./phase2.md) has been completed, the next step is to integrate p
 
 ### Step 1: Integrate your Security Scale of choice 
 
-The first piece of hardware that we suggest to integrate is a security weight scale. This scale typically is located in the bagging area or otherwise after the scanner where items are placed before going back into a customer's cart. We have provided a reference design for a USB based weight scale [here](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/tree/master/rtsf-at-checkout-device-scale). Anytime an item is placed on the scale, or subsequently removed from the scale a `scale-item` event is sent into EdgeX to be reconciled in the reconciler. While the reference service we provided is USB based, you may use any protocol you prefer for integrating your own device service.
+The first piece of hardware that we suggest to integrate is a security weight scale. This scale typically is located in the bagging area or otherwise after the scanner where items are placed before going back into a customer's cart. We have provided a reference design for a USB based weight scale [here](https://github.com/intel-iot-devkit/rtsf-at-checkout-reference-design/tree/master/rtsf-at-checkout-device-scale). Anytime an item is placed on the scale, or subsequently removed from the scale a `weight` event is sent into EdgeX to be reconciled in the reconciler. While the reference service we provided is USB based, you may use any protocol you prefer for integrating your own device service.
 
 ### Step 2: (optional) Build the Intel® Retail Sensor Platform (Intel® RSP) Controller 
 

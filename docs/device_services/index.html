@@ -509,7 +509,7 @@
 </ul>
 <p><code>device-scale-rest</code> - Accepts the above Scale events and defines the following device resource for the single Scale Event:</p>
 <ul>
-<li><code>scale-item</code></li>
+<li><code>weight</code></li>
 </ul>
 <p><code>device-cv-roi-rest</code> - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:</p>
 <ul>
@@ -550,7 +550,7 @@ where the JSON body is:</p>
 </ul>
 <p><code>device-scale-mqtt</code> - Accepts the above Scale events and defines the following device command for the single Scale Event:</p>
 <ul>
-<li><code>scale-item</code></li>
+<li><code>weight</code></li>
 </ul>
 <p><code>device-cv-roi-mqtt</code> - Accepts the above ROI events and defines the following device command for the single CV ROI Event:</p>
 <ul>
@@ -572,11 +572,11 @@ where the JSON body is:</p>
 <p>where <code>&lt;device name&gt;</code> is one of the above defined devices 
 and <code>&lt;command name&gt;</code> is one of the defined commands for that device
 and <code>&lt;event data json&gt;</code> is a string containing the event data JSON, i.e not embedded JSON.</p>
-<p>Example JSON for publishing <code>scale-item</code> data:</p>
+<p>Example JSON for publishing <code>weight</code> data:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
     <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;device-scale-mqtt&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;cmd&quot;</span> <span class="p">:</span> <span class="s2">&quot;scale-item&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;scale-item&quot;</span> <span class="p">:</span> <span class="s2">&quot;{\&quot;lane_id\&quot;:\&quot;1\&quot;,\&quot;ScaleId\&quot;:\&quot;abc123\&quot;,\&quot;total\&quot;:3.25,\&quot;delta\&quot;:1.15,\&quot;units\&quot;:\&quot;lbs\&quot;,\&quot;event_time\&quot;:15736013940000}&quot;</span>
+    <span class="nt">&quot;cmd&quot;</span> <span class="p">:</span> <span class="s2">&quot;weight&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;weight&quot;</span> <span class="p">:</span> <span class="s2">&quot;{\&quot;lane_id\&quot;:\&quot;1\&quot;,\&quot;ScaleId\&quot;:\&quot;abc123\&quot;,\&quot;total\&quot;:3.25,\&quot;delta\&quot;:1.15,\&quot;units\&quot;:\&quot;lbs\&quot;,\&quot;event_time\&quot;:15736013940000}&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
                 

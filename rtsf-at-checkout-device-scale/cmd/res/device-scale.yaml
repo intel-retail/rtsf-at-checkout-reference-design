@@ -6,7 +6,7 @@ labels:
 description: "A device for reading from serial scales"
 
 deviceResources:
-- name: "scale-item"
+- name: "weight"
   description: "A scale reading"
   properties:
     value:
@@ -17,4 +17,4 @@ deviceResources:
 deviceCommands:
 - name: "device-scale"
   get:
-  - { operation: "get", object: "scale-item", property: "value", parameter: "scale-item" }
+  - { operation: "get", object: "weight", property: "value", parameter: "weight" }

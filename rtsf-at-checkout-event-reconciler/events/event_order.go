@@ -12,7 +12,7 @@ const (
 	paymentStartEvent   = "payment-start"
 	paymentSuccessEvent = "payment-success"
 	removeItemEvent     = "remove-item"
-	scaleItemEvent      = "scale-item"
+	scaleItemEvent      = "weight"
 	cvRoiEvent          = "cv-roi-event"
 	rfidRoiEvent        = "rfid-roi-event"
 )

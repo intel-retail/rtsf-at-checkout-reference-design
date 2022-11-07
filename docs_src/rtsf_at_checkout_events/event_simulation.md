@@ -50,7 +50,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
         },
         {
             "device": "Scale",
-            "resource": "scale-item",
+            "resource": "weight",
             "data": {
                 "lane_id" : "1",
                 "scale_id" : "abc123",
@@ -78,7 +78,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
         },
         {
             "device": "Scale",
-            "resource": "scale-item",
+            "resource": "weight",
             "data": {
                 "lane_id" : "1",
                 "scale_id" : "abc123",
@@ -106,7 +106,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
         },
         {
             "device": "Scale",
-            "resource": "scale-item",
+            "resource": "weight",
             "data": {
                 "lane_id" : "1",
                 "scale_id" : "abc123",
@@ -134,7 +134,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
         },
         {
             "device": "Scale",
-            "resource": "scale-item",
+            "resource": "weight",
             "data": {
                 "lane_id" : "1",
                 "scale_id" : "abc123",

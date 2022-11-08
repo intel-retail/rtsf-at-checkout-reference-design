@@ -141,19 +141,17 @@ func findSerialPort(pid string, vid string) (string, error) {
 			}
 		}
 	}
-	return "", fmt.Errorf("Serial device with pid:vid %s:%s not found", pid, vid)
+	return "", fmt.Errorf("serial device with pid:vid %s:%s not found", pid, vid)
 }
 
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	// Nothing required to do for AddDevice since new devices will be available
-	// when data is posted to REST endpoint
+	// get device definition from sdk, then from device definition, get PID and VID from the protocol section
 	serialProtocol := protocols["serial"]
 	serialPort, err := findSerialPort(serialProtocol["PID"], serialProtocol["VID"])
-	// get device definition from sdk, then from device definition, the input of PID and VID from the protocol section
 
-	fmt.Printf("[serialPort]: %v, err: %v", serialPort, err)
+	driver.lc.Debugf("[serialPort]: %v, err: %v", serialPort, err)
 
 	if err != nil {
 		driver.lc.Error(err.Error())
@@ -164,15 +162,10 @@ func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models
 		drv.scaleDevice = newScaleDevice(serialPort)
 		driver.lc.Debugf("Connecting to scale: %v", serialPort)
 
-		//
-		//
 		scaleData, err := drv.scaleDevice.readWeight()
 		for _, v := range scaleData {
 			driver.lc.Debugf("[scaleData]: %v, err: %v", v, err)
 		}
-
-		//
-		//
 	}
 
 	return nil

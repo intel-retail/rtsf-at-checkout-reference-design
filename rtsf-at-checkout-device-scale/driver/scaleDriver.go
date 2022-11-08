@@ -49,34 +49,10 @@ func (drv *ScaleDriver) DisconnectDevice(deviceName string, protocols map[string
 // Initialize initialize device
 func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.AsyncValues, deviceCh chan<- []dsModels.DiscoveredDevice) error {
 
-	config := device.DriverConfigs()
-
 	drv.lc = lc
 	drv.asyncCh = asyncCh
 	drv.httpErrors = make(chan error, 2)
 
-	serialPort, err := findSerialPort(config["ScalePID"], config["ScaleVID"])
-
-	fmt.Printf("[serialPort]: %v, err: %v", serialPort, err)
-
-	if serialPort == "" || err != nil {
-		driver.lc.Warn(err.Error())
-		drv.scaleConnected = false
-	} else {
-		drv.scaleConnected = true
-		drv.scaleDevice = newScaleDevice(serialPort)
-		driver.lc.Debug(fmt.Sprintf("Connecting to scale: %v", serialPort))
-
-		//
-		//
-		scaleData, err := drv.scaleDevice.readWeight("weight")
-		for _, v := range scaleData {
-			fmt.Printf("[scaleData]: %v, err: %v", v, err)
-		}
-
-		//
-		//
-	}
 	return nil
 }
 
@@ -114,7 +90,7 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 	}
 
 	for i, req := range reqs {
-		scaleData, err := drv.scaleDevice.readWeight(req.DeviceResourceName)
+		scaleData, err := drv.scaleDevice.readWeight()
 		if err != nil {
 			if strings.Contains(err.Error(), "no such file or directory") {
 				// scale is unplugged or unreachable
@@ -134,7 +110,7 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 			return nil, err
 		}
 
-		drv.lc.Info(fmt.Sprintf("Scale Reading: %s", result))
+		drv.lc.Infof("Scale Reading: %s", result)
 		res[i] = result
 	}
 
@@ -165,14 +141,47 @@ func findSerialPort(pid string, vid string) (string, error) {
 			}
 		}
 	}
-	return "", fmt.Errorf("Serial device with pid:vid %s:%s not found", pid, vid)
+	return "", fmt.Errorf("serial device with pid:vid %s:%s not found", pid, vid)
 }
 
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	// Nothing required to do for AddDevice since new devices will be available
-	// when data is posted to REST endpoint
+	serialProtocol := protocols["serial"]
+	if serialProtocol == nil {
+		return fmt.Errorf("serialProtocol can not be nil")
+	}
+
+	pid := serialProtocol["PID"]
+	if len(pid) == 0 {
+		return fmt.Errorf("PID is empty")
+	}
+	vid := serialProtocol["VID"]
+	if len(vid) == 0 {
+		return fmt.Errorf("VID is empty")
+	}
+
+	serialPort, err := findSerialPort(pid, vid)
+
+	if err != nil {
+		driver.lc.Error(err.Error())
+		drv.scaleConnected = false
+		return fmt.Errorf("unable to find weight scale serial port: %v", err)
+	} else {
+		driver.lc.Debugf("[serialPort]: %v", serialPort)
+		drv.scaleConnected = true
+		drv.scaleDevice = newScaleDevice(serialPort)
+		driver.lc.Debugf("Connecting to scale: %v", serialPort)
+
+		scaleData, err := drv.scaleDevice.readWeight()
+		if err != nil {
+			return fmt.Errorf("readWeight failed: %v", err)
+		}
+		for _, v := range scaleData {
+			driver.lc.Debugf("[scaleData]: %v", v)
+		}
+	}
+
 	return nil
 }
 

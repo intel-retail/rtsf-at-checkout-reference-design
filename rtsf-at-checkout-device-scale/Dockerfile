@@ -7,7 +7,7 @@ ENV GO111MODULE=on
 WORKDIR /device-scale
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-    copyright='Copyright (c) 2018 - 2020: Intel'
+    copyright='Copyright (c) 2018 - 2022: Intel'
 
 # add git for go modules
 RUN apk update && apk add --no-cache make git gcc libc-dev zeromq-dev
@@ -32,6 +32,7 @@ RUN apk add --update --no-cache zeromq
 WORKDIR /
 COPY --from=builder /device-scale/device-scale /device-scale
 COPY --from=builder /device-scale/cmd/res/configuration.toml /res/configuration.toml
-COPY --from=builder /device-scale/cmd/res/device-scale.yaml /res/device-scale.yaml
+COPY --from=builder /device-scale/cmd/res/profiles/cas-scale.yaml /res/profiles/cas-scale.yaml
+COPY --from=builder /device-scale/cmd/res/devices/device-list.toml /res/devices/device-list.toml
 
 CMD [ "/device-scale","--cp=consul://edgex-core-consul:8500","--registry","--confdir=/res"]

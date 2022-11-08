@@ -32,7 +32,7 @@ RUN apk add --update --no-cache zeromq
 WORKDIR /
 COPY --from=builder /device-scale/device-scale /device-scale
 COPY --from=builder /device-scale/cmd/res/configuration.toml /res/configuration.toml
-COPY --from=builder /device-scale/cmd/res/profiles/device-scale.yaml /res/profiles/device-scale.yaml
+COPY --from=builder /device-scale/cmd/res/profiles/cas-scale.yaml /res/profiles/cas-scale.yaml
 COPY --from=builder /device-scale/cmd/res/devices/device-list.toml /res/devices/device-list.toml
 
 CMD [ "/device-scale","--cp=consul://edgex-core-consul:8500","--registry","--confdir=/res"]

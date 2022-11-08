@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 name: "cas-scale"
-manufacturer: "Intel"
+manufacturer: "CAS"
 model: "any cas weight scale"
 labels:
 - "cas"

@@ -147,24 +147,38 @@ func findSerialPort(pid string, vid string) (string, error) {
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	// get device definition from sdk, then from device definition, get PID and VID from the protocol section
 	serialProtocol := protocols["serial"]
-	serialPort, err := findSerialPort(serialProtocol["PID"], serialProtocol["VID"])
+	if serialProtocol == nil {
+		return fmt.Errorf("serialProtocol can not be nil")
+	}
 
-	driver.lc.Debugf("[serialPort]: %v, err: %v", serialPort, err)
+	pid := serialProtocol["PID"]
+	if len(pid) == 0 {
+		return fmt.Errorf("PID is empty")
+	}
+	vid := serialProtocol["VID"]
+	if len(vid) == 0 {
+		return fmt.Errorf("VID is empty")
+	}
+
+	serialPort, err := findSerialPort(pid, vid)
 
 	if err != nil {
 		driver.lc.Error(err.Error())
 		drv.scaleConnected = false
 		return fmt.Errorf("unable to find weight scale serial port: %v", err)
 	} else {
+		driver.lc.Debugf("[serialPort]: %v", serialPort)
 		drv.scaleConnected = true
 		drv.scaleDevice = newScaleDevice(serialPort)
 		driver.lc.Debugf("Connecting to scale: %v", serialPort)
 
 		scaleData, err := drv.scaleDevice.readWeight()
+		if err != nil {
+			return fmt.Errorf("readWeight failed: %v", err)
+		}
 		for _, v := range scaleData {
-			driver.lc.Debugf("[scaleData]: %v, err: %v", v, err)
+			driver.lc.Debugf("[scaleData]: %v", v)
 		}
 	}
 

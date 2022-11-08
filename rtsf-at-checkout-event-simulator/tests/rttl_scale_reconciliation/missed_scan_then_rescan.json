@@ -27,7 +27,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 2.1,
                 "units": "lbs"
@@ -36,7 +36,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 5.1,
                 "units": "lbs"
@@ -45,7 +45,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 2.1,
                 "units": "lbs"
@@ -70,7 +70,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 5.1,
                 "units": "lbs"

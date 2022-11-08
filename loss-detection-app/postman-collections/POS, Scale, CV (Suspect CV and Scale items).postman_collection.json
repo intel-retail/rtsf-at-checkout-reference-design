@@ -264,7 +264,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013935000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -275,7 +275,7 @@
 						"v1",
 						"resource",
 						"device-scale-rest",
-						"scale-item"
+						"weight"
 					]
 				}
 			},
@@ -586,7 +586,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013942000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -597,7 +597,7 @@
 						"v1",
 						"resource",
 						"device-scale-rest",
-						"scale-item"
+						"weight"
 					]
 				}
 			},
@@ -724,7 +724,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 10.6,\n    \"units\": \"lbs\",\n    \"event_time\":15736013945000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -735,7 +735,7 @@
 						"v1",
 						"resource",
 						"device-scale-rest",
-						"scale-item"
+						"weight"
 					]
 				}
 			},

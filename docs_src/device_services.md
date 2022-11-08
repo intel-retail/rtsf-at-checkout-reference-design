@@ -14,7 +14,7 @@ This reference design has configured the EdgeX REST device service to have the f
 
 `device-scale-rest` - Accepts the above Scale events and defines the following device resource for the single Scale Event:
 
-- `scale-item`
+- `weight`
 
 `device-cv-roi-rest` - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:
 
@@ -63,7 +63,7 @@ This reference design has configured the EdgeX MQTT device service to have the f
 
 `device-scale-mqtt` - Accepts the above Scale events and defines the following device command for the single Scale Event:
 
-- `scale-item`
+- `weight`
 
 `device-cv-roi-mqtt` - Accepts the above ROI events and defines the following device command for the single CV ROI Event:
 
@@ -89,12 +89,12 @@ where `<device name>` is one of the above defined devices
 and `<command name>` is one of the defined commands for that device
 and `<event data json>` is a string containing the event data JSON, i.e not embedded JSON.
 
-Example JSON for publishing `scale-item` data:
+Example JSON for publishing `weight` data:
 
 ``` json
 {
 	"name" : "device-scale-mqtt",
-    "cmd" : "scale-item",
-    "scale-item" : "{\"lane_id\":\"1\",\"ScaleId\":\"abc123\",\"total\":3.25,\"delta\":1.15,\"units\":\"lbs\",\"event_time\":15736013940000}"
+    "cmd" : "weight",
+    "weight" : "{\"lane_id\":\"1\",\"ScaleId\":\"abc123\",\"total\":3.25,\"delta\":1.15,\"units\":\"lbs\",\"event_time\":15736013940000}"
 }
 ```

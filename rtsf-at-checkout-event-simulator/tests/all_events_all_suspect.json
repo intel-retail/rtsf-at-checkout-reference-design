@@ -178,7 +178,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 10,
                 "units": "lbs"

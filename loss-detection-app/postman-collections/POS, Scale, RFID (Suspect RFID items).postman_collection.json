@@ -310,7 +310,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013934000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -321,7 +321,7 @@
 						"v1",
 						"resource",
 						"device-scale-rest",
-						"scale-item"
+						"weight"
 					]
 				}
 			},
@@ -540,7 +540,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013939000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/scale-item",
+					"raw": "http://localhost:49986/api/v1/resource/device-scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -551,7 +551,7 @@
 						"v1",
 						"resource",
 						"device-scale-rest",
-						"scale-item"
+						"weight"
 					]
 				}
 			},

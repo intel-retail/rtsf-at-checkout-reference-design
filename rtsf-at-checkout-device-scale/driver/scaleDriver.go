@@ -69,7 +69,7 @@ func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsMo
 
 		//
 		//
-		scaleData, err := drv.scaleDevice.readWeight("scale-item")
+		scaleData, err := drv.scaleDevice.readWeight("weight")
 		for _, v := range scaleData {
 			fmt.Printf("[scaleData]: %v, err: %v", v, err)
 		}

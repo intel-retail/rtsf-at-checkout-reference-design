@@ -75,4 +75,4 @@ File = ""
   [[DeviceList.AutoEvents]]
     Frequency = "1s"
     OnChange = true
-    Resource = "scale-item"
+    Resource = "weight"

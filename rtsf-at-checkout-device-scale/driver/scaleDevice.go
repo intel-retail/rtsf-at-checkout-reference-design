@@ -17,7 +17,7 @@ type scaleDevice struct {
 
 // readWeight gets called by the auto event to read from the physical scale
 // the data read from the scale is wrapped and put on the bus
-func (device *scaleDevice) readWeight(deviceResourceName string) (map[string]interface{}, error) {
+func (device *scaleDevice) readWeight() (map[string]interface{}, error) {
 
 	scaleReading := make(chan scale.Reading)
 	readingErr := make(chan error)

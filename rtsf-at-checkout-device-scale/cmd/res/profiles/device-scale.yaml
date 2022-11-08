@@ -1,0 +1,18 @@
+# Copyright © 2022 Intel Corporation. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: "cas-scale"
+manufacturer: "Intel"
+model: "any cas weight scale"
+labels:
+- "cas"
+- "scale"
+- "serial"
+description: "Profile that models cas weight scale devices"
+
+deviceResources:
+- name: "weight"
+  description: "Weight reading from the scale"
+  properties:
+    valueType: "string"
+    readWrite: "R"

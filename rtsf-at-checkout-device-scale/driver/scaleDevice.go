@@ -7,8 +7,6 @@ import (
 	"strconv"
 
 	"device-scale/scale"
-
-	device "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 )
 
 type scaleDevice struct {
@@ -46,13 +44,11 @@ func (device *scaleDevice) readWeight() (map[string]interface{}, error) {
 	}
 }
 
-func newScaleDevice(serialPort string) *scaleDevice {
+func newScaleDevice(serialPort string, timeOutMilli string) *scaleDevice {
 
 	driver.lc.Debug("Creating new scale device")
 
-	config := device.DriverConfigs()
-
-	timeout, err := strconv.ParseInt(config["TimeOutMilli"], 10, 64)
+	timeout, err := strconv.ParseInt(timeOutMilli, 10, 64)
 	if err == nil {
 		timeout = 500
 	}

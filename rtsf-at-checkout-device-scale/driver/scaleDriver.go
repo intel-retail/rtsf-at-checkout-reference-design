@@ -7,13 +7,14 @@ package driver
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 	"sync"
 	"time"
 
 	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	device "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
+	deviceService "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"go.bug.st/serial.v1/enumerator"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
@@ -28,6 +29,10 @@ type ScaleDriver struct {
 	scaleDevice    *scaleDevice
 	httpErrors     chan error
 	scaleConnected bool
+
+	config *serviceConfig
+
+	svc *deviceService.DeviceService
 }
 
 var once sync.Once
@@ -48,7 +53,19 @@ func (drv *ScaleDriver) DisconnectDevice(deviceName string, protocols map[string
 
 // Initialize initialize device
 func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.AsyncValues, deviceCh chan<- []dsModels.DiscoveredDevice) error {
+	if drv.config == nil {
+		drv.svc = deviceService.RunningService()
+		if drv.svc == nil {
+			return errors.New("custom device-scale driver service is nil")
+		}
 
+		drv.config = &serviceConfig{}
+
+		err := drv.svc.LoadCustomConfig(drv.config, "DriverConfig")
+		if err != nil {
+			return fmt.Errorf("custom device-scale config is : %+v", drv.config)
+		}
+	}
 	drv.lc = lc
 	drv.asyncCh = asyncCh
 	drv.httpErrors = make(chan error, 2)
@@ -56,10 +73,10 @@ func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsMo
 	return nil
 }
 
-func processScaleData(scaleData map[string]interface{}, deviceResName string) (*dsModels.CommandValue, error) {
-	config := device.DriverConfigs()
-	scaleData["lane_id"] = config["LaneID"]
-	scaleData["scale_id"] = config["ScaleID"]
+func (drv *ScaleDriver) processScaleData(scaleData map[string]interface{}, deviceResName string) (*dsModels.CommandValue, error) {
+	config := drv.config.driverConfig
+	scaleData["lane_id"] = config.LaneID
+	scaleData["scale_id"] = config.ScaleID
 	scaleData["event_time"] = (time.Now().UnixNano() / 1000000)
 
 	scaleBytes, err := json.Marshal(scaleData)
@@ -105,7 +122,7 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 			return nil, nil
 		}
 
-		result, err := processScaleData(scaleData, req.DeviceResourceName)
+		result, err := drv.processScaleData(scaleData, req.DeviceResourceName)
 		if err != nil {
 			return nil, err
 		}
@@ -170,7 +187,7 @@ func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models
 	} else {
 		driver.lc.Debugf("[serialPort]: %v", serialPort)
 		drv.scaleConnected = true
-		drv.scaleDevice = newScaleDevice(serialPort)
+		drv.scaleDevice = newScaleDevice(serialPort, drv.config.driverConfig.TimeOutMilli)
 		driver.lc.Debugf("Connecting to scale: %v", serialPort)
 
 		scaleData, err := drv.scaleDevice.readWeight()

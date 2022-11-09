@@ -8,11 +8,9 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
-
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 )
 
-func productLookup(productID string, lc logger.LoggingClient, productLookupEndpoint string) (ProductDetails, error) {
+func productLookup(productID string, productLookupEndpoint string) (ProductDetails, error) {
 
 	resp, err := http.Get("http://" + productLookupEndpoint + "/weight/" + productID)
 	if err != nil {

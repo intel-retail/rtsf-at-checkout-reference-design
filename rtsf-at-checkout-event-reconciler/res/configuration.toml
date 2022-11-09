@@ -58,6 +58,6 @@ Type= "edgex-messagebus"
   DeviceCV = "device-cv-roi"
   DeviceRFID = "device-rfid-roi"
   ProductLookupEndpoint = "localhost:8083"
-  WebSocketPort = 9083
+  WebSocketPort = "9083"
   ScaleToScaleTolerance = 0.02
   CvTimeAlignment = '5s'

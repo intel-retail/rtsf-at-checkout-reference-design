@@ -6,6 +6,7 @@ package config
 import (
 	"fmt"
 	"reflect"
+	"time"
 )
 
 type ServiceConfig struct {
@@ -19,7 +20,7 @@ type ReconcilerConfig struct {
 	DeviceCV              string
 	DeviceRFID            string
 	ProductLookupEndpoint string
-	WebSocketPort         int
+	WebSocketPort         string
 	ScaleToScaleTolerance float64
 	CvTimeAlignment       string
 }
@@ -38,17 +39,24 @@ func (c *ServiceConfig) UpdateFromRaw(rawConfig interface{}) bool {
 }
 
 // Validate ensures your custom configuration has proper values.
-func (bs *ReconcilerConfig) Validate() error {
+func (bs *ReconcilerConfig) Validate() (time.Duration, error) {
 	config := reflect.ValueOf(*bs)
 	configType := config.Type()
+	var defaultRtnVal time.Duration = 0
 
 	for i := 0; i < config.NumField(); i++ {
 		field := config.Field(i).Interface()
 		fieldName := configType.Field(i).Name
 
 		if _, ok := field.(string); ok && len(field.(string)) == 0 {
-			return fmt.Errorf("%v is empty", fieldName)
+			return defaultRtnVal, fmt.Errorf("%v is empty", fieldName)
 		}
 	}
-	return nil
+
+	tempDuration, err := time.ParseDuration(bs.CvTimeAlignment)
+	if err != nil {
+		return defaultRtnVal, fmt.Errorf("failed to parse cvTimeAlignment duration: %v", err)
+	}
+
+	return tempDuration, nil
 }

@@ -9,14 +9,15 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"strings"
 	"testing"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg"
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -35,176 +36,277 @@ func TestMain(m *testing.M) {
 	lc := logger.NewMockClient()
 	context = pkg.NewAppFuncContextForTest("app_functions_sdk_go", lc)
 
-	m.Run()
+	os.Exit(m.Run())
 }
 
-func initCVReadingScannerENTER() models.ObjectReading {
-	reading := models.ObjectReading{
-		// Name:  cvRoiEvent,
-		BaseReading: models.BaseReading{
-			ResourceName: cvRoiEvent,
+func initCVReadingScannerENTER() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		cvRoiEvent,
+		CVEventEntry{
+			ObjectName: "item 1",
+			ROIAction:  "ENTERED",
+			EventTime:  1559679684,
+			ROIName:    "Scanner",
+			ROIs:       map[string]ROILocation{},
 		},
-		ObjectValue: `{"object_count":1,"product_name":"item 1","roi_action":"ENTERED","event_time":1559679684,"roi_name":"Scanner"}`,
-	}
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
 
-	return reading
+	return simulateStruct
 }
 
-func initCVReadingScannerEXIT() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: cvRoiEvent,
+func initCVReadingScannerEXIT() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		cvRoiEvent,
+		CVEventEntry{
+			ObjectName: "item 1",
+			ROIAction:  "EXITED",
+			EventTime:  1559679684,
+			ROIName:    "Scanner",
+			ROIs:       map[string]ROILocation{},
 		},
-		ObjectValue: `{"object_count":1,"product_name":"item 1","roi_action":"EXITED","event_time":1559679695,"roi_name":"Scanner"}`,
-	}
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
 
-	return reading
+	return simulateStruct
 }
 
-func initCVReadingBaggingENTER() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: cvRoiEvent,
+func initCVReadingBaggingENTER() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		cvRoiEvent,
+		CVEventEntry{
+			ObjectName: "item 1",
+			ROIAction:  "ENTERED",
+			EventTime:  1559679784,
+			ROIName:    "Bagging",
+			ROIs:       map[string]ROILocation{},
 		},
-		ObjectValue: `{"object_count":1,"product_name":"item 1","roi_action":"ENTERED","event_time":1559679784,"roi_name":"Bagging"}`,
-	}
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
 
-	return reading
+	return simulateStruct
 }
 
-func initCVReadingNewItemStagingENTER() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: cvRoiEvent,
+func initCVReadingNewItemStagingENTER() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		cvRoiEvent,
+		CVEventEntry{
+			ObjectName: "Item 2",
+			ROIAction:  "ENTERED",
+			EventTime:  1559679834,
+			ROIName:    "Staging",
+			ROIs:       map[string]ROILocation{},
 		},
-		ObjectValue: `{"object_count":1,"product_name":"Item 2","roi_action":"ENTERED","event_time":1559679834,"roi_name":"Staging"}`,
-	}
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
 
-	return reading
+	return simulateStruct
 }
 
-func initCVReadingNewItemEntranceENTER() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: cvRoiEvent,
+func initCVReadingNewItemEntranceENTER() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		cvRoiEvent,
+		CVEventEntry{
+			ObjectName: "Item 3",
+			ROIAction:  "ENTERED",
+			EventTime:  1559679834,
+			ROIName:    "Entrance",
+			ROIs:       map[string]ROILocation{},
 		},
-		ObjectValue: `{"object_count":1,"product_name":"Item 3","roi_action":"ENTERED","event_time":1559679834,"roi_name":"Entrance"}`,
-	}
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
 
-	return reading
+	return simulateStruct
 }
 
-func initScaleReadingScaleItem() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: scaleItemEvent,
+func initScaleReadingScaleItem() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		scaleItemEvent,
+		ScaleEventEntry{
+			EventTime: 1559679665,
+			LaneId:    "123",
+			ScaleId:   "123",
+			Total:     2,
+			Units:     "lbs",
 		},
-		ObjectValue: `{"event_time":1559679665,"lane_id":"123","scale_id":"123","total":2,"units":"lbs"}`,
-	}
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
 
-	return reading
+	return simulateStruct
 }
 
-func initPosReadingBasketOpen() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: basketOpenEvent,
+func initPosReadingBasketOpen() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		basketOpenEvent,
+		RTTLogEventEntry{
+			BasketId:   "abc-012345-def",
+			CustomerId: "joe5",
+			EmployeeId: "mary1",
+			EventTime:  1559679584,
+			LaneId:     "123",
 		},
-		ObjectValue: `{"basket_id":"abc-012345-def","customer_id":"joe5","employee_id":"mary1","event_time":1559679584,"lane_id":"123"}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
-func initPosReadingBasketClose() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: basketOpenEvent,
+func initPosReadingBasketClose() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		basketOpenEvent,
+		RTTLogEventEntry{
+			BasketId:   "abc-012345-def",
+			CustomerId: "joe5",
+			EmployeeId: "mary1",
+			EventTime:  1559679789,
+			LaneId:     "123",
 		},
-		ObjectValue: `{"basket_id":"abc-012345-def","customer_id":"joe5","employee_id":"mary1","event_time":1559679789,"lane_id":"123"}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
-func initPosReadingRemoveItem() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: removeItemEvent,
+func initPosReadingRemoveItem() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		removeItemEvent,
+		RTTLogEventEntry{
+			BasketId:      "abc-012345-def",
+			CustomerId:    "joe5",
+			EmployeeId:    "mary1",
+			EventTime:     1559679672,
+			LaneId:        "123",
+			ProductId:     "00000000735797",
+			ProductIdType: "UPC",
+			ProductName:   "Steak",
+			Quantity:      3,
+			QuantityUnit:  "lbs",
+			UnitPrice:     8.99,
 		},
-		ObjectValue: `{"basket_id":"abc-012345-def","customer_id":"joe5","employee_id":"mary1","event_time":1559679672,"lane_id":"123","product_id":"00000000735797","product_id_type":"UPC","product_name":"Steak","quantity":3,"quantity_unit":"lbs","unit_price":8.99}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
-func initPosReadingPosItemSteak() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: posItemEvent,
+func initPosReadingPosItemSteak() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		posItemEvent,
+		RTTLogEventEntry{
+			BasketId:      "abc-012345-def",
+			CustomerId:    "joe5",
+			EmployeeId:    "mary1",
+			EventTime:     1559679673,
+			LaneId:        "123",
+			ProductId:     "00000000735797",
+			ProductIdType: "UPC",
+			ProductName:   "Steak",
+			Quantity:      3,
+			QuantityUnit:  "lbs",
+			UnitPrice:     8.99,
 		},
-		ObjectValue: `{"basket_id":"abc-012345-def","customer_id":"joe5","employee_id":"mary1","event_time":1559679673,"lane_id":"123","product_id":"00000000735797","product_id_type":"UPC","product_name":"Steak","quantity":3,"quantity_unit":"lbs","unit_price":8.99}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
-func initPosReadingPosItemApples() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: posItemEvent,
+func initPosReadingPaymentStart() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		paymentStartEvent,
+		RTTLogEventEntry{
+			BasketId:   "abc-012345-def",
+			CustomerId: "joe5",
+			EmployeeId: "mary1",
+			EventTime:  1559679588,
+			LaneId:     "123",
 		},
-		ObjectValue: `{
-			"basket_id": "abc-012345-def",
-			"product_id": "00000000324588",
-			"product_id_type": "UPC",
-			"product_name": "Red Apples",
-			"quantity": 1.0,
-			"quantity_unit": "EA",
-			"unit_price": 0.99,
-			"customer_id": "joe5",
-			"employee_id": "mary1"
-		}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
-func initPosReadingPaymentStart() models.ObjectReading {
-	reading := models.ObjectReading{
-		//	Name:  paymentStartEvent,
-		BaseReading: models.BaseReading{
-			ResourceName: paymentStartEvent,
+func initRFIDReadingApplesExitedBagging() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		rfidRoiEvent,
+		RFIDEventEntry{
+			EPC:       "30140000001FB28000003039",
+			ROIName:   "Bagging",
+			ROIAction: "EXITED",
+			EventTime: 1562972496854,
 		},
-		ObjectValue: `{"basket_id":"abc-012345-def","customer_id":"joe5","employee_id":"mary1","event_time":1559679588,"lane_id":"123"}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
-func initRFIDReadingApplesExitedBagging() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: rfidRoiEvent,
+func initRFIDReadingApplesEnterBagging() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		rfidRoiEvent,
+		RFIDEventEntry{
+			EPC:       "30140000001FB28000003039",
+			ROIName:   "Bagging",
+			ROIAction: "ENTERED",
+			EventTime: 1562972496854,
 		},
-		ObjectValue: `{
-			"epc": "30140000001FB28000003039",
-			"roi_name": "Bagging",
-			"roi_action": "EXITED",
-			"event_time": 1562972496874
-		}`,
-	}
-	return reading
-}
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
 
-func initRFIDReadingApplesEnterBagging() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: rfidRoiEvent,
-		},
-		ObjectValue: `{
-			"epc": "30140000001FB28000003039",
-			"roi_name": "Bagging",
-			"roi_action": "ENTERED",
-			"event_time": 1562972496854
-		}`,
-	}
-
-	return reading
+	return simulateStruct
 }
 
 func initMockRFIDItem(name string, barcode string) productInfoTest {
@@ -220,40 +322,48 @@ func initMockRFIDItem(name string, barcode string) productInfoTest {
 	return pim
 }
 
-func initRFIDReadingSteakEnterBagging() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: rfidRoiEvent,
+func initRFIDReadingSteakEnterBagging() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		rfidRoiEvent,
+		RFIDEventEntry{
+			EPC:       "301400000047DAC000003039",
+			ROIName:   "Bagging",
+			ROIAction: "ENTERED",
+			EventTime: 1562972496854,
 		},
-		ObjectValue: `{
-			"epc": "301400000047DAC000003039",
-			"roi_name": "Bagging",
-			"roi_action": "ENTERED",
-			"event_time": 1562972496854
-		}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
-func initRFIDReadingSalsaEnterBagging() models.ObjectReading {
-	reading := models.ObjectReading{
-		BaseReading: models.BaseReading{
-			ResourceName: rfidRoiEvent,
+func initRFIDReadingSalsaEnterBagging() dtos.BaseReading {
+	reading := dtos.NewObjectReading(
+		"",
+		"",
+		rfidRoiEvent,
+		RFIDEventEntry{
+			EPC:       "301400000051240000003039",
+			ROIName:   "Bagging",
+			ROIAction: "ENTERED",
+			EventTime: 1562972496854,
 		},
-		ObjectValue: `{
-			"epc": "301400000051240000003039",
-			"roi_name": "Bagging",
-			"roi_action": "ENTERED",
-			"event_time": 1562972496854
-		}`,
-	}
-	return reading
+	)
+	simulateJson, _ := json.Marshal(reading)
+	simulateStruct := dtos.BaseReading{}
+	_ = json.Unmarshal(simulateJson, &simulateStruct)
+
+	return simulateStruct
 }
 
 func TestProcessDeviceRFIDReading(t *testing.T) {
-
-	CurrentRFIDData = []RFIDEventEntry{}
-	NextRFIDData = []RFIDEventEntry{}
+	processor := &EventsProcessor{}
+	processor.currentRFIDData = []RFIDEventEntry{}
+	processor.nextRFIDData = []RFIDEventEntry{}
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
@@ -278,8 +388,8 @@ func TestProcessDeviceRFIDReading(t *testing.T) {
 	defer ts.Close()
 
 	tsURL, _ := url.Parse(ts.URL)
-	eventsProcessor := EventsProcessor{
-		ProcessConfig: &config.ReconcilerConfig{
+	eventsProcessor := &EventsProcessor{
+		processConfig: &config.ReconcilerConfig{
 			ProductLookupEndpoint: tsURL.Hostname() + ":" + tsURL.Port(),
 		},
 	}
@@ -287,115 +397,114 @@ func TestProcessDeviceRFIDReading(t *testing.T) {
 
 	reading := initRFIDReadingApplesEnterBagging()
 	eventsProcessor.processDeviceRFIDReading(reading, lc)
-	assert.Equal(t, len(CurrentRFIDData), 1)
-	assert.Contains(t, CurrentRFIDData[0].ROIs, BaggingROI)
-	assert.True(t, CurrentRFIDData[0].ROIs[BaggingROI].AtLocation)
+	assert.Equal(t, len(eventsProcessor.currentRFIDData), 1)
+	assert.Contains(t, eventsProcessor.currentRFIDData[0].ROIs, BaggingROI)
+	assert.True(t, eventsProcessor.currentRFIDData[0].ROIs[BaggingROI].AtLocation)
 
 	reading = initRFIDReadingApplesExitedBagging()
 	eventsProcessor.processDeviceRFIDReading(reading, lc)
-	assert.Equal(t, len(CurrentRFIDData), 1)
-	assert.False(t, CurrentRFIDData[0].ROIs[BaggingROI].AtLocation)
+	assert.Equal(t, len(eventsProcessor.currentRFIDData), 1)
+	assert.False(t, eventsProcessor.currentRFIDData[0].ROIs[BaggingROI].AtLocation)
 
 	reading = initRFIDReadingSteakEnterBagging()
 	eventsProcessor.processDeviceRFIDReading(reading, lc)
-	assert.Equal(t, len(CurrentRFIDData), 2)
-	assert.Equal(t, len(NextRFIDData), 0)
-	assert.True(t, CurrentRFIDData[1].ROIs[BaggingROI].AtLocation)
+	assert.Equal(t, len(eventsProcessor.currentRFIDData), 2)
+	assert.Equal(t, len(eventsProcessor.nextRFIDData), 0)
+	assert.True(t, eventsProcessor.currentRFIDData[1].ROIs[BaggingROI].AtLocation)
 
-	afterPaymentSuccess = true
+	eventsProcessor.afterPaymentSuccess = true
 
 	reading = initRFIDReadingSalsaEnterBagging()
 	eventsProcessor.processDeviceRFIDReading(reading, lc)
 
-	assert.Equal(t, len(CurrentRFIDData), 2)
-	assert.Equal(t, len(NextRFIDData), 1)
+	assert.Equal(t, len(eventsProcessor.currentRFIDData), 2)
+	assert.Equal(t, len(eventsProcessor.nextRFIDData), 1)
 
-	afterPaymentSuccess = false
+	eventsProcessor.afterPaymentSuccess = false
 }
 
 func TestProcessDeviceCVReading(t *testing.T) {
 	lc := logger.NewMockClient()
-	eventsProcessor := EventsProcessor{}
+	eventsProcessor := &EventsProcessor{}
 
-	CurrentCVData = []CVEventEntry{}
-	NextCVData = []CVEventEntry{}
+	eventsProcessor.currentCVData = []CVEventEntry{}
+	eventsProcessor.nextCVData = []CVEventEntry{}
 
 	reading := initCVReadingScannerENTER()
 	eventsProcessor.processDeviceCVReading(reading, lc)
 
-	assert.Equal(t, len(CurrentCVData), 1)
+	assert.Equal(t, len(eventsProcessor.currentCVData), 1)
 
 	reading = initCVReadingScannerEXIT()
 	eventsProcessor.processDeviceCVReading(reading, lc)
 
-	assert.Equal(t, len(CurrentCVData), 1)
+	assert.Equal(t, len(eventsProcessor.currentCVData), 1)
 
 	reading = initCVReadingBaggingENTER()
 	eventsProcessor.processDeviceCVReading(reading, lc)
 
-	assert.Equal(t, len(CurrentCVData), 1)
+	assert.Equal(t, len(eventsProcessor.currentCVData), 1)
 
 	reading = initCVReadingNewItemStagingENTER()
 	eventsProcessor.processDeviceCVReading(reading, lc)
 
-	assert.Equal(t, len(CurrentCVData), 2)
+	assert.Equal(t, len(eventsProcessor.currentCVData), 2)
 
-	afterPaymentSuccess = true
+	eventsProcessor.afterPaymentSuccess = true
 
 	reading = initCVReadingNewItemEntranceENTER()
 	eventsProcessor.processDeviceCVReading(reading, lc)
-	assert.Equal(t, len(CurrentCVData), 2)
-	assert.Equal(t, len(NextCVData), 1)
+	assert.Equal(t, len(eventsProcessor.currentCVData), 2)
+	assert.Equal(t, len(eventsProcessor.nextCVData), 1)
 
-	afterPaymentSuccess = false
+	eventsProcessor.afterPaymentSuccess = false
 }
 
 func TestProcessDeviceScaleReading(t *testing.T) {
-	resetRTTLBasket()
+	eventsProcessor := &EventsProcessor{}
+	eventsProcessor.resetRTTLBasket()
 
 	lc := logger.NewMockClient()
-	eventsProcessor := EventsProcessor{}
 
 	reading := initScaleReadingScaleItem()
 	eventsProcessor.processDeviceScaleReading(reading, lc)
-	assert.Equal(t, len(ScaleData), 1)
-	assert.Equal(t, len(SuspectScaleItems), 1)
-	assert.Equal(t, ScaleData[0].Total, 2.0)
-	assert.Equal(t, ScaleData[0].Units, "lbs")
+	assert.Equal(t, len(eventsProcessor.scaleData), 1)
+	assert.Equal(t, len(eventsProcessor.suspectScaleItems), 1)
+	assert.Equal(t, eventsProcessor.scaleData[0].Total, 2.0)
+	assert.Equal(t, eventsProcessor.scaleData[0].Units, "lbs")
 }
 
 func TestProcessDevicePosReading(t *testing.T) {
-
-	BasketOpen()
-	resetRTTLBasket()
+	eventsProcessor := EventsProcessor{}
+	BasketOpen(&eventsProcessor)
+	eventsProcessor.resetRTTLBasket()
 
 	lc := logger.NewMockClient()
-	eventsProcessor := EventsProcessor{}
 	context := pkg.NewAppFuncContextForTest("test", lc)
 
 	reading := initPosReadingBasketOpen()
 	eventsProcessor.processDevicePosReading(reading, context)
-	assert.Equal(t, len(RttlogData), 1)
-	assert.Equal(t, RttlogData[len(RttlogData)-1].EventTime, int64(1559679584))
+	assert.Equal(t, len(eventsProcessor.rttlogData), 1)
+	assert.Equal(t, eventsProcessor.rttlogData[len(eventsProcessor.rttlogData)-1].EventTime, int64(1559679584))
 
 	reading = initPosReadingPosItemSteak()
 	eventsProcessor.processDevicePosReading(reading, context)
-	assert.Equal(t, len(RttlogData), 2)
-	assert.Equal(t, RttlogData[len(RttlogData)-1].EventTime, int64(1559679673))
+	assert.Equal(t, len(eventsProcessor.rttlogData), 2)
+	assert.Equal(t, eventsProcessor.rttlogData[len(eventsProcessor.rttlogData)-1].EventTime, int64(1559679673))
 
 	reading = initPosReadingRemoveItem()
 	eventsProcessor.processDevicePosReading(reading, context)
-	assert.Equal(t, len(RttlogData), 1)
-	assert.Equal(t, RttlogData[len(RttlogData)-1].EventTime, int64(1559679584))
+	assert.Equal(t, len(eventsProcessor.rttlogData), 1)
+	assert.Equal(t, eventsProcessor.rttlogData[len(eventsProcessor.rttlogData)-1].EventTime, int64(1559679584))
 
 	reading = initPosReadingPaymentStart()
 	eventsProcessor.processDevicePosReading(reading, context)
-	assert.Equal(t, len(RttlogData), 2)
-	assert.Equal(t, RttlogData[len(RttlogData)-1].EventTime, int64(1559679588))
+	assert.Equal(t, len(eventsProcessor.rttlogData), 2)
+	assert.Equal(t, eventsProcessor.rttlogData[len(eventsProcessor.rttlogData)-1].EventTime, int64(1559679588))
 
 	reading = initPosReadingBasketClose()
 	eventsProcessor.processDevicePosReading(reading, context)
-	assert.Equal(t, len(RttlogData), 1)
-	assert.Equal(t, RttlogData[len(RttlogData)-1].EventTime, int64(1559679789))
+	assert.Equal(t, len(eventsProcessor.rttlogData), 1)
+	assert.Equal(t, eventsProcessor.rttlogData[len(eventsProcessor.rttlogData)-1].EventTime, int64(1559679789))
 
 }

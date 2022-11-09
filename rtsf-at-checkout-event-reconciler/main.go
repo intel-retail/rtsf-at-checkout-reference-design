@@ -7,8 +7,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"sync"
-	"time"
 
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg"
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
@@ -31,27 +29,18 @@ type EventReconcilerAppService struct {
 
 func main() {
 	app := EventReconcilerAppService{}
-	code := app.CreateAndRunAppService(serviceKey, pkg.NewAppService)
+	code := app.CreateAndRunAppService(serviceKey)
 	os.Exit(code)
 }
 
-func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string, newServiceFactory func(string) (interfaces.ApplicationService, bool)) int {
+func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string) int {
 	var ok bool
-	app.service, ok = pkg.NewAppServiceWithTargetType(serviceKey, []byte{})
+	app.service, ok = pkg.NewAppService(serviceKey)
 	if !ok {
 		return 1
 	}
 
 	app.lc = app.service.LoggingClient()
-
-	events.ResetEventsOccurrence()
-	events.InitWebSocketConnection(app.service, app.lc)
-
-	appSettings := app.service.ApplicationSettings()
-	if appSettings == nil {
-		app.lc.Error("No application settings found")
-		return 1
-	}
 
 	// retrieve the required configurations
 	app.serviceConfig = &config.ServiceConfig{}
@@ -60,19 +49,15 @@ func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string, 
 		return 1
 	}
 
-	if err := app.serviceConfig.Reconciler.Validate(); err != nil {
+	cvTimeAlignment, err := app.serviceConfig.Reconciler.Validate()
+	if err != nil {
 		app.lc.Errorf("failed to validate Reconciler configuration: %v", err)
 		return 1
 	}
 
-	events.ScaleToScaleTolerance = app.serviceConfig.Reconciler.ScaleToScaleTolerance
-
-	tempDuration, err := time.ParseDuration(app.serviceConfig.Reconciler.CvTimeAlignment)
-	if err != nil {
-		app.lc.Errorf("failed to parse CvTimeAlignment duration: %v", err)
-		return 1
-	}
-	events.CvTimeAlignment = tempDuration
+	eventsProcessor := events.NewEventsProcessor(cvTimeAlignment, &app.serviceConfig.Reconciler)
+	eventsProcessor.ResetEventsOccurrence()
+	eventsProcessor.InitWebSocketConnection(app.service, app.lc)
 
 	deviceNamesList := strings.TrimSpace(app.serviceConfig.Reconciler.DeviceNames)
 
@@ -84,18 +69,15 @@ func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string, 
 		writer.Header().Set("Content-Type", "application/json")
 		writer.Header().Set("Access-Control-Allow-Origin", "*")
 		writer.Header().Set("Access-Control-Allow-Methods", "GET")
-		writer.Write(events.CurrentStateMessage)
+		writer.Write(eventsProcessor.GetCurrentStateMessage())
 		writer.WriteHeader(200)
 	}, "GET")
 
-	eventsProcessor := events.EventsProcessor{}
-	eventsProcessor.ProcessConfig = &app.serviceConfig.Reconciler
 	app.service.SetFunctionsPipeline(
 		transforms.NewFilterFor(deviceNames).FilterByDeviceName,
 		eventsProcessor.ProcessCheckoutEvents,
 	)
 
-	events.Mu = &sync.Mutex{}
 	app.service.MakeItRun()
 
 	return 0

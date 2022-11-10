@@ -4,7 +4,9 @@
 package events
 
 import (
+	"event-reconciler/config"
 	"testing"
+	"time"
 )
 
 func TestCheckEventOrderValid(t *testing.T) {
@@ -66,16 +68,18 @@ func TestCheckEventOrderValid(t *testing.T) {
 	}
 
 	for _, table := range tables {
-		ResetEventsOccurrence()
+		config := config.ReconcilerConfig{}
+		processor := NewEventsProcessor(time.Second, &config)
+		processor.ResetEventsOccurrence()
 		var eventValid bool
 		for _, event := range table.eventsList {
-			eventValid = checkEventOrderValid(event, nil)
+			eventValid = processor.checkEventOrderValid(event, nil)
 			if !eventValid {
 				break
 			}
 		}
 		if eventValid != table.expectedResult {
-			t.Errorf("Test failed. Name: %s\n. Expected: %t, Actual: %t\n", table.name, table.expectedResult, eventValid)
+			t.Errorf("Test failed. Name: %s. Expected: %t, Actual: %t", table.name, table.expectedResult, eventValid)
 		}
 	}
 

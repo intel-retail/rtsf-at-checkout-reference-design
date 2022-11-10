@@ -9,33 +9,33 @@ import (
 	"math"
 )
 
-func calculateScaleDelta(scaleReading *ScaleEventEntry) {
-	if len(ScaleData) == 0 {
+func (eventsProcessing *EventsProcessor) calculateScaleDelta(scaleReading *ScaleEventEntry) {
+	if len(eventsProcessing.scaleData) == 0 {
 		scaleReading.Delta = scaleReading.Total
 	} else {
-		previousReading := ScaleData[len(ScaleData)-1]
+		previousReading := eventsProcessing.scaleData[len(eventsProcessing.scaleData)-1]
 		scaleReading.Delta = scaleReading.Total - previousReading.Total
 	}
 }
 
 // consolidate the previous and current POS item into same RTTLogData entry
-func appendToPreviousPosItem(newItem RTTLogEventEntry) {
-	if len(RttlogData) == 0 {
+func (eventsProcessing *EventsProcessor) appendToPreviousPosItem(newItem RTTLogEventEntry) {
+	if len(eventsProcessing.rttlogData) == 0 {
 		return
 	}
-	previousItem := RttlogData[len(RttlogData)-1]
+	previousItem := eventsProcessing.rttlogData[len(eventsProcessing.rttlogData)-1]
 	if len(previousItem.Collection) == 0 {
 		// add the exisiting item to the collection list
-		previousItem.Collection = append(previousItem.Collection, RttlogData[len(RttlogData)-1])
+		previousItem.Collection = append(previousItem.Collection, eventsProcessing.rttlogData[len(eventsProcessing.rttlogData)-1])
 	}
 
 	// add the new item to the existing collection
 	previousItem.Collection = append(previousItem.Collection, newItem)
 	previousItem.Quantity = previousItem.Quantity + newItem.Quantity
 
-	RttlogData[len(RttlogData)-1] = previousItem
+	eventsProcessing.rttlogData[len(eventsProcessing.rttlogData)-1] = previousItem
 }
-func deleteRTTLItemAtIndex(list *[]RTTLogEventEntry, index int) {
+func (eventsProcessing *EventsProcessor) deleteRTTLItemAtIndex(list *[]RTTLogEventEntry, index int) {
 	if index == len(*list)-1 {
 		// last item in list - gets deleted
 		*list = (*list)[:len(*list)-1]
@@ -45,19 +45,19 @@ func deleteRTTLItemAtIndex(list *[]RTTLogEventEntry, index int) {
 	}
 }
 
-func removeRTTLItemFromBuffer(rttlogReading RTTLogEventEntry) error {
+func (eventsProcessing *EventsProcessor) removeRTTLItemFromBuffer(rttlogReading RTTLogEventEntry) error {
 	quantityToRemove := rttlogReading.Quantity
-	for rttlogIndex, item := range RttlogData {
+	for rttlogIndex, item := range eventsProcessing.rttlogData {
 		if item.ProductId == rttlogReading.ProductId {
 			if item.Quantity >= (quantityToRemove - floatingPointTolerance) {
 				// this means that items were not collapsed into a collection
 				if len(item.Collection) == 0 {
 					if math.Abs(item.Quantity-quantityToRemove) <= floatingPointTolerance { //checking if quantity and quantitytoRemove are equal
 						// remove item at that index from RttlogData
-						deleteRTTLItemAtIndex(&RttlogData, rttlogIndex)
+						eventsProcessing.deleteRTTLItemAtIndex(&eventsProcessing.rttlogData, rttlogIndex)
 					} else {
 						item.Quantity = item.Quantity - quantityToRemove
-						RttlogData[rttlogIndex] = item
+						eventsProcessing.rttlogData[rttlogIndex] = item
 					}
 					quantityToRemove = 0
 					break
@@ -68,31 +68,31 @@ func removeRTTLItemFromBuffer(rttlogReading RTTLogEventEntry) error {
 					if collectionItem.Quantity <= quantityToRemove {
 						quantityToRemove = quantityToRemove - collectionItem.Quantity
 						// remove item from collection
-						deleteRTTLItemAtIndex(&item.Collection, 0)
-						RttlogData[rttlogIndex].Quantity = RttlogData[rttlogIndex].Quantity - collectionItem.Quantity
+						eventsProcessing.deleteRTTLItemAtIndex(&item.Collection, 0)
+						eventsProcessing.rttlogData[rttlogIndex].Quantity = eventsProcessing.rttlogData[rttlogIndex].Quantity - collectionItem.Quantity
 						continue
 					}
 					//this means the collection item has more than we want to remove
 					collectionItem.Quantity = collectionItem.Quantity - quantityToRemove
-					RttlogData[rttlogIndex].Quantity = RttlogData[rttlogIndex].Quantity - quantityToRemove
+					eventsProcessing.rttlogData[rttlogIndex].Quantity = eventsProcessing.rttlogData[rttlogIndex].Quantity - quantityToRemove
 					quantityToRemove = 0
 					item.Collection[0] = collectionItem //store updated quantity back into collection
 
 				}
 				if len(item.Collection) == 0 {
-					deleteRTTLItemAtIndex(&RttlogData, rttlogIndex)
+					eventsProcessing.deleteRTTLItemAtIndex(&eventsProcessing.rttlogData, rttlogIndex)
 				}
 
 			}
 		}
 	}
 	if quantityToRemove > floatingPointTolerance {
-		return fmt.Errorf("Error: Remove item failed: %s\n", rttlogReading.ProductName)
+		return fmt.Errorf("error: Remove item failed: %s", rttlogReading.ProductName)
 	}
 	return nil
 }
 
-func deleteLastScaleItem(list *[]*ScaleEventEntry) {
+func (eventsProcessing *EventsProcessor) deleteLastScaleItem(list *[]*ScaleEventEntry) {
 	if list == nil || len(*list) < 1 {
 		return
 	}
@@ -100,14 +100,14 @@ func deleteLastScaleItem(list *[]*ScaleEventEntry) {
 	*list = (*list)[:len(*list)-1]
 }
 
-func wrapSuspectItems() ([]byte, error) {
+func (eventsProcessing *EventsProcessor) wrapSuspectItems() ([]byte, error) {
 	suspectList := SuspectLists{
-		CVSuspect:    getSuspectCVItems(),
-		RFIDSuspect:  getSuspectRFIDItems(),
-		ScaleSuspect: getSuspectScaleItems(),
+		CVSuspect:    eventsProcessing.getSuspectCVItems(),
+		RFIDSuspect:  eventsProcessing.getSuspectRFIDItems(),
+		ScaleSuspect: eventsProcessing.getSuspectScaleItems(),
 	}
 
-	byteSuspects, err := json.MarshalIndent(suspectList,"","   ")
+	byteSuspects, err := json.MarshalIndent(suspectList, "", "   ")
 	if err != nil {
 		return nil, err
 	}
@@ -115,62 +115,62 @@ func wrapSuspectItems() ([]byte, error) {
 	return byteSuspects, nil
 }
 
-func resetRTTLBasket() {
-	RttlogData = []RTTLogEventEntry{}
-	ScaleData = []ScaleEventEntry{}
-	SuspectScaleItems = make(map[int64]*ScaleEventEntry)
+func (eventsProcessing *EventsProcessor) resetRTTLBasket() {
+	eventsProcessing.rttlogData = []RTTLogEventEntry{}
+	eventsProcessing.scaleData = []ScaleEventEntry{}
+	eventsProcessing.suspectScaleItems = make(map[int64]*ScaleEventEntry)
 }
 
-func resetRFIDBasket() {
-	persistRFIDGoBack()
-	persistRFIDSuspectItems()
-	CurrentRFIDData = NextRFIDData
-	NextRFIDData = []RFIDEventEntry{}
-	afterPaymentSuccess = false
+func (eventsProcessing *EventsProcessor) resetRFIDBasket() {
+	eventsProcessing.persistRFIDGoBack()
+	eventsProcessing.persistRFIDSuspectItems()
+	eventsProcessing.currentRFIDData = eventsProcessing.nextRFIDData
+	eventsProcessing.nextRFIDData = []RFIDEventEntry{}
+	eventsProcessing.afterPaymentSuccess = false
 }
 
-func persistRFIDGoBack() {
-	for _, rfidItem := range CurrentRFIDData {
-		if atROILocation(GoBackROI, rfidItem.ROIs) {
-			NextRFIDData = append(NextRFIDData, rfidItem)
+func (eventsProcessing *EventsProcessor) persistRFIDGoBack() {
+	for _, rfidItem := range eventsProcessing.currentRFIDData {
+		if eventsProcessing.atROILocation(GoBackROI, rfidItem.ROIs) {
+			eventsProcessing.nextRFIDData = append(eventsProcessing.nextRFIDData, rfidItem)
 		}
 	}
 }
 
-func persistRFIDSuspectItems() {
-	for _, rfidItem := range CurrentRFIDData {
-		if rfidItem.AssociatedRTTLEntry == nil && !atROILocation(GoBackROI, rfidItem.ROIs) && !atROILocation(EntranceROI, rfidItem.ROIs) {
-			NextRFIDData = append(NextRFIDData, rfidItem)
+func (eventsProcessing *EventsProcessor) persistRFIDSuspectItems() {
+	for _, rfidItem := range eventsProcessing.currentRFIDData {
+		if rfidItem.AssociatedRTTLEntry == nil && !eventsProcessing.atROILocation(GoBackROI, rfidItem.ROIs) && !eventsProcessing.atROILocation(EntranceROI, rfidItem.ROIs) {
+			eventsProcessing.nextRFIDData = append(eventsProcessing.nextRFIDData, rfidItem)
 		}
 	}
 }
 
-func resetCVBasket() {
-	persistCVGoBack()
-	persistCVSuspectItems()
-	CurrentCVData = NextCVData
-	NextCVData = []CVEventEntry{}
-	afterPaymentSuccess = false
+func (eventsProcessing *EventsProcessor) resetCVBasket() {
+	eventsProcessing.persistCVGoBack()
+	eventsProcessing.persistCVSuspectItems()
+	eventsProcessing.currentCVData = eventsProcessing.nextCVData
+	eventsProcessing.nextCVData = []CVEventEntry{}
+	eventsProcessing.afterPaymentSuccess = false
 }
 
-func persistCVGoBack() {
-	for _, cvItem := range CurrentCVData {
-		if atROILocation(GoBackROI, cvItem.ROIs) {
-			NextCVData = append(NextCVData, cvItem)
+func (eventsProcessing *EventsProcessor) persistCVGoBack() {
+	for _, cvItem := range eventsProcessing.currentCVData {
+		if eventsProcessing.atROILocation(GoBackROI, cvItem.ROIs) {
+			eventsProcessing.nextCVData = append(eventsProcessing.nextCVData, cvItem)
 		}
 	}
 }
 
-func persistCVSuspectItems() {
-	for _, cvItem := range CurrentCVData {
-		if cvItem.AssociatedRTTLEntry == nil && !atROILocation(GoBackROI, cvItem.ROIs) && !atROILocation(EntranceROI, cvItem.ROIs) {
-			NextCVData = append(NextCVData, cvItem)
+func (eventsProcessing *EventsProcessor) persistCVSuspectItems() {
+	for _, cvItem := range eventsProcessing.currentCVData {
+		if cvItem.AssociatedRTTLEntry == nil && !eventsProcessing.atROILocation(GoBackROI, cvItem.ROIs) && !eventsProcessing.atROILocation(EntranceROI, cvItem.ROIs) {
+			eventsProcessing.nextCVData = append(eventsProcessing.nextCVData, cvItem)
 		}
 	}
 }
 
-func checkRTTLForPOSItems() bool {
-	for _, rttlEvent := range RttlogData {
+func (eventsProcessing *EventsProcessor) checkRTTLForPOSItems() bool {
+	for _, rttlEvent := range eventsProcessing.rttlogData {
 		if rttlEvent.Quantity > floatingPointTolerance {
 			return true
 		}
@@ -178,29 +178,29 @@ func checkRTTLForPOSItems() bool {
 	return false
 }
 
-func getExistingCVDataByObjectName(cvReading CVEventEntry) *CVEventEntry {
-	for cvIndex, cvItem := range CurrentCVData {
+func (eventsProcessing *EventsProcessor) getExistingCVDataByObjectName(cvReading CVEventEntry) *CVEventEntry {
+	for cvIndex, cvItem := range eventsProcessing.currentCVData {
 		if cvReading.ObjectName == cvItem.ObjectName {
-			return &CurrentCVData[cvIndex]
+			return &eventsProcessing.currentCVData[cvIndex]
 		}
 	}
 	return nil
 }
 
-func getExistingRFIDDataByEPC(rfidReading RFIDEventEntry) *RFIDEventEntry {
-	for rfidIndex, rfidItem := range CurrentRFIDData {
+func (eventsProcessing *EventsProcessor) getExistingRFIDDataByEPC(rfidReading RFIDEventEntry) *RFIDEventEntry {
+	for rfidIndex, rfidItem := range eventsProcessing.currentRFIDData {
 		if rfidReading.EPC == rfidItem.EPC {
-			return &CurrentRFIDData[rfidIndex]
+			return &eventsProcessing.currentRFIDData[rfidIndex]
 		}
 	}
 	return nil
 }
 
-func getSuspectScaleItems() map[int64]*ScaleEventEntry {
+func (eventsProcessing *EventsProcessor) getSuspectScaleItems() map[int64]*ScaleEventEntry {
 
 	scaleEntries := make(map[int64]*ScaleEventEntry)
 
-	for key, scaleItem := range SuspectScaleItems {
+	for key, scaleItem := range eventsProcessing.suspectScaleItems {
 		newEntry := ScaleEventEntry{
 			Delta:        scaleItem.Delta,
 			Total:        scaleItem.Total,
@@ -219,43 +219,43 @@ func getSuspectScaleItems() map[int64]*ScaleEventEntry {
 	return scaleEntries
 }
 
-func getSuspectCVItems() []CVEventEntry {
+func (eventsProcessing *EventsProcessor) getSuspectCVItems() []CVEventEntry {
 	suspectItems := []CVEventEntry{}
-	for _, cvItem := range CurrentCVData {
-		if cvItem.AssociatedRTTLEntry == nil && !atROILocation(GoBackROI, cvItem.ROIs) && !atROILocation(EntranceROI, cvItem.ROIs) {
+	for _, cvItem := range eventsProcessing.currentCVData {
+		if cvItem.AssociatedRTTLEntry == nil && !eventsProcessing.atROILocation(GoBackROI, cvItem.ROIs) && !eventsProcessing.atROILocation(EntranceROI, cvItem.ROIs) {
 			suspectItems = append(suspectItems, cvItem)
 		}
 	}
 	return suspectItems
 }
 
-func getSuspectRFIDItems() []RFIDEventEntry {
+func (eventsProcessing *EventsProcessor) getSuspectRFIDItems() []RFIDEventEntry {
 	suspectItems := []RFIDEventEntry{}
-	for _, rfidItem := range CurrentRFIDData {
-		if rfidItem.AssociatedRTTLEntry == nil && !atROILocation(GoBackROI, rfidItem.ROIs) && !atROILocation(EntranceROI, rfidItem.ROIs) {
+	for _, rfidItem := range eventsProcessing.currentRFIDData {
+		if rfidItem.AssociatedRTTLEntry == nil && !eventsProcessing.atROILocation(GoBackROI, rfidItem.ROIs) && !eventsProcessing.atROILocation(EntranceROI, rfidItem.ROIs) {
 			suspectItems = append(suspectItems, rfidItem)
 		}
 	}
 	return suspectItems
 }
 
-func updateSuspectRFIDItems() {
-	for rfidIndex, rfidItem := range CurrentRFIDData {
-		if CurrentRFIDData[rfidIndex].AssociatedRTTLEntry != nil ||
-			atROILocation(GoBackROI, CurrentRFIDData[rfidIndex].ROIs) ||
-			atROILocation(EntranceROI, CurrentRFIDData[rfidIndex].ROIs) {
+func (eventsProcessing *EventsProcessor) updateSuspectRFIDItems() {
+	for rfidIndex, rfidItem := range eventsProcessing.currentRFIDData {
+		if eventsProcessing.currentRFIDData[rfidIndex].AssociatedRTTLEntry != nil ||
+			eventsProcessing.atROILocation(GoBackROI, eventsProcessing.currentRFIDData[rfidIndex].ROIs) ||
+			eventsProcessing.atROILocation(EntranceROI, eventsProcessing.currentRFIDData[rfidIndex].ROIs) {
 			continue
 		}
 
-		for rttlIndex, rttlItem := range RttlogData {
-			if !isRFIDEligible(rttlItem) {
+		for rttlIndex, rttlItem := range eventsProcessing.rttlogData {
+			if !eventsProcessing.isRFIDEligible(rttlItem) {
 				continue
 			}
 			//wont be a fractional quantity if its rfid-eligible - it will be "EA"
 			if int(rttlItem.Quantity) > len(rttlItem.AssociatedRFIDItems) && rttlItem.ProductId == rfidItem.UPC {
 				//cross-associate
-				RttlogData[rttlIndex].AssociatedRFIDItems = append(RttlogData[rttlIndex].AssociatedRFIDItems, &CurrentRFIDData[rfidIndex])
-				CurrentRFIDData[rfidIndex].AssociatedRTTLEntry = &RttlogData[rttlIndex]
+				eventsProcessing.rttlogData[rttlIndex].AssociatedRFIDItems = append(eventsProcessing.rttlogData[rttlIndex].AssociatedRFIDItems, &eventsProcessing.currentRFIDData[rfidIndex])
+				eventsProcessing.currentRFIDData[rfidIndex].AssociatedRTTLEntry = &eventsProcessing.rttlogData[rttlIndex]
 			}
 		}
 
@@ -263,19 +263,31 @@ func updateSuspectRFIDItems() {
 
 }
 
-func isRFIDEligible(rttlogReading RTTLogEventEntry) bool {
+func (eventsProcessing *EventsProcessor) isRFIDEligible(rttlogReading RTTLogEventEntry) bool {
 	return rttlogReading.ProductDetails.RFIDEligible
 }
 
-func convertProductIDTo14Char(productID string) string {
+func (eventsProcessing *EventsProcessor) convertProductIDTo14Char(productID string) string {
 	formattedProductID := fmt.Sprintf("%014s", productID)
 	return formattedProductID
 }
 
-func atROILocation(name string, ROIs map[string]ROILocation) bool {
+func (eventsProcessing *EventsProcessor) atROILocation(name string, ROIs map[string]ROILocation) bool {
 	location, ok := ROIs[name]
 	if !ok {
 		return false
 	}
 	return location.AtLocation
+}
+
+func (eventsProcessing *EventsProcessor) unmarshalObjValue(object interface{}, instance interface{}) error {
+	jsonData, err := json.Marshal(object)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(jsonData, instance)
+	if err != nil {
+		return err
+	}
+	return nil
 }

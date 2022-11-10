@@ -1,9 +1,9 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
 
-import "github.com/edgexfoundry/app-functions-sdk-go/appcontext"
+import "github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
 
 const (
 	posItemEvent        = "scanned-item"
@@ -17,66 +17,64 @@ const (
 	rfidRoiEvent        = "rfid-roi-event"
 )
 
-var EventOccurred map[string]bool
-
-func ResetEventsOccurrence() {
+func (eventsProcessing *EventsProcessor) ResetEventsOccurrence() {
 	events := []string{posItemEvent, basketOpenEvent, basketCloseEvent, paymentStartEvent, paymentSuccessEvent, removeItemEvent}
-	EventOccurred = make(map[string]bool)
+	eventsProcessing.eventOccurred = make(map[string]bool)
 	for _, evt := range events {
-		EventOccurred[evt] = false
+		eventsProcessing.eventOccurred[evt] = false
 	}
 }
 
-func checkEventOrderValid(event string, edgexcontext *appcontext.Context) bool {
+func (eventsProcessing *EventsProcessor) checkEventOrderValid(event string, edgexcontext interfaces.AppFunctionContext) bool {
 	eventValid := true
 	switch event {
 	case basketOpenEvent:
-		if EventOccurred[basketOpenEvent] {
+		if eventsProcessing.eventOccurred[basketOpenEvent] {
 			eventValid = false
 		} else {
-			EventOccurred[basketOpenEvent] = true
-			EventOccurred[basketCloseEvent] = false
+			eventsProcessing.eventOccurred[basketOpenEvent] = true
+			eventsProcessing.eventOccurred[basketCloseEvent] = false
 
 			// add to clear the UI for the demo
 			// sendWebsocketMessage([]byte("{\"positems\": [], \"cvsuspectitems\": [], \"rfidsuspectitems\": [], \"scalesuspectitems\": [] }"), edgexcontext)
 		}
 	case scaleItemEvent:
-		if !EventOccurred[basketOpenEvent] || EventOccurred[basketCloseEvent] || EventOccurred[paymentStartEvent] || EventOccurred[paymentSuccessEvent] {
+		if !eventsProcessing.eventOccurred[basketOpenEvent] || eventsProcessing.eventOccurred[basketCloseEvent] || eventsProcessing.eventOccurred[paymentStartEvent] || eventsProcessing.eventOccurred[paymentSuccessEvent] {
 			eventValid = false
 		} else {
-			EventOccurred[scaleItemEvent] = true
+			eventsProcessing.eventOccurred[scaleItemEvent] = true
 		}
 	case posItemEvent:
-		if !EventOccurred[basketOpenEvent] || EventOccurred[basketCloseEvent] || EventOccurred[paymentStartEvent] || EventOccurred[paymentSuccessEvent] {
+		if !eventsProcessing.eventOccurred[basketOpenEvent] || eventsProcessing.eventOccurred[basketCloseEvent] || eventsProcessing.eventOccurred[paymentStartEvent] || eventsProcessing.eventOccurred[paymentSuccessEvent] {
 			eventValid = false
 		} else {
-			EventOccurred[posItemEvent] = true
+			eventsProcessing.eventOccurred[posItemEvent] = true
 		}
 	case removeItemEvent:
-		if !EventOccurred[basketOpenEvent] || EventOccurred[basketCloseEvent] || !EventOccurred[posItemEvent] || EventOccurred[paymentStartEvent] || EventOccurred[paymentSuccessEvent] {
+		if !eventsProcessing.eventOccurred[basketOpenEvent] || eventsProcessing.eventOccurred[basketCloseEvent] || !eventsProcessing.eventOccurred[posItemEvent] || eventsProcessing.eventOccurred[paymentStartEvent] || eventsProcessing.eventOccurred[paymentSuccessEvent] {
 			eventValid = false
 		} else {
-			EventOccurred[removeItemEvent] = true
+			eventsProcessing.eventOccurred[removeItemEvent] = true
 		}
 	case paymentStartEvent:
-		if !EventOccurred[basketOpenEvent] || !EventOccurred[posItemEvent] || EventOccurred[paymentStartEvent] || EventOccurred[paymentSuccessEvent] || EventOccurred[basketCloseEvent] {
+		if !eventsProcessing.eventOccurred[basketOpenEvent] || !eventsProcessing.eventOccurred[posItemEvent] || eventsProcessing.eventOccurred[paymentStartEvent] || eventsProcessing.eventOccurred[paymentSuccessEvent] || eventsProcessing.eventOccurred[basketCloseEvent] {
 			eventValid = false
 		} else {
-			EventOccurred[paymentStartEvent] = true
+			eventsProcessing.eventOccurred[paymentStartEvent] = true
 		}
 	case paymentSuccessEvent:
-		if !EventOccurred[basketOpenEvent] || !EventOccurred[posItemEvent] || !EventOccurred[paymentStartEvent] || EventOccurred[paymentSuccessEvent] || EventOccurred[basketCloseEvent] {
+		if !eventsProcessing.eventOccurred[basketOpenEvent] || !eventsProcessing.eventOccurred[posItemEvent] || !eventsProcessing.eventOccurred[paymentStartEvent] || eventsProcessing.eventOccurred[paymentSuccessEvent] || eventsProcessing.eventOccurred[basketCloseEvent] {
 			eventValid = false
 		} else {
-			EventOccurred[paymentSuccessEvent] = true
-			EventOccurred[paymentStartEvent] = false
+			eventsProcessing.eventOccurred[paymentSuccessEvent] = true
+			eventsProcessing.eventOccurred[paymentStartEvent] = false
 		}
 	case basketCloseEvent:
-		if !EventOccurred[basketOpenEvent] || EventOccurred[paymentStartEvent] {
+		if !eventsProcessing.eventOccurred[basketOpenEvent] || eventsProcessing.eventOccurred[paymentStartEvent] {
 			eventValid = false
 		} else {
-			ResetEventsOccurrence()
-			EventOccurred[basketCloseEvent] = true
+			eventsProcessing.ResetEventsOccurrence()
+			eventsProcessing.eventOccurred[basketCloseEvent] = true
 
 			// add to clear the UI for the demo
 			// sendWebsocketMessage([]byte("{\"positems\": [], \"cvsuspectitems\": [], \"rfidsuspectitems\": [], \"scalesuspectitems\": [] }"), edgexcontext)

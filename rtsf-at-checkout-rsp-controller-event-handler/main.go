@@ -4,52 +4,57 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/appsdk"
-	"github.com/edgexfoundry/app-functions-sdk-go/pkg/transforms"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/transforms"
 
 	"rsp-controller-event-handler/eventhandler"
 )
 
 const (
-	serviceKey = "RspControllerEventHandlerApp"
+	serviceKey = "app-rsp-controller-event-handler"
 )
 
 func main() {
 
-	edgexSdk := &appsdk.AppFunctionsSDK{ServiceKey: serviceKey}
-	if err := edgexSdk.Initialize(); err != nil {
-		edgexSdk.LoggingClient.Error(fmt.Sprintf("SDK initialization failed: %v\n", err))
-		os.Exit(-1)
-	}
-
-	appSettings := edgexSdk.ApplicationSettings()
-	if appSettings == nil {
-		edgexSdk.LoggingClient.Error("No application settings found")
-		os.Exit(-1)
-	}
-
-	deviceNames, ok := appSettings["DeviceNames"]
+	var ok bool
+	service, ok := pkg.NewAppService(serviceKey)
 	if !ok {
-		edgexSdk.LoggingClient.Error("DeviceNames application setting not found")
 		os.Exit(-1)
 	}
-	deviceNamesList := []string{deviceNames}
-	edgexSdk.LoggingClient.Info(fmt.Sprintf("Running the application functions for %v devices...", deviceNamesList))
 
-	valueDescriptor, ok := appSettings["ValueDescriptorToFilter"]
-	if !ok {
-		edgexSdk.LoggingClient.Error("ValueDescriptorToFilter application setting not found")
+	lc := service.LoggingClient()
+
+	deviceNames, err := service.GetAppSettingStrings("DeviceNames")
+	if err != nil {
+		lc.Error("DeviceNames application setting not found")
 		os.Exit(-1)
 	}
-	valueDescriptorList := []string{valueDescriptor}
 
-	edgexSdk.SetFunctionsPipeline(
-		transforms.NewFilter(deviceNamesList).FilterByDeviceName,
-		transforms.NewFilter(valueDescriptorList).FilterByValueDescriptor,
+	lc.Infof("Running the application functions for %v devices...", deviceNames)
+
+	valueDescriptor, err := service.GetAppSettingStrings("ValueDescriptorToFilter")
+	if err != nil {
+		lc.Error("ValueDescriptorToFilter application setting not found")
+		os.Exit(-1)
+	}
+
+	err = service.SetFunctionsPipeline(
+		transforms.NewFilterFor(deviceNames).FilterByDeviceName,
+		transforms.NewFilterFor(valueDescriptor).FilterByResourceName,
 		eventhandler.ProcessRspControllerEvents,
 	)
-	edgexSdk.MakeItRun()
+
+	if err != nil {
+		lc.Errorf("faield to SetFunctionsPipeline: %v", err)
+		os.Exit(-1)
+	}
+
+	err = service.MakeItRun()
+	if err != nil {
+		lc.Errorf("MakeItRun returned error: %s", err.Error())
+		os.Exit(-1)
+	}
+
 }

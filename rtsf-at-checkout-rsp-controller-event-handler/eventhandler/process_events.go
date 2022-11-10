@@ -4,12 +4,11 @@
 package eventhandler
 
 import (
-	"encoding/json"
 	"fmt"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/appcontext"
-	"github.com/edgexfoundry/go-mod-core-contracts/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/models"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 )
 
 const (
@@ -18,47 +17,38 @@ const (
 	RFIDEventMoved    = "moved"
 	ROIActionEntered  = "ENTERED"
 	ROIActionExited   = "EXITED"
+
+	resourceName = ""
+	sourceName   = "rfid-roi-event"
+	deviceName   = "device-rfid-roi-rest"
+	profileName  = ""
 )
 
-var loggingClient logger.LoggingClient
-
 // ProcessRspControllerEvents transforms RSP Controller events to an RFID ROI (region or interest), as defined by checkout-event-reconciler
-func ProcessRspControllerEvents(edgexcontext *appcontext.Context, params ...interface{}) (bool, interface{}) {
-	if len(params) < 1 {
-		// We didn't receive a result
-		return false, nil
-	}
+func ProcessRspControllerEvents(edgexcontext interfaces.AppFunctionContext, data interface{}) (bool, interface{}) {
+	lc := edgexcontext.LoggingClient()
 
-	loggingClient = edgexcontext.LoggingClient
-
-	result, ok := params[0].(models.Event)
+	event, ok := data.(dtos.Event)
 	if !ok {
-		loggingClient.Error("No event received by RSP Controller event handler")
+		lc.Error("No event received by RSP Controller event handler")
 		return false, nil
 	}
 
-	for _, reading := range result.Readings {
-		rfidEvents, err := transformRspControllerEventToRfidRoiEvent(reading) //, edgexcontext.LoggingClient)
+	for _, reading := range event.Readings {
+		rfidEvents, err := transformRspControllerEventToRfidRoiEvent(reading, lc)
 		if err != nil {
-			loggingClient.Error(fmt.Sprintf("Transform RSP Controller Reading To RFIDEventEntry error: %v\n", err))
+			lc.Errorf("Transform RSP Controller Reading To RFIDEventEntry error: %v\n", err)
 			continue
 		}
 
 		for _, rfidEvent := range rfidEvents {
-			eventBytes, err := json.Marshal(&rfidEvent)
-			if err != nil {
-				loggingClient.Error(fmt.Sprintf("Error marshaling RFID event to push to CoreData: %v\n", err))
-				continue
-			}
+			newEvent := dtos.NewEvent(profileName, deviceName, sourceName)
+			newEvent.AddObjectReading(resourceName, &rfidEvent)
 
-			result, err := edgexcontext.PushToCoreData("device-rfid-roi-rest", "rfid-roi-event", eventBytes)
+			_, err := edgexcontext.PushToCore(newEvent)
 			if err != nil {
-				loggingClient.Error(fmt.Sprintf("Error pushing RFID event entry to CoreData: %v\n", err))
+				lc.Errorf("Error pushing RFID event entry to CoreData: %v\n", err)
 				continue
-			}
-
-			if result != nil {
-				loggingClient.Debug(fmt.Sprintf("Pushed RFID event entry to CoreData: EPC-%v, ROIName-%v, ROIAction-%v, EventTime-%v\n", rfidEvent.EPC, rfidEvent.ROIName, rfidEvent.ROIAction, rfidEvent.EventTime))
 			}
 		}
 	}
@@ -66,13 +56,13 @@ func ProcessRspControllerEvents(edgexcontext *appcontext.Context, params ...inte
 	return false, nil
 }
 
-func transformRspControllerEventToRfidRoiEvent(reading models.Reading) ([]RFIDEventEntry, error) {
+func transformRspControllerEventToRfidRoiEvent(reading dtos.BaseReading, lc logger.LoggingClient) ([]RFIDEventEntry, error) {
 	rfidEvents := []RFIDEventEntry{}
 	rspControllerEvent := RspControllerEvent{}
 
-	err := json.Unmarshal([]byte(reading.Value), &rspControllerEvent)
+	err := unmarshalObjValue(reading.ObjectReading.ObjectValue, &rspControllerEvent)
 	if err != nil {
-		return nil, fmt.Errorf("Error unmarshaling RSP Controller event: %v", err)
+		return nil, fmt.Errorf("error unmarshaling RSP Controller event: %v", err)
 	}
 
 	for _, apData := range rspControllerEvent.Params.Data {
@@ -90,10 +80,10 @@ func transformRspControllerEventToRfidRoiEvent(reading models.Reading) ([]RFIDEv
 		case RFIDEventDeparted:
 			rfidReading.ROIAction = ROIActionExited
 		case RFIDEventMoved: // ignore moved events - only interested in arrival or departed events
-			loggingClient.Debug(fmt.Sprintf("Ignoring RSP Controller moved event: EPC-%v, FacilityId-%v, Location-%v, Timestamp-%v\n", apData.EPCCode, apData.FacilityId, apData.Location, apData.TimeStamp))
+			lc.Debugf("Ignoring RSP Controller moved event: EPC-%v, FacilityId-%v, Location-%v, Timestamp-%v\n", apData.EPCCode, apData.FacilityId, apData.Location, apData.TimeStamp)
 			continue
 		default:
-			loggingClient.Debug(fmt.Sprintf("Unrecognized RSP Controller event: %v", apData.EventType))
+			lc.Debugf("Unrecognized RSP Controller event: %v", apData.EventType)
 			continue
 		}
 

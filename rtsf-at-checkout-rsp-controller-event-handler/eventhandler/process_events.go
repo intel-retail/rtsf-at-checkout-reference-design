@@ -1,9 +1,11 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package eventhandler
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
@@ -18,26 +20,29 @@ const (
 	ROIActionEntered  = "ENTERED"
 	ROIActionExited   = "EXITED"
 
-	resourceName = ""
-	sourceName   = "rfid-roi-event"
-	deviceName   = "device-rfid-roi-rest"
-	profileName  = ""
+	resourceName = "rfid-roi"
+	sourceName   = "rfid-roi"
+	deviceName   = "rfid-roi-rest"
+	profileName  = "rfid-roi"
 )
 
 // ProcessRspControllerEvents transforms RSP Controller events to an RFID ROI (region or interest), as defined by checkout-event-reconciler
 func ProcessRspControllerEvents(edgexcontext interfaces.AppFunctionContext, data interface{}) (bool, interface{}) {
 	lc := edgexcontext.LoggingClient()
 
+	if data == nil {
+		return false, errors.New("no data received by rsp controller event handler")
+	}
+
 	event, ok := data.(dtos.Event)
 	if !ok {
-		lc.Error("No event received by RSP Controller event handler")
 		return false, nil
 	}
 
 	for _, reading := range event.Readings {
 		rfidEvents, err := transformRspControllerEventToRfidRoiEvent(reading, lc)
 		if err != nil {
-			lc.Errorf("Transform RSP Controller Reading To RFIDEventEntry error: %v\n", err)
+			lc.Errorf("Transform RSP Controller Reading To RFIDEventEntry error: %v", err)
 			continue
 		}
 
@@ -45,11 +50,17 @@ func ProcessRspControllerEvents(edgexcontext interfaces.AppFunctionContext, data
 			newEvent := dtos.NewEvent(profileName, deviceName, sourceName)
 			newEvent.AddObjectReading(resourceName, &rfidEvent)
 
-			_, err := edgexcontext.PushToCore(newEvent)
+			responseData, err := json.Marshal(newEvent)
 			if err != nil {
-				lc.Errorf("Error pushing RFID event entry to CoreData: %v\n", err)
+				lc.Errorf("failed to marshal rfid event: %v", err)
 				continue
 			}
+
+			edgexcontext.SetResponseData(responseData)
+			edgexcontext.AddValue(interfaces.PROFILENAME, newEvent.ProfileName)
+			edgexcontext.AddValue(interfaces.DEVICENAME, newEvent.DeviceName)
+			edgexcontext.AddValue(interfaces.SOURCENAME, newEvent.SourceName)
+
 		}
 	}
 
@@ -80,7 +91,7 @@ func transformRspControllerEventToRfidRoiEvent(reading dtos.BaseReading, lc logg
 		case RFIDEventDeparted:
 			rfidReading.ROIAction = ROIActionExited
 		case RFIDEventMoved: // ignore moved events - only interested in arrival or departed events
-			lc.Debugf("Ignoring RSP Controller moved event: EPC-%v, FacilityId-%v, Location-%v, Timestamp-%v\n", apData.EPCCode, apData.FacilityId, apData.Location, apData.TimeStamp)
+			lc.Debugf("Ignoring RSP Controller moved event: EPC-%v, FacilityId-%v, Location-%v, Timestamp-%v", apData.EPCCode, apData.FacilityId, apData.Location, apData.TimeStamp)
 			continue
 		default:
 			lc.Debugf("Unrecognized RSP Controller event: %v", apData.EventType)

@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package main
@@ -21,23 +21,23 @@ func main() {
 	var ok bool
 	service, ok := pkg.NewAppService(serviceKey)
 	if !ok {
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
 	lc := service.LoggingClient()
 
 	deviceNames, err := service.GetAppSettingStrings("DeviceNames")
 	if err != nil {
-		lc.Error("DeviceNames application setting not found")
-		os.Exit(-1)
+		lc.Errorf("DeviceNames application setting not found: %v",err)
+		os.Exit(1)
 	}
 
 	lc.Infof("Running the application functions for %v devices...", deviceNames)
 
 	valueDescriptor, err := service.GetAppSettingStrings("ValueDescriptorToFilter")
 	if err != nil {
-		lc.Error("ValueDescriptorToFilter application setting not found")
-		os.Exit(-1)
+		lc.Error("ValueDescriptorToFilter application setting not found: %v", err)
+		os.Exit(1)
 	}
 
 	err = service.SetFunctionsPipeline(
@@ -48,13 +48,14 @@ func main() {
 
 	if err != nil {
 		lc.Errorf("faield to SetFunctionsPipeline: %v", err)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
 	err = service.MakeItRun()
 	if err != nil {
 		lc.Errorf("MakeItRun returned error: %s", err.Error())
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
+	os.Exit(0)
 }

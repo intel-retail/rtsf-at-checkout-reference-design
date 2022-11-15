@@ -61,8 +61,8 @@ func Test_scaleDevice_readWeight(t *testing.T) {
 				serialDevice: tt.serialDevice,
 			}
 			got, err := device.readWeight()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("scaleDevice.readWeight() error = %v, wantErr %v", err, tt.wantErr)
+			if tt.wantErr {
+				require.NotNil(t, err)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {

@@ -7,6 +7,7 @@ package driver
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -52,6 +53,12 @@ func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsMo
 }
 
 func (drv *ScaleDriver) processScaleData(scaleData map[string]interface{}, deviceResName string) (*dsModels.CommandValue, error) {
+	if scaleData == nil {
+		return nil, errors.New("scaleData can not be nil")
+	}
+	if len(deviceResName) == 0 {
+		return nil, errors.New("deviceResName can not be empty")
+	}
 	scaleData["lane_id"] = drv.config["LaneID"]
 	scaleData["scale_id"] = drv.config["ScaleID"]
 	scaleData["event_time"] = (time.Now().UnixNano() / 1000000)
@@ -80,7 +87,7 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 	res = make([]*dsModels.CommandValue, len(reqs))
 
 	if !drv.scaleConnected {
-		return nil, nil
+		return nil, errors.New("scale is not connected")
 	}
 
 	for i, req := range reqs {
@@ -121,11 +128,7 @@ func (drv *ScaleDriver) Stop(force bool) error {
 	return nil
 }
 
-func findSerialPort(pid string, vid string) (string, error) {
-	ports, err := enumerator.GetDetailedPortsList()
-	if err != nil {
-		return "", err
-	}
+func findSerialPort(ports []*enumerator.PortDetails, pid string, vid string) (string, error) {
 
 	for _, port := range ports {
 
@@ -155,7 +158,12 @@ func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models
 		return fmt.Errorf("VID is empty")
 	}
 
-	serialPort, err := findSerialPort(pid, vid)
+	ports, err := enumerator.GetDetailedPortsList()
+	if err != nil {
+		return err
+	}
+
+	serialPort, err := findSerialPort(ports, pid, vid)
 
 	if err != nil {
 		drv.lc.Error(err.Error())

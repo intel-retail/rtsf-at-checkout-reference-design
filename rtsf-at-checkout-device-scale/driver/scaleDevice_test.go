@@ -58,7 +58,7 @@ func Test_scaleDevice_readWeight(t *testing.T) {
 			}
 			got, err := device.readWeight()
 			if tt.wantErr {
-				require.NotNil(t, err)
+				require.NoError(t, err)
 				return
 			}
 			require.NoError(t, err)

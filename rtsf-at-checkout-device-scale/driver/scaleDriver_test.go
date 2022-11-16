@@ -210,9 +210,9 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 		adminState models.AdminState
 	}
 	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
+		name          string
+		args          args
+		expectedError string
 	}{
 		{
 			name: "no serial protocol",
@@ -221,7 +221,7 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 				protocols:  nil,
 				adminState: "full",
 			},
-			wantErr: true,
+			expectedError: "serialProtocol can not be nil",
 		},
 		{
 			name: "no pid",
@@ -234,7 +234,7 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 				},
 				adminState: "full",
 			},
-			wantErr: true,
+			expectedError: "PID is empty",
 		},
 		{
 			name: "no vid",
@@ -247,7 +247,7 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 				},
 				adminState: "full",
 			},
-			wantErr: true,
+			expectedError: "VID is empty",
 		},
 		{
 			name: "port list can not be found",
@@ -261,7 +261,7 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 				},
 				adminState: "full",
 			},
-			wantErr: true,
+			expectedError: "unable to find weight scale serial port: serial device with pid:vid 6001:0403 not found",
 		},
 	}
 	for _, tt := range tests {
@@ -271,9 +271,9 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 				serialDevice: testDevice,
 			}
 
-			if err := drv.AddDevice(tt.args.deviceName, tt.args.protocols, tt.args.adminState); (err != nil) != tt.wantErr {
-				t.Errorf("ScaleDriver.AddDevice() error = %v, wantErr %v", err, tt.wantErr)
-			}
+			err := drv.AddDevice(tt.args.deviceName, tt.args.protocols, tt.args.adminState)
+			require.Error(t, err)
+			assert.Equal(t, tt.expectedError, err.Error())
 		})
 	}
 }

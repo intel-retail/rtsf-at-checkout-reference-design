@@ -25,36 +25,29 @@ func getDefaultDriverConfig() map[string]string {
 	return config
 }
 
-func TestScaleDriver_processScaleData(t *testing.T) {
-
-	type fields struct {
-		lc             logger.LoggingClient
-		asyncCh        chan<- *dsModels.AsyncValues
-		scaleDevice    *scaleDevice
-		httpErrors     chan error
-		scaleConnected bool
-		config         map[string]string
+func getDefaultScaleDriver() ScaleDriver {
+	return ScaleDriver{
+		lc:             logger.NewMockClient(),
+		asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
+		scaleDevice:    nil,
+		httpErrors:     nil,
+		scaleConnected: true,
+		config:         getDefaultDriverConfig(),
 	}
+}
+
+func TestScaleDriver_processScaleData(t *testing.T) {
 	type args struct {
 		scaleData     map[string]interface{}
 		deviceResName string
 	}
 	tests := []struct {
 		name    string
-		fields  fields
 		args    args
 		wantErr bool
 	}{
 		{
 			name: "valid case",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				scaleDevice:    nil,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
 			args: args{
 				scaleData:     map[string]interface{}{"status": "OK", "total": 2.494, "units": "LB"},
 				deviceResName: "testDeviceResource",
@@ -63,14 +56,6 @@ func TestScaleDriver_processScaleData(t *testing.T) {
 		},
 		{
 			name: "nil scaleData",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				scaleDevice:    nil,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
 			args: args{
 				scaleData:     nil,
 				deviceResName: "testDeviceResource",
@@ -79,14 +64,6 @@ func TestScaleDriver_processScaleData(t *testing.T) {
 		},
 		{
 			name: "empty device resource",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				scaleDevice:    nil,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
 			args: args{
 				scaleData:     map[string]interface{}{"status": "OK", "total": 2.494, "units": "LB"},
 				deviceResName: "",
@@ -96,19 +73,13 @@ func TestScaleDriver_processScaleData(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			drv := &ScaleDriver{
-				lc:             tt.fields.lc,
-				asyncCh:        tt.fields.asyncCh,
-				scaleDevice:    tt.fields.scaleDevice,
-				httpErrors:     tt.fields.httpErrors,
-				scaleConnected: tt.fields.scaleConnected,
-				config:         tt.fields.config,
-			}
+			drv := getDefaultScaleDriver()
 			got, err := drv.processScaleData(tt.args.scaleData, tt.args.deviceResName)
 			if tt.wantErr {
-				require.NotNil(t, err)
+				require.Error(t, err)
 				return
 			}
+			require.NoError(t, err)
 			require.NotEmpty(t, got)
 
 		})
@@ -129,73 +100,31 @@ func TestScaleDriver_HandleReadCommands(t *testing.T) {
 
 	testDevice := scale.InitializeMockDevice(&config)
 
-	type fields struct {
-		lc             logger.LoggingClient
-		asyncCh        chan<- *dsModels.AsyncValues
-		serialDevice   *scale.MockDevice
-		httpErrors     chan error
-		scaleConnected bool
-		config         map[string]string
-	}
-	type args struct {
-		deviceName string
-		protocols  map[string]models.ProtocolProperties
-		reqs       []dsModels.CommandRequest
-	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		wantErr bool
+		name           string
+		scaleConnected bool
+		wantErr        bool
 	}{
 		{
-			name: "valid case",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				serialDevice:   testDevice,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
-			args: args{
-				deviceName: "testDeviceName",
-				protocols:  nil,
-				reqs:       nil,
-			},
-			wantErr: false,
+			name:           "valid case",
+			scaleConnected: true,
+			wantErr:        false,
 		},
 		{
-			name: "scale not connected",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				serialDevice:   testDevice,
-				httpErrors:     nil,
-				scaleConnected: false,
-				config:         getDefaultDriverConfig(),
-			},
-			args: args{
-				deviceName: "testDeviceName",
-				protocols:  nil,
-				reqs:       nil,
-			},
-			wantErr: true,
+			name:           "scale not connected",
+			scaleConnected: false,
+			wantErr:        true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			drv := &ScaleDriver{
-				lc:      tt.fields.lc,
-				asyncCh: tt.fields.asyncCh,
-				scaleDevice: &scaleDevice{
-					serialDevice: tt.fields.serialDevice,
-				},
-				httpErrors:     tt.fields.httpErrors,
-				scaleConnected: tt.fields.scaleConnected,
-				config:         tt.fields.config,
+			drv := getDefaultScaleDriver()
+			drv.scaleConnected = tt.scaleConnected
+			drv.scaleDevice = &scaleDevice{
+				serialDevice: testDevice,
 			}
-			gotRes, err := drv.HandleReadCommands(tt.args.deviceName,
+
+			gotRes, err := drv.HandleReadCommands("testDeviceName",
 				map[string]models.ProtocolProperties{},
 				[]dsModels.CommandRequest{
 					{
@@ -204,9 +133,10 @@ func TestScaleDriver_HandleReadCommands(t *testing.T) {
 				},
 			)
 			if tt.wantErr {
-				require.NotNil(t, err)
+				require.Error(t, err)
 				return
 			}
+			require.NoError(t, err)
 			require.NotNil(t, gotRes)
 		})
 	}
@@ -257,7 +187,7 @@ func Test_findSerialPort(t *testing.T) {
 			ports = append(ports, &tt.portInfo)
 			got, err := findSerialPort(ports, tt.pid, tt.vid)
 			if tt.wantErr {
-				require.NotNil(t, err)
+				require.Error(t, err)
 				return
 			}
 			if got != tt.want {
@@ -280,14 +210,6 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 
 	testDevice := scale.InitializeMockDevice(&config)
 
-	type fields struct {
-		lc             logger.LoggingClient
-		asyncCh        chan<- *dsModels.AsyncValues
-		serialDevice   *scale.MockDevice
-		httpErrors     chan error
-		scaleConnected bool
-		config         map[string]string
-	}
 	type args struct {
 		deviceName string
 		protocols  map[string]models.ProtocolProperties
@@ -295,20 +217,11 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 	}
 	tests := []struct {
 		name    string
-		fields  fields
 		args    args
 		wantErr bool
 	}{
 		{
 			name: "no serial protocol",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				serialDevice:   testDevice,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
 			args: args{
 				deviceName: "testDeviceName",
 				protocols:  nil,
@@ -318,14 +231,6 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 		},
 		{
 			name: "no pid",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				serialDevice:   testDevice,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
 			args: args{
 				deviceName: "testDeviceName",
 				protocols: map[string]models.ProtocolProperties{
@@ -339,14 +244,6 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 		},
 		{
 			name: "no vid",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				serialDevice:   testDevice,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
 			args: args{
 				deviceName: "testDeviceName",
 				protocols: map[string]models.ProtocolProperties{
@@ -360,14 +257,6 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 		},
 		{
 			name: "port list can not be found",
-			fields: fields{
-				lc:             logger.NewMockClient(),
-				asyncCh:        make(chan<- *dsModels.AsyncValues, 16),
-				serialDevice:   testDevice,
-				httpErrors:     nil,
-				scaleConnected: true,
-				config:         getDefaultDriverConfig(),
-			},
 			args: args{
 				deviceName: "testDeviceName",
 				protocols: map[string]models.ProtocolProperties{
@@ -383,16 +272,11 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			drv := &ScaleDriver{
-				lc:      tt.fields.lc,
-				asyncCh: tt.fields.asyncCh,
-				scaleDevice: &scaleDevice{
-					serialDevice: tt.fields.serialDevice,
-				},
-				httpErrors:     tt.fields.httpErrors,
-				scaleConnected: tt.fields.scaleConnected,
-				config:         tt.fields.config,
+			drv := getDefaultScaleDriver()
+			drv.scaleDevice = &scaleDevice{
+				serialDevice: testDevice,
 			}
+
 			if err := drv.AddDevice(tt.args.deviceName, tt.args.protocols, tt.args.adminState); (err != nil) != tt.wantErr {
 				t.Errorf("ScaleDriver.AddDevice() error = %v, wantErr %v", err, tt.wantErr)
 			}

@@ -5,10 +5,10 @@ package driver
 
 import (
 	"device-scale/scale"
-	"reflect"
 	"testing"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -65,39 +65,30 @@ func Test_scaleDevice_readWeight(t *testing.T) {
 				require.NotNil(t, err)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("scaleDevice.readWeight() = %v, want %v", got, tt.want)
-			}
+			require.NoError(t, err)
+			assert.Equal(t, got, tt.want)
 		})
 	}
 }
 
 func Test_newScaleDevice(t *testing.T) {
 	tests := []struct {
-		name       string
-		serialPort string
-		lc         logger.LoggingClient
-		config     map[string]string
-		isEmpty    bool
+		name    string
+		config  map[string]string
+		isEmpty bool
 	}{
 		{
-			name:       "valid case",
-			serialPort: "testSerialPort",
-			lc:         logger.NewMockClient(),
-			config:     getDefaultDriverConfig(),
-			isEmpty:    false,
+			name:    "valid case",
+			config:  getDefaultDriverConfig(),
+			isEmpty: false,
 		},
 		{
-			name:       "nil config",
-			serialPort: "testSerialPort",
-			lc:         logger.NewMockClient(),
-			config:     nil,
-			isEmpty:    true,
+			name:    "nil config",
+			config:  nil,
+			isEmpty: true,
 		},
 		{
-			name:       "missing TimeOutMilli from config",
-			serialPort: "testSerialPort",
-			lc:         logger.NewMockClient(),
+			name: "missing TimeOutMilli from config",
 			config: map[string]string{
 				"SimulatorPort": "8081",
 				"ScaleID":       "123",
@@ -108,10 +99,10 @@ func Test_newScaleDevice(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := newScaleDevice(tt.serialPort, tt.lc, tt.config)
+			got := newScaleDevice("testSerialPort", logger.NewMockClient(), tt.config)
 
 			if tt.isEmpty {
-				require.Nil(t, got)
+				require.Empty(t, got)
 			} else {
 				require.NotEmpty(t, got)
 			}

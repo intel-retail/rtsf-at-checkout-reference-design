@@ -53,7 +53,7 @@ func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsMo
 }
 
 func (drv *ScaleDriver) processScaleData(scaleData map[string]interface{}, deviceResName string) (*dsModels.CommandValue, error) {
-	if scaleData == nil {
+	if len(scaleData) == 0 {
 		return nil, errors.New("scaleData can not be nil")
 	}
 	if len(deviceResName) == 0 {

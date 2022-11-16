@@ -227,8 +227,8 @@ func Test_findSerialPort(t *testing.T) {
 			portInfo: enumerator.PortDetails{
 				Name:         "testDevice",
 				IsUSB:        true,
-				VID:          "0403",
 				PID:          "6001",
+				VID:          "0403",
 				SerialNumber: "0123456",
 			},
 			pid:     "6001",
@@ -241,8 +241,8 @@ func Test_findSerialPort(t *testing.T) {
 			portInfo: enumerator.PortDetails{
 				Name:         "testDevice",
 				IsUSB:        true,
-				VID:          "0000",
 				PID:          "0000",
+				VID:          "0000",
 				SerialNumber: "0123456",
 			},
 			pid:     "6001",

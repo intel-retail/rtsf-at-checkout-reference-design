@@ -87,6 +87,7 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 	res = make([]*dsModels.CommandValue, len(reqs))
 
 	if !drv.scaleConnected {
+		// TODO: verify returning error is not crashing the stack and still working
 		return nil, errors.New("scale is not connected")
 	}
 

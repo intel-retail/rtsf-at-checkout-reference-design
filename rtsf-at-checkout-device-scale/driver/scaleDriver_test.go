@@ -12,6 +12,7 @@ import (
 	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.bug.st/serial.v1/enumerator"
 )
@@ -147,8 +148,6 @@ func Test_findSerialPort(t *testing.T) {
 	tests := []struct {
 		name     string
 		portInfo enumerator.PortDetails
-		pid      string
-		vid      string
 		want     string
 		wantErr  bool
 	}{
@@ -161,8 +160,6 @@ func Test_findSerialPort(t *testing.T) {
 				VID:          "0403",
 				SerialNumber: "0123456",
 			},
-			pid:     "6001",
-			vid:     "0403",
 			want:    "testDevice",
 			wantErr: false,
 		},
@@ -175,8 +172,6 @@ func Test_findSerialPort(t *testing.T) {
 				VID:          "0000",
 				SerialNumber: "0123456",
 			},
-			pid:     "6001",
-			vid:     "0403",
 			want:    "",
 			wantErr: true,
 		},
@@ -185,14 +180,13 @@ func Test_findSerialPort(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			var ports []*enumerator.PortDetails
 			ports = append(ports, &tt.portInfo)
-			got, err := findSerialPort(ports, tt.pid, tt.vid)
+			got, err := findSerialPort(ports, "6001", "0403")
 			if tt.wantErr {
 				require.Error(t, err)
 				return
 			}
-			if got != tt.want {
-				t.Errorf("findSerialPort() = %v, want %v", got, tt.want)
-			}
+			require.NoError(t, err)
+			assert.Equal(t, tt.want, got)
 		})
 	}
 }

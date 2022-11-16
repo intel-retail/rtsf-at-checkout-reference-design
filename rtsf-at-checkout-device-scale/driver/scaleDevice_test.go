@@ -27,28 +27,24 @@ func Test_scaleDevice_readWeight(t *testing.T) {
 	testDevice := scale.InitializeMockDevice(&config)
 	tests := []struct {
 		name          string
-		serialDevice  *scale.MockDevice
 		testCaseIndex int
 		want          map[string]interface{}
 		wantErr       bool
 	}{
 		{
 			name:          "valid case",
-			serialDevice:  testDevice,
 			testCaseIndex: 0,
 			want:          map[string]interface{}{"status": "OK", "total": 2.494, "units": "LB"},
 			wantErr:       false,
 		},
 		{
 			name:          "status Scale at Zero",
-			serialDevice:  testDevice,
 			testCaseIndex: 1,
 			want:          nil,
 			wantErr:       false,
 		},
 		{
 			name:          "invalid reading but status OK",
-			serialDevice:  testDevice,
 			testCaseIndex: 5,
 			want:          map[string]interface{}{"status": "OK", "total": 0.0, "units": "LB"},
 			wantErr:       false,
@@ -56,9 +52,9 @@ func Test_scaleDevice_readWeight(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.serialDevice.TestCase = tt.testCaseIndex
+			testDevice.TestCase = tt.testCaseIndex
 			device := &scaleDevice{
-				serialDevice: tt.serialDevice,
+				serialDevice: testDevice,
 			}
 			got, err := device.readWeight()
 			if tt.wantErr {

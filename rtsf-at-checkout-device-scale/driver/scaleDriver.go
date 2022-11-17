@@ -7,9 +7,9 @@ package driver
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
-	"sync"
 	"time"
 
 	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
@@ -28,17 +28,12 @@ type ScaleDriver struct {
 	scaleDevice    *scaleDevice
 	httpErrors     chan error
 	scaleConnected bool
+	config         map[string]string
 }
-
-var once sync.Once
-var driver *ScaleDriver
 
 // NewScaleDeviceDriver instantiates a scale driver
 func NewScaleDeviceDriver() dsModels.ProtocolDriver {
-	once.Do(func() {
-		driver = new(ScaleDriver)
-	})
-	return driver
+	return new(ScaleDriver)
 }
 
 // DisconnectDevice disconnect from device
@@ -52,14 +47,20 @@ func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsMo
 	drv.lc = lc
 	drv.asyncCh = asyncCh
 	drv.httpErrors = make(chan error, 2)
+	drv.config = device.DriverConfigs()
 
 	return nil
 }
 
-func processScaleData(scaleData map[string]interface{}, deviceResName string) (*dsModels.CommandValue, error) {
-	config := device.DriverConfigs()
-	scaleData["lane_id"] = config["LaneID"]
-	scaleData["scale_id"] = config["ScaleID"]
+func (drv *ScaleDriver) processScaleData(scaleData map[string]interface{}, deviceResName string) (*dsModels.CommandValue, error) {
+	if len(scaleData) == 0 {
+		return nil, errors.New("scaleData can not be nil")
+	}
+	if len(deviceResName) == 0 {
+		return nil, errors.New("deviceResName can not be empty")
+	}
+	scaleData["lane_id"] = drv.config["LaneID"]
+	scaleData["scale_id"] = drv.config["ScaleID"]
 	scaleData["event_time"] = (time.Now().UnixNano() / 1000000)
 
 	scaleBytes, err := json.Marshal(scaleData)
@@ -86,7 +87,8 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 	res = make([]*dsModels.CommandValue, len(reqs))
 
 	if !drv.scaleConnected {
-		return nil, nil
+		// TODO: verify returning error is not crashing the stack and still working
+		return nil, errors.New("scale is not connected")
 	}
 
 	for i, req := range reqs {
@@ -105,7 +107,7 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 			return nil, nil
 		}
 
-		result, err := processScaleData(scaleData, req.DeviceResourceName)
+		result, err := drv.processScaleData(scaleData, req.DeviceResourceName)
 		if err != nil {
 			return nil, err
 		}
@@ -127,11 +129,7 @@ func (drv *ScaleDriver) Stop(force bool) error {
 	return nil
 }
 
-func findSerialPort(pid string, vid string) (string, error) {
-	ports, err := enumerator.GetDetailedPortsList()
-	if err != nil {
-		return "", err
-	}
+func findSerialPort(ports []*enumerator.PortDetails, pid string, vid string) (string, error) {
 
 	for _, port := range ports {
 
@@ -161,24 +159,29 @@ func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models
 		return fmt.Errorf("VID is empty")
 	}
 
-	serialPort, err := findSerialPort(pid, vid)
+	ports, err := enumerator.GetDetailedPortsList()
+	if err != nil {
+		return err
+	}
+
+	serialPort, err := findSerialPort(ports, pid, vid)
 
 	if err != nil {
-		driver.lc.Error(err.Error())
+		drv.lc.Error(err.Error())
 		drv.scaleConnected = false
 		return fmt.Errorf("unable to find weight scale serial port: %v", err)
 	} else {
-		driver.lc.Debugf("[serialPort]: %v", serialPort)
+		drv.lc.Debugf("[serialPort]: %v", serialPort)
 		drv.scaleConnected = true
-		drv.scaleDevice = newScaleDevice(serialPort)
-		driver.lc.Debugf("Connecting to scale: %v", serialPort)
+		drv.scaleDevice = newScaleDevice(serialPort, drv.lc, drv.config)
+		drv.lc.Debugf("Connecting to scale: %v", serialPort)
 
 		scaleData, err := drv.scaleDevice.readWeight()
 		if err != nil {
 			return fmt.Errorf("readWeight failed: %v", err)
 		}
 		for _, v := range scaleData {
-			driver.lc.Debugf("[scaleData]: %v", v)
+			drv.lc.Debugf("[scaleData]: %v", v)
 		}
 	}
 

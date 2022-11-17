@@ -43,6 +43,7 @@ services:
       - loss-detection-app_edgex-network
     environment:
       - ENABLE_RTSP=true
+      - EMIT_SOURCE_AND_DESTINATION=true
     user: "${UID}:${GID}"
     devices:
       - /dev/video0:/dev/video0

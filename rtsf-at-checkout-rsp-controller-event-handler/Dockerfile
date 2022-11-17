@@ -1,10 +1,10 @@
-# Copyright © 2019 - 2020 Intel Corporation. All rights reserved.
+# Copyright © 2019 - 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-FROM golang:1.13-alpine AS builder
+FROM golang:1.18-alpine3.16 AS builder
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-    copyright='Copyright (c) 2018 - 2020: Intel'
+    copyright='Copyright (c) 2018 - 2022: Intel'
 
 RUN apk update && apk add --no-cache make git gcc libc-dev libsodium-dev zeromq-dev
 
@@ -21,10 +21,10 @@ RUN apk info -a zeromq-dev
 RUN CGO_ENABLED=1 go build -a -installsuffix cgo -o rsp-controller-event-handler /rsp-controller-event-handler/main.go
 
 # Next image - Copy built Go binary into new workspace
-FROM alpine:3.10
+FROM alpine:3.16
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-    copyright='Copyright (c) 2018 - 2020: Intel'
+    copyright='Copyright (c) 2018 - 2022: Intel'
 
 RUN apk update && apk --no-cache add zeromq
 

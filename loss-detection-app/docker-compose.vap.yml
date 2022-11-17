@@ -2,7 +2,7 @@ version: '3.4'
 
 networks:
   loss-detection-app_edgex-network:
-    external: true   
+    external: true
 
 services:
   cv-region-of-interest:
@@ -10,36 +10,47 @@ services:
     container_name: cv-region-of-interest
     hostname: cv-region-of-interest
     environment:
+      - no_proxy=pipeline-server,mqtt
       - MQTT_DESTINATION_HOST=mqtt:1883
-      - CAMERA0_ENDPOINT=http://video-analytic:8080/pipelines/object_detection_cpu_render/1
+      # - CAMERA0_ENDPOINT=http://pipeline-server:8080/pipelines/product_detection/default
+      - CAMERA0_ENDPOINT=http://pipeline-server:8080/pipelines/product_detection/frame_store
       # Fill in camera source info below
       # for RTSP cameras
-      # - CAMERA0_SRC=rtsp://{URL}:{PORT}/{STREAM-END-POINT}
+      #- CAMERA0_SRC=file:///home/pipeline-server/video-samples/grocery-test.mp4
+      - CAMERA0_SRC=file:///home/pipeline-server/video-samples/EnterExitEvent_2second.mp4
       # or for USB cameras
       # - CAMERA0_SRC=/dev/video0
       - CAMERA0_ROI_NAME=Staging
       - CAMERA0_CROP_TBLR=0,0,0,0
+      - CAMERA0_FRAME_STORE=/tmp/my-frame-store
+    user: "${UID}:${GID}"
     networks:
       - loss-detection-app_edgex-network
+    volumes:
+      - /tmp:/tmp
     depends_on:
       - video-analytic
 
   video-analytic:
-    image: video-analytics-serving-gstreamer:latest
+    image: intel/dlstreamer-pipeline-server
     ports:
-      - "8090:8080"
-    container_name: video-analytic
-    hostname: video-analytic
+      - "8080:8080"
+      - "8554:8554"
+    container_name: pipeline-server
+    hostname: pipeline-server
     privileged: true
     networks:
       - loss-detection-app_edgex-network
     environment:
-      DISPLAY: ${DISPLAY}
+      - ENABLE_RTSP=true
+      - EMIT_SOURCE_AND_DESTINATION=true
+    user: "${UID}:${GID}"
     devices:
       - /dev/video0:/dev/video0
       - /dev/dri:/dev/dri
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./pipelines:/home/video-analytics-serving/pipelines
-      - ./models:/home/video-analytics-serving/models
-      - ./video-samples:/home/video-analytics-serving/video-samples
+      - /tmp:/tmp
+      - ./pipelines:/home/pipeline-server/pipelines
+      - ./models:/home/pipeline-server/models
+      - ./extensions:/home/pipeline-server/extensions
+      - ./video-samples:/home/pipeline-server/video-samples

@@ -1,0 +1,25 @@
+version: '3.4'
+
+networks:
+  loss-detection-app_edgex-network:
+    external: true
+
+services:
+  enter-exit-event:
+    image: eclipse-mosquitto:1.6
+    container_name: enter-exit-event
+    hostname: enter-exit-event
+    networks:
+      - loss-detection-app_edgex-network
+    entrypoint: /usr/bin/mosquitto_sub -h mqtt -t edgex
+    depends_on:
+      - mqtt
+
+  mqtt:
+    image: eclipse-mosquitto:1.6
+    ports:
+      - "1883:1883"
+    container_name: mqtt
+    hostname: mqtt
+    networks:
+      - loss-detection-app_edgex-network

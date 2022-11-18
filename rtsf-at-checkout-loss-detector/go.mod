@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/edgexfoundry/app-functions-sdk-go/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0
+	github.com/google/uuid v1.3.0
 )
 
 require (
@@ -28,7 +29,6 @@ require (
 	github.com/go-redis/redis/v7 v7.3.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/gomodule/redigo v1.8.8 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/hashicorp/consul/api v1.9.1 // indirect

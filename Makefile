@@ -26,7 +26,7 @@ run-base:
 
 run-vap:
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml up -d
+	docker-compose -f docker-compose.vap.yml -f docker-compose.mqtt.yml up -d
 
 run-rsp:
 	cd ./loss-detection-app && \
@@ -37,13 +37,14 @@ run-full: run-base run-vap run-rsp
 down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down && \
+	docker-compose -f docker-compose.mqtt.yml down && \
 	docker-compose -f docker-compose.rsp.yml down && \
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
 vas-down:
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml down
+	docker-compose -f docker-compose.vap.yml -f docker-compose.mqtt.yml down
 
 models:
 	if [ ! -d pipeline-server ] ; then git clone https://github.com/dlstreamer/pipeline-server; fi && \

@@ -160,6 +160,8 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - ./res/device-mqtt-go/:/res/
   device-rest:
     container_name: edgex-device-rest
     depends_on:

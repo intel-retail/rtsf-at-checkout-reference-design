@@ -1,4 +1,19 @@
-version: '3.4'
+# /*******************************************************************************
+#  * Copyright 2022 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
 
 networks:
   loss-detection-app_edgex-network:
@@ -6,20 +21,9 @@ networks:
 
 services:
   enter-exit-event:
-    image: eclipse-mosquitto:1.6
+    image: eclipse-mosquitto:2.0.15
     container_name: enter-exit-event
     hostname: enter-exit-event
     networks:
       - loss-detection-app_edgex-network
-    entrypoint: /usr/bin/mosquitto_sub -h mqtt -t edgex
-    depends_on:
-      - mqtt
-
-  mqtt:
-    image: eclipse-mosquitto:1.6
-    ports:
-      - "1883:1883"
-    container_name: mqtt
-    hostname: mqtt
-    networks:
-      - loss-detection-app_edgex-network
+    entrypoint: /usr/bin/mosquitto_sub -h edgex-mqtt-broker -t edgex

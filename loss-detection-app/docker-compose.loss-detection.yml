@@ -64,26 +64,26 @@ services:
       security_opt:
       - no-new-privileges:true
 
-    # device-scale:
-    #   image: rtsf-at-checkout/device-scale:dev
-    #   restart: "on-failure:5"
-    #   container_name: device-scale
-    #   hostname: device-scale
-    #   networks:
-    #   - loss-detection-app_edgex-network
-    #   environment:
-    #     CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-    #     CLIENTS_CORE_DATA_HOST: edgex-core-data
-    #     CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-    #     EDGEX_SECURITY_SECRET_STORE: "false"
-    #     MESSAGEQUEUE_HOST: edgex-mqtt-broker
-    #     REGISTRY_HOST: edgex-core-consul
-    #     SERVICE_HOST: device-scale
-    #   devices:
-    #   - /dev/:/dev/
-    #   privileged: true
-    #   security_opt:
-    #   - no-new-privileges:true
+    device-scale:
+      image: rtsf-at-checkout/device-scale:dev
+      restart: "on-failure:5"
+      container_name: device-scale
+      hostname: device-scale
+      networks:
+      - loss-detection-app_edgex-network
+      environment:
+        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+        CLIENTS_CORE_DATA_HOST: edgex-core-data
+        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+        EDGEX_SECURITY_SECRET_STORE: "false"
+        MESSAGEQUEUE_HOST: edgex-mqtt-broker
+        REGISTRY_HOST: edgex-core-consul
+        SERVICE_HOST: device-scale
+      devices:
+      - /dev/:/dev/
+      privileged: true
+      security_opt:
+      - no-new-privileges:true
 
     product-lookup:
       image: rtsf-at-checkout/product-lookup:dev

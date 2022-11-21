@@ -32,7 +32,7 @@ run-rsp:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.rsp.yml up -d
 
-run-full: run-base run-vap run-rsp
+run-full: models run-base run-vap run-rsp
 
 down:
 	cd ./loss-detection-app && \

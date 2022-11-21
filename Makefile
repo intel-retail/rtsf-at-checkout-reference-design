@@ -50,6 +50,7 @@ models:
 	if [ ! -d pipeline-server ] ; then git clone https://github.com/dlstreamer/pipeline-server; fi && \
 	cd pipeline-server && \
 	git checkout 2022.2.0 && \
+	mkdir -p ./loss-detection-app/models && \
 	./tools/model_downloader/model_downloader.sh --model-list $(shell pwd)/loss-detection-app/models.yml --output $(shell pwd)/loss-detection-app
 
 rsp:

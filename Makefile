@@ -26,7 +26,7 @@ run-base:
 
 run-vap: models run-base
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml -f docker-compose.mqtt.yml up -d
+	docker-compose -f docker-compose.vap.yml up -d
 
 run-rsp:
 	cd ./loss-detection-app && \
@@ -37,7 +37,6 @@ run-full: run-vap run-rsp
 down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down && \
-	docker-compose -f docker-compose.mqtt.yml down && \
 	docker-compose -f docker-compose.rsp.yml down && \
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
@@ -45,7 +44,6 @@ down:
 vap-down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down && \
-	docker-compose -f docker-compose.mqtt.yml down && \
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 

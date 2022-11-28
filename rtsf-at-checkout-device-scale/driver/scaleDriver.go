@@ -87,8 +87,10 @@ func (drv *ScaleDriver) HandleReadCommands(deviceName string, protocols map[stri
 	res = make([]*dsModels.CommandValue, len(reqs))
 
 	if !drv.scaleConnected {
-		// TODO: verify returning error is not crashing the stack and still working
-		return nil, errors.New("scale is not connected")
+		// we need to return nil when scale is not connected for simulator purpose
+		// if physical device is not connected, the error will trigger in AddDevice
+		drv.lc.Warnf("scale is not connected")
+		return nil, nil
 	}
 
 	for i, req := range reqs {

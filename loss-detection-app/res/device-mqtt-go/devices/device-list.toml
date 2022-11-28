@@ -1,0 +1,36 @@
+# Copyright (C) 2022 Intel Corp.
+# 
+# SPDX-License-Identifier: Apache-2.0
+
+[[DeviceList]]
+  Name = "device-pos-mqtt"
+  ProfileName = "device-pos-mqtt"
+  Description = "MQTT device for POS"
+  Labels = [ "MQTT", "pos"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       CommandTopic = "EdgeXPosCommand"
+[[DeviceList]]
+  Name = "device-scale-mqtt"
+  ProfileName = "device-scale-mqtt"
+  Description = "MQTT device for Scale"
+  Labels = [ "MQTT", "scale"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       CommandTopic = "EdgeXScaleCommand"
+[[DeviceList]]
+  Name = "device-rfid-roi-mqtt"
+  ProfileName = "device-rfid-roi-mqtt"
+  Description = "MQTT device for RFID ROI events"
+  Labels = [ "MQTT", "rfid"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       CommandTopic = "EdgeXRfidCommand"
+[[DeviceList]]
+  Name = "device-cv-roi-mqtt"
+  ProfileName = "device-cv-roi-mqtt"
+  Description = "MQTT device for CV ROI events"
+  Labels = [ "MQTT", "cv", "ROI"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.mqtt]
+       CommandTopic = "EdgeXRoiCommand"

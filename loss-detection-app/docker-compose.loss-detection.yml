@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2020 Intel Corporation.
+#  * Copyright 2022 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -13,51 +13,39 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.4'
-
-# all common shared environment variables defined here:
-x-common-env-variables: &common-variables
-  EDGEX_SECURITY_SECRET_STORE: "false"
-  Registry_Host: edgex-core-consul
-  Clients_CoreData_Host: edgex-core-data
-  Clients_Data_Host: edgex-core-data # For device Services
-  Clients_Notifications_Host: edgex-support-notifications
-  Clients_Metadata_Host: edgex-core-metadata
-  Clients_Command_Host: edgex-core-command
-  Clients_Scheduler_Host: edgex-support-scheduler
-  Clients_RulesEngine_Host: edgex-kuiper
-  Clients_VirtualDevice_Host: edgex-device-virtual
-  Databases_Primary_Host: edgex-redis
-  # Required in case old configuration from previous release used.
-  # Change to "true" if re-enabling logging service for remote logging
-  Logging_EnableRemote: "false"
+version: '3.7'
 
 networks:
   loss-detection-app_edgex-network:
     external: true
 
 volumes:
-  db_vol:
-    driver: local
-  pos_vol:
-    driver: local
+  db_vol: {}
+  pos_vol: {}
 
 services:
     event-reconciler:
       image: rtsf-at-checkout/event-reconciler:dev
       ports:
-        - "9083:9083"
-        - "48095:48095"
+      - "9083:9083"
+      - "48095:48095"
       restart: "on-failure:5"
       container_name: event-reconciler
       hostname: event-reconciler
       networks:
-        - loss-detection-app_edgex-network
+      - loss-detection-app_edgex-network
       environment:
-        <<: *common-variables
-        Service_Host: event-reconciler
-        MessageBus_SubscribeHost_Host: edgex-core-data
-        ApplicationSettings_ProductLookupEndpoint: product-lookup:8083
+        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+        CLIENTS_CORE_DATA_HOST: edgex-core-data
+        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+        EDGEX_SECURITY_SECRET_STORE: "false"
+        REGISTRY_HOST: edgex-core-consul
+        SERVICE_HOST: event-reconciler
+        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
+        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
+        RECONCILER_PRODUCTLOOKUPENDPOINT: product-lookup:8083
+      security_opt:
+      - no-new-privileges:true
 
     device-scale:
       image: rtsf-at-checkout/device-scale:dev
@@ -65,39 +53,54 @@ services:
       container_name: device-scale
       hostname: device-scale
       networks:
-        - loss-detection-app_edgex-network
+      - loss-detection-app_edgex-network
       environment:
-        <<: *common-variables
-        Service_Host: device-scale
+        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+        CLIENTS_CORE_DATA_HOST: edgex-core-data
+        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+        EDGEX_SECURITY_SECRET_STORE: "false"
+        MESSAGEQUEUE_HOST: edgex-mqtt-broker
+        REGISTRY_HOST: edgex-core-consul
+        SERVICE_HOST: device-scale
       devices:
-        - /dev/:/dev/
+      - /dev/:/dev/
       privileged: true
+      security_opt:
+      - no-new-privileges:true
 
     product-lookup:
       image: rtsf-at-checkout/product-lookup:dev
       command: "/product-lookup -file /db_initialization/all-products.json"
       ports:
-        - "8083:8083"
+      - "8083:8083"
       restart: "on-failure:5"
       container_name: product-lookup
       hostname: product-lookup
       networks:
-        - loss-detection-app_edgex-network
+      - loss-detection-app_edgex-network
+      security_opt:
+      - no-new-privileges:true
 
     loss-detector:
       image: rtsf-at-checkout/loss-detector:dev
       ports:
-        - "48096:48096"
+      - "48096:48096"
       restart: "on-failure:5"
       container_name: loss-detector
       hostname: loss-detector
       networks:
-        - loss-detection-app_edgex-network
+      - loss-detection-app_edgex-network
       environment:
-        <<: *common-variables
-        Service_Host: loss-detector
-        MessageBus_SubscribeHost_Host: event-reconciler
-        ApplicationSettings_NotificationsURL: http://edgex-support-notifications:48060
+        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+        CLIENTS_CORE_DATA_HOST: edgex-core-data
+        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+        EDGEX_SECURITY_SECRET_STORE: "false"
+        REGISTRY_HOST: edgex-core-consul
+        SERVICE_HOST: loss-detector
+        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
+        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
+      security_opt:
+      - no-new-privileges:true
 
     rsp-event-handler:
       image: rtsf-at-checkout/rsp-controller-event-handler:dev
@@ -109,6 +112,13 @@ services:
       networks:
         - loss-detection-app_edgex-network
       environment:
-        <<: *common-variables
-        Service_Host: rsp-event-handler
-        MessageBus_SubscribeHost_Host: edgex-core-data
+        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+        CLIENTS_CORE_DATA_HOST: edgex-core-data
+        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+        EDGEX_SECURITY_SECRET_STORE: "false"
+        REGISTRY_HOST: edgex-core-consul
+        SERVICE_HOST: rsp-event-handler
+        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
+        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
+      security_opt:
+      - no-new-privileges:true

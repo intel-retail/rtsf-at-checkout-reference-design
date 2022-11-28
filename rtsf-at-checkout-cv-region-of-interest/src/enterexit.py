@@ -8,7 +8,7 @@ import os
 import shutil
 
 # MQTT related constants
-MQTT_BROKER_HOST = "mqtt"
+MQTT_BROKER_HOST = "edgex-mqtt-broker"
 MQTT_BROKER_PORT = 1883
 MQTT_KEEPALIVE = 60
 MQTT_INCOMING_TOPIC_NAME = "AnalyticsData"
@@ -220,7 +220,7 @@ def create_pipelines():
 #     print("Deleted pipeline: %s"%r.text)
 
 
-wait_time = 1.0
+wait_time = 5.0
 t = Timer(wait_time, create_pipelines)
 t.start()
 

@@ -1,6 +1,50 @@
 {
     "checkout_events": [
         {
+            "device": "RFID-ROI",
+            "event": "rfid-roi-event",
+            "data": {
+                "lane_id" : "1",
+                "epc":"301400000037C5C000003039",
+                "roi_name": "Entrance",
+                "roi_action": "ENTERED"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RFID-ROI",
+            "event": "rfid-roi-event",
+            "data": {
+                "lane_id" : "1",
+                "epc":"301400000037C5C000003039",
+                "roi_name": "Entrance",
+                "roi_action": "EXITED"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RFID-ROI",
+            "event": "rfid-roi-event",
+            "data": {
+                "lane_id" : "1",
+                "epc":"301400000037C5C000003039",
+                "roi_name": "Bagging",
+                "roi_action": "ENTERED"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RFID-ROI",
+            "event": "rfid-roi-event",
+            "data": {
+                "lane_id" : "1",
+                "epc":"301400000037C5C000003039",
+                "roi_name": "Bagging",
+                "roi_action": "EXITED"
+            },
+            "wait_time": "1s"
+        },
+        {
             "device": "POS",
             "event": "basket-open",
             "data": {
@@ -101,6 +145,28 @@
                 "roi_name": "Scanner"
             },
             "wait_time": "2s"
+        },
+        {
+            "device": "RFID-ROI",
+            "event": "rfid-roi-event",
+            "data": {
+                "lane_id" : "1",
+                "epc":"301400000037C5C000003039",
+                "roi_name": "Entrance",
+                "roi_action": "EXITED"
+            },
+            "wait_time": "1s"
+        },
+        {
+            "device": "RFID-ROI",
+            "event": "rfid-roi-event",
+            "data": {
+                "lane_id" : "1",
+                "epc":"301400000037C5C000003039",
+                "roi_name": "Entrance",
+                "roi_action": "ENTERED"
+            },
+            "wait_time": "1s"
         },
         {
             "device": "Scale",

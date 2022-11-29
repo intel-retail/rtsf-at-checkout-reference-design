@@ -3,7 +3,7 @@
 
 .PHONY: run-portainer run-base run-vap run-full all simulator docker
 
-DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup rsp-event-handler
+DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup
 
 .PHONY: $(DOCKERS)
 
@@ -28,16 +28,11 @@ run-vap: models run-base
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml up -d
 
-run-rsp:
-	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.rsp.yml up -d
-
-run-full: run-vap run-rsp
+run-full: run-vap
 
 down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down && \
-	docker-compose -f docker-compose.rsp.yml down && \
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
@@ -54,21 +49,7 @@ models:
 	mkdir -p ./loss-detection-app/models && \
 	./tools/model_downloader/model_downloader.sh --model-list $(shell pwd)/loss-detection-app/models.yml --output $(shell pwd)/loss-detection-app
 
-rsp:
-	git clone https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service && \
-	cd rsp-sw-toolkit-im-suite-mqtt-device-service && \
-    docker build \
-    	 --build-arg http_proxy \
-    	 --build-arg https_proxy \
-    	 -t rsp/mqtt-device-service:dev \
-    	 .;
-	git clone https://github.com/intel/rsp-sw-toolkit-installer && \
-	cd rsp-sw-toolkit-installer/docker && \
-	./build.sh
-
 clean-deps:
-	rm -rf rsp-sw-toolkit-im-suite-mqtt-device-service
-	rm -rf rsp-sw-toolkit-installer
 	rm -rf video-analytics-serving
 
 all: simulator docker
@@ -130,11 +111,3 @@ product-lookup:
 		-t rtsf-at-checkout/product-lookup:$(DOCKER_TAG) \
 		.
 
-rsp-event-handler:
-	cd rtsf-at-checkout-rsp-controller-event-handler; \
-	docker build \
-	    --build-arg http_proxy \
-	    --build-arg https_proxy \
-		-f Dockerfile \
-		-t rtsf-at-checkout/rsp-controller-event-handler:$(DOCKER_TAG) \
-		.

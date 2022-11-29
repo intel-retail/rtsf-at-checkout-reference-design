@@ -15,8 +15,6 @@ import (
 	"path"
 	"strings"
 	"time"
-
-	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 const (
@@ -24,22 +22,19 @@ const (
 	scaleName         = "Scale"
 	cvName            = "CV-ROI"
 	rfidName          = "RFID-ROI"
-	rspName           = "RSP"
 	configFilename    = "config.json"
 	eventTimeLayout   = "2006-01-02 15:04:05 MST"
 	jsonFileExtension = ".json"
 )
 
 var configuration Configuration
-var mqttClient mqtt.Client
 
 // Configuration is the struct for all the peripheral settings/configuration
 type Configuration struct {
-	PosEndpoint       string `json:"pos_endpoint"`
-	ScaleEndpoint     string `json:"scale_endpoint"`
-	CvRoiEndpoint     string `json:"cv_roi_endpoint"`
-	RfidRoiEndpoint   string `json:"rfid_roi_endpoint"`
-	RSPEventsEndpoint string `json:"rsp_events_endpoint"`
+	PosEndpoint     string `json:"pos_endpoint"`
+	ScaleEndpoint   string `json:"scale_endpoint"`
+	CvRoiEndpoint   string `json:"cv_roi_endpoint"`
+	RfidRoiEndpoint string `json:"rfid_roi_endpoint"`
 
 	httpEndpoints map[string]url.URL
 }
@@ -104,19 +99,6 @@ func init() {
 		os.Exit(-1)
 	}
 	configuration.httpEndpoints[rfidName] = *endpoint
-
-	if configuration.RSPEventsEndpoint != "" {
-		endpoint, parseErr = url.Parse(configuration.RSPEventsEndpoint)
-		if parseErr != nil {
-			fmt.Printf("Warning: data will not be sent over MQTT. MQTT endpoint not configured: %s\n.", parseErr)
-		} else {
-			mqttClient, err = mqttClientConnect("event-simulator", endpoint)
-			if err != nil {
-				fmt.Printf("Error connecting MQTT endpoint: %v\n", err)
-				os.Exit(-1)
-			}
-		}
-	}
 }
 
 func (chkoutEvt *CheckoutEvent) wait() time.Duration {
@@ -156,39 +138,22 @@ func (chkoutEvt *CheckoutEvent) send(eventTime time.Time) (waitTime time.Duratio
 		os.Exit(-1)
 	}
 
-	if chkoutEvt.Device == rspName {
-		if !mqttClient.IsConnected() {
-			fmt.Println("Warning - MQTT endpoint not configured. Data not being sent")
-			return 0, nil
+	go func() {
+		resp, postErr := http.Post(chkoutEvt.buildHTTPEndpoint(), "application/json", bytes.NewBuffer(payload))
+
+		if postErr != nil {
+			fmt.Printf("Warning - %s data not sent: %v\n", chkoutEvt.Device, postErr)
+			// ignore the error for now to keep going
+			return
 		}
 
-		go func() {
-			token := mqttClient.Publish(chkoutEvt.Event, 0, false, string(payload))
-			if token.Error() != nil {
-				fmt.Printf("Error sending event: %s\n", token.Error())
-				return
-			}
+		if resp.StatusCode != http.StatusOK {
+			fmt.Printf("Post returns status of %d\n", resp.StatusCode)
+			os.Exit(-1)
+		}
 
-			fmt.Printf("Event %s - sent on topic %s\n", chkoutEvt.Device, chkoutEvt.Event)
-		}()
-	} else {
-		go func() {
-			resp, postErr := http.Post(chkoutEvt.buildHTTPEndpoint(), "application/json", bytes.NewBuffer(payload))
-
-			if postErr != nil {
-				fmt.Printf("Warning - %s data not sent: %v\n", chkoutEvt.Device, postErr)
-				// ignore the error for now to keep going
-				return
-			}
-
-			if resp.StatusCode != http.StatusOK {
-				fmt.Printf("Post returns status of %d\n", resp.StatusCode)
-				os.Exit(-1)
-			}
-
-			fmt.Printf("Event %s - %s sent\n", chkoutEvt.Device, chkoutEvt.Event)
-		}()
-	}
+		fmt.Printf("Event %s - %s sent\n", chkoutEvt.Device, chkoutEvt.Event)
+	}()
 
 	waitTime = chkoutEvt.wait()
 	return waitTime, nil
@@ -201,26 +166,6 @@ func (chkoutEvt *CheckoutEvent) buildHTTPEndpoint() string {
 	fmt.Println(url.String())
 
 	return url.String()
-}
-
-func setMqttClientOptions(clientID string, uri *url.URL) *mqtt.ClientOptions {
-	opts := mqtt.NewClientOptions()
-	opts.AddBroker(fmt.Sprintf("tcp://%s", uri.Host))
-	opts.SetClientID(clientID)
-	return opts
-}
-
-func mqttClientConnect(clientID string, uri *url.URL) (mqtt.Client, error) {
-	opts := setMqttClientOptions(clientID, uri)
-	mqttClient := mqtt.NewClient(opts)
-	token := mqttClient.Connect()
-	if !token.WaitTimeout(10 * time.Second) {
-		return mqttClient, fmt.Errorf("MQTT client connection timed out")
-	}
-	if err := token.Error(); err != nil {
-		return mqttClient, err
-	}
-	return mqttClient, nil
 }
 
 func loadCheckoutEvents(filePath string) (CheckoutEvents, error) {

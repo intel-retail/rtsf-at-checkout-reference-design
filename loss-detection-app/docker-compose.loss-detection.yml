@@ -101,24 +101,3 @@ services:
         TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
       security_opt:
       - no-new-privileges:true
-
-    rsp-event-handler:
-      image: rtsf-at-checkout/rsp-controller-event-handler:dev
-      restart: "on-failure:5" 
-      container_name: rsp-event-handler
-      hostname: rsp-event-handler
-      ports:
-        - 42222:48096
-      networks:
-        - loss-detection-app_edgex-network
-      environment:
-        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-        CLIENTS_CORE_DATA_HOST: edgex-core-data
-        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-        EDGEX_SECURITY_SECRET_STORE: "false"
-        REGISTRY_HOST: edgex-core-consul
-        SERVICE_HOST: rsp-event-handler
-        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
-        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
-      security_opt:
-      - no-new-privileges:true

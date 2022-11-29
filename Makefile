@@ -1,4 +1,4 @@
-# Copyright © 2019 Intel Corporation. All rights reserved.
+# Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
 .PHONY: run-portainer run-base run-vap run-full all simulator docker
@@ -24,7 +24,7 @@ run-base:
 	docker-compose -f docker-compose.edgex.yml up -d && \
 	docker-compose -f docker-compose.loss-detection.yml up -d
 
-run-vap:
+run-vap: models run-base
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml up -d
 
@@ -32,7 +32,7 @@ run-rsp:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.rsp.yml up -d
 
-run-full: run-base run-vap run-rsp
+run-full: run-vap run-rsp
 
 down:
 	cd ./loss-detection-app && \
@@ -41,14 +41,17 @@ down:
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
-vas-down:
+vap-down:
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml down
+	docker-compose -f docker-compose.vap.yml down && \
+	docker-compose -f docker-compose.loss-detection.yml down && \
+	docker-compose -f docker-compose.edgex.yml down
 
 models:
 	if [ ! -d pipeline-server ] ; then git clone https://github.com/dlstreamer/pipeline-server; fi && \
 	cd pipeline-server && \
 	git checkout 2022.2.0 && \
+	mkdir -p ./loss-detection-app/models && \
 	./tools/model_downloader/model_downloader.sh --model-list $(shell pwd)/loss-detection-app/models.yml --output $(shell pwd)/loss-detection-app
 
 rsp:

@@ -1,0 +1,19 @@
+# Copyright © 2022 Intel Corporation. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: "device-cv-roi-rest"
+manufacturer: "Intel"
+model: "CV ROI events"
+labels:
+  - "cv"
+  - "roi"
+  - "enter"
+  - "exit"
+description: "A device for CV region of interest (ROI) events"
+
+deviceResources:
+  - name: "cv-roi-event"
+    description: "A CV ROI event"
+    properties:
+      valueType: "string"
+      readWrite: "WR"

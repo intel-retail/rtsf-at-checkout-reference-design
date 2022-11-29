@@ -1,94 +1,6 @@
 {
     "checkout_events": [
         {
-            "device": "RSP",
-            "event": "rfid/controller/events",
-            "data": {
-                "jsonrpc":"2.0",
-                "method":"inventory_event",
-                "params":{
-                    "sent_on":1000000000001,
-                    "gateway_id":"",
-                    "data":[{
-                            "facility_id":"DEFAULT_FACILITY",
-                            "epc_code":"30140000001FB28000003039",
-                            "tid":null,
-                            "epc_encode_format":"tbd",
-                            "event_type":"arrival",
-                            "timestamp":1000000000001,
-                            "location":"RSP-150000"
-                    }]      
-                } 
-            },
-            "wait_time": "1s"
-        },
-        {
-            "device": "RSP",
-            "event": "rfid/controller/events",
-            "data": {
-                "jsonrpc":"2.0",
-                "method":"inventory_event",
-                "params":{
-                    "sent_on":1000000000002,
-                    "gateway_id":"",
-                    "data":[{
-                            "facility_id":"DEFAULT_FACILITY",
-                            "epc_code":"301400000037C5C000003039",
-                            "tid":null,
-                            "epc_encode_format":"tbd",
-                            "event_type":"arrival",
-                            "timestamp":1000000000002,
-                            "location":"RSP-150000"
-                    }]      
-                } 
-            },
-            "wait_time": "1s"
-        },
-        {
-            "device": "RSP",
-            "event": "rfid/controller/events",
-            "data": {
-                "jsonrpc":"2.0",
-                "method":"inventory_event",
-                "params":{
-                    "sent_on":1000000000003,
-                    "gateway_id":"",
-                    "data":[{
-                            "facility_id":"DEFAULT_FACILITY",
-                            "epc_code":"3014000000565D8000003039",
-                            "tid":null,
-                            "epc_encode_format":"tbd",
-                            "event_type":"arrival",
-                            "timestamp":1000000000003,
-                            "location":"RSP-150000"
-                    }]      
-                } 
-            },
-            "wait_time": "1s"
-        },
-        {
-            "device": "RSP",
-            "event": "rfid/controller/events",
-            "data": {
-                "jsonrpc":"2.0",
-                "method":"inventory_event",
-                "params":{
-                    "sent_on":1000000000004,
-                    "gateway_id":"",
-                    "data":[{
-                            "facility_id":"DEFAULT_FACILITY",
-                            "epc_code":"301400000047DAC000003039",
-                            "tid":null,
-                            "epc_encode_format":"tbd",
-                            "event_type":"arrival",
-                            "timestamp":1000000000004,
-                            "location":"RSP-150000"
-                    }]      
-                } 
-            },
-            "wait_time": "1s"
-        },
-        {
             "device": "POS",
             "event": "basket-open",
             "data": {
@@ -154,28 +66,6 @@
             "wait_time": ".5s"
         },
         {
-            "device": "RSP",
-            "event": "rfid/controller/events",
-            "data": {
-                "jsonrpc":"2.0",
-                "method":"inventory_event",
-                "params":{
-                    "sent_on":1000000000005,
-                    "gateway_id":"",
-                    "data":[{
-                            "facility_id":"DEFAULT_FACILITY",
-                            "epc_code":"30140000001FB28000003039",
-                            "tid":null,
-                            "epc_encode_format":"tbd",
-                            "event_type":"moved",
-                            "timestamp":1000000000005,
-                            "location":"RSP-150000"
-                    }]      
-                } 
-            },
-            "wait_time": "1s"
-        },
-        {
             "device": "POS",
             "event": "basket-open",
             "data": {
@@ -211,50 +101,6 @@
                 "roi_name": "Scanner"
             },
             "wait_time": "2s"
-        },
-        {
-            "device": "RSP",
-            "event": "rfid/controller/events",
-            "data": {
-                "jsonrpc":"2.0",
-                "method":"inventory_event",
-                "params":{
-                    "sent_on":1000000000006,
-                    "gateway_id":"",
-                    "data":[{
-                            "facility_id":"DEFAULT_FACILITY",
-                            "epc_code":"30140000001FB28000003039",
-                            "tid":null,
-                            "epc_encode_format":"tbd",
-                            "event_type":"departed",
-                            "timestamp":1000000000006,
-                            "location":"RSP-150000"
-                    }]      
-                } 
-            },
-            "wait_time": "1s"
-        },
-        {
-            "device": "RSP",
-            "event": "rfid/controller/events",
-            "data": {
-                "jsonrpc":"2.0",
-                "method":"inventory_event",
-                "params":{
-                    "sent_on":1000000000007,
-                    "gateway_id":"",
-                    "data":[{
-                            "facility_id":"DEFAULT_FACILITY",
-                            "epc_code":"30140000001FB28000003039",
-                            "tid":null,
-                            "epc_encode_format":"tbd",
-                            "event_type":"arrival",
-                            "timestamp":1000000000007,
-                            "location":"RSP-150001"
-                    }]      
-                } 
-            },
-            "wait_time": "1s"
         },
         {
             "device": "Scale",

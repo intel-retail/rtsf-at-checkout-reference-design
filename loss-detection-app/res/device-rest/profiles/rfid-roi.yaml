@@ -1,7 +1,7 @@
 # Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-name: "device-rfid-roi-rest"
+name: "rfid-roi"
 manufacturer: "Intel"
 model: "RFID ROI events"
 labels:

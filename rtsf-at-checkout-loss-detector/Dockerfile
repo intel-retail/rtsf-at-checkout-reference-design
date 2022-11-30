@@ -7,7 +7,7 @@ LABEL license='SPDX-License-Identifier: Apache-2.0' \
     copyright='Copyright (c) 2019 - 2022: Intel'
 
 # add git for go modules
-RUN apk update && apk add --no-cache make git linux-headers
+RUN apk update && apk add --no-cache make git
 ENV GO111MODULE=on
 WORKDIR /loss-detector
 

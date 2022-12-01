@@ -195,6 +195,7 @@ services:
     - no-new-privileges:true
     volumes:
     - ./res/device-rest/devices:/res/devices
+    - ./res/device-rest/profiles:/res/profiles
     user: 2002:2001
   metadata:
     container_name: edgex-core-metadata

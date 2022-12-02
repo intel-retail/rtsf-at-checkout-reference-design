@@ -52,7 +52,7 @@ Type= "edgex-messagebus"
     SkipCertVerify = "false"
 
 [Reconciler]
-  DeviceNames = "device-pos-rest, device-pos-mqtt, device-scale, device-scale-rest, device-scale-mqtt, device-cv-roi-rest, device-cv-roi-mqtt, device-rfid-roi-rest, device-rfid-roi-mqtt"
+  DeviceNames = "pos-rest, pos-mqtt, device-scale, scale-rest, scale-mqtt, cv-roi-rest, cv-roi-mqtt, rfid-roi-rest, rfid-roi-mqtt"
   DevicePos = "device-pos"
   DeviceScale = "device-scale"
   DeviceCV = "device-cv-roi"

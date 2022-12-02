@@ -1,19 +1,19 @@
 # Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-name: "device-cv-roi-rest"
+name: "rfid-roi"
 manufacturer: "Intel"
-model: "CV ROI events"
+model: "RFID ROI events"
 labels:
-  - "cv"
+  - "rfid"
   - "roi"
   - "enter"
   - "exit"
-description: "A device for CV region of interest (ROI) events"
+description: "A device for RFID region of interest (ROI) events"
 
 deviceResources:
-  - name: "cv-roi-event"
-    description: "A CV ROI event"
+  - name: "rfid-roi-event"
+    description: "A RFID ROI event"
     properties:
       valueType: "string"
       readWrite: "WR"

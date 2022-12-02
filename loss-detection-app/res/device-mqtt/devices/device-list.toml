@@ -3,32 +3,32 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [[DeviceList]]
-  Name = "device-pos-mqtt"
-  ProfileName = "device-pos-mqtt"
+  Name = "pos-mqtt"
+  ProfileName = "pos"
   Description = "MQTT device for POS"
   Labels = [ "MQTT", "pos"]
   [DeviceList.Protocols]
     [DeviceList.Protocols.mqtt]
        CommandTopic = "EdgeXPosCommand"
 [[DeviceList]]
-  Name = "device-scale-mqtt"
-  ProfileName = "device-scale-mqtt"
+  Name = "scale-mqtt"
+  ProfileName = "scale"
   Description = "MQTT device for Scale"
   Labels = [ "MQTT", "scale"]
   [DeviceList.Protocols]
     [DeviceList.Protocols.mqtt]
        CommandTopic = "EdgeXScaleCommand"
 [[DeviceList]]
-  Name = "device-rfid-roi-mqtt"
-  ProfileName = "device-rfid-roi-mqtt"
+  Name = "rfid-roi-mqtt"
+  ProfileName = "rfid-roi"
   Description = "MQTT device for RFID ROI events"
   Labels = [ "MQTT", "rfid"]
   [DeviceList.Protocols]
     [DeviceList.Protocols.mqtt]
        CommandTopic = "EdgeXRfidCommand"
 [[DeviceList]]
-  Name = "device-cv-roi-mqtt"
-  ProfileName = "device-cv-roi-mqtt"
+  Name = "cv-roi-mqtt"
+  ProfileName = "cv-roi"
   Description = "MQTT device for CV ROI events"
   Labels = [ "MQTT", "cv", "ROI"]
   [DeviceList.Protocols]

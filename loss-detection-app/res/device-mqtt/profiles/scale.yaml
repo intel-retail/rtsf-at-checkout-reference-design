@@ -1,7 +1,7 @@
 # Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-name: "device-scale-rest"
+name: "scale"
 manufacturer: "Intel"
 model: "3rd Party Scale"
 labels:
@@ -12,4 +12,4 @@ deviceResources:
   description: "JSON message containing the scale details"
   properties:
     valueType: "string"
-    readWrite: "R"
+    readWrite: "WR"

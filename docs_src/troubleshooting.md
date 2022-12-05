@@ -10,9 +10,8 @@ We have 4 device services of note in RTSF at Checkout:
 
 - Weigh Scale Device Service – Used for USB Weight Scale Devices 
 
-- RSP Device Service – Used by RSP Controller 
-- MQTT Device Service –  Optionally used for all events, except RSP  
-- REST Device Service - Optionally used for all events, except RSP  
+- MQTT Device Service –  Optionally used for all events 
+- REST Device Service - Optionally used for all events
 
 We can type “device” in the search bar and see all the device service containers that are in our stack. We can also see their current state which indicates if they are running or not. If a service is not running, or is in a “stopped” state, then this is likely the cause of data not flowing through. 
 
@@ -22,13 +21,15 @@ However, if the state is “running”, we can dig a little deeper by viewing th
 
 ![Portainer Device Rest Logs](./images/portainer-device-logs.png)
 
+
 ## Ensuring EdgeX Core Services has received Data 
 
-After ensuring that data is flowing properly to the Device Services, the next place to check would be EdgeX’s Core Data service. You can follow the same steps as above to see if data is flowing and check the logs. However, using a tool such as Robo 3T or Mongo Compass to inspect the database is the best way to ensure data has been properly processed by Core Data
+After ensuring that data is flowing properly to the Device Services, the next place to check would be EdgeX’s Core Data service. You can follow the same steps as above to see if data is flowing and check the logs. you can run edgex-ui `http://localhost:4000/` to view the event.
 
-![MongoDB contents](./images/MongoDB-contents.png)
 
-You’ll find the events in the “coredata” database under the “event” collection and more importantly the reading values under the “reading” collection. If you sort by “created” in descending order and filter for the specific device that is giving you trouble, it can help to narrow down the data you are looking for. It is also a good idea to check and make sure all the device names and values are what you expect them to be. It is often the case that a device-name or reading-name may not match what it is intended and this could cause issues in your app service. 
+![edgex-ui core data event](./images/core-data-event.png)
+
+Once you have clicked the start button, then you will see events coming up.
 
 ## Checking the Reconciler (App Service) 
 

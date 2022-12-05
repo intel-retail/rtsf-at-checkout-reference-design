@@ -43,7 +43,7 @@ Continue to the next section to start using Postman to create a simulated scenar
 ## Confirm device-rest is online
 
 1. Open Postman.
-2. Send an HTTP GET request to <http://localhost:49986/api/v1/ping> to test the device-rest operation. This makes sure the service is online.
+2. Send an HTTP GET request to <http://localhost:59986/api/v2/ping> to test the device-rest operation. This makes sure the service is online.
 
 ![Ping Request](../images/ping-get.png)
 
@@ -58,7 +58,7 @@ You are ready to initiate your first transaction.
 
 ## Initiate a transaction
 
-`basket-open` send a POST request to <http://localhost:49986/api/v1/resource/device-pos-rest/basket-open> with body:
+`basket-open` send a POST request to <http://localhost:59986/api/v2/resource/pos-rest/basket-open> with body:
 
 ```json
 {
@@ -75,7 +75,7 @@ You are ready to initiate your first transaction.
 
 ## Scan an item
 
-`scanned-item` send a POST request to <http://localhost:49986/api/v1/resource/device-pos-rest/scanned-item> with body:
+`scanned-item` send a POST request to <http://localhost:59986/api/v2/resource/pos-rest/scanned-item> with body:
 
 ```json
 {
@@ -95,7 +95,7 @@ You are ready to initiate your first transaction.
 
 ## Prepare for payment
 
-`payment-start` send a POST request to <http://localhost:49986/api/v1/resource/device-pos-rest/payment-start> with body:
+`payment-start` send a POST request to <http://localhost:59986/api/v2/resource/pos-rest/payment-start> with body:
 
 ```json
 {
@@ -109,7 +109,7 @@ You are ready to initiate your first transaction.
 
 #### Payment succeeded
 
-`payment-success` send a POST request to <http://localhost:49986/api/v1/resource/device-pos-rest/payment-success> with body:
+`payment-success` send a POST request to <http://localhost:59986/api/v2/resource/pos-rest/payment-success> with body:
 
 ``` json
 {
@@ -123,7 +123,7 @@ You are ready to initiate your first transaction.
 
 #### Transaction is closed
 
-`basket-close` send a POST request to <http://localhost:49986/api/v1/resource/device-pos-rest/basket-close> with body:
+`basket-close` send a POST request to <http://localhost:59986/api/v2/resource/pos-rest/basket-close> with body:
 
 ``` json
 {

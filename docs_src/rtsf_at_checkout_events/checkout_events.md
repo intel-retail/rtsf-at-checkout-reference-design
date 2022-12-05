@@ -151,7 +151,4 @@ Example event:
 ```
    
    `roi_action` can be either `ENTERED` or `EXITED`.
-   
-   When using **Intel Retail Sensor Platform (RSP)** RFID solution, the **RSP Controller Event Handler** service transforms the RSP Controller RFID events into the above RFID ROI events.
-
 

@@ -21,7 +21,7 @@ The following items are required to build the Real Time Sensor Fusion for Loss D
 - Point-of-Sale (POS) of choice. You must use a POS that integrates with either the EdgeX REST or MQTT Device. See [POS Events](./rtsf_at_checkout_events/checkout_events.md#pos-events) for information about integration with the [EdgeX Device Services](./device_services.md#edgex-rest-and-mqtt-device-services) to send POS Events
 - Docker
 - Docker-Compose
-- Go 1.12+
+- Go 1.18+
 - GIT
 - make
 
@@ -66,7 +66,6 @@ docker images
     - `rtsf-at-checkout/device-scale`
     - `rtsf-at-checkout/product-lookup`
     - `rtsf-at-checkout/loss-detector`
-    - `rtsf-at-checkout/rsp-controller-event-handler`
     - `rtsf-at-checkout/cv-region-of-interest`
 
 !!! failure
@@ -99,23 +98,18 @@ Make sure the command was successful. To do so, run:
     | rtsf-at-checkout/product-lookup:dev                | Up 3 minutes             |
     | rtsf-at-checkout/loss-detector:dev                 | Up 3 minutes             |
     | rtsf-at-checkout/event-reconciler:dev              | Up 3 minutes             |
-    | rtsf-at-checkout/rsp-controller-event-handler:dev  | Up 3 minutes             |
     | rtsf-at-checkout/device-scale:dev                  | Up 3 minutes             |
-    | edgexfoundry/docker-device-rest-go:1.0.0           | Up 3 minutes             |
-    | edgexfoundry/docker-device-mqtt-go:1.1.0           | Up 3 minutes             |
-    | edgexfoundry/docker-support-scheduler-go:1.1.0     | Up 3 minutes             |
-    | edgexfoundry/docker-core-command-go:1.1.0          | Up 3 minutes             |
-    | edgexfoundry/docker-core-data-go:1.1.0             | Up 3 minutes             |
-    | edgexfoundry/docker-support-notifications-go:1.1.0 | Up 3 minutes             |
-    | edgexfoundry/docker-core-metadata-go:1.1.0         | Up 3 minutes             |
-    | edgexfoundry/docker-support-logging-go:1.1.0       | Up 3 minutes             |
-    | edgexfoundry/docker-core-config-seed-go:1.1.0      | Exited (0) 3 minutes ago |
-    | edgexfoundry/docker-edgex-mongo:1.1.0              | Up 3 minutes             |
-    | consul:1.3.1                                       | Up 3 minutes             |
-    | edgexfoundry/docker-edgex-volume:1.1.0             | Up 3 minutes             |
-    | eclipse-mosquitto:1.5.8                            | Up 3 minutes             |
+    | edgexfoundry/device-rest:2.3.0                     | Up 3 minutes             |
+    | edgexfoundry/device-mqtt:2.3.0                     | Up 3 minutes             |
+    | edgexfoundry/core-command:2.3.0                    | Up 3 minutes             |
+    | edgexfoundry/core-data:2.3.0                       | Up 3 minutes             |
+    | edgexfoundry/support-notifications:2.3.0           | Up 3 minutes             |
+    | edgexfoundry/core-metadata:2.3.0                   | Up 3 minutes             |
+    | edgexfoundry/edgex-ui:2.3.0                        | Up 3 minutes             |
+    | redis:7.0.5-alpine                                 | Up 3 minutes             |
+    | consul:1.13.2                                      | Up 3 minutes             |
+    | eclipse-mosquitto:2.0.15                           | Up 3 minutes             |
 
-    Only 'edgexfoundry/docker-core-config-seed-go:1.1.0' should display a status of 'Exited'. If any other service displays 'Exited', repeat step 4.
 
 ### Step 4: Dive in
 
@@ -135,7 +129,6 @@ The docker-compose files are divided up to let you bring up or take down individ
 | Portainer                                                                               | Container management | `docker-compose -f docker-compose.portainer.yml up -d`      |
 | EdgeX and its components                                                                |                      | `docker-compose -f docker-compose.edgex.yml up -d`          |
 | Real Time Sensor Fusion for Loss Detection at Checkout Core Services and its components |                      | `docker-compose -f docker-compose.loss-detection.yml up -d` |
-| RFID Components (Intel® RSP SW Toolkit)                                                 |                      | `docker-compose -f docker-compose.rsp.yml up -d`            |
 | Video Analytics Pipeline (VAP)                                                          |                      | `docker-compose -f docker-compose.vap.yml up -d`            |
 
 
@@ -149,7 +142,7 @@ The reference design you created is not a complete solution. It provides the bas
 | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Security Scale in Bagging Area                    | A Scale Device Service is provided for a CAS USB scale. As an alternative, you can have Scale Events sent to either the EdgeX REST or MQTT Device Services. See [Scale Events](./rtsf_at_checkout_events/checkout_events.md#scale-events) for more information, including information about integrating with the [EdgeX Device Services](./device_services.md#edgex-rest-and-mqtt-device-services) to which you send  Scale Events.                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | Computer Vision (CV) Object Detection Model       | The Video Analytics Pipeline (VAP) Service uses the provided Intel® Distribution of OpenVINO toolkit-based object detection model as an example, but this is not intended as your final solution. The VAP and CV ROI Enter Exit Service in this reference design create the CV ROI Events that are sent to the [EdgeX MQTT Device Service](./device_services.md#edgex-mqtt-device-service). See [CV ROI Events](./rtsf_at_checkout_events/checkout_events.md#cv-roi-events).                                                                                                                                                                                                                                                                                                                                                                                                        |
-| Intel® RFID Sensors                               | This reference design relies on the **Intel® Retail Sensor Platform (Intel® RSP)** [https://software.intel.com/en-us/retail/rfid-sensor-platform](https://software.intel.com/en-us/retail/rfid-sensor-platform) that has its own custom EdgeX Device Service to which it sends RFID events. These events are transformed into RFID ROI events by the provided **RSP Controller Event Handler** service. See the [RFID ROI Events](./rtsf_at_checkout_events/checkout_events.md#rfid-roi-events). This RSP has its own custom EdgeX Device Service to which it sends RFID events. These events are transformed into RFID ROI Events by the provided RSP Controller Event Handler Service. If you are interested in Intel® RSP RFID Sensors, see [https://software.intel.com/en-us/retail/rfid-sensor-platform#buy](https://software.intel.com/en-us/retail/rfid-sensor-platform#buy) |
+
 | Reconciler Service                                | The service provided performs the analytics of reconciling all the sensor events to identify suspect items. As an option, you can replace the provided service with a more advanced service.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | Detector Service                                  | The service provided demonstrates how to use the EdgeX Notifications Service to send an email notification. The contents of the email is a simple JSON list of suspect items. As an option, you can replace this service with a more advanced service.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | Computer Vision Region of Interest (ROI) Solution | If you chose to create your own complete Computer Vision object detection and CV ROI enter/exit solution. To use your own solution, exclude running the components in the `docker-compose.vap.yml` compose file and remove the `cv-region-of-interest` from the `docker-compose.loss-detection.yml` compose file. Integrate your CV solution with either the EdgeX REST or MQTT Device Services to which you send CV ROI events.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
@@ -162,7 +155,7 @@ The reference design you created is not a complete solution. It provides the bas
 | Reconciler Service     | The provided Reconciler Service performs the analytics of reconciling the sensor events to identify suspect items. While the service provided performs adequately, your analytics team might be able to improve on this reference implementation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | Detector Service       | The provided Dectector Service demonstrates how to send email notifications using the EdgeX Notifications Service. The email message content is a simple JSON list of suspect items.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Product Lookup Service | The provided service is a basic implementation of a Product Information Management Lookup Service. It uses a JSON file as a database for the product information. It is recommended that you replace the service with an Enterprise Resource Planning (ERP) System.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| RFID Services          | These services are provided. If you choose to use a different RFID solution, in addition to providing your integration to generate the RFID ROI events, exclude running the components in the `docker-compose.rsp.yml` compose file and remove the `rsp-controller-event-handler` from the `docker-compose.loss-detection.yml` compose file. You will also need to integrate your RFID solution with either the EdgeX REST or MQTT Device Services to which you send RFID events. See [RFID ROI events](./rtsf_at_checkout_events/checkout_events.md#rfid-roi-events) for more information, including information about integrating with [EdgeX Device Services](./device_services.md#edgex-rest-and-mqtt-device-services) to which you send RFID ROI events. |
+
 
 ## Data dictionary
 

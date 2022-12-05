@@ -1,8 +1,11 @@
 There are three different ways to simulate data in this reference design.
 
 - [Event Simulator](#event-simulator)
+  - [Troubleshooting](#troubleshooting)
+  - [Getting Started](#getting-started)
+  - [Example Script](#example-script)
 - [Postman](#postman)
-- [MQTT.fx](#mqtt.fx)
+- [MQTT.FX](#mqttfx)
 
 
 ### Event Simulator
@@ -38,7 +41,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
 ``` json
 {
     "checkout_events": [{
-            "device": "device-pos",
+            "device": "POS",
             "resource": "basket-open",
             "data": {
                 "lane_id" : "1",
@@ -60,7 +63,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
             "wait_time": "1s"
         },
         {
-            "device": "device-pos",
+            "device": "POS",
             "resource": "scanned-item",
             "data": {
                 "lane_id" : "1",
@@ -88,7 +91,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
             "wait_time": "1s"
         },
         {
-            "device": "device-pos",
+            "device": "POS",
             "resource": "scanned-item",
             "data": {
                 "lane_id" : "1",
@@ -116,7 +119,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
             "wait_time": "1s"
         },
         {
-            "device": "device-pos",
+            "device": "POS",
             "resource": "scanned-item",
             "data": {
                 "lane_id" : "1",
@@ -144,7 +147,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
             "wait_time": "1s"
         },
         {
-            "device": "device-pos",
+            "device": "POS",
             "resource": "payment-start",
             "data": {
                 "lane_id" : "1",
@@ -155,7 +158,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
             "wait_time": "4s"
         },
         {
-            "device": "device-pos",
+            "device": "POS",
             "resource": "payment-success",
             "data": {
                 "lane_id" : "1",
@@ -166,7 +169,7 @@ The script below provides and example to send POS and Scale events. Scripts are 
             "wait_time": "4s"
         },
         {
-            "device": "device-pos",
+            "device": "POS",
             "resource": "basket-close",
             "data": {
                 "lane_id" : "1",

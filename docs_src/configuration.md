@@ -135,26 +135,6 @@ The following Loss Detector service settings can be configured. All these settin
 
 - NotificationName - Unique identifier used to subscribe with the EdgeX Support Notifications Service to send notifications 
 
-#TODO: confirm with Lenny about below change
-
-In addition to the above configuration items, the EdgeX Support Notifications Service must also be configured. This is done via environment variables in the `docker-compose.edgex.yml` compose file for the `config-seed` service. This reference design uses a development SMTP service running is a local docker container. The following `config-seed` environment variables must be changed when using a real SMTP service for a complete `RTSF at Checkout` solution: 
-
-- Smtp_Host - The of the host running the SMTP service. 
-
-- Smtp_Port - Port number of the SMTP service running on the above host 
-
-- Smtp_Subject - Subject to use for the email notifications  
-
-These environment variables are currently set as follows in `docker-compose.edgex.yml` compose file: 
-
-``` yaml
-    environment:
-    <<: *common-variables
-        Smtp_Host: smtp-server
-        Smtp_Port: 25
-        Smtp_Subject: EdgeX Notification Suspect List
-```
-
 ## Checkout Event Simulator
 
 The checkout event simulator configuration contains RESTful endpoints and MQTT endpoint to send the simulated data and MQTT topic.  These settings are contained in the `config.json` file. 

@@ -1,18 +1,18 @@
-# Copyright © 2019 - 2020 Intel Corporation. All rights reserved.
+# Copyright © 2019 - 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-FROM golang:1.13-alpine AS builder
+FROM golang:1.18-alpine3.16 AS builder
 
 ENV GO111MODULE=on
 WORKDIR /product-lookup
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
-    copyright='Copyright (c) 2018 - 2020: Intel'
+    copyright='Copyright (c) 2018 - 2022: Intel'
 
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
 
 # add git for go modules
-RUN apk update && apk add make git
+RUN apk update && apk add --no-cache make git
 
 COPY go.mod .
 

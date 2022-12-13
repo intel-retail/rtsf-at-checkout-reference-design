@@ -191,9 +191,7 @@ def create_pipelines():
         if len(camFrameStore) > 0:
             if os.path.isdir(camFrameStore):
                 shutil.rmtree(camFrameStore)
-            isExist = os.path.exists(camFrameStore)
-            if not isExist:
-                os.mkdir(camFrameStore, 0o777)
+            os.mkdir(camFrameStore, 0o777)
 
         i += 1
 

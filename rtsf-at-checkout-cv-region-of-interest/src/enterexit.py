@@ -138,7 +138,7 @@ def create_pipelines():
         camEndpoint = os.environ.get('CAMERA'+ str(i) +'_ENDPOINT')
         camCropTBLR = str(os.environ.get('CAMERA'+ str(i) +'_CROP_TBLR'))
         camStreamPort = os.environ.get('CAMERA' + str(i) + '_PORT')
-        camFrameStore = "/tmp"
+        camFrameStore = "/frame_store"
         if os.environ.get('CAMERA' + str(i) + '_FRAME_STORE') is not None:
             camFrameStore = os.environ.get('CAMERA' + str(i) + '_FRAME_STORE')
         camCrops = dict(zip(["top", "bottom", "left", "right"], [x for x in camCropTBLR.split(",")]))

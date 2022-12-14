@@ -129,6 +129,7 @@ def create_pipelines():
         return
 
     i = 0
+    
     while True:
         # read env vars to find camera topic and source
         # expecting env vars to be in the form CAMERA0_SRC and CAMERA0_MQTTTOPIC
@@ -137,7 +138,9 @@ def create_pipelines():
         camEndpoint = os.environ.get('CAMERA'+ str(i) +'_ENDPOINT')
         camCropTBLR = str(os.environ.get('CAMERA'+ str(i) +'_CROP_TBLR'))
         camStreamPort = os.environ.get('CAMERA' + str(i) + '_PORT')
-        camFrameStore = os.environ.get('CAMERA' + str(i) + '_FRAME_STORE')
+        camFrameStore = "/tmp"
+        if os.environ.get('CAMERA' + str(i) + '_FRAME_STORE') is not None:
+            camFrameStore = os.environ.get('CAMERA' + str(i) + '_FRAME_STORE')
         camCrops = dict(zip(["top", "bottom", "left", "right"], [x for x in camCropTBLR.split(",")]))
         if len(camCrops) < 4:
             camCrops = dict(zip(["top", "bottom", "left", "right"], [0] * 4))
@@ -184,10 +187,11 @@ def create_pipelines():
         cameraConfiguration.append(jsonConfig)
 
         # Delete existing frame_store and then re-create it writeable by all
-        print("Setting up frame store in %s" % camFrameStore)
-        if os.path.isdir(camFrameStore):
-            shutil.rmtree(camFrameStore)
-        os.mkdir(camFrameStore, 0o777)
+        print("Setting up frame store in %s" % camFrameStore)  
+        if len(camFrameStore) > 0:
+            if os.path.isdir(camFrameStore):
+                shutil.rmtree(camFrameStore)
+            os.mkdir(camFrameStore, 0o777)
 
         i += 1
 

@@ -3,7 +3,7 @@
 
 FROM golang:1.18-alpine3.16 AS builder
 
-LABEL license='SPDX-License-Identifier: Apache-2.0' \
+LABEL license='SPDX-License-Identifier: BSD-3-Clause' \
     copyright='Copyright (c) 2019 - 2022: Intel'
 
 # add git for go modules
@@ -22,7 +22,7 @@ RUN go build -tags no_zmq -o loss-detector /loss-detector/main.go
 # Next image - Copy built Go binary into new workspace
 FROM alpine:3.16
 
-LABEL license='SPDX-License-Identifier: Apache-2.0' \
+LABEL license='SPDX-License-Identifier: BSD-3-Clause' \
     copyright='Copyright (c) 2019 - 2022: Intel'
 
 COPY --from=builder /loss-detector/res/ /res/

@@ -6,7 +6,7 @@ FROM golang:1.18-alpine3.16 AS builder
 ENV GO111MODULE=on
 WORKDIR /product-lookup
 
-LABEL license='SPDX-License-Identifier: Apache-2.0' \
+LABEL license='SPDX-License-Identifier: BSD-3-Clause' \
     copyright='Copyright (c) 2018 - 2022: Intel'
 
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
@@ -25,7 +25,7 @@ RUN CGO_ENABLED=0 go build -o product-lookup main.go
 # Next image - Copy built Go binary into new workspace
 FROM alpine:3.10
 
-LABEL license='SPDX-License-Identifier: Apache-2.0' \
+LABEL license='SPDX-License-Identifier: BSD-3-Clause' \
     copyright='Copyright (c) 2018 - 2020: Intel'
 
 ENV APP_PORT=8083

@@ -1,20 +1,25 @@
-# Copyright (C) 2019 - 2020 Intel Corp.
+# Copyright (C) 2019 - 2022 Intel Corp.
 # 
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: BSD-3-Clause
 
 [Writable]
 LogLevel = 'INFO'
+    [Writable.InsecureSecrets]
+        [Writable.InsecureSecrets.DB]
+        path = "redisdb"
+            [Writable.InsecureSecrets.DB.Secrets]
+            username = ""
+            password = ""
 
 [Service]
-BootTimeout = '30s'
-ClientMonitor = '15s'
-CheckInterval = '10s'
+HealthCheckInterval = '10s'
 Host = 'localhost'
 Port = 48095
-Protocol = 'http'
-ReadMaxLimit = 100
 StartupMsg = 'Event Reconciler has started'
-Timeout = '30s'
+RequestTimeout = '30s'
+MaxRequestSize = 0
+ServerBindAddr = ""
+MaxResultCount = 0
 
 [Registry]
 Host = 'localhost'
@@ -22,38 +27,37 @@ Port = 8500
 Type = 'consul'
 
 [Clients]
-  [Clients.CoreData]
+  [Clients.core-metadata]
   Protocol = "http"
   Host = "localhost"
-  Port = 48080
+  Port = 59881
 
-[Binding]
- Type="messagebus"
- SubscribeTopic="events"
- PublishTopic="suspect-list"
+[Trigger]
+Type= "edgex-messagebus"
+  [Trigger.EdgexMessageBus]
+  Type = "mqtt"
+    [Trigger.EdgexMessageBus.SubscribeHost]
+    Host = "localhost"
+    Port = 1883
+    Protocol = "tcp"
+    SubscribeTopics="edgex/events/#"
+    [Trigger.EdgexMessageBus.Optional]
+    authmode = "none"
+    ClientId ="event-reconciler"
+    Qos =  "0" # Quality of Sevice values are 0 (At most once), 1 (At least once) or 2 (Exactly once)
+    KeepAlive =  "10" # Seconds (must be 2 or greater)
+    Retained = "false"
+    AutoReconnect = "true"
+    ConnectTimeout = "5" # Seconds
+    SkipCertVerify = "false"
 
-[MessageBus]
-Type = 'zero'
-    [MessageBus.PublishHost]
-        Host = '*'
-        Port = 5564
-        Protocol = 'tcp'
-    [MessageBus.SubscribeHost]
-        Host = 'localhost'
-        Port = 5563
-        Protocol = 'tcp'
-
-[Logging]
-EnableRemote = false
-File = ""
-
-[ApplicationSettings]
-  DeviceNames = "device-pos-rest, device-pos-mqtt, device-scale, device-scale-rest, device-scale-mqtt, device-cv-roi-rest, device-cv-roi-mqtt, device-rfid-roi-rest, device-rfid-roi-mqtt"
+[Reconciler]
+  DeviceNames = "pos-rest, pos-mqtt, device-scale, scale-rest, scale-mqtt, cv-roi-rest, cv-roi-mqtt, rfid-roi-rest, rfid-roi-mqtt"
   DevicePos = "device-pos"
   DeviceScale = "device-scale"
   DeviceCV = "device-cv-roi"
   DeviceRFID = "device-rfid-roi"
   ProductLookupEndpoint = "localhost:8083"
   WebSocketPort = "9083"
-  ScaleToScaleTolerance = "0.02"
-  CvTimeAlignment = '-5s'
+  ScaleToScaleTolerance = 0.02
+  CvTimeAlignment = '5s'

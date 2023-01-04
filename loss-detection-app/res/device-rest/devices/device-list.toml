@@ -1,0 +1,33 @@
+# Copyright (C) 2022 Intel Corp.
+# 
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Pre-define Devices
+[[DeviceList]]
+  Name = "pos-rest"
+  ProfileName = "pos"
+  Description = "RESTful Device that sends in JSON POS data"
+  Labels = [ "REST", "json", "pos" ]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]
+[[DeviceList]]
+  Name = "cv-roi-rest"
+  ProfileName = "cv-roi"
+  Description = "RESTful device for CV ROI events"
+  Labels = [ "REST", "cv", "ROI"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]
+[[DeviceList]]
+  Name = "rfid-roi-rest"
+  ProfileName = "rfid-roi"
+  Description = "RESTful device for RFID ROI events"
+  Labels = [ "REST", "RFID", "ROI"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]
+[[DeviceList]]
+  Name = "scale-rest"
+  ProfileName = "scale"
+  Description = "RESTful device for Scale"
+  Labels = [ "REST", "scale"]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]

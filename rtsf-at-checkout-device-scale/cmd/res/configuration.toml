@@ -1,78 +1,78 @@
-# Copyright (C) 2020 Intel Corp.
+# Copyright (C) 2022 Intel Corp.
 # 
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: BSD-3-Clause
 
 [Writable]
 LogLevel = "INFO"
+# InsecureSecrets are required for when Redis is used for message bus
+  [Writable.InsecureSecrets]
+    [Writable.InsecureSecrets.DB]
+    path = "redisdb"
+      [Writable.InsecureSecrets.DB.Secrets]
+      username = ""
+      password = ""
+  [Writable.Reading]
+  ReadingUnits = true
 
 [Service]
 Host = "localhost"
 Port = 26599
-Protocol = 'http'
-BootTimeout = 30000
-CheckInterval = '10s'
-ClientMonitor = 15000
-ConnectRetries = 3
-Labels = []
+HealthCheckInterval = '10s'
 StartupMsg = 'device scale started'
-ReadMaxLimit = 256
-Timeout = 5000
-EnableAsyncReadings = true
-AsyncBufferSize = 16
+RequestTimeout = "5s"
+MaxRequestSize = 0
+ServerBindAddr = ""  # if blank, uses default Go behavior https://golang.org/pkg/net/#Listen
+MaxResultCount = 0
 
 [Registry]
 Host = "localhost"
 Port = 8500
-CheckInterval = "10s"
-FailLimit = 3
-FailWaitTime = 10
 Type = "consul"
 
-[Logging]
-EnableRemote = false
-File = ""
-
 [Clients]
-  [Clients.Data]
+  [Clients.core-data]
   Protocol = "http"
   Host = "localhost"
-  Port = 48080
+  Port = 59880
 
-  [Clients.Metadata]
+  [Clients.core-metadata]
   Protocol = "http"
   Host = "localhost"
-  Port = 48081
+  Port = 59881
 
 [Device]
   DataTransform = true
-  InitCmd = ""
-  InitCmdArgs = ""
   MaxCmdOps = 128
   MaxCmdValueLen = 256
-  RemoveCmd = ""
-  RemoveCmdArgs = ""
-  ProfilesDir = "./res"
+  ProfilesDir = "./res/profiles"
+  DevicesDir = "./res/devices"
+  UpdateLastConnected = false
+  EnableAsyncReadings = true
+  AsyncBufferSize = 16
+  Labels = []
+  UseMessageBus = true
+    [Device.Discovery]
+    Enabled = false
+    Interval = "30s"
+
+[MessageQueue]
+Protocol = "tcp"
+Host = "localhost"
+Port = 1883
+Type = "mqtt"
+AuthMode = "none"
+PublishTopicPrefix = "edgex/events/device" # /<device-profile-name>/<device-name>/<source-name> will be added to this Publish Topic prefix
+  [MessageQueue.Optional]
+  ClientId = "device-scale"
+  Qos = "0" # Quality of Sevice values are 0 (At most once), 1 (At least once) or 2 (Exactly once)
+  KeepAlive = "10" # Seconds (must be 2 or greater)
+  Retained = "false"
+  AutoReconnect = "true"
+  ConnectTimeout = "5" # Seconds
+  SkipCertVerify = "false" # Only used if Cert/Key file or Cert/Key PEMblock are specified
 
 [Driver]
-  DeviceName = "device-scale"
   SimulatorPort = "8081"
   ScaleID = "123"
   LaneID = "123"
-  ScaleVID = "0403"
-  ScalePID = "6001" 
   TimeOutMilli = "500"
- 
-# Pre-define Devices
-[[DeviceList]]
-  Name = "device-scale"
-  Profile = "device-scale-profile"
-  Description = "device-scale-description"
-  Labels = [ "device-scale-label" ]
-  [DeviceList.Protocols]
-    [DeviceList.Protocols.other]
-      Address = "device-scale-01"
-      Port = "300"
-  [[DeviceList.AutoEvents]]
-    Frequency = "1s"
-    OnChange = true
-    Resource = "scale-item"

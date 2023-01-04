@@ -1,9 +1,9 @@
-# Copyright © 2019 Intel Corporation. All rights reserved.
+# Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
 .PHONY: run-portainer run-base run-vap run-full all simulator docker
 
-DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup rsp-event-handler
+DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup
 
 .PHONY: $(DOCKERS)
 
@@ -24,49 +24,32 @@ run-base:
 	docker-compose -f docker-compose.edgex.yml up -d && \
 	docker-compose -f docker-compose.loss-detection.yml up -d
 
-run-vap:
+run-vap: models run-base
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml up -d
 
-run-rsp:
-	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.rsp.yml up -d
-
-run-full: run-base run-vap run-rsp
+run-full: run-vap
 
 down:
 	cd ./loss-detection-app && \
 	docker-compose -f docker-compose.vap.yml down && \
-	docker-compose -f docker-compose.rsp.yml down && \
 	docker-compose -f docker-compose.loss-detection.yml down && \
 	docker-compose -f docker-compose.edgex.yml down
 
-vas-down:
+vap-down:
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml down
+	docker-compose -f docker-compose.vap.yml down && \
+	docker-compose -f docker-compose.loss-detection.yml down && \
+	docker-compose -f docker-compose.edgex.yml down
 
-VAS_VERSION=v0.4.1-beta
-vas:
-	git clone https://github.com/intel/video-analytics-serving && \
-	cd video-analytics-serving/docker && \
-	git checkout ${VAS_VERSION} && \
-	./build.sh 
-
-rsp:
-	git clone https://github.com/intel/rsp-sw-toolkit-im-suite-mqtt-device-service && \
-	cd rsp-sw-toolkit-im-suite-mqtt-device-service && \
-    docker build \
-    	 --build-arg http_proxy \
-    	 --build-arg https_proxy \
-    	 -t rsp/mqtt-device-service:dev \
-    	 .;
-	git clone https://github.com/intel/rsp-sw-toolkit-installer && \
-	cd rsp-sw-toolkit-installer/docker && \
-	./build.sh
+models:
+	if [ ! -d pipeline-server ] ; then git clone https://github.com/dlstreamer/pipeline-server; fi && \
+	cd pipeline-server && \
+	git checkout 2022.2.0 && \
+	mkdir -p ./loss-detection-app/models && \
+	./tools/model_downloader/model_downloader.sh --model-list $(shell pwd)/loss-detection-app/models.yml --output $(shell pwd)/loss-detection-app
 
 clean-deps:
-	rm -rf rsp-sw-toolkit-im-suite-mqtt-device-service
-	rm -rf rsp-sw-toolkit-installer
 	rm -rf video-analytics-serving
 
 all: simulator docker
@@ -128,11 +111,3 @@ product-lookup:
 		-t rtsf-at-checkout/product-lookup:$(DOCKER_TAG) \
 		.
 
-rsp-event-handler:
-	cd rtsf-at-checkout-rsp-controller-event-handler; \
-	docker build \
-	    --build-arg http_proxy \
-	    --build-arg https_proxy \
-		-f Dockerfile \
-		-t rtsf-at-checkout/rsp-controller-event-handler:$(DOCKER_TAG) \
-		.

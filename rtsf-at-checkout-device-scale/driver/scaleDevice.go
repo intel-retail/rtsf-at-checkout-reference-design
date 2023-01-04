@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package driver
@@ -8,7 +8,7 @@ import (
 
 	"device-scale/scale"
 
-	device "github.com/edgexfoundry/device-sdk-go/pkg/service"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 )
 
 type scaleDevice struct {
@@ -17,7 +17,7 @@ type scaleDevice struct {
 
 // readWeight gets called by the auto event to read from the physical scale
 // the data read from the scale is wrapped and put on the bus
-func (device *scaleDevice) readWeight(deviceResourceName string) (map[string]interface{}, error) {
+func (device *scaleDevice) readWeight() (map[string]interface{}, error) {
 
 	scaleReading := make(chan scale.Reading)
 	readingErr := make(chan error)
@@ -46,14 +46,18 @@ func (device *scaleDevice) readWeight(deviceResourceName string) (map[string]int
 	}
 }
 
-func newScaleDevice(serialPort string) *scaleDevice {
+func newScaleDevice(serialPort string, lc logger.LoggingClient, config map[string]string) *scaleDevice {
 
-	driver.lc.Debug("Creating new scale device")
-
-	config := device.DriverConfigs()
+	lc.Debug("Creating new scale device")
+	if config == nil {
+		lc.Error("config is nil")
+		return nil
+	}
 
 	timeout, err := strconv.ParseInt(config["TimeOutMilli"], 10, 64)
-	if err == nil {
+	if err != nil {
+		lc.Warnf("error on parse TimeOutMilli from config: %v", err)
+		lc.Info("set TimeOutMilli to default value 500")
 		timeout = 500
 	}
 

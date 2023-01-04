@@ -8,17 +8,15 @@ import (
 	"math"
 )
 
-var ScaleToScaleTolerance float64 = 0.02
-
-func scaleBasketReconciliation(scaleReading *ScaleEventEntry) {
+func (eventsProcessing *EventsProcessor) scaleBasketReconciliation(scaleReading *ScaleEventEntry) {
 
 	//if scale reading is negative
 	if scaleReading.Delta < 0 {
-		//attempt to match with item in suspectScaleItems
-		for eventTime, suspectItem := range SuspectScaleItems {
+		//attempt to match with item in eventsProcessing.suspectScaleItems
+		for eventTime, suspectItem := range eventsProcessing.suspectScaleItems {
 			if math.Abs(math.Abs(scaleReading.Delta)-suspectItem.Delta) < scalePrecision {
-				//remove from suspectScaleItems
-				delete(SuspectScaleItems, eventTime)
+				//remove from eventsProcessing.suspectScaleItems
+				delete(eventsProcessing.suspectScaleItems, eventTime)
 				break
 			}
 		}
@@ -26,15 +24,15 @@ func scaleBasketReconciliation(scaleReading *ScaleEventEntry) {
 		return
 	}
 
-	SuspectScaleItems[scaleReading.EventTime] = scaleReading //add to suspectScaleItems first
-	if len(RttlogData) == 0 {                                // if scale event occurs before basketOpen
+	eventsProcessing.suspectScaleItems[scaleReading.EventTime] = scaleReading //add to eventsProcessing.suspectScaleItems first
+	if len(eventsProcessing.rttlogData) == 0 {                                // if scale event occurs before basketOpen
 		return
 	}
-	if RttlogData[len(RttlogData)-1].ProductId != "" {
-		currentRTTLEntry := &RttlogData[len(RttlogData)-1]
+	if eventsProcessing.rttlogData[len(eventsProcessing.rttlogData)-1].ProductId != "" {
+		currentRTTLEntry := &eventsProcessing.rttlogData[len(eventsProcessing.rttlogData)-1]
 
-		if rttlQuantityIsEach(*currentRTTLEntry) {
-			weightRange := calculateCurrentWeightRange(currentRTTLEntry)
+		if eventsProcessing.rttlQuantityIsEach(*currentRTTLEntry) {
+			weightRange := eventsProcessing.calculateCurrentWeightRange(currentRTTLEntry)
 			if weightRange.ExpectedMinWeight > floatingPointTolerance { //scale is not confirmed. Compare vs. .000001 and not 0 due to floating point precision
 
 				// divide by zero check, followed by check if scale delta is less than (rttl expected min weight / quantity)
@@ -45,21 +43,21 @@ func scaleBasketReconciliation(scaleReading *ScaleEventEntry) {
 			}
 		}
 
-		if checkScaleConfirmed(currentRTTLEntry) == false {
+		if !eventsProcessing.checkScaleConfirmed(currentRTTLEntry) {
 			//reverse iterate through scaleBuffer till associatedRTTLEntry != nil
-			for scaleBufferIterator := len(ScaleData) - 1; ScaleData[scaleBufferIterator].AssociatedRTTLEntry == nil; scaleBufferIterator-- {
+			for scaleBufferIterator := len(eventsProcessing.scaleData) - 1; eventsProcessing.scaleData[scaleBufferIterator].AssociatedRTTLEntry == nil; scaleBufferIterator-- {
 				//if current iteration fits within allowed under the umbrella of allotted weight (due to multiple drops)
-				if ScaleData[scaleBufferIterator].Delta <= currentRTTLEntry.CurrentWeightRange.ExpectedMaxWeight {
+				if eventsProcessing.scaleData[scaleBufferIterator].Delta <= currentRTTLEntry.CurrentWeightRange.ExpectedMaxWeight {
 					//check if assoc.Buffer is full
-					if checkScaleConfirmed(currentRTTLEntry) {
+					if eventsProcessing.checkScaleConfirmed(currentRTTLEntry) {
 						break
 					}
 					//cross associate, remove from unassoc. buffer
-					lastScaleReading := &ScaleData[scaleBufferIterator]
+					lastScaleReading := &eventsProcessing.scaleData[scaleBufferIterator]
 					lastScaleReading.AssociatedRTTLEntry = currentRTTLEntry
 					currentRTTLEntry.AssociatedScaleItems = append(currentRTTLEntry.AssociatedScaleItems, lastScaleReading)
-					delete(SuspectScaleItems, (*lastScaleReading).EventTime)
-					checkScaleConfirmed(currentRTTLEntry)
+					delete(eventsProcessing.suspectScaleItems, (*lastScaleReading).EventTime)
+					eventsProcessing.checkScaleConfirmed(currentRTTLEntry)
 					if scaleBufferIterator == 0 {
 						break
 					}
@@ -72,14 +70,14 @@ func scaleBasketReconciliation(scaleReading *ScaleEventEntry) {
 	}
 }
 
-func rttlQuantityIsEach(rttlogEventEntry RTTLogEventEntry) bool {
+func (eventsProcessing *EventsProcessor) rttlQuantityIsEach(rttlogEventEntry RTTLogEventEntry) bool {
 	if rttlogEventEntry.QuantityUnit == quantityUnitEA || rttlogEventEntry.QuantityUnit == quantityUnitEach {
 		return true
 	}
 	return false
 }
 
-func calculateCurrentWeightRange(currentRTTLEntry *RTTLogEventEntry) ProductDetails {
+func (eventsProcessing *EventsProcessor) calculateCurrentWeightRange(currentRTTLEntry *RTTLogEventEntry) ProductDetails {
 	currentAllowedWeight := ProductDetails{"", currentRTTLEntry.ProductDetails.ExpectedMinWeight * currentRTTLEntry.Quantity, currentRTTLEntry.ProductDetails.ExpectedMaxWeight * currentRTTLEntry.Quantity, false}
 	for _, scaleItem := range currentRTTLEntry.AssociatedScaleItems {
 		currentAllowedWeight.ExpectedMinWeight = currentAllowedWeight.ExpectedMinWeight - scaleItem.Delta
@@ -89,9 +87,9 @@ func calculateCurrentWeightRange(currentRTTLEntry *RTTLogEventEntry) ProductDeta
 	return currentAllowedWeight
 }
 
-func checkScaleConfirmed(rttlogEventEntry *RTTLogEventEntry) bool {
-	if rttlQuantityIsEach(*rttlogEventEntry) {
-		weightRange := calculateCurrentWeightRange(rttlogEventEntry)
+func (eventsProcessing *EventsProcessor) checkScaleConfirmed(rttlogEventEntry *RTTLogEventEntry) bool {
+	if eventsProcessing.rttlQuantityIsEach(*rttlogEventEntry) {
+		weightRange := eventsProcessing.calculateCurrentWeightRange(rttlogEventEntry)
 		if weightRange.ExpectedMinWeight > floatingPointTolerance { //scale is not confirmed. Compare vs. .000001 and not 0 due to floating point precision
 			rttlogEventEntry.ScaleConfirmed = false
 			return rttlogEventEntry.ScaleConfirmed
@@ -101,9 +99,9 @@ func checkScaleConfirmed(rttlogEventEntry *RTTLogEventEntry) bool {
 		for weightRange.ExpectedMinWeight <= ((rttlogEventEntry.ProductDetails.ExpectedMinWeight * -1) + floatingPointTolerance) { //if overpopulated RTTL due to UPDATE in Quantity
 			//pop latest out of assoc.ScaleBuffer, re-add to suspectItems
 			lastAssociatedScaleItem := rttlogEventEntry.AssociatedScaleItems[len(rttlogEventEntry.AssociatedScaleItems)-1]
-			SuspectScaleItems[lastAssociatedScaleItem.EventTime] = lastAssociatedScaleItem
-			deleteLastScaleItem(&(rttlogEventEntry.AssociatedScaleItems))
-			weightRange = calculateCurrentWeightRange(rttlogEventEntry)
+			eventsProcessing.suspectScaleItems[lastAssociatedScaleItem.EventTime] = lastAssociatedScaleItem
+			eventsProcessing.deleteLastScaleItem(&(rttlogEventEntry.AssociatedScaleItems))
+			weightRange = eventsProcessing.calculateCurrentWeightRange(rttlogEventEntry)
 		}
 		rttlogEventEntry.ScaleConfirmed = true
 		return rttlogEventEntry.ScaleConfirmed
@@ -123,10 +121,11 @@ func checkScaleConfirmed(rttlogEventEntry *RTTLogEventEntry) bool {
 		percentChange = 0
 	}
 
+	tolerance := eventsProcessing.GetScaleToScaleTolerance()
 	fmt.Printf("Quantity unit %v, weight diff: %v (%v%%), scale-to-scale tolerance: %v (%v%%)",
-		rttlogEventEntry.QuantityUnit, percentChange, percentChange*100, ScaleToScaleTolerance, ScaleToScaleTolerance*100)
+		rttlogEventEntry.QuantityUnit, percentChange, percentChange*100, tolerance, tolerance*100)
 
-	if percentChange < ScaleToScaleTolerance || percentChange == 0 {
+	if percentChange < tolerance || percentChange == 0 {
 		rttlogEventEntry.ScaleConfirmed = true
 		return rttlogEventEntry.ScaleConfirmed
 	}
@@ -134,16 +133,16 @@ func checkScaleConfirmed(rttlogEventEntry *RTTLogEventEntry) bool {
 	return rttlogEventEntry.ScaleConfirmed
 }
 
-func cvBasketReconciliation(rttlReading *RTTLogEventEntry) {
+func (eventsProcessing *EventsProcessor) cvBasketReconciliation(rttlReading *RTTLogEventEntry) {
 
-	for cvIndex, cvItem := range CurrentCVData {
+	for cvIndex, cvItem := range eventsProcessing.currentCVData {
 		if rttlReading.ProductName == cvItem.ObjectName {
 			// check that the cvItem was at the scanner when the rttl was scanned
 			// if CvTimeAlignment is negative ignore time alignment entirely
-			if (math.Abs(float64(rttlReading.EventTime-cvItem.ROIs[ScannerROI].LastAtLocation)) < float64(CvTimeAlignment)) || CvTimeAlignment < 0 {
+			if (math.Abs(float64(rttlReading.EventTime-cvItem.ROIs[ScannerROI].LastAtLocation)) < float64(eventsProcessing.cvTimeAlignment)) || eventsProcessing.cvTimeAlignment < 0 {
 				//cross-associate
-				rttlReading.AssociatedCVItems = append(rttlReading.AssociatedCVItems, &CurrentCVData[cvIndex])
-				CurrentCVData[cvIndex].AssociatedRTTLEntry = rttlReading
+				rttlReading.AssociatedCVItems = append(rttlReading.AssociatedCVItems, &eventsProcessing.currentCVData[cvIndex])
+				eventsProcessing.currentCVData[cvIndex].AssociatedRTTLEntry = rttlReading
 
 				if math.Abs(float64(len(rttlReading.AssociatedCVItems))-rttlReading.Quantity) <= floatingPointTolerance {
 					rttlReading.CVConfirmed = true
@@ -153,9 +152,9 @@ func cvBasketReconciliation(rttlReading *RTTLogEventEntry) {
 	}
 }
 
-func rfidBasketReconciliation(rttlReading *RTTLogEventEntry) error {
+func (eventsProcessing *EventsProcessor) rfidBasketReconciliation(rttlReading *RTTLogEventEntry) error {
 	rttlQuantity := rttlReading.Quantity
-	for rfidIndex, rfidItem := range CurrentRFIDData {
+	for rfidIndex, rfidItem := range eventsProcessing.currentRFIDData {
 		if rttlQuantity == 0 {
 			break
 		}
@@ -164,8 +163,8 @@ func rfidBasketReconciliation(rttlReading *RTTLogEventEntry) error {
 		//todo - priority of removing suspect RFID items (Bagging area first, then scanner, etc.)
 		if rfidItem.AssociatedRTTLEntry == nil && rfidItem.UPC == rttlReading.ProductId {
 			//cross associate
-			rttlReading.AssociatedRFIDItems = append(rttlReading.AssociatedRFIDItems, &CurrentRFIDData[rfidIndex])
-			CurrentRFIDData[rfidIndex].AssociatedRTTLEntry = rttlReading
+			rttlReading.AssociatedRFIDItems = append(rttlReading.AssociatedRFIDItems, &eventsProcessing.currentRFIDData[rfidIndex])
+			eventsProcessing.currentRFIDData[rfidIndex].AssociatedRTTLEntry = rttlReading
 			rttlQuantity--
 		}
 	}

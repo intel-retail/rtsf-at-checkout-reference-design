@@ -1,10 +1,10 @@
-The EdgeX REST and MQTT device services allow for an easy point of integration with this reference design. The above events can be sent to the underlying EdgeX framework using either of these device services. Note that the **Intel Retail Sensor Platform (RSP) **RFID solution has it's own custom EdgeX Device Service. 
+The EdgeX REST and MQTT device services allow for an easy point of integration with this reference design. The above events can be sent to the underlying EdgeX framework using either of these device services.
 
 ## EdgeX REST Device service
 
 This reference design has configured the EdgeX REST device service to have the following devices which accept the above events.  
 
-`device-pos-rest` - Accepts the above POS events and defines the following device resources for each POS Event:
+`pos-rest` - Accepts the above POS events and defines the following device resources for each POS Event:
 
 - `basket-open`
 - `scanned-item`
@@ -12,15 +12,15 @@ This reference design has configured the EdgeX REST device service to have the f
 - `payment-success`
 - `basket-close`
 
-`device-scale-rest` - Accepts the above Scale events and defines the following device resource for the single Scale Event:
+`scale-rest` - Accepts the above Scale events and defines the following device resource for the single Scale Event:
 
-- `scale-item`
+- `weight`
 
-`device-cv-roi-rest` - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:
+`cv-roi-rest` - Accepts the above CV ROI events and defines the following device resource for the single CV ROI Event:
 
 - `cv-roi-event`
 
-`device-rfid-roi-rest`- Accepts the above RFID ROI events and defines the following device resource for the single RFID ROI Event:
+`rfid-roi-rest`- Accepts the above RFID ROI events and defines the following device resource for the single RFID ROI Event:
 
 - `rfid-roi-event`
 
@@ -36,7 +36,7 @@ and `{resource name}` is one of the defined resource for that device.
 
 Example URL for POSTing `basket-open` JSON data:
 
-[http://localhost:49986/api/v1/resource/device-pos-rest/basket-open](https://localhost:49986/device-pos-rest/basket-open)
+[http://localhost:59986/api/v2/resource/pos-rest/basket-open](https://localhost:59986/api/v2/pos-rest/basket-open)
 where the JSON body is:
 
 ``` json
@@ -53,7 +53,7 @@ where the JSON body is:
 
 This reference design has configured the EdgeX MQTT device service to have the following devices which accept the above events.
 
-`device-pos-mqtt` - Accepts the above POS events and defines the following device commands for each POS Event:
+`pos-mqtt` - Accepts the above POS events and defines the following device commands for each POS Event:
 
 - `basket-open`
 - `scanned-item`
@@ -61,15 +61,15 @@ This reference design has configured the EdgeX MQTT device service to have the f
 - `payment-success`
 - `basket-close`
 
-`device-scale-mqtt` - Accepts the above Scale events and defines the following device command for the single Scale Event:
+`scale-mqtt` - Accepts the above Scale events and defines the following device command for the single Scale Event:
 
-- `scale-item`
+- `weight`
 
-`device-cv-roi-mqtt` - Accepts the above ROI events and defines the following device command for the single CV ROI Event:
+`cv-roi-mqtt` - Accepts the above ROI events and defines the following device command for the single CV ROI Event:
 
 - `cv-roi-event`
 
-`device-rfid-roi-mqtt` Accepts the above RFID events and defines the following device command for the single RFID ROI Event:
+`rfid-roi-mqtt` Accepts the above RFID events and defines the following device command for the single RFID ROI Event:
 
 - `rfid-roi-event`
 
@@ -89,12 +89,12 @@ where `<device name>` is one of the above defined devices
 and `<command name>` is one of the defined commands for that device
 and `<event data json>` is a string containing the event data JSON, i.e not embedded JSON.
 
-Example JSON for publishing `scale-item` data:
+Example JSON for publishing `weight` data:
 
 ``` json
 {
-	"name" : "device-scale-mqtt",
-    "cmd" : "scale-item",
-    "scale-item" : "{\"lane_id\":\"1\",\"ScaleId\":\"abc123\",\"total\":3.25,\"delta\":1.15,\"units\":\"lbs\",\"event_time\":15736013940000}"
+	"name" : "scale-mqtt",
+    "cmd" : "weight",
+    "weight" : "{\"lane_id\":\"1\",\"ScaleId\":\"abc123\",\"total\":3.25,\"delta\":1.15,\"units\":\"lbs\",\"event_time\":15736013940000}"
 }
 ```

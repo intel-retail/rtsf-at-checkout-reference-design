@@ -31,7 +31,7 @@ type Config struct {
 	// The time out in milliseconds for reading from the scale
 	TimeOutMilli int64
 
-	options *serial.OpenOptions
+	Options *serial.OpenOptions
 }
 
 // Reading the weight and status from the scale
@@ -67,7 +67,7 @@ func NewScale(config Config) SerialDevice {
 		PortName:        config.PortName,
 		StopBits:        config.StopBits}
 
-	config.options = options
+	config.Options = options
 	if config.TimeOutMilli <= 0 {
 		config.TimeOutMilli = 500
 	}
@@ -118,7 +118,7 @@ func newCasPD2(config *Config) *CasPD2 {
 }
 
 func (device *CasPD2) openSerialPort() error {
-	serialPort, err := serial.Open(*device.config.options)
+	serialPort, err := serial.Open(*device.config.Options)
 	if err != nil {
 		return err
 	}

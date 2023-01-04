@@ -1,0 +1,5 @@
+- model: product-detection-0001
+  alias: object_detection
+  version: product
+  precision: [FP16,FP32]
+

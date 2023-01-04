@@ -3,6 +3,5 @@
 /site
 /docs/assets/fonts
 /docs/assets/javascripts
-rsp-sw-toolkit-installer
-rsp-sw-toolkit-im-suite-mqtt-device-service
-video-analytics-serving
+pipeline-server
+models

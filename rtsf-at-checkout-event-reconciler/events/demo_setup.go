@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2022 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
@@ -7,28 +7,20 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"sync"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/appcontext"
-	"github.com/edgexfoundry/app-functions-sdk-go/appsdk"
+	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/gorilla/websocket"
 )
 
-var wsPort string
-var upgrader = websocket.Upgrader{} // use default options
-var conn *websocket.Conn
-var Mu *sync.Mutex
-
-var CurrentStateMessage []byte
-
-func formatWebsocketMessage(eventName string) []byte {
+func (eventsProcessing *EventsProcessor) formatWebsocketMessage(eventName string) []byte {
 	var sb strings.Builder
 	sb.WriteString(`{
 		"positems": [`)
 
 	numPosItems := 0
 
-	for _, rttlEntry := range RttlogData {
+	for _, rttlEntry := range eventsProcessing.rttlogData {
 		if rttlEntry.Quantity > floatingPointTolerance {
 			if numPosItems > 0 {
 				sb.WriteString(",")
@@ -39,8 +31,8 @@ func formatWebsocketMessage(eventName string) []byte {
 	}
 
 	sb.WriteString(`]`)
-	if len(ScaleData) > 0 {
-		lastScaleItem := ScaleData[len(ScaleData)-1]
+	if len(eventsProcessing.scaleData) > 0 {
+		lastScaleItem := eventsProcessing.scaleData[len(eventsProcessing.scaleData)-1]
 		sb.WriteString(`,
 		"scaleitem":`)
 		sb.WriteString(lastScaleItem.toJSONString())
@@ -49,7 +41,7 @@ func formatWebsocketMessage(eventName string) []byte {
 	sb.WriteString(`,
 		"scalesuspectitems": [`)
 	idx := 0
-	for _, suspectItem := range SuspectScaleItems {
+	for _, suspectItem := range eventsProcessing.suspectScaleItems {
 		if suspectItem.Delta > 0 {
 			if idx > 0 {
 				sb.WriteString(",")
@@ -64,7 +56,7 @@ func formatWebsocketMessage(eventName string) []byte {
 	sb.WriteString(`,
 		"cvsuspectitems": [`)
 
-	suspectCVItems := getSuspectCVItems()
+	suspectCVItems := eventsProcessing.getSuspectCVItems()
 	suspectCVLastIndex := len(suspectCVItems) - 1
 	for suspectIndex, suspectItem := range suspectCVItems {
 		sb.WriteString(suspectItem.toJSONString())
@@ -78,7 +70,7 @@ func formatWebsocketMessage(eventName string) []byte {
 	sb.WriteString(`,
 	"rfidsuspectitems": [`)
 
-	suspectRFIDItems := getSuspectRFIDItems()
+	suspectRFIDItems := eventsProcessing.getSuspectRFIDItems()
 	suspectRFIDLastIndex := len(suspectRFIDItems) - 1
 	for suspectIndex, suspectItem := range suspectRFIDItems {
 		sb.WriteString(suspectItem.toJSONString())
@@ -90,9 +82,9 @@ func formatWebsocketMessage(eventName string) []byte {
 
 	// add Stats
 
-	cvCount := len(CurrentCVData) + len(NextCVData)
-	rfidCount := len(CurrentRFIDData) + len(NextRFIDData)
-	scaleCount := len(ScaleData)
+	cvCount := len(eventsProcessing.currentCVData) + len(eventsProcessing.nextCVData)
+	rfidCount := len(eventsProcessing.currentRFIDData) + len(eventsProcessing.nextRFIDData)
+	scaleCount := len(eventsProcessing.scaleData)
 
 	sb.WriteString(`,"stats": {
 		"cv_count": "` + fmt.Sprintf("%v", cvCount) + `",
@@ -103,54 +95,45 @@ func formatWebsocketMessage(eventName string) []byte {
 	sb.WriteString("\n}")
 
 	// set the global suspect list
-	CurrentStateMessage = []byte(sb.String())
-	return CurrentStateMessage
+	eventsProcessing.currentStateMessage = []byte(sb.String())
+	return eventsProcessing.currentStateMessage
 }
 
 // InitWebSocketConnection initializes the websocket
-func InitWebSocketConnection(edgexSdk *appsdk.AppFunctionsSDK) {
-
-	var wsAddr string
-	appSettings := edgexSdk.ApplicationSettings()
-	if wsPortConfig, ok := appSettings["WebSocketPort"]; !ok {
-		defaultPort := "9083"
-		edgexSdk.LoggingClient.Error(fmt.Sprintf("WebSocketAddress setting not found defaulting to %v", defaultPort))
-		wsAddr = fmt.Sprintf(":%s", defaultPort)
-	} else {
-		wsAddr = fmt.Sprintf(":%s", wsPortConfig)
-	}
+func (eventsProcessing *EventsProcessor) InitWebSocketConnection(service interfaces.ApplicationService, lc logger.LoggingClient) {
+	wsAddr := eventsProcessing.processConfig.WebSocketPort
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var err error
-		upgrader.CheckOrigin = func(r *http.Request) bool { return true }
-		conn, err = upgrader.Upgrade(w, r, nil)
+		eventsProcessing.upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+		eventsProcessing.conn, err = eventsProcessing.upgrader.Upgrade(w, r, nil)
 		if err != nil {
-			edgexSdk.LoggingClient.Error(fmt.Sprintf("upgrade: %s\n", err))
+			lc.Errorf("upgrade: %s", err)
 			return
 		}
 	})
 
 	go func() {
-		edgexSdk.LoggingClient.Info(fmt.Sprintf("websocket listening to: %v \n", wsAddr))
+		lc.Infof("websocket listening to: %v", wsAddr)
 		if err := http.ListenAndServe(wsAddr, nil); err != nil {
-			edgexSdk.LoggingClient.Error(err.Error())
+			lc.Error(err.Error())
 		}
 	}()
 }
 
-func sendWebsocketMessage(message []byte, edgexcontext *appcontext.Context) {
-
-	if conn == nil {
-		edgexcontext.LoggingClient.Trace("websocket not connected")
+func (eventsProcessing *EventsProcessor) sendWebsocketMessage(message []byte, edgexcontext interfaces.AppFunctionContext) {
+	lc := edgexcontext.LoggingClient()
+	if eventsProcessing.conn == nil {
+		lc.Trace("websocket not connected")
 		return
 	}
 
-	Mu.Lock()
-	defer Mu.Unlock()
-	edgexcontext.LoggingClient.Trace(fmt.Sprintf("websocket message: %v\n", string(message)))
-	err := conn.WriteMessage(websocket.TextMessage, message)
+	eventsProcessing.mu.Lock()
+	defer eventsProcessing.mu.Unlock()
+	lc.Tracef("websocket message: %v", string(message))
+	err := eventsProcessing.conn.WriteMessage(websocket.TextMessage, message)
 	if err != nil {
-		edgexcontext.LoggingClient.Info(fmt.Sprintf("write: %s", err))
+		lc.Infof("write: %s", err)
 		return
 	}
 }

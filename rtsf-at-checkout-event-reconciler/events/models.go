@@ -4,9 +4,33 @@
 package events
 
 import (
+	"event-reconciler/config"
 	"fmt"
 	"strconv"
+	"sync"
+	"time"
+
+	"github.com/gorilla/websocket"
 )
+
+type EventsProcessor struct {
+	afterPaymentSuccess     bool
+	conn                    *websocket.Conn
+	currentCVData           []CVEventEntry
+	currentRFIDData         []RFIDEventEntry
+	currentStateMessage     []byte
+	cvTimeAlignment         time.Duration
+	eventOccurred           map[string]bool
+	firstBasketOpenComplete bool
+	mu                      *sync.Mutex
+	nextCVData              []CVEventEntry
+	nextRFIDData            []RFIDEventEntry
+	processConfig           *config.ReconcilerConfig
+	rttlogData              []RTTLogEventEntry
+	scaleData               []ScaleEventEntry
+	suspectScaleItems       map[int64]*ScaleEventEntry
+	upgrader                websocket.Upgrader
+}
 
 type RTTLogEventEntry struct {
 	ProductId            string  `json:"product_id"`
@@ -85,6 +109,31 @@ type SuspectLists struct {
 	CVSuspect    []CVEventEntry             `json:"cv_suspect_list"`
 	RFIDSuspect  []RFIDEventEntry           `json:"rfid_suspect_list"`
 	ScaleSuspect map[int64]*ScaleEventEntry `json:"scale_suspect_list"`
+}
+
+func NewEventsProcessor(cvTimeAlignment time.Duration, config *config.ReconcilerConfig) *EventsProcessor {
+	processor := &EventsProcessor{
+		afterPaymentSuccess:     false,
+		currentCVData:           []CVEventEntry{},
+		currentRFIDData:         []RFIDEventEntry{},
+		cvTimeAlignment:         cvTimeAlignment,
+		firstBasketOpenComplete: false,
+		mu:                      &sync.Mutex{},
+		nextCVData:              []CVEventEntry{},
+		nextRFIDData:            []RFIDEventEntry{},
+		processConfig:           config,
+		suspectScaleItems:       make(map[int64]*ScaleEventEntry),
+		upgrader:                websocket.Upgrader{},
+	}
+
+	return processor
+}
+
+func (eventsProcessing *EventsProcessor) GetScaleToScaleTolerance() float64 {
+	return eventsProcessing.processConfig.ScaleToScaleTolerance
+}
+func (eventsProcessing *EventsProcessor) GetCurrentStateMessage() []byte {
+	return eventsProcessing.currentStateMessage
 }
 
 //these custom Marshal functions are needed as json.Marshal() results in a stack overflow error from an infinite loop, due to cross-referencing of Associated RTTL/Scale Entries

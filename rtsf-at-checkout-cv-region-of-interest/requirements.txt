@@ -1,0 +1,5 @@
+# Copyright © 2022 Intel Corporation. All rights reserved.
+# SPDX-License-Identifier: BSD-3-Clause
+
+paho_mqtt==1.6.1
+requests==2.28.1

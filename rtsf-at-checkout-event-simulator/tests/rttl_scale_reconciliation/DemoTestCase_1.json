@@ -11,7 +11,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 1,
                 "units": "lbs"
@@ -36,7 +36,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 2,
                 "units": "lbs"
@@ -45,7 +45,7 @@
         },
         {
             "device": "Scale",
-            "event": "scale-item",
+            "event": "weight",
             "data": {
                 "total": 3,
                 "units": "lbs"

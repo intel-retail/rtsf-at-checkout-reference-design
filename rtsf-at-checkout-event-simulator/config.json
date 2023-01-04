@@ -1,7 +1,6 @@
 {
-    "pos_endpoint": "http://localhost:49986/api/v1/resource/device-pos-rest",
-    "scale_endpoint": "http://localhost:49986/api/v1/resource/device-scale-rest",
-    "cv_roi_endpoint": "http://localhost:49986/api/v1/resource/device-cv-roi-rest",
-    "rfid_roi_endpoint": "http://localhost:49986/api/v1/resource/device-rfid-roi-rest",
-    "rsp_events_endpoint": "tcp://localhost:1883"
+    "pos_endpoint": "http://localhost:59986/api/v2/resource/pos-rest",
+    "scale_endpoint": "http://localhost:59986/api/v2/resource/scale-rest",
+    "cv_roi_endpoint": "http://localhost:59986/api/v2/resource/cv-roi-rest",
+    "rfid_roi_endpoint": "http://localhost:59986/api/v2/resource/rfid-roi-rest"
 }

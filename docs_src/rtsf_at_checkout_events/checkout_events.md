@@ -95,8 +95,8 @@ Example event:
 
 Scale events track items on the scale. There is only one scale event type required for this reference design, which is:
 
-#### Scale Item 
-`scale-item` occurs when an item has been placed or removed from the security scale.
+#### Scale Weight Reading
+`Scale Weight Reading` occurs when an item has been placed or removed from the security scale.
 
 Example event:
 
@@ -151,7 +151,4 @@ Example event:
 ```
    
    `roi_action` can be either `ENTERED` or `EXITED`.
-   
-   When using **Intel Retail Sensor Platform (RSP)** RFID solution, the **RSP Controller Event Handler** service transforms the RSP Controller RFID events into the above RFID ROI events.
-
 

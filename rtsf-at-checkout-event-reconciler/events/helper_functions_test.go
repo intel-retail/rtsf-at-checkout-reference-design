@@ -4,13 +4,16 @@
 package events
 
 import (
+	"encoding/json"
 	"testing"
 
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
-func initRttlogData() {
-	RttlogData = []RTTLogEventEntry{
+func initRttlogData(p *EventsProcessor) {
+	p.rttlogData = []RTTLogEventEntry{
 		{
 			ProductId:  "12345",
 			Quantity:   1,
@@ -20,19 +23,21 @@ func initRttlogData() {
 }
 
 func TestAppendToPreviousPosItem_Once(t *testing.T) {
+	processor := &EventsProcessor{}
 	rttlogItem := RTTLogEventEntry{
 		ProductId:  "12345",
 		Quantity:   2,
 		Collection: []RTTLogEventEntry{},
 	}
 
-	initRttlogData()
-	appendToPreviousPosItem(rttlogItem)
-	assert.Equal(t, 3.0, RttlogData[len(RttlogData)-1].Quantity)
-	assert.Equal(t, 2, len(RttlogData[len(RttlogData)-1].Collection))
+	initRttlogData(processor)
+	processor.appendToPreviousPosItem(rttlogItem)
+	assert.Equal(t, 3.0, processor.rttlogData[len(processor.rttlogData)-1].Quantity)
+	assert.Equal(t, 2, len(processor.rttlogData[len(processor.rttlogData)-1].Collection))
 }
 
 func TestAppendToPreviousPosItem_Multiple(t *testing.T) {
+	processor := &EventsProcessor{}
 	rttlogItem := RTTLogEventEntry{
 		ProductId:  "12345",
 		Quantity:   2,
@@ -45,16 +50,16 @@ func TestAppendToPreviousPosItem_Multiple(t *testing.T) {
 		Collection: []RTTLogEventEntry{},
 	}
 
-	initRttlogData()
-	appendToPreviousPosItem(rttlogItem)
+	initRttlogData(processor)
+	processor.appendToPreviousPosItem(rttlogItem)
 
-	appendToPreviousPosItem(rttlogItem2)
-	assert.Equal(t, 8.0, RttlogData[len(RttlogData)-1].Quantity)
-	assert.Equal(t, 3, len(RttlogData[len(RttlogData)-1].Collection))
+	processor.appendToPreviousPosItem(rttlogItem2)
+	assert.Equal(t, 8.0, processor.rttlogData[len(processor.rttlogData)-1].Quantity)
+	assert.Equal(t, 3, len(processor.rttlogData[len(processor.rttlogData)-1].Collection))
 }
 
-func initScaleData() {
-	ScaleData = []ScaleEventEntry{
+func initScaleData(p *EventsProcessor) {
+	p.scaleData = []ScaleEventEntry{
 		{
 			Delta: 10,
 			Total: 10,
@@ -62,17 +67,18 @@ func initScaleData() {
 	}
 }
 func TestCalculateScaleDelta(t *testing.T) {
+	processor := &EventsProcessor{}
 	scaleItem := ScaleEventEntry{
 		Total: 12,
 	}
 
-	initScaleData()
-	calculateScaleDelta(&scaleItem)
+	initScaleData(processor)
+	processor.calculateScaleDelta(&scaleItem)
 	assert.Equal(t, 2.0, scaleItem.Delta)
 }
 
-func initRemoveItem() {
-	RttlogData = []RTTLogEventEntry{
+func initRemoveItem(p *EventsProcessor) {
+	p.rttlogData = []RTTLogEventEntry{
 		{
 			ProductId: "pear",
 			Quantity:  5.0,
@@ -84,30 +90,31 @@ func initRemoveItem() {
 	}
 }
 func TestRemoveRTTLItemFromBufferWrongItem(t *testing.T) {
-	initRemoveItem()
+	processor := &EventsProcessor{}
+	initRemoveItem(processor)
 	removeCat := RTTLogEventEntry{
 
 		ProductId: "cat",
 		Quantity:  5.0,
 	}
-	removeRTTLItemFromBuffer(removeCat)
-	assert.Equal(t, 2, len(RttlogData))
+	processor.removeRTTLItemFromBuffer(removeCat)
+	assert.Equal(t, 2, len(processor.rttlogData))
 
 }
 
 func TestRemoveRTTLItemFromBufferNoCollectionExactQuantityRemoved(t *testing.T) {
-	initRemoveItem()
-
+	processor := &EventsProcessor{}
+	initRemoveItem(processor)
 	removePear := RTTLogEventEntry{
 
 		ProductId: "pear",
 		Quantity:  5.0,
 	}
 
-	removeRTTLItemFromBuffer(removePear)
+	processor.removeRTTLItemFromBuffer(removePear)
 
-	assert.Equal(t, 6.0, RttlogData[0].Quantity)
-	assert.Equal(t, 1, len(RttlogData))
+	assert.Equal(t, 6.0, processor.rttlogData[0].Quantity)
+	assert.Equal(t, 1, len(processor.rttlogData))
 
 	removeApple := RTTLogEventEntry{
 
@@ -115,14 +122,15 @@ func TestRemoveRTTLItemFromBufferNoCollectionExactQuantityRemoved(t *testing.T) 
 		Quantity:  6.0,
 	}
 
-	removeRTTLItemFromBuffer(removeApple)
+	processor.removeRTTLItemFromBuffer(removeApple)
 
-	assert.Equal(t, 0, len(RttlogData))
+	assert.Equal(t, 0, len(processor.rttlogData))
 
 }
 
 func TestRemoveRTTLItemFromBufferNoCollectionSmallerQuantityRemoved(t *testing.T) {
-	initRemoveItem()
+	processor := &EventsProcessor{}
+	initRemoveItem(processor)
 
 	removeApple := RTTLogEventEntry{
 
@@ -130,10 +138,10 @@ func TestRemoveRTTLItemFromBufferNoCollectionSmallerQuantityRemoved(t *testing.T
 		Quantity:  5.0,
 	}
 
-	removeRTTLItemFromBuffer(removeApple)
+	processor.removeRTTLItemFromBuffer(removeApple)
 
-	assert.Equal(t, 5.0, RttlogData[0].Quantity)
-	assert.Equal(t, 1.0, RttlogData[1].Quantity) //should only have 1 apple left
+	assert.Equal(t, 5.0, processor.rttlogData[0].Quantity)
+	assert.Equal(t, 1.0, processor.rttlogData[1].Quantity) //should only have 1 apple left
 
 	removePear := RTTLogEventEntry{
 
@@ -141,13 +149,13 @@ func TestRemoveRTTLItemFromBufferNoCollectionSmallerQuantityRemoved(t *testing.T
 		Quantity:  1.0,
 	}
 
-	removeRTTLItemFromBuffer(removePear)
-	assert.Equal(t, 4.0, RttlogData[0].Quantity)
+	processor.removeRTTLItemFromBuffer(removePear)
+	assert.Equal(t, 4.0, processor.rttlogData[0].Quantity)
 
 }
 
-func initRemoveItemCollection() {
-	RttlogData = []RTTLogEventEntry{
+func initRemoveItemCollection(p *EventsProcessor) {
+	p.rttlogData = []RTTLogEventEntry{
 		{
 			ProductId: "pear",
 			Quantity:  5.0,
@@ -184,7 +192,8 @@ func initRemoveItemCollection() {
 }
 
 func TestRemoveRTTLItemFromBufferWithCollectionFirstCollectionIndexExactAmount(t *testing.T) {
-	initRemoveItemCollection()
+	processor := &EventsProcessor{}
+	initRemoveItemCollection(processor)
 
 	removePear := RTTLogEventEntry{
 
@@ -192,15 +201,16 @@ func TestRemoveRTTLItemFromBufferWithCollectionFirstCollectionIndexExactAmount(t
 		Quantity:  1.0,
 	}
 
-	removeRTTLItemFromBuffer(removePear)
+	processor.removeRTTLItemFromBuffer(removePear)
 
-	assert.Equal(t, 3.0, RttlogData[0].Collection[0].Quantity)
-	assert.Equal(t, 4.0, RttlogData[0].Quantity)
+	assert.Equal(t, 3.0, processor.rttlogData[0].Collection[0].Quantity)
+	assert.Equal(t, 4.0, processor.rttlogData[0].Quantity)
 
 }
 
 func TestRemoveRTTLItemFromBufferWithCollectionFirstCollectionIndexLessAmount(t *testing.T) {
-	initRemoveItemCollection()
+	processor := &EventsProcessor{}
+	initRemoveItemCollection(processor)
 
 	removePear := RTTLogEventEntry{
 
@@ -208,15 +218,16 @@ func TestRemoveRTTLItemFromBufferWithCollectionFirstCollectionIndexLessAmount(t 
 		Quantity:  4.0,
 	}
 
-	removeRTTLItemFromBuffer(removePear)
+	processor.removeRTTLItemFromBuffer(removePear)
 
-	assert.Equal(t, 1.0, RttlogData[0].Quantity)
-	assert.Equal(t, 1.0, RttlogData[0].Collection[0].Quantity)
+	assert.Equal(t, 1.0, processor.rttlogData[0].Quantity)
+	assert.Equal(t, 1.0, processor.rttlogData[0].Collection[0].Quantity)
 
 }
 
 func TestRemoveRTTLItemFromBufferWithCollectionSecondCollectionIndexGreaterAmount(t *testing.T) {
-	initRemoveItemCollection()
+	processor := &EventsProcessor{}
+	initRemoveItemCollection(processor)
 
 	removePear := RTTLogEventEntry{
 
@@ -224,15 +235,16 @@ func TestRemoveRTTLItemFromBufferWithCollectionSecondCollectionIndexGreaterAmoun
 		Quantity:  3.0,
 	}
 
-	removeRTTLItemFromBuffer(removePear)
+	processor.removeRTTLItemFromBuffer(removePear)
 
-	assert.Equal(t, 2.0, RttlogData[0].Quantity)
-	assert.Equal(t, 1.0, RttlogData[0].Collection[0].Quantity)
+	assert.Equal(t, 2.0, processor.rttlogData[0].Quantity)
+	assert.Equal(t, 1.0, processor.rttlogData[0].Collection[0].Quantity)
 
 }
 
 func TestRemoveRTTLItemFromBufferWithCollectionFirstIndexRemoveAll(t *testing.T) {
-	initRemoveItemCollection()
+	processor := &EventsProcessor{}
+	initRemoveItemCollection(processor)
 
 	removePear := RTTLogEventEntry{
 
@@ -240,15 +252,16 @@ func TestRemoveRTTLItemFromBufferWithCollectionFirstIndexRemoveAll(t *testing.T)
 		Quantity:  5.0,
 	}
 
-	removeRTTLItemFromBuffer(removePear)
+	processor.removeRTTLItemFromBuffer(removePear)
 
-	assert.Equal(t, 6.0, RttlogData[0].Quantity)
-	assert.Equal(t, "apple", RttlogData[0].ProductId)
+	assert.Equal(t, 6.0, processor.rttlogData[0].Quantity)
+	assert.Equal(t, "apple", processor.rttlogData[0].ProductId)
 
 }
 
 func TestRemoveRTTLItemFromBufferWithCollectionLastIndexLessAmount(t *testing.T) {
-	initRemoveItemCollection()
+	processor := &EventsProcessor{}
+	initRemoveItemCollection(processor)
 
 	removeApple := RTTLogEventEntry{
 
@@ -256,15 +269,16 @@ func TestRemoveRTTLItemFromBufferWithCollectionLastIndexLessAmount(t *testing.T)
 		Quantity:  5.0,
 	}
 
-	removeRTTLItemFromBuffer(removeApple)
+	processor.removeRTTLItemFromBuffer(removeApple)
 
-	assert.Equal(t, 1.0, RttlogData[1].Quantity)
-	assert.Equal(t, 1.0, RttlogData[1].Collection[0].Quantity)
+	assert.Equal(t, 1.0, processor.rttlogData[1].Quantity)
+	assert.Equal(t, 1.0, processor.rttlogData[1].Collection[0].Quantity)
 
 }
 
 func TestRemoveRTTLItemFromBufferWithCollectionLastIndexRemoveExactAmount(t *testing.T) {
-	initRemoveItemCollection()
+	processor := &EventsProcessor{}
+	initRemoveItemCollection(processor)
 
 	removeApple := RTTLogEventEntry{
 
@@ -272,10 +286,10 @@ func TestRemoveRTTLItemFromBufferWithCollectionLastIndexRemoveExactAmount(t *tes
 		Quantity:  6.0,
 	}
 
-	removeRTTLItemFromBuffer(removeApple)
+	processor.removeRTTLItemFromBuffer(removeApple)
 
-	assert.Equal(t, 1, len(RttlogData))
-	assert.Equal(t, 3.0, RttlogData[0].Collection[1].Quantity)
+	assert.Equal(t, 1, len(processor.rttlogData))
+	assert.Equal(t, 3.0, processor.rttlogData[0].Collection[1].Quantity)
 
 }
 
@@ -284,44 +298,49 @@ func TestDeleteLastScaleItem(t *testing.T) {
 	scaleEntry2 := ScaleEventEntry{Total: 3}
 	scaleData := []*ScaleEventEntry{&scaleEntry, &scaleEntry2}
 
+	processor := &EventsProcessor{}
+
 	assert.Equal(t, len(scaleData), 2)
-	deleteLastScaleItem(&scaleData)
+	processor.deleteLastScaleItem(&scaleData)
 	assert.Equal(t, len(scaleData), 1)
-	deleteLastScaleItem(&scaleData)
+	processor.deleteLastScaleItem(&scaleData)
 	assert.Equal(t, len(scaleData), 0)
 }
 
 func TestResetRTTLBasket(t *testing.T) {
-	resetRTTLBasket()
+	processor := &EventsProcessor{}
 
-	initScaleData()
-	initRttlogData()
+	processor.resetRTTLBasket()
+
+	initScaleData(processor)
+	initRttlogData(processor)
 
 	exampleSuspect := ScaleEventEntry{}
-	SuspectScaleItems[3] = &exampleSuspect
+	processor.suspectScaleItems[3] = &exampleSuspect
 
-	assert.Equal(t, len(ScaleData), 1)
-	assert.Equal(t, len(RttlogData), 1)
-	assert.Equal(t, len(SuspectScaleItems), 1)
+	assert.Equal(t, len(processor.scaleData), 1)
+	assert.Equal(t, len(processor.rttlogData), 1)
+	assert.Equal(t, len(processor.suspectScaleItems), 1)
 
-	resetRTTLBasket()
+	processor.resetRTTLBasket()
 
-	assert.Equal(t, len(ScaleData), 0)
-	assert.Equal(t, len(RttlogData), 0)
-	assert.Equal(t, len(SuspectScaleItems), 0)
+	assert.Equal(t, len(processor.scaleData), 0)
+	assert.Equal(t, len(processor.rttlogData), 0)
+	assert.Equal(t, len(processor.suspectScaleItems), 0)
 
 }
 
 func TestCheckRTTLForPOSItems(t *testing.T) {
-	resetRTTLBasket()
-	assert.False(t, checkRTTLForPOSItems())
+	processor := &EventsProcessor{}
+	processor.resetRTTLBasket()
+	assert.False(t, processor.checkRTTLForPOSItems())
 
 	rttlEvent := RTTLogEventEntry{Quantity: 3}
-	RttlogData = append(RttlogData, rttlEvent)
-	assert.True(t, checkRTTLForPOSItems())
+	processor.rttlogData = append(processor.rttlogData, rttlEvent)
+	assert.True(t, processor.checkRTTLForPOSItems())
 
-	removeRTTLItemFromBuffer(rttlEvent)
-	assert.False(t, checkRTTLForPOSItems())
+	processor.removeRTTLItemFromBuffer(rttlEvent)
+	assert.False(t, processor.checkRTTLForPOSItems())
 
 }
 
@@ -389,63 +408,68 @@ func initGoBackCVItems() CVEventEntry {
 }
 
 func TestGetSuspectCVItems(t *testing.T) {
-	CurrentCVData = []CVEventEntry{}
+	processor := &EventsProcessor{}
+	processor.currentCVData = []CVEventEntry{}
 
-	CurrentCVData = append(CurrentCVData, initSuspectCVItems())
-	CurrentCVData = append(CurrentCVData, initSuspectCVItems())
+	processor.currentCVData = append(processor.currentCVData, initSuspectCVItems())
+	processor.currentCVData = append(processor.currentCVData, initSuspectCVItems())
 
-	suspectItems := getSuspectCVItems()
+	suspectItems := processor.getSuspectCVItems()
 	assert.Equal(t, len(suspectItems), 2)
 }
 
 func TestGetSuspectRFIDItems(t *testing.T) {
-	CurrentRFIDData = []RFIDEventEntry{}
+	processor := &EventsProcessor{}
+	processor.currentRFIDData = []RFIDEventEntry{}
 
-	CurrentRFIDData = append(CurrentRFIDData, initSuspectRFIDItems())
-	CurrentRFIDData = append(CurrentRFIDData, initSuspectRFIDItems())
-	CurrentRFIDData = append(CurrentRFIDData, initNonSuspectRFIDItems())
-	CurrentRFIDData = append(CurrentRFIDData, initGoBackRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initSuspectRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initSuspectRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initNonSuspectRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initGoBackRFIDItems())
 
-	suspectItems := getSuspectRFIDItems()
+	suspectItems := processor.getSuspectRFIDItems()
 	assert.Equal(t, len(suspectItems), 2)
 }
 
 func TestResetCVBasket(t *testing.T) {
-	CurrentCVData = []CVEventEntry{}
-	NextCVData = []CVEventEntry{}
+	processor := &EventsProcessor{}
+	processor.currentCVData = []CVEventEntry{}
+	processor.nextCVData = []CVEventEntry{}
 
-	CurrentCVData = append(CurrentCVData, initSuspectCVItems())
-	CurrentCVData = append(CurrentCVData, initNonSuspectCVItems())
-	CurrentCVData = append(CurrentCVData, initGoBackCVItems())
-	CurrentCVData = append(CurrentCVData, initGoBackCVItems())
+	processor.currentCVData = append(processor.currentCVData, initSuspectCVItems())
+	processor.currentCVData = append(processor.currentCVData, initNonSuspectCVItems())
+	processor.currentCVData = append(processor.currentCVData, initGoBackCVItems())
+	processor.currentCVData = append(processor.currentCVData, initGoBackCVItems())
 
-	assert.Equal(t, len(CurrentCVData), 4)
+	assert.Equal(t, len(processor.currentCVData), 4)
 
-	resetCVBasket()
+	processor.resetCVBasket()
 
-	assert.Equal(t, len(CurrentCVData), 3)
+	assert.Equal(t, len(processor.currentCVData), 3)
 }
 
 func TestResetRFIDBasket(t *testing.T) {
-	CurrentRFIDData = []RFIDEventEntry{}
-	NextRFIDData = []RFIDEventEntry{}
+	processor := &EventsProcessor{}
+	processor.currentRFIDData = []RFIDEventEntry{}
+	processor.nextRFIDData = []RFIDEventEntry{}
 
-	CurrentRFIDData = append(CurrentRFIDData, initSuspectRFIDItems())
-	CurrentRFIDData = append(CurrentRFIDData, initGoBackRFIDItems())
-	CurrentRFIDData = append(CurrentRFIDData, initNonSuspectRFIDItems())
-	CurrentRFIDData = append(CurrentRFIDData, initNonSuspectRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initSuspectRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initGoBackRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initNonSuspectRFIDItems())
+	processor.currentRFIDData = append(processor.currentRFIDData, initNonSuspectRFIDItems())
 
-	assert.Equal(t, len(CurrentRFIDData), 4)
+	assert.Equal(t, len(processor.currentRFIDData), 4)
 
-	resetRFIDBasket()
+	processor.resetRFIDBasket()
 
-	assert.Equal(t, len(CurrentRFIDData), 2)
+	assert.Equal(t, len(processor.currentRFIDData), 2)
 
 }
 
 func TestUpdateSuspectRFIDItems(t *testing.T) {
-	CurrentRFIDData = []RFIDEventEntry{}
-	RttlogData = []RTTLogEventEntry{}
+	processor := &EventsProcessor{}
+	processor.currentRFIDData = []RFIDEventEntry{}
+	processor.rttlogData = []RTTLogEventEntry{}
 
 	rfidRedApplesEntry := RFIDEventEntry{
 		EPC: "30140000001FB28000003039",
@@ -464,22 +488,56 @@ func TestUpdateSuspectRFIDItems(t *testing.T) {
 		},
 	}
 
-	CurrentRFIDData = append(CurrentRFIDData, rfidRedApplesEntry)
-	RttlogData = append(RttlogData, basketOpenEntry)
-	RttlogData = append(RttlogData, RedApplesPOSEntry)
+	processor.currentRFIDData = append(processor.currentRFIDData, rfidRedApplesEntry)
+	processor.rttlogData = append(processor.rttlogData, basketOpenEntry)
+	processor.rttlogData = append(processor.rttlogData, RedApplesPOSEntry)
 
-	assert.Equal(t, len(RttlogData[1].AssociatedRFIDItems), 0)
-	assert.Nil(t, CurrentRFIDData[0].AssociatedRTTLEntry)
+	assert.Equal(t, len(processor.rttlogData[1].AssociatedRFIDItems), 0)
+	assert.Nil(t, processor.currentRFIDData[0].AssociatedRTTLEntry)
 
-	updateSuspectRFIDItems()
-	assert.Equal(t, len(RttlogData[1].AssociatedRFIDItems), 1)
-	assert.NotNil(t, CurrentRFIDData[0].AssociatedRTTLEntry)
+	processor.updateSuspectRFIDItems()
+	assert.Equal(t, len(processor.rttlogData[1].AssociatedRFIDItems), 1)
+	assert.NotNil(t, processor.currentRFIDData[0].AssociatedRTTLEntry)
 
 }
 
 func TestConvertProductIDTo14Char(t *testing.T) {
+	processor := &EventsProcessor{}
 	productID := "123456789"
-	newProductID := convertProductIDTo14Char(productID)
+	newProductID := processor.convertProductIDTo14Char(productID)
 
 	assert.Equal(t, len(newProductID), 14)
+}
+
+func TestEventsProcessor_unmarshalDtosObj(t *testing.T) {
+	tests := []struct {
+		name     string
+		dataObj  RTTLogEventEntry
+		instance interface{}
+		wantErr  bool
+	}{
+		{
+			name: "test1",
+			dataObj: RTTLogEventEntry{
+				ProductId: "12345",
+				Quantity:  12,
+			},
+			instance: &RTTLogEventEntry{},
+			wantErr:  false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			eventsProcessing := &EventsProcessor{}
+			object := dtos.NewObjectReading("", "", "", &tt.dataObj)
+			testJson, err := json.Marshal(object)
+			require.NoError(t, err)
+			testStruct := &dtos.BaseReading{}
+			err = json.Unmarshal(testJson, testStruct)
+			require.NoError(t, err)
+			if err := eventsProcessing.unmarshalObjValue(testStruct.ObjectReading.ObjectValue, tt.instance); (err != nil) != tt.wantErr {
+				t.Errorf("EventsProcessor.unmarshalDtosObj() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
 }

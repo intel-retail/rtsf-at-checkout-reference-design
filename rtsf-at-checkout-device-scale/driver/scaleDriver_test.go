@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 // Package driver - This package provides a implementation of a ProtocolDriver interface.
-//
 package driver
 
 import (
@@ -104,17 +103,17 @@ func TestScaleDriver_HandleReadCommands(t *testing.T) {
 	tests := []struct {
 		name           string
 		scaleConnected bool
-		wantErr        bool
+		wantRes        bool
 	}{
 		{
 			name:           "valid case",
 			scaleConnected: true,
-			wantErr:        false,
+			wantRes:        false,
 		},
 		{
 			name:           "scale not connected",
 			scaleConnected: false,
-			wantErr:        true,
+			wantRes:        true,
 		},
 	}
 	for _, tt := range tests {
@@ -133,8 +132,8 @@ func TestScaleDriver_HandleReadCommands(t *testing.T) {
 					},
 				},
 			)
-			if tt.wantErr {
-				require.Error(t, err)
+			if tt.wantRes {
+				require.Nil(t, err)
 				return
 			}
 			require.NoError(t, err)

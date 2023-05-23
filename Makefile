@@ -1,7 +1,7 @@
 # Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-.PHONY: run-portainer run-base run-vap run-full all simulator docker
+.PHONY: run-portainer run-base run-vap run-full all simulator docker test
 
 DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup
 
@@ -17,30 +17,30 @@ clean-docker: docker-rm
 	docker network prune -f
 
 run-portainer:
-	cd ./loss-detection-app && docker-compose -f docker-compose.portainer.yml up -d
+	cd ./loss-detection-app && docker compose -f docker-compose.portainer.yml up -d
 
 run-base:
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.edgex.yml up -d && \
-	docker-compose -f docker-compose.loss-detection.yml up -d
+	docker compose -f docker-compose.edgex.yml up -d && \
+	docker compose -f docker-compose.loss-detection.yml up -d
 
 run-vap: models run-base
-	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml up -d
+	cd ./loss-detection-app && \ul
+	docker compose -f docker-compose.vap.yml up -d
 
 run-full: run-vap
 
 down:
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml down && \
-	docker-compose -f docker-compose.loss-detection.yml down && \
-	docker-compose -f docker-compose.edgex.yml down
+	docker compose -f docker-compose.vap.yml down && \
+	docker compose -f docker-compose.loss-detection.yml down && \
+	docker compose -f docker-compose.edgex.yml down
 
 vap-down:
 	cd ./loss-detection-app && \
-	docker-compose -f docker-compose.vap.yml down && \
-	docker-compose -f docker-compose.loss-detection.yml down && \
-	docker-compose -f docker-compose.edgex.yml down
+	docker compose -f docker-compose.vap.yml down && \
+	docker compose -f docker-compose.loss-detection.yml down && \
+	docker compose -f docker-compose.edgex.yml down
 
 models:
 	if [ ! -d pipeline-server ] ; then git clone https://github.com/dlstreamer/pipeline-server; fi && \
@@ -111,3 +111,10 @@ product-lookup:
 		-t rtsf-at-checkout/product-lookup:$(DOCKER_TAG) \
 		.
 
+test:
+	cd rtsf-at-checkout-device-scale; \
+	go test -tags no_zmq -test.v -cover ./...; \
+	cd ../rtsf-at-checkout-event-reconciler; \
+	go test -tags no_zmq -test.v -cover ./...; \
+	cd ../rtsf-at-checkout-loss-detector; \
+	go test -tags no_zmq -test.v -cover ./...; \

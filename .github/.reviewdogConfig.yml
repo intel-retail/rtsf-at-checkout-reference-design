@@ -5,8 +5,12 @@ runner:
       - "%f:%l:%c:%m" 
     name: bandit # (optional. you can overwrite <tool-name> defined by runner key)
     level: info # (optional. same as -level flag. [info,warning,error])
-  hadolint:
-    cmd: './bin/hadolint -c .github/.hadolint.yaml Dockerfile.* -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults.txt'
+  hadolint_rtsf-at-checkout-cv-region-of-interest:
+    cmd: './bin/hadolint -c .github/.hadolint.yaml rtsf-at-checkout-cv-region-of-interest/Dockerfile -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults-rtsf-at-checkout-cv-region-of-interest.txt'
+    format: rdjson
+    level: error # (optional. same as -level flag. [info,warning,error])
+  hadolint_rtsf-at-checkout-device-scale:
+    cmd: './bin/hadolint -c .github/.hadolint.yaml rtsf-at-checkout-device-scale/Dockerfile -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults-rtsf-at-checkout-device-scale.txt'
     format: rdjson
     level: error # (optional. same as -level flag. [info,warning,error])
   shellcheck:

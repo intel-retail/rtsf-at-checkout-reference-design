@@ -21,3 +21,7 @@ jobs:
               make run-base
               sleep 15
               cd rtsf-at-checkout-event-simulator && mkdir -p "$PWD"/test_results && go run main.go > "$PWD"/test_results/results.txt
+          - uses: actions/upload-artifact@v3
+            with:
+              name: test_results
+              path: ${{ github.workspace }}/test_results/

@@ -103,7 +103,7 @@ hadolint:
 	for repo in ${REPOS}; do \
 		echo rtsf-at-checkout-$$repo; \
 		cd rtsf-at-checkout-$$repo; \
-		docker run --rm -i hadolint/hadolint < Dockerfile ; \
+		docker run --rm -i hadolint/hadolint hadolint --format json - < Dockerfile >> ../go-lint.json ; \
 		cd ..; \
 	done
 

@@ -121,7 +121,7 @@ test:
 
 lint:
 	@which golangci-lint >/dev/null || echo "WARNING: go linter not installed. To install, run make install-lint"
-	@which golangci-lint >/dev/null ;  echo "running golangci-lint"; golangci-lint version; go version; golangci-lint cache clean; golangci-lint run --verbose --config .github/.golangci.yml
+	@which golangci-lint >/dev/null ;  echo "running golangci-lint"; golangci-lint version; go version; golangci-lint cache clean; golangci-lint run --verbose --config .github/.golangci.yml --out-format=line-number **/*.go
 
 install-lint:
 	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin v1.51.2

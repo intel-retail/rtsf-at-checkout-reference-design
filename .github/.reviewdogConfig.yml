@@ -9,10 +9,6 @@ runner:
     cmd: './bin/hadolint -c .github/.hadolint.yaml rtsf-at-checkout-cv-region-of-interest/Dockerfile -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults-rtsf-at-checkout-cv-region-of-interest.txt'
     format: rdjson
     level: error # (optional. same as -level flag. [info,warning,error])
-  hadolint_rtsf-at-checkout-device-scale:
-    cmd: './bin/hadolint -c .github/.hadolint.yaml rtsf-at-checkout-device-scale/Dockerfile -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults-rtsf-at-checkout-device-scale.txt'
-    format: rdjson
-    level: error # (optional. same as -level flag. [info,warning,error])
   shellcheck:
     cmd: shellcheck **/*.sh -f gcc | tee "$PWD"/scan_results/shellcheckResults.txt
     errorformat: 
@@ -21,5 +17,5 @@ runner:
     cmd: pep8 **/*.py | tee "$PWD"/scan_results/pep8Results.txt
     format: pep8
   golangci-lint:
-    cmd: make lint
+    cmd: make go-lint
     format: golangci-lint

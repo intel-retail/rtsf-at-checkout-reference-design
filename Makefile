@@ -1,7 +1,7 @@
 # Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-.PHONY: run-portainer run-base run-vap run-full all simulator docker test
+.PHONY: run-portainer run-base run-vap run-full all simulator docker test lint
 
 DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup
 
@@ -118,3 +118,10 @@ test:
 	go test -tags no_zmq -test.v -cover ./...; \
 	cd ../rtsf-at-checkout-loss-detector; \
 	go test -tags no_zmq -test.v -cover ./...; \
+
+lint:
+	@which golangci-lint >/dev/null || echo "WARNING: go linter not installed. To install, run make install-lint"
+	@which golangci-lint >/dev/null ;  echo "running golangci-lint"; golangci-lint version; go version; golangci-lint cache clean; golangci-lint run --verbose --config .github/.golangci.yml
+
+install-lint:
+	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin v1.51.2

@@ -20,5 +20,4 @@ jobs:
               make docker
               make run-base
               sleep 15
-              mkdir -p "$PWD"/test_results
-              cd rtsf-at-checkout-event-simulator && go run main.go > "$PWD"/test_results/results.txt
+              cd rtsf-at-checkout-event-simulator && mkdir -p "$PWD"/test_results && go run main.go > "$PWD"/test_results/results.txt

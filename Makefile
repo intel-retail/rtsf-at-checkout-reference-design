@@ -99,6 +99,14 @@ go-lint:
 install-go-lint:
 	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin v1.51.2
 
+hadolint: 
+	for repo in ${REPOS}; do \
+		echo rtsf-at-checkout-$$repo; \
+		cd rtsf-at-checkout-$$repo; \
+		docker run --rm -i hadolint/hadolint < Dockerfile ; \
+		cd ..; \
+	done
+
 cv-roi:
 	cd rtsf-at-checkout-cv-region-of-interest; \
 	docker build \

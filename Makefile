@@ -1,11 +1,12 @@
 # Copyright © 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-.PHONY: run-portainer run-base run-vap run-full all simulator docker test
+.PHONY: run-portainer run-base run-vap run-full all simulator docker test lint
 
-DOCKERS=cv-roi device-scale reconciler loss-detector product-lookup
+REPOS=cv-region-of-interest device-scale event-reconciler loss-detector product-lookup
+GOREPOS=device-scale event-reconciler loss-detector product-lookup
 
-.PHONY: $(DOCKERS)
+.PHONY: $(REPOS)
 
 DOCKER_TAG=dev
 
@@ -64,7 +65,39 @@ clean: down clean-deps
 	docker volume prune -f && \
     docker network prune -f
 
-docker: $(DOCKERS)
+docker: 
+	for repo in ${REPOS}; do \
+		echo rtsf-at-checkout-$$repo; \
+		cd rtsf-at-checkout-$$repo; \
+		docker build \
+	    --build-arg http_proxy \
+	    --build-arg https_proxy \
+		-f ./Dockerfile \
+		-t rtsf-at-checkout/$$repo:$(DOCKER_TAG) \
+		. || exit 1; \
+		cd ..; \
+	done
+
+go-test: 
+	for repo in ${GOREPOS}; do \
+		echo rtsf-at-checkout-$$repo; \
+		cd rtsf-at-checkout-$$repo; \
+		go test -tags no_zmq -coverprofile=coverage.out ./... || exit 1; \
+		cd ..; \
+	done
+
+go-lint:
+	@which golangci-lint >/dev/null || echo "WARNING: go linter not installed. To install, run make install-lint"
+	@which golangci-lint >/dev/null ;  echo "running golangci-lint"; golangci-lint version; go version; 
+	for repo in ${GOREPOS}; do \
+		echo rtsf-at-checkout-$$repo; \
+		cd rtsf-at-checkout-$$repo; \
+		golangci-lint cache clean; golangci-lint run --verbose --config ../.github/.golangci.yml --out-format=line-number **/*.go ; \
+		cd ..; \
+	done
+
+install-go-lint:
+	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin v1.51.2
 
 cv-roi:
 	cd rtsf-at-checkout-cv-region-of-interest; \
@@ -110,11 +143,3 @@ product-lookup:
 		-f Dockerfile \
 		-t rtsf-at-checkout/product-lookup:$(DOCKER_TAG) \
 		.
-
-test:
-	cd rtsf-at-checkout-device-scale; \
-	go test -tags no_zmq -test.v -cover ./...; \
-	cd ../rtsf-at-checkout-event-reconciler; \
-	go test -tags no_zmq -test.v -cover ./...; \
-	cd ../rtsf-at-checkout-loss-detector; \
-	go test -tags no_zmq -test.v -cover ./...; \

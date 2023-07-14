@@ -6,12 +6,12 @@ runner:
     name: bandit # (optional. you can overwrite <tool-name> defined by runner key)
     level: info # (optional. same as -level flag. [info,warning,error])
   hadolint:
-    cmd: 'make hadolint && cat go-lint.json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults.txt'
+    cmd: './bin/hadolint -c .github/.hadolint.yaml ./**/Dockerfile -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults.txt'
     format: rdjson
     level: error # (optional. same as -level flag. [info,warning,error])
   pep8:
     cmd: pep8 rtsf-at-checkout-cv-region-of-interest/src/**/*.py | tee "$PWD"/scan_results/pep8Results.txt
     format: pep8
   golangci-lint:
-    cmd: make go-lint
+    cmd: 'make go-lint && cat go-lint.txt | tee "$PWD"/scan_results/goLintResults.txt'
     format: golangci-lint

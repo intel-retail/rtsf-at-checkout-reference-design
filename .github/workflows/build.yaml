@@ -1,0 +1,16 @@
+name: Build docker images
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  build_docker:
+      runs-on: ubuntu-latest
+      steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
+          - name: Make Docker images
+            run: |
+              make docker

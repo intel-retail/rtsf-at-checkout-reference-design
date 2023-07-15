@@ -38,7 +38,7 @@ jobs:
             && chmod +x ./bin/hadolint
         - name: Install libzmq (temp)
           run: |
-              sudo apt-get install libzmq3-dev
+              sudo apt-get install libzmq3-dev -y
         - name: Install reviewdog
           run: |
             curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s

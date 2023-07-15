@@ -86,18 +86,26 @@ go-test:
 		cd ..; \
 	done
 
-go-lint:
+go-lint: go-tidy
 	@which golangci-lint >/dev/null || echo "WARNING: go linter not installed. To install, run make install-lint"
 	@which golangci-lint >/dev/null ;  echo "running golangci-lint"; golangci-lint version; go version; 
 	for repo in ${GOREPOS}; do \
 		echo rtsf-at-checkout-$$repo; \
 		cd rtsf-at-checkout-$$repo; \
-		golangci-lint run --config ../.github/.golangci.yml --out-format=line-number >> ../go-lint.txt ; \
+		golangci-lint run --config ../.github/.golangci.yml --out-format=line-number >> ../goLintResults.txt ; \
+		cd ..; \
+	done
+
+go-tidy: 
+	for repo in ${GOREPOS}; do \
+		echo rtsf-at-checkout-$$repo; \
+		cd rtsf-at-checkout-$$repo; \
+		go mod tidy || exit 1; \
 		cd ..; \
 	done
 
 install-go-lint:
-	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin v1.51.2
+	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo sh -s -- -b $$(go env GOPATH)/bin v1.51.2
 
 hadolint: 
 	docker run --rm -v $(pwd):/repo -i hadolint/hadolint:latest-alpine sh -c "cd /repo && hadolint -f json ./**/Dockerfile" > go-hadolint.json

@@ -14,4 +14,4 @@ runner:
     format: pep8
   golangci-lint:
     cmd: 'make go-lint && cat go-lint.txt | tee "$PWD"/scan_results/goLintResults.txt'
-    format: golangci-lint
+    format: golangci-lint # (go lint)

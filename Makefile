@@ -92,7 +92,7 @@ go-lint:
 	for repo in ${GOREPOS}; do \
 		echo rtsf-at-checkout-$$repo; \
 		cd rtsf-at-checkout-$$repo; \
-		golangci-lint run --config ../.github/.golangci.yml --out-format=line-number >> go-lint.txt ; \
+		golangci-lint run --config ../.github/.golangci.yml --out-format=line-number >> ../go-lint.txt ; \
 		cd ..; \
 	done
 
@@ -100,7 +100,7 @@ install-go-lint:
 	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin v1.51.2
 
 hadolint: 
-	docker run --rm -v $(pwd):/repo -i hadolint/hadolint:latest-alpine sh -c "cd /repo && hadolint -f json ./**/Dockerfile" > go-lint.json
+	docker run --rm -v $(pwd):/repo -i hadolint/hadolint:latest-alpine sh -c "cd /repo && hadolint -f json ./**/Dockerfile" > go-hadolint.json
 
 cv-roi:
 	cd rtsf-at-checkout-cv-region-of-interest; \

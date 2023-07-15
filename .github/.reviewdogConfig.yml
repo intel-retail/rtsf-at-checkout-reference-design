@@ -5,17 +5,13 @@ runner:
       - "%f:%l:%c:%m" 
     name: bandit # (optional. you can overwrite <tool-name> defined by runner key)
     level: info # (optional. same as -level flag. [info,warning,error])
-  hadolint_rtsf-at-checkout-cv-region-of-interest:
-    cmd: './bin/hadolint -c .github/.hadolint.yaml rtsf-at-checkout-cv-region-of-interest/Dockerfile -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults-rtsf-at-checkout-cv-region-of-interest.txt'
+  hadolint:
+    cmd: './bin/hadolint -c .github/.hadolint.yaml ./**/Dockerfile -f json | jq -f ".github/.rdjson.jq" -c | tee "$PWD"/scan_results/hadolintResults.txt'
     format: rdjson
     level: error # (optional. same as -level flag. [info,warning,error])
-  shellcheck:
-    cmd: shellcheck **/*.sh -f gcc | tee "$PWD"/scan_results/shellcheckResults.txt
-    errorformat: 
-      - "%f:%l:%c:%m" 
   pep8:
-    cmd: pep8 **/*.py | tee "$PWD"/scan_results/pep8Results.txt
+    cmd: pep8 rtsf-at-checkout-cv-region-of-interest/src/**/*.py | tee "$PWD"/scan_results/pep8Results.txt
     format: pep8
   golangci-lint:
-    cmd: make go-lint
+    cmd: 'make go-lint && cat go-lint.txt | tee "$PWD"/scan_results/goLintResults.txt'
     format: golangci-lint

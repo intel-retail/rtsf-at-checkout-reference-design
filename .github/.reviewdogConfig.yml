@@ -1,6 +1,6 @@
 runner:
   bandit:
-    cmd:  'bandit -r ./ -f custom --msg-template "{relpath}:{line}:{col}:{test_id}:{severity}:{msg}" | tee "$PWD"/scan_results/banditResults.txt' 
+    cmd:  'bandit -r ./rtsf-at-checkout-cv-region-of-interest/src -f custom --msg-template "{relpath}:{line}:{col}:{test_id}:{severity}:{msg}" | tee "$PWD"/scan_results/banditResults.txt' 
     errorformat: # (optional if you use `format`)
       - "%f:%l:%c:%m" 
     name: bandit # (optional. you can overwrite <tool-name> defined by runner key)
@@ -10,8 +10,8 @@ runner:
     format: rdjson
     level: error # (optional. same as -level flag. [info,warning,error])
   pep8:
-    cmd: pep8 rtsf-at-checkout-cv-region-of-interest/src/**/*.py | tee "$PWD"/scan_results/pep8Results.txt
+    cmd: pep8 ./rtsf-at-checkout-cv-region-of-interest/src/*.py | tee "$PWD"/scan_results/pep8Results.txt
     format: pep8
   golangci-lint:
-    cmd: 'make go-lint && cat go-lint.txt | tee "$PWD"/scan_results/goLintResults.txt'
+    cmd: 'make go-lint | cat goLintResults.txct | tee "$PWD"/scan_results/goLintResults.txt'
     format: golangci-lint

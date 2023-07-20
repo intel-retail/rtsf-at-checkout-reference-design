@@ -5,19 +5,23 @@
 
 name: trivy_image_scan
 
-on: workflow_dispatch
-
+# on: workflow_dispatch
+on:
+  push:
+    branches:
+    - master
+  pull_request:
 
 permissions:
   contents: read
 
 jobs:
-    trivy_image_scan_cv-region-of-interest:
+    trivy_image_scan-cv-region-of-interest:
       permissions:
         contents: read # for actions/checkout to fetch code
         security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
         actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-      name: trivy_image_scan_cv-region-of-interest
+      name: trivy_image_scan-cv-region-of-interest
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
@@ -35,8 +39,25 @@ jobs:
             image-ref: 'rtsf-at-checkout/cv-region-of-interest:dev'
             format: 'template'
             template: '@/contrib/sarif.tpl'
-            output: 'trivy-results.sarif'
+            output: 'trivy-results-cv-region-of-interest.sarif'
             severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-cv-region-of-interest.sarif'
+
+    trivy_image_scan-device-scale:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-device-scale
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # device-scale
         - name: Build an image from Dockerfile
           run: |
@@ -48,8 +69,25 @@ jobs:
             image-ref: 'rtsf-at-checkout/device-scale:dev'
             format: 'template'
             template: '@/contrib/sarif.tpl'
-            output: 'trivy-results.sarif'
+            output: 'trivy-results-device-scale.sarif'
             severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-device-scale.sarif'
+
+    trivy_image_scan-reconciler:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-reconciler
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # reconciler
         - name: Build an image from Dockerfile
           run: |
@@ -61,8 +99,25 @@ jobs:
             image-ref: 'rtsf-at-checkout/event-reconciler:dev'
             format: 'template'
             template: '@/contrib/sarif.tpl'
-            output: 'trivy-results.sarif'
+            output: 'trivy-results-reconciler.sarif'
             severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-reconciler.sarif'
+
+    trivy_image_scan-loss-detector:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-loss-detector
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # loss-detector
         - name: Build an image from Dockerfile
           run: |
@@ -74,8 +129,25 @@ jobs:
             image-ref: 'rtsf-at-checkout/loss-detector:dev'
             format: 'template'
             template: '@/contrib/sarif.tpl'
-            output: 'trivy-results.sarif'
+            output: 'trivy-results-loss-detector.sarif'
             severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-loss-detector.sarif'
+
+    trivy_image_scan-product-lookup:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-product-lookup
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # product-lookup
         - name: Build an image from Dockerfile
           run: |
@@ -87,10 +159,9 @@ jobs:
             image-ref: 'rtsf-at-checkout/product-lookup:dev'
             format: 'template'
             template: '@/contrib/sarif.tpl'
-            output: 'trivy-results.sarif'
+            output: 'trivy-results-product-lookup.sarif'
             severity: 'CRITICAL,HIGH'
-
         - name: Upload Trivy scan results to GitHub Security tab
           uses: github/codeql-action/upload-sarif@v2
           with:
-            sarif_file: 'trivy-results.sarif'
+            sarif_file: 'trivy-results-product-lookup.sarif'

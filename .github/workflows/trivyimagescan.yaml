@@ -5,19 +5,23 @@
 
 name: trivy_image_scan
 
-on: workflow_dispatch
-
+# on: workflow_dispatch
+on:
+  push:
+    branches:
+    - master
+  pull_request:
 
 permissions:
   contents: read
 
 jobs:
-    trivy_image_scan:
+    trivy_image_scan-cv-region-of-interest:
       permissions:
         contents: read # for actions/checkout to fetch code
         security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
         actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-      name: trivy_image_scan
+      name: trivy_image_scan-cv-region-of-interest
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
@@ -41,6 +45,19 @@ jobs:
           uses: github/codeql-action/upload-sarif@v2
           with:
             sarif_file: 'trivy-results-cv-region-of-interest.sarif'
+
+    trivy_image_scan-device-scale:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-device-scale
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # device-scale
         - name: Build an image from Dockerfile
           run: |
@@ -58,6 +75,19 @@ jobs:
           uses: github/codeql-action/upload-sarif@v2
           with:
             sarif_file: 'trivy-results-device-scale.sarif'
+
+    trivy_image_scan-reconciler:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-reconciler
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # reconciler
         - name: Build an image from Dockerfile
           run: |
@@ -75,6 +105,19 @@ jobs:
           uses: github/codeql-action/upload-sarif@v2
           with:
             sarif_file: 'trivy-results-reconciler.sarif'
+
+    trivy_image_scan-loss-detector:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-loss-detector
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # loss-detector
         - name: Build an image from Dockerfile
           run: |
@@ -92,6 +135,19 @@ jobs:
           uses: github/codeql-action/upload-sarif@v2
           with:
             sarif_file: 'trivy-results-loss-detector.sarif'
+
+    trivy_image_scan-product-lookup:
+      permissions:
+        contents: read # for actions/checkout to fetch code
+        security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      name: trivy_image_scan-product-lookup
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+            ref: main
         # product-lookup
         - name: Build an image from Dockerfile
           run: |

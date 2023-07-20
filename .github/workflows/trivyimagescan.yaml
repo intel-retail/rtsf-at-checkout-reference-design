@@ -12,19 +12,19 @@ permissions:
   contents: read
 
 jobs:
-    trivy_image_scan_cv-region-of-interest:
+    trivy_image_scan:
       permissions:
         contents: read # for actions/checkout to fetch code
         security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
         actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
-      name: trivy_image_scan_cv-region-of-interest
+      name: trivy_image_scan
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
           uses: actions/checkout@v3
           with:
             ref: main
-
+        # cv-region-of-interest
         - name: Build an image from Dockerfile
           run: |
             echo "running make build benchmark"
@@ -35,10 +35,77 @@ jobs:
             image-ref: 'rtsf-at-checkout/cv-region-of-interest:dev'
             format: 'template'
             template: '@/contrib/sarif.tpl'
-            output: 'trivy-results.sarif'
+            output: 'trivy-results-cv-region-of-interest.sarif'
             severity: 'CRITICAL,HIGH'
-
         - name: Upload Trivy scan results to GitHub Security tab
           uses: github/codeql-action/upload-sarif@v2
           with:
-            sarif_file: 'trivy-results.sarif'
+            sarif_file: 'trivy-results-cv-region-of-interest.sarif'
+        # device-scale
+        - name: Build an image from Dockerfile
+          run: |
+            echo "running make build benchmark"
+            make device-scale
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          with:
+            image-ref: 'rtsf-at-checkout/device-scale:dev'
+            format: 'template'
+            template: '@/contrib/sarif.tpl'
+            output: 'trivy-results-device-scale.sarif'
+            severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-device-scale.sarif'
+        # reconciler
+        - name: Build an image from Dockerfile
+          run: |
+            echo "running make build benchmark"
+            make reconciler
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          with:
+            image-ref: 'rtsf-at-checkout/event-reconciler:dev'
+            format: 'template'
+            template: '@/contrib/sarif.tpl'
+            output: 'trivy-results-reconciler.sarif'
+            severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-reconciler.sarif'
+        # loss-detector
+        - name: Build an image from Dockerfile
+          run: |
+            echo "running make build benchmark"
+            make loss-detector
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          with:
+            image-ref: 'rtsf-at-checkout/loss-detector:dev'
+            format: 'template'
+            template: '@/contrib/sarif.tpl'
+            output: 'trivy-results-loss-detector.sarif'
+            severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-loss-detector.sarif'
+        # product-lookup
+        - name: Build an image from Dockerfile
+          run: |
+            echo "running make build benchmark"
+            make product-lookup
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          with:
+            image-ref: 'rtsf-at-checkout/product-lookup:dev'
+            format: 'template'
+            template: '@/contrib/sarif.tpl'
+            output: 'trivy-results-product-lookup.sarif'
+            severity: 'CRITICAL,HIGH'
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+            sarif_file: 'trivy-results-product-lookup.sarif'

@@ -69,10 +69,10 @@ docker:
 	for repo in ${REPOS}; do \
 		echo rtsf-at-checkout-$$repo; \
 		cd rtsf-at-checkout-$$repo; \
-		docker build \
+		docker build --rm \
 	    --build-arg http_proxy \
 	    --build-arg https_proxy \
-		-f ./Dockerfile \
+		-f Dockerfile \
 		-t rtsf-at-checkout/$$repo:$(DOCKER_TAG) \
 		. || exit 1; \
 		cd ..; \

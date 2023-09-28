@@ -20,6 +20,9 @@ clean-docker: docker-rm
 run-portainer:
 	cd ./loss-detection-app && docker compose -f docker-compose.portainer.yml up -d
 
+run-edgex:
+	cd ./loss-detection-app && docker compose -f docker-compose.edgex.yml up -d
+
 run-base:
 	cd ./loss-detection-app && \
 	docker compose -f docker-compose.edgex.yml up -d && \

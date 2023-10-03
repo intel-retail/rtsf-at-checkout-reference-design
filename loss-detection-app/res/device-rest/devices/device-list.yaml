@@ -1,0 +1,41 @@
+# Copyright (C) 2023 Intel Corp.
+# 
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Pre-define Devices
+deviceList:
+  - name: pos-rest
+    profileName: pos
+    description: RESTful Device that sends in JSON POS data
+    labels:
+      - REST
+      - json
+      - pos
+    protocols:
+      other: {}
+  - name: cv-roi-rest
+    profileName: cv-roi
+    description: RESTful device for CV ROI events
+    labels:
+      - REST
+      - cv
+      - ROI
+    protocols:
+      other: {}
+  - name: rfid-roi-rest
+    profileName: rfid-roi
+    description: RESTful device for RFID ROI events
+    labels:
+      - REST
+      - RFID
+      - ROI
+    protocols:
+      other: {}
+  - name: scale-rest
+    profileName: scale
+    description: RESTful device for Scale
+    labels:
+      - REST
+      - scale
+    protocols:
+      other: {}

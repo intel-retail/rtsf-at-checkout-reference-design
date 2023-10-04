@@ -151,7 +151,8 @@ func findSerialPort(ports []*enumerator.PortDetails, pid string, vid string) (st
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	//Previously validated by ValidateDevice
+	// Previously validated by ValidateDevice implicitly called by SDK
+
 	serialProtocol := protocols["serial"]
 	pid := serialProtocol["PID"].(string)
 	vid := serialProtocol["VID"].(string)
@@ -208,8 +209,7 @@ func (drv *ScaleDriver) Discover() error {
 	return errors.New("discovery not implemented")
 }
 
-// Validate is a callback function that is invoked
-// by the SDK but should never be called.
+// Validate is a callback function that is invoked by the SDK
 func (drv *ScaleDriver) ValidateDevice(device models.Device) error {
 
 	// Device service protocol validation

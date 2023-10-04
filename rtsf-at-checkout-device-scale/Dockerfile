@@ -19,7 +19,7 @@ RUN go mod download
 COPY . .
 
 RUN go mod tidy
-RUN CGO_ENABLED=0 go build -tags no_zmq -o device-scale cmd/main.go
+RUN CGO_ENABLED=0 go build -o device-scale cmd/main.go
 
 # Next image - Copy built Go binary into new workspace
 FROM alpine:3.17
@@ -33,4 +33,4 @@ COPY --from=builder /device-scale/cmd/res/configuration.yaml /res/configuration.
 COPY --from=builder /device-scale/cmd/res/profiles/cas-scale.yaml /res/profiles/cas-scale.yaml
 COPY --from=builder /device-scale/cmd/res/devices/device-list.yaml /res/devices/device-list.yaml
 
-CMD [ "/device-scale","--cp=consul://edgex-core-consul:8500"]
+CMD [ "/device-scale","--cp=consul://edgex-core-consul:8500", "--registry"]

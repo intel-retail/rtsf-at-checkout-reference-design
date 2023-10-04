@@ -1,0 +1,42 @@
+# Copyright (C) 2023 Intel Corp.
+# 
+# SPDX-License-Identifier: BSD-3-Clause
+
+deviceList:
+  - name: pos-mqtt
+    profileName: pos
+    description: MQTT device for POS
+    labels:
+      - MQTT
+      - pos
+    protocols:
+      mqtt:
+        CommandTopic: EdgeXPosCommand
+  - name: scale-mqtt
+    profileName: scale
+    description: MQTT device for Scale
+    labels:
+      - MQTT
+      - scale
+    protocols:
+      mqtt:
+        CommandTopic: EdgeXScaleCommand
+  - name: rfid-roi-mqtt
+    profileName: rfid-roi
+    description: MQTT device for RFID ROI events
+    labels:
+      - MQTT
+      - rfid
+    protocols:
+      mqtt:
+        CommandTopic: EdgeXRfidCommand
+  - name: cv-roi-mqtt
+    profileName: cv-roi
+    description: MQTT device for CV ROI events
+    labels:
+      - MQTT
+      - cv
+      - ROI
+    protocols:
+      mqtt:
+        CommandTopic: EdgeXRoiCommand

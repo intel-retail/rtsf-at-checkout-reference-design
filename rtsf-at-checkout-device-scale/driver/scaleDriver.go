@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 // Package driver - This package provides a implementation of a ProtocolDriver interface.
-//
 package driver
 
 import (
@@ -12,13 +11,13 @@ import (
 	"strings"
 	"time"
 
-	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	device "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
+	dsModels "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
 	"go.bug.st/serial.v1/enumerator"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	edgexcommon "github.com/edgexfoundry/go-mod-core-contracts/v2/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	edgexcommon "github.com/edgexfoundry/go-mod-core-contracts/v3/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 )
 
 // ScaleDriver the driver for a collection of scales
@@ -32,7 +31,7 @@ type ScaleDriver struct {
 }
 
 // NewScaleDeviceDriver instantiates a scale driver
-func NewScaleDeviceDriver() dsModels.ProtocolDriver {
+func NewScaleDeviceDriver() interfaces.ProtocolDriver {
 	return new(ScaleDriver)
 }
 
@@ -42,12 +41,12 @@ func (drv *ScaleDriver) DisconnectDevice(deviceName string, protocols map[string
 }
 
 // Initialize initialize device
-func (drv *ScaleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *dsModels.AsyncValues, deviceCh chan<- []dsModels.DiscoveredDevice) error {
+func (drv *ScaleDriver) Initialize(sdk interfaces.DeviceServiceSDK) error {
 
-	drv.lc = lc
-	drv.asyncCh = asyncCh
+	drv.lc = sdk.LoggingClient()
+	drv.asyncCh = sdk.AsyncValuesChannel()
 	drv.httpErrors = make(chan error, 2)
-	drv.config = device.DriverConfigs()
+	drv.config = sdk.DriverConfigs()
 
 	return nil
 }
@@ -131,6 +130,11 @@ func (drv *ScaleDriver) Stop(force bool) error {
 	return nil
 }
 
+// Start starts the driver logic
+func (drv *ScaleDriver) Start() error {
+	return nil
+}
+
 func findSerialPort(ports []*enumerator.PortDetails, pid string, vid string) (string, error) {
 
 	for _, port := range ports {
@@ -147,19 +151,10 @@ func findSerialPort(ports []*enumerator.PortDetails, pid string, vid string) (st
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (drv *ScaleDriver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
+	//Previously validated by ValidateDevice
 	serialProtocol := protocols["serial"]
-	if serialProtocol == nil {
-		return fmt.Errorf("serialProtocol can not be nil")
-	}
-
-	pid := serialProtocol["PID"]
-	if len(pid) == 0 {
-		return fmt.Errorf("PID is empty")
-	}
-	vid := serialProtocol["VID"]
-	if len(vid) == 0 {
-		return fmt.Errorf("VID is empty")
-	}
+	pid := serialProtocol["PID"].(string)
+	vid := serialProtocol["VID"].(string)
 
 	ports, err := enumerator.GetDetailedPortsList()
 	if err != nil {
@@ -203,5 +198,48 @@ func (drv *ScaleDriver) UpdateDevice(deviceName string, protocols map[string]mod
 func (drv *ScaleDriver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
 	// Nothing required to do for RemoveDevice since removed device will no longer be available
 	// when data is posted to REST endpoint.
+	return nil
+}
+
+// Discover is a callback function that is invoked
+// by the SDK but should never be called
+func (drv *ScaleDriver) Discover() error {
+
+	return errors.New("discovery not implemented")
+}
+
+// Validate is a callback function that is invoked
+// by the SDK but should never be called.
+func (drv *ScaleDriver) ValidateDevice(device models.Device) error {
+
+	// Device service protocol validation
+	serial, ok := device.Protocols["serial"]
+	if !ok {
+		return errors.New("protocols missing serial section")
+	}
+
+	value, ok := serial["VID"]
+	if !ok {
+		return errors.New("serial Protocol missing VID setting")
+	}
+	vid, ok := value.(string)
+	if !ok {
+		return errors.New("VID value is not a string")
+	}
+	if len(vid) == 0 {
+		return errors.New("VID is empty")
+	}
+
+	value, ok = serial["PID"]
+	if !ok {
+		return errors.New("serial Protocol missing PID setting")
+	}
+	pid, ok := value.(string)
+	if !ok {
+		return errors.New("PID value is not a string")
+	}
+	if len(pid) == 0 {
+		return errors.New("PID is empty")
+	}
 	return nil
 }

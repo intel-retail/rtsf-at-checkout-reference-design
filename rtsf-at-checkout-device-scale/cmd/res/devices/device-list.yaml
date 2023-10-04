@@ -1,0 +1,40 @@
+# Copyright (C) 2023 Intel Corp.
+# 
+# SPDX-License-Identifier: BSD-3-Clause
+
+deviceList:
+  - name: cas-ed-15-001
+    profileName: cas-scale
+    description: CAS ED-15 serial weight scale
+    labels:
+      - cas
+      - ed-15
+      - scale
+      - serial
+    protocols:
+      serial:
+        VID: '0403'
+        PID: '6001'
+    autoEvents:
+      - interval: 1s
+        onChange: true
+        sourceName: weight
+
+# deviceList:
+#   - name: cas-pd-2z-001
+#     profileName: cas-scale
+#     description: CAS PD-2Z serial weight scale
+#     labels:
+#       - cas
+#       - pd-2z
+#       - scale
+#       - serial
+#     protocols:
+#       serial:
+#         VID: '0403'
+#         PID: TBD
+#     autoEvents:
+#       - interval: 1s
+#         onChange: true
+#         sourceName: weight
+

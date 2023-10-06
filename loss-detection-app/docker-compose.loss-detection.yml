@@ -35,14 +35,8 @@ services:
       networks:
       - loss-detection-app_edgex-network
       environment:
-        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-        CLIENTS_CORE_DATA_HOST: edgex-core-data
-        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
         EDGEX_SECURITY_SECRET_STORE: "false"
-        REGISTRY_HOST: edgex-core-consul
         SERVICE_HOST: event-reconciler
-        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
-        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
         RECONCILER_PRODUCTLOOKUPENDPOINT: product-lookup:8083
       security_opt:
       - no-new-privileges:true
@@ -86,13 +80,7 @@ services:
       networks:
       - loss-detection-app_edgex-network
       environment:
-        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-        CLIENTS_CORE_DATA_HOST: edgex-core-data
-        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
         EDGEX_SECURITY_SECRET_STORE: "false"
-        REGISTRY_HOST: edgex-core-consul
         SERVICE_HOST: loss-detector
-        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
-        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
       security_opt:
       - no-new-privileges:true

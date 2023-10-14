@@ -1,0 +1,29 @@
+# Copyright (C) 2019 - 2023 Intel Corp.
+# 
+# SPDX-License-Identifier: BSD-3-Clause
+
+Writable:
+  LogLevel: INFO
+
+Service:
+  Host: localhost
+  Port: 48095
+  StartupMsg: Event Reconciler has started
+  ServerBindAddr: ''
+
+MessageBus:
+    Optional:
+      ClientId: event-reconciler
+      
+Reconciler:
+  DeviceNames: >-
+    pos-rest, pos-mqtt, device-scale, scale-rest, scale-mqtt, cv-roi-rest,
+    cv-roi-mqtt, rfid-roi-rest, rfid-roi-mqtt
+  DevicePos: device-pos
+  DeviceScale: device-scale
+  DeviceCV: device-cv-roi
+  DeviceRFID: device-rfid-roi
+  ProductLookupEndpoint: 'localhost:8083'
+  WebSocketPort: '9083'
+  ScaleToScaleTolerance: 0.02
+  CvTimeAlignment: 5s

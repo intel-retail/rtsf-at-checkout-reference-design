@@ -1,4 +1,4 @@
-// Copyright © 2022 Intel Corporation. All rights reserved.
+// Copyright © 2023 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
@@ -6,7 +6,7 @@ package events
 import (
 	"encoding/json"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -20,7 +20,7 @@ func productLookup(productID string, productLookupEndpoint string) (ProductDetai
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		errString, _ := ioutil.ReadAll(resp.Body)
+		errString, _ := io.ReadAll(resp.Body)
 		return ProductDetails{}, errors.New(string(errString))
 	}
 

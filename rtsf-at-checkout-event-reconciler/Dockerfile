@@ -26,5 +26,5 @@ COPY --from=builder /event-reconciler/res /res
 COPY --from=builder /event-reconciler/event-reconciler /event-reconciler
 
 
-CMD [ "/event-reconciler" ,"--cp=consul://edgex-core-consul:8500","--registry","--configDir=/res"]
+CMD [ "/event-reconciler" ,"--cp=consul://edgex-core-consul:8500","--registry"]
 

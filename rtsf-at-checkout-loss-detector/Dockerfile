@@ -28,4 +28,4 @@ LABEL license='SPDX-License-Identifier: BSD-3-Clause' \
 COPY --from=builder /loss-detector/res/ /res/
 COPY --from=builder /loss-detector/loss-detector /loss-detector
 
-CMD [ "/loss-detector", "--cp=consul://edgex-core-consul:8500", "--registry", "--configDir=/res"]
+CMD [ "/loss-detector", "--cp=consul://edgex-core-consul:8500", "--registry"]

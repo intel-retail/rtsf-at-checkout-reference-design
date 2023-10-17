@@ -8,7 +8,6 @@ Writable:
 Service:
   Host: localhost
   Port: 48096
-  ServerBindAddr: ''
   StartupMsg: Starting Loss Detector
 
 MessageBus:

@@ -1,4 +1,4 @@
-// Copyright © 2022 Intel Corporation. All rights reserved.
+// Copyright © 2023 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package main
@@ -8,10 +8,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg"
-	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
-	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/transforms"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg"
+	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg/interfaces"
+	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg/transforms"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
 
 	"event-reconciler/config"
 	"event-reconciler/events"
@@ -73,12 +73,12 @@ func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string) 
 		writer.WriteHeader(200)
 	}, "GET")
 
-	app.service.SetFunctionsPipeline(
+	app.service.SetDefaultFunctionsPipeline(
 		transforms.NewFilterFor(deviceNames).FilterByDeviceName,
 		eventsProcessor.ProcessCheckoutEvents,
 	)
 
-	app.service.MakeItRun()
+	app.service.Run()
 
 	return 0
 }

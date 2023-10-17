@@ -1,6 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2020 Redis Labs Inc.
-#  * Copyright 2022 Intel Corporation.
+#  * Copyright 2023 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -16,8 +16,8 @@
 # NOTE:  this Docker Compose file does not contain the security services - namely the API Gateway
 # and Secret Store
 networks:
-  edgex-network:
-    name: edgex_edgex-network
+  loss-detection-app_edgex-network:
+    name: loss-detection-app_edgex-network
     driver: bridge
 services:
   core-command:
@@ -39,7 +39,7 @@ services:
     hostname: edgex-core-command
     image: edgexfoundry/core-command:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -63,7 +63,7 @@ services:
     hostname: edgex-core-consul
     image: hashicorp/consul:1.15.2
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -102,7 +102,7 @@ services:
     hostname: edgex-core-data
     image: edgexfoundry/core-data:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -119,7 +119,7 @@ services:
     hostname: edgex-redis
     image: redis:7.0.11-alpine
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -158,7 +158,7 @@ services:
     hostname: edgex-device-mqtt
     image: edgexfoundry/device-mqtt:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -188,7 +188,7 @@ services:
     hostname: edgex-device-rest
     image: edgexfoundry/device-rest:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -215,7 +215,7 @@ services:
     hostname: edgex-core-metadata
     image: edgexfoundry/core-metadata:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -236,7 +236,7 @@ services:
     hostname: edgex-mqtt-broker
     image: eclipse-mosquitto:2.0.15
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -263,7 +263,7 @@ services:
     hostname: edgex-support-notifications
     image: edgexfoundry/support-notifications:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       host_ip: 127.0.0.1
@@ -283,7 +283,7 @@ services:
     hostname: edgex-ui-go
     image: edgexfoundry/edgex-ui:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     ports:
     - mode: ingress
       target: 4000
@@ -310,7 +310,7 @@ services:
     hostname: edgex-core-common-config-bootstrapper
     image: edgexfoundry/core-common-config-bootstrapper:3.0.0
     networks:
-      edgex-network: {}
+      loss-detection-app_edgex-network: {}
     read_only: true
     security_opt:
     - no-new-privileges:true

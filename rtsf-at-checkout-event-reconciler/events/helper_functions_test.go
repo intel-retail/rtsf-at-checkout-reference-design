@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2023 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

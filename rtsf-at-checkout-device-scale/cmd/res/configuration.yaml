@@ -1,0 +1,26 @@
+# Copyright (C) 2023 Intel Corp.
+# 
+# SPDX-License-Identifier: BSD-3-Clause
+
+Writable:
+  LogLevel: INFO
+
+Service:
+  Host: localhost
+  Port: 26599
+  StartupMsg: device scale started
+
+Device:
+  ProfilesDir: ./res/profiles
+  DevicesDir: ./res/devices
+
+
+MessageBus:
+  Optional:
+    ClientId: device-scale
+
+Driver:
+  SimulatorPort: '8081'
+  ScaleID: '123'
+  LaneID: '123'
+  TimeOutMilli: '500'

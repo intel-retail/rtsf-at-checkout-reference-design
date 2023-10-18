@@ -12,7 +12,7 @@ MQTT_BROKER_HOST = "edgex-mqtt-broker"
 MQTT_BROKER_PORT = 1883
 MQTT_KEEPALIVE = 60
 MQTT_INCOMING_TOPIC_NAME = "AnalyticsData"
-MQTT_OUTBOUND_TOPIC_NAME = "edgex"
+MQTT_OUTBOUND_TOPIC_NAME = "incoming/data/" + EDGEX_DEVICE_NAME + "/" + EDGEX_ROI_EVENT
 EDGEX_DEVICE_NAME = "cv-roi-mqtt"
 EDGEX_ROI_EVENT = "cv-roi-event"
 EDGEX_ENTER_EVENT = 'ENTERED'
@@ -33,11 +33,7 @@ def create_event_message(source, key, event_type, roi_name, frame_path):
     enter_exit_event["roi_name"] = roi_name
     if frame_path:
         enter_exit_event["frame_path"] = frame_path
-    edgex_message = {}
-    edgex_message["name"] = EDGEX_DEVICE_NAME
-    edgex_message["cmd"] = EDGEX_ROI_EVENT
-    edgex_message[EDGEX_ROI_EVENT] = json.dumps(enter_exit_event)
-    return json.dumps(edgex_message)
+    return json.dumps(enter_exit_event)
 
 def on_connect(client, userdata, message, rc):
     print("Connected to mqtt broker")
@@ -76,7 +72,7 @@ def on_message(client, userdata, message):
 
             #For each frame, add the label or increment it in the dict if it is seen
             if label in newFrameDict:
-                newFrameDict[label] = newFrameDict[label] + 1;
+                newFrameDict[label] = newFrameDict[label] + 1
             else:
                 newFrameDict[label] = 1
 

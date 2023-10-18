@@ -80,6 +80,7 @@ services:
       networks:
       - loss-detection-app_edgex-network
       environment:
+        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
         EDGEX_SECURITY_SECRET_STORE: "false"
         SERVICE_HOST: loss-detector
       security_opt:

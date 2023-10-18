@@ -1,0 +1,26 @@
+# Copyright (C) 2019 - 2023 Intel Corp.
+# 
+# SPDX-License-Identifier: BSD-3-Clause
+
+Writable:
+  LogLevel: INFO
+
+Service:
+  Host: localhost
+  Port: 48096
+  StartupMsg: Starting Loss Detector
+
+MessageBus:
+  Optional:
+    ClientId: loss-detector
+
+Clients:
+  support-notifications:
+    Protocol: "http"
+    Host: "localhost"
+    Port: 59860
+
+ApplicationSettings:
+  NotificationEmailAddresses: 'cloud@abc.def,jack@abc.def'
+  NotificationName: sys-admin
+

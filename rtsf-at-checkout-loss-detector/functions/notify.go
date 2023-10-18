@@ -9,12 +9,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
-	clientInterfaces "github.com/edgexfoundry/go-mod-core-contracts/v2/clients/interfaces"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos/requests"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg/interfaces"
+	clientInterfaces "github.com/edgexfoundry/go-mod-core-contracts/v3/clients/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos/requests"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 	"github.com/google/uuid"
 )
 

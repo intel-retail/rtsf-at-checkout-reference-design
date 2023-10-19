@@ -12,7 +12,8 @@ MQTT_BROKER_HOST = "edgex-mqtt-broker"
 MQTT_BROKER_PORT = 1883
 MQTT_KEEPALIVE = 60
 MQTT_INCOMING_TOPIC_NAME = "AnalyticsData"
-MQTT_OUTBOUND_TOPIC_NAME = "incoming/data/" + EDGEX_DEVICE_NAME + "/" + EDGEX_ROI_EVENT
+MQTT_OUTBOUND_TOPIC_NAME = "incoming/data/" + EDGEX_DEVICE_NAME + \
+                           "/" + EDGEX_ROI_EVENT
 EDGEX_DEVICE_NAME = "cv-roi-mqtt"
 EDGEX_ROI_EVENT = "cv-roi-event"
 EDGEX_ENTER_EVENT = 'ENTERED'
@@ -50,7 +51,8 @@ def on_message(client, userdata, message):
     width = resolution["width"]
     source = python_obj["source"]
     roi_name = python_obj["tags"]["roi_name"]
-    timestamp = python_obj["timestamp"] # timestamp is milliseconds since start of stream
+    # timestamp is milliseconds since start of stream
+    timestamp = python_obj["timestamp"]
     frame_path = None
     frame_id = python_obj.get("frame_id")
     template = python_obj["tags"].get("file-location")

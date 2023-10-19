@@ -1,4 +1,4 @@
-// Copyright © 2019 Intel Corporation. All rights reserved.
+// Copyright © 2023 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package main
@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -58,7 +57,7 @@ type commandlineFlags struct {
 }
 
 func init() {
-	content, err := ioutil.ReadFile(configFilename)
+	content, err := os.ReadFile(configFilename)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
@@ -170,7 +169,7 @@ func (chkoutEvt *CheckoutEvent) buildHTTPEndpoint() string {
 
 func loadCheckoutEvents(filePath string) (CheckoutEvents, error) {
 	var events CheckoutEvents
-	contents, err := ioutil.ReadFile(filePath)
+	contents, err := os.ReadFile(filePath)
 	if err != nil {
 		return events, err
 	}

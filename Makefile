@@ -29,7 +29,7 @@ run-base:
 	docker compose -f docker-compose.loss-detection.yml up -d
 
 run-vap: models run-base
-	cd ./loss-detection-app && \ul
+	cd ./loss-detection-app && \
 	docker compose -f docker-compose.vap.yml up -d
 
 run-full: run-vap

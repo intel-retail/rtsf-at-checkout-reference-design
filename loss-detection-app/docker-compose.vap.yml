@@ -17,7 +17,8 @@ version: '3.7'
 
 networks:
   loss-detection-app_edgex-network:
-    external: true
+    name: loss-detection-app_edgex-network
+    driver: bridge
 
 services:
   cv-region-of-interest:
@@ -40,7 +41,7 @@ services:
       - CAMERA0_FRAME_STORE=/tmp/my-frame-store
     user: "${UID}:${GID}"
     networks:
-      - loss-detection-app_edgex-network
+      loss-detection-app_edgex-network: {}
     volumes:
       - /tmp:/tmp
     depends_on:
@@ -55,7 +56,7 @@ services:
     hostname: pipeline-server
     privileged: true
     networks:
-      - loss-detection-app_edgex-network
+      loss-detection-app_edgex-network: {}
     environment:
       - ENABLE_RTSP=true
       - EMIT_SOURCE_AND_DESTINATION=true

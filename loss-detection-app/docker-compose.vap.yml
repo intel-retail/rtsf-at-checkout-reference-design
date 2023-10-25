@@ -17,8 +17,7 @@ version: '3.7'
 
 networks:
   loss-detection-app_edgex-network:
-    name: loss-detection-app_edgex-network
-    driver: bridge
+    external: true
 
 services:
   cv-region-of-interest:

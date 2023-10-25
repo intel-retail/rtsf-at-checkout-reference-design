@@ -9,6 +9,7 @@ GOREPOS=device-scale event-reconciler loss-detector product-lookup
 .PHONY: $(REPOS)
 
 DOCKER_TAG=dev
+STACK_NAME=loss-detection
 
 docker-rm:
 	-docker rm $$(docker ps -aq)
@@ -18,33 +19,27 @@ clean-docker: docker-rm
 	docker network prune -f
 
 run-portainer:
-	cd ./loss-detection-app && docker compose -f docker-compose.portainer.yml up -d
+	cd ./loss-detection-app && docker compose -p portainer -f docker-compose.portainer.yml up -d
 
 run-edgex:
-	cd ./loss-detection-app && docker compose -f docker-compose.edgex.yml up -d
+	cd ./loss-detection-app && docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml up -d
 
 run-base:
 	cd ./loss-detection-app && \
-	docker compose -f docker-compose.edgex.yml up -d && \
-	docker compose -f docker-compose.loss-detection.yml up -d
+	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml up -d
 
-run-vap: models run-base
+run-vap: models
 	cd ./loss-detection-app && \
-	docker compose -f docker-compose.vap.yml up -d
+	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml -f docker-compose.vap.yml up -d
 
 run-full: run-vap
 
 down:
 	cd ./loss-detection-app && \
-	docker compose -f docker-compose.vap.yml down && \
-	docker compose -f docker-compose.loss-detection.yml down && \
-	docker compose -f docker-compose.edgex.yml down
+	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml -f docker-compose.vap.yml down -v
 
-vap-down:
-	cd ./loss-detection-app && \
-	docker compose -f docker-compose.vap.yml down && \
-	docker compose -f docker-compose.loss-detection.yml down && \
-	docker compose -f docker-compose.edgex.yml down
+down-portainer:
+	cd ./loss-detection-app && docker compose -p portainer -f docker-compose.portainer.yml down
 
 models:
 	if [ ! -d pipeline-server ] ; then git clone https://github.com/dlstreamer/pipeline-server; fi && \

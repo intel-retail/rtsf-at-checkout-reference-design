@@ -15,11 +15,6 @@
 
 version: '3.7'
 
-networks:
-  loss-detection-app_edgex-network:
-    name: loss-detection-app_edgex-network
-    driver: bridge
-
 volumes:
   db_vol: {}
   pos_vol: {}
@@ -34,7 +29,7 @@ services:
       container_name: event-reconciler
       hostname: event-reconciler
       networks:
-        loss-detection-app_edgex-network: {}
+        edgex-network: {}
       environment:
         EDGEX_SECURITY_SECRET_STORE: "false"
         SERVICE_HOST: event-reconciler
@@ -48,7 +43,7 @@ services:
       container_name: device-scale
       hostname: device-scale
       networks:
-        loss-detection-app_edgex-network: {}
+        edgex-network: {}
       environment:
         EDGEX_SECURITY_SECRET_STORE: "false"
         SERVICE_HOST: device-scale
@@ -67,7 +62,7 @@ services:
       container_name: product-lookup
       hostname: product-lookup
       networks:
-        loss-detection-app_edgex-network: {}
+        edgex-network: {}
       security_opt:
       - no-new-privileges:true
 
@@ -79,7 +74,7 @@ services:
       container_name: loss-detector
       hostname: loss-detector
       networks:
-        loss-detection-app_edgex-network: {}
+        edgex-network: {}
       environment:
         CLIENTS_CORE_COMMAND_HOST: edgex-core-command
         EDGEX_SECURITY_SECRET_STORE: "false"

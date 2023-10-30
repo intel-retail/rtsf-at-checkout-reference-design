@@ -12,10 +12,10 @@ MQTT_BROKER_HOST = "edgex-mqtt-broker"
 MQTT_BROKER_PORT = 1883
 MQTT_KEEPALIVE = 60
 MQTT_INCOMING_TOPIC_NAME = "AnalyticsData"
-MQTT_OUTBOUND_TOPIC_NAME = "incoming/data/" + EDGEX_DEVICE_NAME + \
-                           "/" + EDGEX_ROI_EVENT
 EDGEX_DEVICE_NAME = "cv-roi-mqtt"
 EDGEX_ROI_EVENT = "cv-roi-event"
+MQTT_OUTBOUND_TOPIC_NAME = "incoming/data/" + EDGEX_DEVICE_NAME + \
+                           "/" + EDGEX_ROI_EVENT
 EDGEX_ENTER_EVENT = 'ENTERED'
 EDGEX_EXIT_EVENT = 'EXITED'
 MQTT_BROKER_ADDRESS = MQTT_BROKER_HOST + ":" + str(MQTT_BROKER_PORT)

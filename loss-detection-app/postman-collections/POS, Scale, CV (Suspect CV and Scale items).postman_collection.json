@@ -34,7 +34,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013930000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/basket-open",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/basket-open",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -42,7 +42,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"basket-open"
@@ -80,7 +80,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"object_count\": 1,\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Staging\",\n     \"event_time\":15736013931000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -88,7 +88,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -126,7 +126,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000571111\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Trail Mix\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 5.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013932000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/scanned-item",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/scanned-item",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -134,7 +134,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"scanned-item"
@@ -172,7 +172,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"object_count\": 1,\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Bagging\",\n     \"event_time\":15736013933000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -180,7 +180,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -218,7 +218,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Scanner\",\n    \"event_time\":15736013934000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -226,7 +226,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -264,7 +264,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013935000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -272,7 +272,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -310,7 +310,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"EXITED\",\n    \"roi_name\": \"Scanner\",\n    \"event_time\":15736013936000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -318,7 +318,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -356,7 +356,7 @@
 					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Trail Mix\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Bagging\",\n    \"event_time\":15736013937000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -364,7 +364,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -402,7 +402,7 @@
 					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Staging\",\n     \"event_time\":15736013938000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -410,7 +410,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -448,7 +448,7 @@
 					"raw": "{\n \t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000884389\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Red Wine\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 10.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013939000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/scanned-item",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/scanned-item",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -456,7 +456,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"scanned-item"
@@ -494,7 +494,7 @@
 					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"EXITED\",\n    \"roi_name\": \"Staging\",\n     \"event_time\":15736013940000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -502,7 +502,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -540,7 +540,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Scanner\",\n     \"event_time\":15736013941000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -548,7 +548,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -586,7 +586,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013942000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -594,7 +594,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -632,7 +632,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"EXITED\",\n    \"roi_name\": \"Scanner\",\n     \"event_time\":15736013943000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -640,7 +640,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -678,7 +678,7 @@
 					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Red Wine\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Bagging\",\n    \"event_time\":15736013944000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -686,7 +686,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -724,7 +724,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 10.6,\n    \"units\": \"lbs\",\n    \"event_time\":15736013945000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -732,7 +732,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -770,7 +770,7 @@
 					"raw": "{\n    \"object_count\": 1,\n    \"product_name\": \"Steak\",\n    \"roi_action\": \"ENTERED\",\n    \"roi_name\": \"Bagging\",\n    \"event_time\":15736013944000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/cv-roi-rest/cv-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/cv-roi-rest/cv-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -778,7 +778,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"cv-roi-rest",
 						"cv-roi-event"
@@ -816,7 +816,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013946000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/payment-start",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/payment-start",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -824,7 +824,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"payment-start"
@@ -862,7 +862,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014200000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/payment-success",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/payment-success",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -870,7 +870,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"payment-success"
@@ -908,7 +908,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013947000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/basket-close",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/basket-close",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -916,7 +916,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"basket-close"

@@ -141,9 +141,9 @@ The checkout event simulator configuration contains RESTful endpoints and MQTT e
 
 ``` json
 {
-    "pos_endpoint": "http://localhost:59986/api/v2/resource/pos-rest",
-    "scale_endpoint": "http://localhost:59986/api/v2/resource/scale-rest",
-    "cv_roi_endpoint": "http://localhost:59986/api/v2/resource/cv-roi-rest",
-    "rfid_roi_endpoint": "http://localhost:59986/api/v2/resource/rfid-roi-rest"
+    "pos_endpoint": "http://localhost:59986/api/v3/resource/pos-rest",
+    "scale_endpoint": "http://localhost:59986/api/v3/resource/scale-rest",
+    "cv_roi_endpoint": "http://localhost:59986/api/v3/resource/cv-roi-rest",
+    "rfid_roi_endpoint": "http://localhost:59986/api/v3/resource/rfid-roi-rest"
 }
 ```

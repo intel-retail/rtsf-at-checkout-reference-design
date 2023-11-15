@@ -39,7 +39,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/basket-open",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/basket-open",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -47,7 +47,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"basket-open"
@@ -90,7 +90,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/scanned-item",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/scanned-item",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -98,7 +98,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"scanned-item"
@@ -141,7 +141,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -149,7 +149,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -192,7 +192,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/scanned-item",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/scanned-item",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -200,7 +200,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"scanned-item"
@@ -243,7 +243,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -251,7 +251,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -294,7 +294,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/scanned-item",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/scanned-item",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -302,7 +302,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"scanned-item"
@@ -345,7 +345,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -353,7 +353,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -396,7 +396,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/payment-start",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/payment-start",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -404,7 +404,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"payment-start"
@@ -447,7 +447,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/payment-success",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/payment-success",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -455,7 +455,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"payment-success"
@@ -498,7 +498,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/basket-close",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/basket-close",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -506,7 +506,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"basket-close"

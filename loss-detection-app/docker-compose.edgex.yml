@@ -168,6 +168,9 @@ services:
     restart: always
     security_opt:
     - no-new-privileges:true
+    volumes:
+    - ./res/device-mqtt/devices:/res/devices
+    - ./res/device-mqtt/profiles:/res/profiles
     user: 2002:2001
   device-rest:
     container_name: edgex-device-rest
@@ -198,6 +201,9 @@ services:
     restart: always
     security_opt:
     - no-new-privileges:true
+    volumes:
+    - ./res/device-rest/devices:/res/devices
+    - ./res/device-rest/profiles:/res/profiles
     user: 2002:2001
   core-metadata:
     container_name: edgex-core-metadata

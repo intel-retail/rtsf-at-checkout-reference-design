@@ -668,7 +668,7 @@ The event-reconciler docker logs show an error while processing the event, or no
 <h2 id="confirm-device-rest-is-online">Confirm device-rest is online</h2>
 <ol>
 <li>Open Postman.</li>
-<li>Send an HTTP GET request to <a href="http://localhost:59986/api/v2/ping">http://localhost:59986/api/v2/ping</a> to test the device-rest operation. This makes sure the service is online.</li>
+<li>Send an HTTP GET request to <a href="http://localhost:59986/api/v3/ping">http://localhost:59986/api/v3/ping</a> to test the device-rest operation. This makes sure the service is online.</li>
 </ol>
 <p><img alt="Ping Request" src="../../images/ping-get.png" /></p>
 <div class="admonition success">
@@ -681,7 +681,7 @@ The event-reconciler docker logs show an error while processing the event, or no
 </div>
 <p>You are ready to initiate your first transaction.</p>
 <h2 id="initiate-a-transaction">Initiate a transaction</h2>
-<p><code>basket-open</code> send a POST request to <a href="http://localhost:59986/api/v2/resource/pos-rest/basket-open">http://localhost:59986/api/v2/resource/pos-rest/basket-open</a> with body:</p>
+<p><code>basket-open</code> send a POST request to <a href="http://localhost:59986/api/v3/resource/pos-rest/basket-open">http://localhost:59986/api/v3/resource/pos-rest/basket-open</a> with body:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;lane_id&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;basket_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
@@ -693,7 +693,7 @@ The event-reconciler docker logs show an error while processing the event, or no
 
 <p><img alt="Basket Open Request" src="../../images/basket-open-post.png" /></p>
 <h2 id="scan-an-item">Scan an item</h2>
-<p><code>scanned-item</code> send a POST request to <a href="http://localhost:59986/api/v2/resource/pos-rest/scanned-item">http://localhost:59986/api/v2/resource/pos-rest/scanned-item</a> with body:</p>
+<p><code>scanned-item</code> send a POST request to <a href="http://localhost:59986/api/v3/resource/pos-rest/scanned-item">http://localhost:59986/api/v3/resource/pos-rest/scanned-item</a> with body:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;lane_id&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;basket_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
@@ -710,7 +710,7 @@ The event-reconciler docker logs show an error while processing the event, or no
 </code></pre></div>
 
 <h2 id="prepare-for-payment">Prepare for payment</h2>
-<p><code>payment-start</code> send a POST request to <a href="http://localhost:59986/api/v2/resource/pos-rest/payment-start">http://localhost:59986/api/v2/resource/pos-rest/payment-start</a> with body:</p>
+<p><code>payment-start</code> send a POST request to <a href="http://localhost:59986/api/v3/resource/pos-rest/payment-start">http://localhost:59986/api/v3/resource/pos-rest/payment-start</a> with body:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;lane_id&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;basket_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
@@ -721,7 +721,7 @@ The event-reconciler docker logs show an error while processing the event, or no
 </code></pre></div>
 
 <h4 id="payment-succeeded">Payment succeeded</h4>
-<p><code>payment-success</code> send a POST request to <a href="http://localhost:59986/api/v2/resource/pos-rest/payment-success">http://localhost:59986/api/v2/resource/pos-rest/payment-success</a> with body:</p>
+<p><code>payment-success</code> send a POST request to <a href="http://localhost:59986/api/v3/resource/pos-rest/payment-success">http://localhost:59986/api/v3/resource/pos-rest/payment-success</a> with body:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;lane_id&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;basket_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>
@@ -732,7 +732,7 @@ The event-reconciler docker logs show an error while processing the event, or no
 </code></pre></div>
 
 <h4 id="transaction-is-closed">Transaction is closed</h4>
-<p><code>basket-close</code> send a POST request to <a href="http://localhost:59986/api/v2/resource/pos-rest/basket-close">http://localhost:59986/api/v2/resource/pos-rest/basket-close</a> with body:</p>
+<p><code>basket-close</code> send a POST request to <a href="http://localhost:59986/api/v3/resource/pos-rest/basket-close">http://localhost:59986/api/v3/resource/pos-rest/basket-close</a> with body:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;lane_id&quot;</span><span class="p">:</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;basket_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc-012345-def&quot;</span><span class="p">,</span>

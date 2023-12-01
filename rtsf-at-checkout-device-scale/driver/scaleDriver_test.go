@@ -1,4 +1,4 @@
-// Copyright © 2022 Intel Corporation. All rights reserved.
+// Copyright © 2023 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 // Package driver - This package provides a implementation of a ProtocolDriver interface.
@@ -8,9 +8,9 @@ import (
 	"device-scale/scale"
 	"testing"
 
-	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	dsModels "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.bug.st/serial.v1/enumerator"
@@ -214,42 +214,9 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 		expectedError string
 	}{
 		{
-			name: "no serial protocol",
-			args: args{
-				deviceName: "testDeviceName",
-				protocols:  nil,
-				adminState: "full",
-			},
-			expectedError: "serialProtocol can not be nil",
-		},
-		{
-			name: "no pid",
-			args: args{
-				deviceName: "testDeviceName",
-				protocols: map[string]models.ProtocolProperties{
-					"serial": {
-						"VID": "0403",
-					},
-				},
-				adminState: "full",
-			},
-			expectedError: "PID is empty",
-		},
-		{
-			name: "no vid",
-			args: args{
-				deviceName: "testDeviceName",
-				protocols: map[string]models.ProtocolProperties{
-					"serial": {
-						"PID": "6001",
-					},
-				},
-				adminState: "full",
-			},
-			expectedError: "VID is empty",
-		},
-		{
-			name: "port list can not be found",
+			// test case is as happy as possible without a serial device
+			// due to inability of mocking serial device
+			name: "happy path - port list can not be found",
 			args: args{
 				deviceName: "testDeviceName",
 				protocols: map[string]models.ProtocolProperties{
@@ -273,6 +240,118 @@ func TestScaleDriver_AddDevice(t *testing.T) {
 			err := drv.AddDevice(tt.args.deviceName, tt.args.protocols, tt.args.adminState)
 			require.Error(t, err)
 			assert.Equal(t, tt.expectedError, err.Error())
+		})
+	}
+}
+
+func TestScaleDriver_ValidateDevice(t *testing.T) {
+	config := scale.Config{
+		PortName:        "/dev/tty.usbserial-test",
+		BaudRate:        9600,
+		DataBits:        7,
+		StopBits:        1,
+		MinimumReadSize: 1,
+		ParityMode:      2,
+		TimeOutMilli:    500,
+	}
+
+	testDevice := scale.InitializeMockDevice(&config)
+
+	tests := []struct {
+		name          string
+		device        models.Device
+		expectedError string
+	}{
+		{
+			name: "happy path protocol",
+			device: models.Device{
+				Name: "testDeviceName",
+				Protocols: map[string]models.ProtocolProperties{
+					"serial": {
+						"VID": "0403",
+						"PID": "0600",
+					},
+				},
+			},
+			expectedError: "",
+		},
+		{
+			name: "no serial protocol",
+			device: models.Device{
+				Name: "testDeviceName",
+				Protocols: map[string]models.ProtocolProperties{
+					"nonSerial": {
+						"VID": "0403",
+						"PID": "0600",
+					},
+				},
+			},
+			expectedError: "protocols missing serial section",
+		},
+		{
+			name: "no pid",
+			device: models.Device{
+				Name: "testDeviceName",
+				Protocols: map[string]models.ProtocolProperties{
+					"serial": {
+						"VID": "0403",
+					},
+				},
+			},
+			expectedError: "serial Protocol missing PID setting",
+		}, {
+			name: "empty pid",
+			device: models.Device{
+				Name: "testDeviceName",
+				Protocols: map[string]models.ProtocolProperties{
+					"serial": {
+						"PID": "",
+						"VID": "0403",
+					},
+				},
+			},
+			expectedError: "PID is empty",
+		},
+		{
+			name: "no vid",
+			device: models.Device{
+				Name: "testDeviceName",
+				Protocols: map[string]models.ProtocolProperties{
+					"serial": {
+						"PID": "6001",
+					},
+				},
+			},
+			expectedError: "serial Protocol missing VID setting",
+		},
+		{
+			name: "empty vid",
+			device: models.Device{
+				Name: "testDeviceName",
+				Protocols: map[string]models.ProtocolProperties{
+					"serial": {
+						"PID": "6001",
+						"VID": "",
+					},
+				},
+			},
+			expectedError: "VID is empty",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			drv := getDefaultScaleDriver()
+			drv.scaleDevice = &scaleDevice{
+				serialDevice: testDevice,
+			}
+
+			err := drv.ValidateDevice(tt.device)
+			if len(tt.expectedError) > 0 {
+				require.Error(t, err)
+				assert.Equal(t, tt.expectedError, err.Error())
+				return
+			}
+			require.NoError(t, err)
 		})
 	}
 }

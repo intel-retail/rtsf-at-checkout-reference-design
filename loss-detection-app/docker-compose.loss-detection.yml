@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2022 Intel Corporation.
+#  * Copyright 2023 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -15,10 +15,6 @@
 
 version: '3.7'
 
-networks:
-  loss-detection-app_edgex-network:
-    external: true
-
 volumes:
   db_vol: {}
   pos_vol: {}
@@ -33,16 +29,10 @@ services:
       container_name: event-reconciler
       hostname: event-reconciler
       networks:
-      - loss-detection-app_edgex-network
+        edgex-network: {}
       environment:
-        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-        CLIENTS_CORE_DATA_HOST: edgex-core-data
-        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
         EDGEX_SECURITY_SECRET_STORE: "false"
-        REGISTRY_HOST: edgex-core-consul
         SERVICE_HOST: event-reconciler
-        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
-        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
         RECONCILER_PRODUCTLOOKUPENDPOINT: product-lookup:8083
       security_opt:
       - no-new-privileges:true
@@ -53,14 +43,9 @@ services:
       container_name: device-scale
       hostname: device-scale
       networks:
-      - loss-detection-app_edgex-network
+        edgex-network: {}
       environment:
-        CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-        CLIENTS_CORE_DATA_HOST: edgex-core-data
-        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
         EDGEX_SECURITY_SECRET_STORE: "false"
-        MESSAGEQUEUE_HOST: edgex-mqtt-broker
-        REGISTRY_HOST: edgex-core-consul
         SERVICE_HOST: device-scale
       devices:
       - /dev/:/dev/
@@ -77,7 +62,7 @@ services:
       container_name: product-lookup
       hostname: product-lookup
       networks:
-      - loss-detection-app_edgex-network
+        edgex-network: {}
       security_opt:
       - no-new-privileges:true
 
@@ -89,15 +74,10 @@ services:
       container_name: loss-detector
       hostname: loss-detector
       networks:
-      - loss-detection-app_edgex-network
+        edgex-network: {}
       environment:
         CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-        CLIENTS_CORE_DATA_HOST: edgex-core-data
-        CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
         EDGEX_SECURITY_SECRET_STORE: "false"
-        REGISTRY_HOST: edgex-core-consul
         SERVICE_HOST: loss-detector
-        TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
-        TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
       security_opt:
       - no-new-privileges:true

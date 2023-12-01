@@ -6,7 +6,7 @@ package main
 import (
 	"device-scale/driver"
 
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/startup"
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/startup"
 )
 
 const (

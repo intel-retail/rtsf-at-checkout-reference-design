@@ -34,7 +34,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013930000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/basket-open",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/basket-open",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -42,7 +42,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"basket-open"
@@ -80,7 +80,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000037C5C000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013931000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -88,7 +88,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -126,7 +126,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000051240000003039\",\n    \"roi_name\": \"Bagging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013931500\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -134,7 +134,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -172,7 +172,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000025F74000003039\",\n    \"roi_name\": \"Bagging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013931700\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -180,7 +180,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -218,7 +218,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000037C5C000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"EXITED\",\n    \"event_time\":15736013932000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -226,7 +226,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -264,7 +264,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000571111\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Trail Mix\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 5.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013933000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/scanned-item",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/scanned-item",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -272,7 +272,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"scanned-item"
@@ -310,7 +310,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 2,\n    \"units\": \"lbs\",\n    \"event_time\":15736013934000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -318,7 +318,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -356,7 +356,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"301400000037C5C000003039\",\n    \"roi_name\": \"Bagging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013935000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -364,7 +364,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -402,7 +402,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"3014000000565D8000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013936000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -410,7 +410,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -448,7 +448,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"3014000000565D8000003039\",\n    \"roi_name\": \"Staging\",\n    \"roi_action\": \"EXITED\",\n    \"event_time\":15736013937000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -456,7 +456,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -494,7 +494,7 @@
 					"raw": "{\n \t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"product_id\": \"00000000884389\",\n    \"product_id_type\": \"UPC\",\n    \"product_name\": \"Red Wine\",\n    \"quantity\": 1,\n    \"quantity_unit\": \"EA\",\n    \"unit_price\": 10.99,\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013938000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/scanned-item",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/scanned-item",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -502,7 +502,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"scanned-item"
@@ -540,7 +540,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"total\": 5,\n    \"units\": \"lbs\",\n    \"event_time\":15736013939000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/scale-rest/weight",
+					"raw": "http://localhost:59986/api/v3/resource/scale-rest/weight",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -548,7 +548,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"scale-rest",
 						"weight"
@@ -586,7 +586,7 @@
 					"raw": "{\n    \"lane_id\" : \"1\",\n    \"epc\":\"3014000000565D8000003039\",\n    \"roi_name\": \"Bagging\",\n    \"roi_action\": \"ENTERED\",\n    \"event_time\":15736013940000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/rfid-roi-rest/rfid-roi-event",
+					"raw": "http://localhost:59986/api/v3/resource/rfid-roi-rest/rfid-roi-event",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -594,7 +594,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"rfid-roi-rest",
 						"rfid-roi-event"
@@ -632,7 +632,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013946000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/payment-start",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/payment-start",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -640,7 +640,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"payment-start"
@@ -678,7 +678,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736014200000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/payment-success",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/payment-success",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -686,7 +686,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"payment-success"
@@ -724,7 +724,7 @@
 					"raw": "{\n\t\"lane_id\":\"1\",\n    \"basket_id\": \"abc-012345-def\",\n    \"customer_id\": \"joe5\",\n    \"employee_id\": \"mary1\",\n    \"event_time\":15736013947000\n}"
 				},
 				"url": {
-					"raw": "http://localhost:59986/api/v2/resource/pos-rest/basket-close",
+					"raw": "http://localhost:59986/api/v3/resource/pos-rest/basket-close",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -732,7 +732,7 @@
 					"port": "59986",
 					"path": [
 						"api",
-						"v2",
+						"v3",
 						"resource",
 						"pos-rest",
 						"basket-close"

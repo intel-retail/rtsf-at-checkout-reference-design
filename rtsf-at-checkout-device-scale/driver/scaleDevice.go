@@ -8,7 +8,7 @@ import (
 
 	"device-scale/scale"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
 )
 
 type scaleDevice struct {

@@ -1,9 +1,9 @@
-// Copyright © 2022 Intel Corporation. All rights reserved.
+// Copyright © 2023 Intel Corporation. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 package events
 
-import "github.com/edgexfoundry/app-functions-sdk-go/v2/pkg/interfaces"
+import "github.com/edgexfoundry/app-functions-sdk-go/v3/pkg/interfaces"
 
 const (
 	posItemEvent        = "scanned-item"

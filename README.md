@@ -1,5 +1,8 @@
 # rtsf-at-checkout-reference-design
 
+![CodeQL](https://github.com/intel-retail/rtsf-at-checkout-reference-design/actions/workflows/codeql.yaml/badge.svg?branch=main) ![GolangTest](https://github.com/intel-retail/rtsf-at-checkout-reference-design/actions/workflows/gotest.yaml/badge.svg?branch=main) ![DockerImageBuild](https://github.com/intel-retail/rtsf-at-checkout-reference-design/actions/workflows/build.yaml/badge.svg?branch=main)  [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/intel-retail/rtsf-at-checkout-reference-design/badge)](https://api.securityscorecards.dev/projects/github.com/intel-retail/rtsf-at-checkout-reference-design)
+
+
 See the following link for complete *Real Time Sensor Fusion for Loss Detection at Checkout Reference Design* documentation.
 
 

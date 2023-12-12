@@ -53,7 +53,7 @@ func NotifySuspectList(ctx interfaces.AppFunctionContext, data interface{}) (boo
 		},
 		securityCategory,
 		content,
-		"Loss Detector",
+		"Loss-Detector",
 		models.Critical,
 	)
 

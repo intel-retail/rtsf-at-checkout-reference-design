@@ -6,7 +6,7 @@
             "data": {
                 "object_count": 1,
                 "product_name": "abcde11",
-                "roi_action": "ENTER",
+                "roi_action": "ENTERED",
                 "roi_name": "Staging"
             },
             "wait_time": "1s"
@@ -28,7 +28,7 @@
             "data": {
                 "object_count": 1,
                 "product_name": "abcde11",
-                "roi_action": "ENTER",
+                "roi_action": "ENTERED",
                 "roi_name": "Bagging"
             },
             "wait_time": "1s"

@@ -103,7 +103,7 @@ go-tidy:
 	done
 
 install-go-lint:
-	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo sh -s -- -b $$(go env GOPATH)/bin v1.51.2
+	sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo sh -s -- -b $$(go env GOPATH)/bin v1.54.2
 
 hadolint: 
 	docker run --rm -v $(pwd):/repo -i hadolint/hadolint:latest-alpine sh -c "cd /repo && hadolint -f json ./**/Dockerfile" > go-hadolint.json

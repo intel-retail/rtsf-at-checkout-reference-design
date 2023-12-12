@@ -1,7 +1,7 @@
 # Copyright © 2019 - 2022 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-FROM golang:1.18-alpine3.16 AS builder
+FROM golang:1.21-alpine3.18 AS builder
 
 ENV GO111MODULE=on
 WORKDIR /product-lookup
@@ -23,7 +23,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -o product-lookup main.go
 
 # Next image - Copy built Go binary into new workspace
-FROM alpine:3.10
+FROM alpine:3.18
 
 LABEL license='SPDX-License-Identifier: BSD-3-Clause' \
     copyright='Copyright (c) 2018 - 2020: Intel'

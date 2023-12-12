@@ -136,7 +136,7 @@ func (eventsProcessing *EventsProcessor) GetCurrentStateMessage() []byte {
 	return eventsProcessing.currentStateMessage
 }
 
-//these custom Marshal functions are needed as json.Marshal() results in a stack overflow error from an infinite loop, due to cross-referencing of Associated RTTL/Scale Entries
+// these custom Marshal functions are needed as json.Marshal() results in a stack overflow error from an infinite loop, due to cross-referencing of Associated RTTL/Scale Entries
 func (rttl RTTLogEventEntry) toJSONString() string {
 
 	rttlStr :=
@@ -158,7 +158,7 @@ func (rttl RTTLogEventEntry) toJSONString() string {
 	return rttlStr
 }
 
-//same as comment above
+// same as comment above
 func (scaleItem ScaleEventEntry) toJSONString() string {
 	scaleStr :=
 		`{
@@ -172,7 +172,7 @@ func (scaleItem ScaleEventEntry) toJSONString() string {
 	return scaleStr
 }
 
-//same as comment above
+// same as comment above
 func (cvItem CVEventEntry) toJSONString() string {
 	cvStr := `{
 		"product_name": "` + cvItem.ObjectName + `",
@@ -182,7 +182,7 @@ func (cvItem CVEventEntry) toJSONString() string {
 	return cvStr
 }
 
-//same as comment above
+// same as comment above
 func (rfidItem RFIDEventEntry) toJSONString() string {
 	rfidStr := `{
 		"product_name": "` + rfidItem.ProductName + `",

@@ -15,5 +15,5 @@ deviceResources:
   - name: "rfid-roi-event"
     description: "A RFID ROI event"
     properties:
-      valueType: "string"
+      valueType: "object"
       readWrite: "WR"

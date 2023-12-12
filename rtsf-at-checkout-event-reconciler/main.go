@@ -11,6 +11,7 @@ import (
 	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg"
 	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg/interfaces"
 	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg/transforms"
+	"github.com/edgexfoundry/app-functions-sdk-go/v3/pkg/util"
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
 
 	"event-reconciler/config"
@@ -59,9 +60,7 @@ func (app *EventReconcilerAppService) CreateAndRunAppService(serviceKey string) 
 	eventsProcessor.ResetEventsOccurrence()
 	eventsProcessor.InitWebSocketConnection(app.service, app.lc)
 
-	deviceNamesList := strings.TrimSpace(app.serviceConfig.Reconciler.DeviceNames)
-
-	deviceNames := strings.Split(deviceNamesList, ",")
+	deviceNames := util.DeleteEmptyAndTrim(strings.FieldsFunc(app.serviceConfig.Reconciler.DeviceNames, util.SplitComma))
 	app.lc.Infof("Running the application functions for %v devices...", deviceNames)
 
 	app.service.AddRoute("/current-state", func(writer http.ResponseWriter, req *http.Request) {

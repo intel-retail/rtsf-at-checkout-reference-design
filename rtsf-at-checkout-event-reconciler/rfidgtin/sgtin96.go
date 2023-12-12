@@ -12,7 +12,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-//noinspection GoNameStartsWithPackageName
+// noinspection GoNameStartsWithPackageName
 const (
 	maxPartitionValue = 6
 	digitCount        = 13
@@ -29,6 +29,7 @@ var l = [7]int{12, 11, 10, 9, 8, 7, 6} // Number of digits in the company prefix
 // EPC Generation 1 Tag Data Standards Version 1.1 Rev.1.27.
 // The method throws an Error if the EPC
 // is not encoded properly according the GS1 standard.
+//
 //nolint:gocyclo
 func GetGtin14(epc string) (string, error) {
 	if !IsSGTINEncoded(epc) {

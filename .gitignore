@@ -5,3 +5,5 @@
 /docs/assets/javascripts
 pipeline-server
 models
+coverage.out
+goLintResults.txt

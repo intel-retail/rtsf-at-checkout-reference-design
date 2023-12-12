@@ -60,7 +60,7 @@
             "data": {
                 "object_count": 1,
                 "product_name": "Red Apples",
-                "roi_action": "ENTER",
+                "roi_action": "ENTERED",
                 "roi_name": "Scanner"
             },
             "wait_time": ".5s"

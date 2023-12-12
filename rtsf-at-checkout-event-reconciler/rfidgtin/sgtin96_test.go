@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-//nolint :dupl
+// nolint :dupl
 func testGtin14(t *testing.T, epc string, gtin string) {
 	result, err := GetGtin14(epc)
 	if err != nil {
@@ -31,7 +31,7 @@ func testGtin14Error(t *testing.T, epc string, s string) {
 	}
 }
 
-//nolint :dupl
+// nolint :dupl
 func testCompanyPrefix(t *testing.T, epc string, expected int64) {
 	result, err := GetCompanyPrefixByEpc(epc)
 	if err != nil {

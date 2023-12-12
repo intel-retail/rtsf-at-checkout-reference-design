@@ -1,7 +1,7 @@
 # Copyright © 2023 Intel Corporation. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
 
-FROM golang:1.20-alpine3.17 AS builder
+FROM golang:1.21-alpine3.18 AS builder
 
 ENV GO111MODULE=on
 WORKDIR /device-scale
@@ -22,7 +22,7 @@ RUN go mod tidy
 RUN CGO_ENABLED=0 go build -o device-scale cmd/main.go
 
 # Next image - Copy built Go binary into new workspace
-FROM alpine:3.17
+FROM alpine:3.18
 
 LABEL license='SPDX-License-Identifier: BSD-3-Clause' \
     copyright='Copyright (c) 2018 - 2023: Intel'

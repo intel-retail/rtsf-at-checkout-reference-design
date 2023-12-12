@@ -24,19 +24,16 @@ services:
     depends_on:
       consul:
         condition: service_started
-        required: true
       core-metadata:
         condition: service_started
-        required: true
       database:
         condition: service_started
-        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/core-command:3.0.0
+    image: edgexfoundry/core-command:3.1.0
     networks:
       edgex-network: {}
     ports:
@@ -60,7 +57,7 @@ services:
     - 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.15.2
+    image: hashicorp/consul:1.16.2
     networks:
       edgex-network: {}
     ports:
@@ -88,18 +85,15 @@ services:
     depends_on:
       consul:
         condition: service_started
-        required: true
       core-metadata:
         condition: service_started
-        required: true
       database:
         condition: service_started
-        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/core-data:3.0.0
+    image: edgexfoundry/core-data:3.1.0
     networks:
       edgex-network: {}
     ports:
@@ -116,7 +110,7 @@ services:
   database:
     container_name: edgex-redis
     hostname: edgex-redis
-    image: redis:7.0.11-alpine
+    image: redis:7.0.14-alpine
     networks:
       edgex-network: {}
     ports:
@@ -140,22 +134,18 @@ services:
     depends_on:
       consul:
         condition: service_started
-        required: true
       core-data:
         condition: service_started
-        required: true
       core-metadata:
         condition: service_started
-        required: true
       mqtt-broker:
         condition: service_started
-        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       MQTTBROKERINFO_HOST: edgex-mqtt-broker
       SERVICE_HOST: edgex-device-mqtt
     hostname: edgex-device-mqtt
-    image: edgexfoundry/device-mqtt:3.0.0
+    image: edgexfoundry/device-mqtt:3.1.0
     networks:
       edgex-network: {}
     ports:
@@ -177,18 +167,15 @@ services:
     depends_on:
       consul:
         condition: service_started
-        required: true
       core-data:
         condition: service_started
-        required: true
       core-metadata:
         condition: service_started
-        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest:3.0.0
+    image: edgexfoundry/device-rest:3.1.0
     networks:
       edgex-network: {}
     ports:
@@ -210,15 +197,13 @@ services:
     depends_on:
       consul:
         condition: service_started
-        required: true
       database:
         condition: service_started
-        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata:3.0.0
+    image: edgexfoundry/core-metadata:3.1.0
     networks:
       edgex-network: {}
     ports:
@@ -239,7 +224,7 @@ services:
     - /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0.15
+    image: eclipse-mosquitto:2.0.18
     networks:
       edgex-network: {}
     ports:
@@ -258,15 +243,13 @@ services:
     depends_on:
       consul:
         condition: service_started
-        required: true
       database:
         condition: service_started
-        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications:3.0.0
+    image: edgexfoundry/support-notifications:3.1.0
     networks:
       edgex-network: {}
     ports:
@@ -286,7 +269,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
-    image: edgexfoundry/edgex-ui:3.0.0
+    image: edgexfoundry/edgex-ui:3.1.0
     networks:
       edgex-network: {}
     ports:
@@ -304,7 +287,6 @@ services:
     depends_on:
       consul:
         condition: service_started
-        required: true
     environment:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
@@ -313,7 +295,7 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
     hostname: edgex-core-common-config-bootstrapper
-    image: edgexfoundry/core-common-config-bootstrapper:3.0.0
+    image: edgexfoundry/core-common-config-bootstrapper:3.1.0
     networks:
       edgex-network: {}
     read_only: true

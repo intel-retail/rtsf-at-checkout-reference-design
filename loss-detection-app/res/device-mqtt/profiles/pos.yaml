@@ -11,29 +11,29 @@ deviceResources:
   - name: basket-open
     description: "JSON message containing the basket open details"
     properties:
-      valueType: "string"
+      valueType: "object"
       readWrite: "WR"
 
   - name: scanned-item
     description: "JSON message containing the scanned item details"
     properties:
-      valueType: "string"
+      valueType: "object"
       readWrite: "WR"
 
   - name: payment-start
     description: "JSON message containing the payment start details"
     properties:
-      valueType: "string"
+      valueType: "object"
       readWrite: "WR"
 
   - name: payment-success
     description: "JSON message containing the payment success details"
     properties:
-      valueType: "string"
+      valueType: "object"
       readWrite: "WR"
 
   - name: basket-close
     description: "JSON message containing the basket close details"
     properties:
-      valueType: "string"
+      valueType: "object"
       readWrite: "WR"

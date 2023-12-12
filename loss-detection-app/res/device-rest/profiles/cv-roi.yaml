@@ -15,5 +15,5 @@ deviceResources:
   - name: "cv-roi-event"
     description: "A CV ROI event"
     properties:
-      valueType: "string"
+      valueType: "object"
       readWrite: "WR"

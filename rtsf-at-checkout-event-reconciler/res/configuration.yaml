@@ -16,10 +16,10 @@ MessageBus:
       
 Reconciler:
   DeviceNames: "pos-rest, pos-mqtt, device-scale, scale-rest, scale-mqtt, cv-roi-rest, cv-roi-mqtt, rfid-roi-rest, rfid-roi-mqtt"
-  DevicePos: device-pos
-  DeviceScale: device-scale
-  DeviceCV: device-cv-roi
-  DeviceRFID: device-rfid-roi
+  DevicePos: pos
+  DeviceScale: scale
+  DeviceCV: cv-roi
+  DeviceRFID: rfid-roi
   ProductLookupEndpoint: 'localhost:8083'
   WebSocketPort: '9083'
   ScaleToScaleTolerance: 0.02

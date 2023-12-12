@@ -11,5 +11,5 @@ deviceResources:
 - name: weight
   description: "JSON message containing the scale details"
   properties:
-    valueType: "string"
+    valueType: "object"
     readWrite: "WR"

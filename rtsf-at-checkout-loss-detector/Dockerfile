@@ -16,7 +16,7 @@ COPY go.mod .
 RUN go mod download
 
 COPY . .
-
+RUN go mod tidy
 RUN CGO_ENABLED=0 go build -o loss-detector /loss-detector/main.go
 
 # Next image - Copy built Go binary into new workspace

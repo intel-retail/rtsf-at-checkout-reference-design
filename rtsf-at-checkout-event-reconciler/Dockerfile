@@ -14,6 +14,7 @@ COPY go.mod .
 RUN go mod download
 
 COPY . .
+RUN go mod tidy
 RUN CGO_ENABLED=0 go build -o event-reconciler /event-reconciler/main.go
 
 # Next image - Copy built Go binary into new workspace

@@ -27,8 +27,8 @@ services:
       # - CAMERA0_ENDPOINT=http://pipeline-server:8080/pipelines/product_detection/frame_store
       # Fill in camera source info below
       # for RTSP cameras
-      # - CAMERA0_SRC=file:///home/pipeline-server/video-samples/grocery-test.mp4
-      - CAMERA0_SRC=file:///home/pipeline-server/video-samples/EnterExitEvent_2second.mp4
+      - CAMERA0_SRC=file:///home/pipeline-server/video-samples/grocery-test.mp4
+      #- CAMERA0_SRC=file:///home/pipeline-server/video-samples/EnterExitEvent_2second.mp4
       # or for USB cameras
       # - CAMERA0_SRC=/dev/video0
       - CAMERA0_ROI_NAME=Staging

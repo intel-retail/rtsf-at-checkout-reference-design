@@ -32,11 +32,22 @@ run-vap: models
 	cd ./loss-detection-app && \
 	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml -f docker-compose.vap.yml up -d
 
+run-ovms:
+	cd ./loss-detection-app && docker compose -p ${STACK_NAME} -f docker-compose-ovms.yml up -d
+
+run-vap-ovms: run-ovms 
+	cd ./loss-detection-app && \
+	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml up -d
+
 run-full: run-vap
 
 down:
 	cd ./loss-detection-app && \
-	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml -f docker-compose.vap.yml down -v
+	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml -f docker-compose.vap.yml -f docker-compose-ovms.yml down -v
+	
+down-ovms:
+	cd ./loss-detection-app && \
+	docker compose -p  ${STACK_NAME} -f docker-compose-ovms.yml down -v
 
 down-portainer:
 	cd ./loss-detection-app && docker compose -p portainer -f docker-compose.portainer.yml down

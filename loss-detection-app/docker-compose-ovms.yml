@@ -21,7 +21,7 @@ services:
     command: 
       - '--config_path'
       - '/home/ovms/models/config.json'
-      - '--grpc_port'
+      - '--port'
       - '9001'
       - '--rest_port'
       - '9002'

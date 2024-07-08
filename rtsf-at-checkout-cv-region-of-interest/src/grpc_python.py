@@ -80,7 +80,9 @@ def getOutputName(model_name):
 def inference(img_str, model_name, grpc_stub):
     request = predict_pb2.PredictRequest()
     request.model_spec.name = model_name
-    request.inputs['input.1'].CopyFrom(make_tensor_proto(img_str, shape=img_str.shape))
+    request.inputs['input.1'].CopyFrom(
+        make_tensor_proto(img_str, shape=img_str.shape)
+    )
     start_time = datetime.datetime.now()
     response = None
     try:
@@ -98,13 +100,26 @@ def inference(img_str, model_name, grpc_stub):
     return [response, duration]
 
 
-def create_inference_pipeline(input_src, roi_name, mqtt_broker_address, mqtt_outgoing_topic, grpc_address='localhost', grpc_port=9001, model_name='product-detection-0001'):
+def create_inference_pipeline(
+        input_src, roi_name, mqtt_broker_address, mqtt_outgoing_topic,
+        grpc_address='localhost',
+        grpc_port=9001, model_name='product-detection-0001'):
     '''
-    parser = argparse.ArgumentParser(description='Sends requests via KServe gRPC API using images in format supported by OpenCV. It displays performance statistics and optionally the model accuracy')
-    parser.add_argument('--input_src', required=True, default='', help='input source for the inference pipeline')
-    parser.add_argument('--grpc_address',required=False, default='localhost',  help='Specify url to grpc service. default:localhost')
-    parser.add_argument('--grpc_port',required=False, default=9000, help='Specify port to grpc service. default: 9000')
-    parser.add_argument('--model_name', default='instance-segmentation-security-1040', help='Define model name, must be same as is in service. default: resnet',
+    parser = argparse.ArgumentParser(description='Sends requests
+                                    via KServe gRPC API using images in format
+                                    supported by OpenCV. It displays
+                                    performance statistics and optionally the
+                                    model accuracy')
+    parser.add_argument('--input_src', required=True, default='',
+                        help='input source for the inference pipeline')
+    parser.add_argument('--grpc_address',required=False, default='localhost',
+                        help='Specify url to grpc service. default:localhost')
+    parser.add_argument('--grpc_port',required=False, default=9000,
+                        help='Specify port to grpc service. default: 9000')
+    parser.add_argument('--model_name',
+                        default='instance-segmentation-security-1040',
+                        help='Define model name,
+                        must be same as is in service. default: resnet',
                         dest='model_name')
     args = vars(parser.parse_args())'''
 
@@ -131,8 +146,12 @@ def create_inference_pipeline(input_src, roi_name, mqtt_broker_address, mqtt_out
             # image pre-processing
             img = frame.astype(np.float32)
             resize_to_shape = getModelInputImageSize(model_name)
-            img = cv2.resize(img, (resize_to_shape[1], resize_to_shape[0]))
-            img = img.transpose(2, 0, 1).reshape(1, 3, resize_to_shape[0], resize_to_shape[1])
+            img = cv2.resize(
+                img, (resize_to_shape[1], resize_to_shape[0])
+            )
+            img = img.transpose(2, 0, 1).reshape(
+                1, 3, resize_to_shape[0], resize_to_shape[1]
+            )
 
             response = inference(img, model_name, grpc_stub)
 
@@ -143,8 +162,15 @@ def create_inference_pipeline(input_src, roi_name, mqtt_broker_address, mqtt_out
             elif model_name == "yolov5s":
                 postProcessYolov5s(response[0], response[1])
             elif model_name == "product-detection-0001":
-                detected_products_jsonMsg = post_process_product_detection(input_src, frame_id, roi_name, response[0], response[1], img, resize_to_shape[0], resize_to_shape[1], mqtt_broker_address, mqtt_outgoing_topic)
-                publish_mqtt_msg(detected_products_jsonMsg, mqtt_broker_address, mqtt_outgoing_topic)
+                detected_products_jsonMsg = post_process_product_detection(
+                    input_src, frame_id, roi_name, response[0], response[1],
+                    img, resize_to_shape[0], resize_to_shape[1],
+                    mqtt_broker_address, mqtt_outgoing_topic
+                )
+                publish_mqtt_msg(
+                    detected_products_jsonMsg, mqtt_broker_address,
+                    mqtt_outgoing_topic
+                )
             else:
                 print("Unsupported model_name: {}".format(model_name))
                 exit(1)
@@ -154,7 +180,9 @@ def create_inference_pipeline(input_src, roi_name, mqtt_broker_address, mqtt_out
             pass  # nosec
 
 
-def post_process_product_detection(input_src, frame_id, roi_name, result, duration, img, width, height, mqtt_broker_address, mqtt_outgoing_topic):
+def post_process_product_detection(
+        input_src, frame_id, roi_name, result, duration, img, width, height,
+        mqtt_broker_address, mqtt_outgoing_topic):
     products = []
     for name in result.outputs:
         print(f"Output: name[{name}]")
@@ -164,21 +192,25 @@ def post_process_product_detection(input_src, frame_id, roi_name, result, durati
         print("img.shape[0]: width" + str(width))
         print("img.shape[1]: height" + str(height))
 
-        for y in range(0, img.shape[0]):  # iterate over responses from all images in the batch
+        # iterate over responses from all images in the batch
+        for y in range(0, img.shape[0]):
             img_out = img[y, :, :, :]
 
             # print("image in batch item",y, ", output shape",img_out.shape)
             img_out = img_out.transpose(1, 2, 0)
-            for i in range(0, 200*1-1):  # there is returned 200 detections for each image in the batch
+            # there is returned 200 detections for each image in the batch
+            for i in range(0, 200*1-1):
                 detection = output[:, :, i, :]
                 label_id = 0
-                # each detection has shape 1,1,7 where last dimension represent:
+                # each detection has shape 1,1,7
+                # where last dimension represent:
                 # image_id - ID of the image in the batch
                 # label - predicted class ID
                 # conf - confidence for the predicted class
-                # (x_min, y_min) - coordinates of the top left bounding box corner
-                # (x_max, y_max) - coordinates of the bottom right bounding box corner.
-                if detection[0, 0, 2] > 0.5 and int(detection[0, 0, 0]) == y:  # ignore detections for image_id != y and confidence <0.5
+                # (x_min,y_min)-coordinates of top left bounding box corner
+                # (x_max,y_max)-coordinates of bottom right bounding box corner
+                # ignore detections for image_id != y and confidence <0.5
+                if detection[0, 0, 2] > 0.5 and int(detection[0, 0, 0]) == y:
                     print("detection", i, detection)
                     product_number = detection[0, 0, 1]
                     x_min = int(detection[0, 0, 3] * width)
@@ -209,19 +241,39 @@ def post_process_product_detection(input_src, frame_id, roi_name, result, durati
                         12: "pringles",
                         13: "del_monte"
                     }[product_number]
-                    detected_product = {"product": detection_str, "confidence": str(detection[0, 0, 2]), "x_min": str(x_min), "y_min": str(y_min), "x_max": str(x_max), "y_max": str(y_max)}
+                    detected_product = {"product": detection_str,
+                                        "confidence": str(detection[0, 0, 2]),
+                                        "x_min": str(x_min),
+                                        "y_min": str(y_min),
+                                        "x_max": str(x_max),
+                                        "y_max": str(y_max)}
                     if len(products) < i + 1:
                         products.append(detected_product)
                     else:
                         products[i].update(detected_product)
-    detected_products = {"timestamp": str(time.time()), "source": input_src, "roi_name": roi_name, "frame_id": frame_id, "width": str(width), "height": str(height), "objects": products}
+    detected_products = {"timestamp": str(time.time()),
+                         "source": input_src,
+                         "roi_name": roi_name,
+                         "frame_id": frame_id,
+                         "width": str(width),
+                         "height": str(height),
+                         "objects": products}
     detected_products_jsonMsg = json.dumps(detected_products)
     return detected_products_jsonMsg
 
 
-def publish_mqtt_msg(detected_products, mqtt_broker_address, mqtt_outgoing_topic):
-    publish.single(mqtt_outgoing_topic, detected_products,  hostname=mqtt_broker_address)
+def publish_mqtt_msg(
+        detected_products, mqtt_broker_address, mqtt_outgoing_topic):
+    publish.single(
+        mqtt_outgoing_topic, detected_products,  hostname=mqtt_broker_address
+    )
 
 
 if __name__ == '__main__':
-    create_inference_pipeline('file:///home/nesubuntu207/Neethu/rtsf/NES_fork/rtsf-at-checkout-reference-design/loss-detection-app/video-samples/grocery-test.mp4', 'Staging', 'localhost', 'AnalyticsData', 'localhost', 9001, 'product-detection-0001')
+    camSrc = 'file:///home/nesubuntu207/Neethu/rtsf/NES_fork/\
+    rtsf-at-checkout-reference-design/loss-detection-app/video-samples/\
+    grocery-test.mp4'
+    create_inference_pipeline(
+        camSrc,
+        'Staging', 'localhost', 'AnalyticsData', 'localhost', 9001,
+        'product-detection-0001')

@@ -6,6 +6,7 @@ import requests
 from threading import Timer
 import os
 import shutil
+from grpc_python import *
 
 # MQTT related constants
 MQTT_BROKER_HOST = "edgex-mqtt-broker"
@@ -21,6 +22,9 @@ EDGEX_EXIT_EVENT = 'EXITED'
 MQTT_BROKER_ADDRESS = MQTT_BROKER_HOST + ":" + str(MQTT_BROKER_PORT)
 
 FRAME_STORE_SPECIFIER = "img%08d.jpg"
+OVMS_HOST = "openvino"
+OVMS_GRPC_PORT = 9001
+MODEL_NAME = "product-detection-0001"
 
 oldFrameDict = {}
 
@@ -44,24 +48,33 @@ def on_subscribe(client, userdata, message, qos):
     print("Subscribed to topic")
 
 def on_message(client, userdata, message):
+    print("Receiving message on topic")
     newFrameDict = {}
-    python_obj = json.loads(message.payload)
+    '''python_obj = json.loads(message.payload)
     resolution = python_obj["resolution"]
     height = resolution["height"]
-    width = resolution["width"]
+    width = resolution["width"]'''
+    decoded_data= message.payload.decode("utf-8")
+    print(decoded_data)
+    python_obj = json.loads(decoded_data)
+    height = python_obj["height"]
+    width = python_obj["width"]
     source = python_obj["source"]
-    roi_name = python_obj["tags"]["roi_name"]
+    #roi_name = python_obj["tags"]["roi_name"]
+    roi_name = python_obj["roi_name"]
     # timestamp is milliseconds since start of stream
     timestamp = python_obj["timestamp"]
     frame_path = None
     frame_id = python_obj.get("frame_id")
-    template = python_obj["tags"].get("file-location")
+    #template = python_obj["tags"].get("file-location")
+    template = python_obj["source"]
     if frame_id and template:
-        frame_path = template % frame_id
+        #frame_path = template % frame_id
+        frame_path = template + "/" + str(frame_id)
 
     if 'objects' in python_obj:
         # Broken down
-        for indv_object_detected in python_obj['objects']:
+        '''for indv_object_detected in python_obj['objects']:
             detection = indv_object_detected["detection"]
             bounding_box = detection["bounding_box"]
             x_max = bounding_box["x_max"]
@@ -70,7 +83,15 @@ def on_message(client, userdata, message):
             y_min = bounding_box["y_min"]
             confidence = detection["confidence"]
             label = detection["label"]
-            label_id = detection["label_id"]
+            label_id = detection["label_id"]'''
+
+        for detection in python_obj['objects']:
+            x_max = detection["x_max"]
+            x_min = detection["x_min"]
+            y_max = detection["y_max"]
+            y_min = detection["y_min"]
+            confidence = detection["confidence"]
+            label = detection["product"]
 
             #For each frame, add the label or increment it in the dict if it is seen
             if label in newFrameDict:
@@ -122,9 +143,16 @@ def create_pipelines():
     cameraConfiguration = []
     mqttDestHost = os.environ.get('MQTT_DESTINATION_HOST')
 
-    if cameraConfiguration == None:
+    print("mqttDestHost #### "+ mqttDestHost)
+
+    if mqttDestHost == None:
         print("WARNING: Enter Exit Service could not create video pipeline(s), environment variable MQTT_DESTINATION_HOST not set correctly")
         return
+
+    '''if cameraConfiguration == None:
+        print("WARNING: Enter Exit Service could not create video pipeline(s), environment variable MQTT_DESTINATION_HOST not set correctly")
+        return'''
+
 
     i = 0
     
@@ -132,8 +160,9 @@ def create_pipelines():
         # read env vars to find camera topic and source
         # expecting env vars to be in the form CAMERA0_SRC and CAMERA0_MQTTTOPIC
         camSrc = os.environ.get('CAMERA' + str(i) + '_SRC')
+        print("camSrc: ", camSrc)
         roiName = os.environ.get('CAMERA' + str(i) + '_ROI_NAME')
-        camEndpoint = os.environ.get('CAMERA'+ str(i) +'_ENDPOINT')
+        #camEndpoint = os.environ.get('CAMERA'+ str(i) +'_ENDPOINT')
         camCropTBLR = str(os.environ.get('CAMERA'+ str(i) +'_CROP_TBLR'))
         camStreamPort = os.environ.get('CAMERA' + str(i) + '_PORT')
         camFrameStore = "/frame_store"
@@ -180,7 +209,7 @@ def create_pipelines():
                 "inference_device":"CPU",
                 "file-location":os.path.join(camFrameStore, FRAME_STORE_SPECIFIER)
             },
-            'camEndpoint': camEndpoint
+            #'camEndpoint': camEndpoint
         }
         cameraConfiguration.append(jsonConfig)
 
@@ -198,7 +227,7 @@ def create_pipelines():
         return
 
     for camConfig in cameraConfiguration:
-        data = {}
+        '''data = {}
         data['source'] = camConfig['source']
         data['destination'] =  camConfig['destination']
         data['tags'] =  camConfig['tags']
@@ -212,7 +241,10 @@ def create_pipelines():
         if r.status_code == 200:
             print("Created new pipeline with id: %s"%r.text)
         else:
-            print("Error creating pipeline: %s"%r.text)
+            print("Error creating pipeline: %s"%r.text)'''
+        print("camSrc: ", camConfig['source']['uri'])
+        print("Start inferencing...")
+        create_inference_pipeline(camConfig['source']['uri'], camConfig['tags']['roi_name'], mqttDestHost, MQTT_INCOMING_TOPIC_NAME, OVMS_HOST, OVMS_GRPC_PORT, MODEL_NAME)
 
 # TODO fix this for cam endpoints
 # def delete_pipeline(instance):

@@ -37,7 +37,7 @@ run-ovms:
 
 run-vap-ovms: run-ovms 
 	cd ./loss-detection-app && \
-	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml up -d
+	docker compose -p ${STACK_NAME} -f docker-compose.edgex.yml -f docker-compose.loss-detection.yml -f docker-compose.vap.yml up -d
 
 run-full: run-vap
 

@@ -22,12 +22,12 @@ services:
     hostname: cv-region-of-interest
     environment:
       - no_proxy=pipeline-server,edgex-mqtt-broker
-      - MQTT_DESTINATION_HOST=edgex-mqtt-broker:1883
-      - CAMERA0_ENDPOINT=http://pipeline-server:8080/pipelines/product_detection/default
+      - MQTT_DESTINATION_HOST=edgex-mqtt-broker
+      #- CAMERA0_ENDPOINT=http://pipeline-server:8080/pipelines/product_detection/default
       # - CAMERA0_ENDPOINT=http://pipeline-server:8080/pipelines/product_detection/frame_store
       # Fill in camera source info below
       # for RTSP cameras
-      - CAMERA0_SRC=file:///home/pipeline-server/video-samples/grocery-test.mp4
+      - CAMERA0_SRC=file:////home/video-samples/grocery-test.mp4
       #- CAMERA0_SRC=file:///home/pipeline-server/video-samples/EnterExitEvent_2second.mp4
       # or for USB cameras
       # - CAMERA0_SRC=/dev/video0
@@ -39,29 +39,30 @@ services:
       edgex-network: {}
     volumes:
       - /tmp:/tmp
-    depends_on:
-      - video-analytic
+      - ./video-samples:/home/video-samples
+  #  depends_on:
+  #    - video-analytic
 
-  video-analytic:
-    image: intel/dlstreamer-pipeline-server
-    ports:
-      - "8080:8080"
-      - "8554:8554"
-    container_name: pipeline-server
-    hostname: pipeline-server
-    privileged: true
-    networks:
-      edgex-network: {}
-    environment:
-      - ENABLE_RTSP=true
-      - EMIT_SOURCE_AND_DESTINATION=true
-    user: "${UID}:${GID}"
-    devices:
-      # - /dev/video0:/dev/video0
-      - /dev/dri:/dev/dri
-    volumes:
-      - /tmp:/tmp
-      - ./pipelines:/home/pipeline-server/pipelines
-      - ./models:/home/pipeline-server/models
-      - ./extensions:/home/pipeline-server/extensions
-      - ./video-samples:/home/pipeline-server/video-samples
+  #video-analytic:
+  #  image: intel/dlstreamer-pipeline-server
+  #  ports:
+  #    - "8080:8080"
+  #    - "8554:8554"
+  #  container_name: pipeline-server
+  #  hostname: pipeline-server
+  #  privileged: true
+  #  networks:
+  #    edgex-network: {}
+  #  environment:
+  #    - ENABLE_RTSP=true
+  #    - EMIT_SOURCE_AND_DESTINATION=true
+  #  user: "${UID}:${GID}"
+  #  devices:
+  #    # - /dev/video0:/dev/video0
+  #    - /dev/dri:/dev/dri
+  #  volumes:
+  #    - /tmp:/tmp
+  #    - ./pipelines:/home/pipeline-server/pipelines
+  #    - ./models:/home/pipeline-server/models
+  #    - ./extensions:/home/pipeline-server/extensions
+  #    - ./video-samples:/home/pipeline-server/video-samples

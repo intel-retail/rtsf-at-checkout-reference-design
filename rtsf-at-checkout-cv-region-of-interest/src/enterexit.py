@@ -6,6 +6,7 @@ import requests
 from threading import Timer
 import os
 import shutil
+from grpc_python import *
 
 # MQTT related constants
 MQTT_BROKER_HOST = "edgex-mqtt-broker"
@@ -21,8 +22,12 @@ EDGEX_EXIT_EVENT = 'EXITED'
 MQTT_BROKER_ADDRESS = MQTT_BROKER_HOST + ":" + str(MQTT_BROKER_PORT)
 
 FRAME_STORE_SPECIFIER = "img%08d.jpg"
+OVMS_HOST = "openvino"
+OVMS_GRPC_PORT = 9001
+MODEL_NAME = "product-detection-0001"
 
 oldFrameDict = {}
+
 
 def create_event_message(source, key, event_type, roi_name, frame_path):
     milliSinceEPOCH = int(round(time.time() * 1000))
@@ -36,32 +41,44 @@ def create_event_message(source, key, event_type, roi_name, frame_path):
         enter_exit_event["frame_path"] = frame_path
     return json.dumps(enter_exit_event)
 
+
 def on_connect(client, userdata, message, rc):
     print("Connected to mqtt broker")
     client.subscribe(MQTT_INCOMING_TOPIC_NAME)
 
+
 def on_subscribe(client, userdata, message, qos):
     print("Subscribed to topic")
 
+
 def on_message(client, userdata, message):
+    print("Receiving message on topic")
     newFrameDict = {}
-    python_obj = json.loads(message.payload)
+    '''python_obj = json.loads(message.payload)
     resolution = python_obj["resolution"]
     height = resolution["height"]
-    width = resolution["width"]
+    width = resolution["width"]'''
+    decoded_data = message.payload.decode("utf-8")
+    print(decoded_data)
+    python_obj = json.loads(decoded_data)
+    height = python_obj["height"]
+    width = python_obj["width"]
     source = python_obj["source"]
-    roi_name = python_obj["tags"]["roi_name"]
+    # roi_name = python_obj["tags"]["roi_name"]
+    roi_name = python_obj["roi_name"]
     # timestamp is milliseconds since start of stream
     timestamp = python_obj["timestamp"]
     frame_path = None
     frame_id = python_obj.get("frame_id")
-    template = python_obj["tags"].get("file-location")
+    # template = python_obj["tags"].get("file-location")
+    template = python_obj["source"]
     if frame_id and template:
-        frame_path = template % frame_id
+        # frame_path = template % frame_id
+        frame_path = template + "/" + str(frame_id)
 
     if 'objects' in python_obj:
         # Broken down
-        for indv_object_detected in python_obj['objects']:
+        '''for indv_object_detected in python_obj['objects']:
             detection = indv_object_detected["detection"]
             bounding_box = detection["bounding_box"]
             x_max = bounding_box["x_max"]
@@ -70,16 +87,24 @@ def on_message(client, userdata, message):
             y_min = bounding_box["y_min"]
             confidence = detection["confidence"]
             label = detection["label"]
-            label_id = detection["label_id"]
+            label_id = detection["label_id"]'''
 
-            #For each frame, add the label or increment it in the dict if it is seen
+        for detection in python_obj['objects']:
+            x_max = detection["x_max"]
+            x_min = detection["x_min"]
+            y_max = detection["y_max"]
+            y_min = detection["y_min"]
+            confidence = detection["confidence"]
+            label = detection["product"]
+
+            # For each frame, add the label or increment in dict if seen
             if label in newFrameDict:
                 newFrameDict[label] = newFrameDict[label] + 1
             else:
                 newFrameDict[label] = 1
 
         # Enter Exit Logic to be used when tracking is not available
-        # This is a simple algorithm that uses counter logic to detect enter exit events
+        # Simple algorithm that uses counter logic to detect enter exit events
         global oldFrameDict
 
         # Create a blank dict for comparison for brand new roi_name
@@ -87,34 +112,48 @@ def on_message(client, userdata, message):
             oldFrameDict[roi_name] = {}
 
         for key in newFrameDict:
-            # Check to see if this object type was detected in the previous frame
+            # Check if this object type was detected in the previous frame
             # and if so, what was the count
-            # if the count does not match up with the previous frame, report enters or exits
+            # if count doesn't match up previous frame, report enters or exits
             if key in oldFrameDict[roi_name]:
                 if (newFrameDict[key] > oldFrameDict[roi_name][key]):
-                    for i in range(0, (newFrameDict[key] - oldFrameDict[roi_name][key])):
-                        mqtt_msg = create_event_message(source, key, EDGEX_ENTER_EVENT, roi_name, frame_path)
+                    for i in range(
+                            0, (
+                                newFrameDict[key] - oldFrameDict[roi_name][key]
+                            )):
+                        mqtt_msg = create_event_message(
+                            source, key, EDGEX_ENTER_EVENT, roi_name,
+                            frame_path)
                         client.publish(MQTT_OUTBOUND_TOPIC_NAME, mqtt_msg)
                 elif (newFrameDict[key] < oldFrameDict[roi_name][key]):
-                    for i in range(0, (oldFrameDict[roi_name][key] - newFrameDict[key])):
-                        mqtt_msg = create_event_message(source, key, EDGEX_EXIT_EVENT, roi_name, frame_path)
+                    for i in range(
+                            0, (
+                                oldFrameDict[roi_name][key] - newFrameDict[key]
+                            )):
+                        mqtt_msg = create_event_message(
+                            source, key, EDGEX_EXIT_EVENT, roi_name,
+                            frame_path)
                         client.publish(MQTT_OUTBOUND_TOPIC_NAME, mqtt_msg)
                 del oldFrameDict[roi_name][key]
             else:
-                # Report everything in here as new enter since it was not in the prev frame
+                # Report everything in here as
+                # new enter since it was not in the prev frame
                 for i in range(0, newFrameDict[key]):
-                    mqtt_msg = create_event_message(source, key, EDGEX_ENTER_EVENT, roi_name, frame_path)
+                    mqtt_msg = create_event_message(
+                        source, key, EDGEX_ENTER_EVENT, roi_name, frame_path)
                     client.publish(MQTT_OUTBOUND_TOPIC_NAME, mqtt_msg)
 
     # Lastly, in case of an object type is completely removed from frame,
-    # iterate over the old frame for the remaining types to report them as exited
+    # iterate over the old frame for remaining types to report them as exited
     for key in oldFrameDict.get(roi_name, []):
         for i in range(0, oldFrameDict[roi_name][key]):
-            mqtt_msg = create_event_message(source, key, EDGEX_EXIT_EVENT, roi_name, frame_path)
+            mqtt_msg = create_event_message(
+                source, key, EDGEX_EXIT_EVENT, roi_name, frame_path)
             client.publish(MQTT_OUTBOUND_TOPIC_NAME, mqtt_msg)
 
-    #Replace the old frame data with the new frame data
+    # Replace the old frame data with the new frame data
     oldFrameDict[roi_name] = newFrameDict.copy()
+
 
 def create_pipelines():
     print("creating video analytics pipelines")
@@ -122,34 +161,47 @@ def create_pipelines():
     cameraConfiguration = []
     mqttDestHost = os.environ.get('MQTT_DESTINATION_HOST')
 
-    if cameraConfiguration == None:
-        print("WARNING: Enter Exit Service could not create video pipeline(s), environment variable MQTT_DESTINATION_HOST not set correctly")
+    print("mqttDestHost #### " + mqttDestHost)
+
+    if mqttDestHost is None:
+        print("WARNING: Enter Exit Service could not create video pipeline(s),\
+        environment variable MQTT_DESTINATION_HOST not set correctly")
         return
 
+    '''if cameraConfiguration == None:
+        print("WARNING: Enter Exit Service could not create video pipeline(s),\
+        environment variable MQTT_DESTINATION_HOST not set correctly")
+        return'''
     i = 0
-    
     while True:
         # read env vars to find camera topic and source
-        # expecting env vars to be in the form CAMERA0_SRC and CAMERA0_MQTTTOPIC
+        # expecting env vars to be in the form
+        # CAMERA0_SRC and CAMERA0_MQTTTOPIC
         camSrc = os.environ.get('CAMERA' + str(i) + '_SRC')
+        print("camSrc: ", camSrc)
         roiName = os.environ.get('CAMERA' + str(i) + '_ROI_NAME')
-        camEndpoint = os.environ.get('CAMERA'+ str(i) +'_ENDPOINT')
-        camCropTBLR = str(os.environ.get('CAMERA'+ str(i) +'_CROP_TBLR'))
+        # camEndpoint = os.environ.get('CAMERA'+ str(i) +'_ENDPOINT')
+        camCropTBLR = str(os.environ.get('CAMERA' + str(i) + '_CROP_TBLR'))
         camStreamPort = os.environ.get('CAMERA' + str(i) + '_PORT')
         camFrameStore = "/frame_store"
         if os.environ.get('CAMERA' + str(i) + '_FRAME_STORE') is not None:
             camFrameStore = os.environ.get('CAMERA' + str(i) + '_FRAME_STORE')
-        camCrops = dict(zip(["top", "bottom", "left", "right"], [x for x in camCropTBLR.split(",")]))
+        camCrops = dict(
+            zip(
+                ["top", "bottom", "left", "right"],
+                [x for x in camCropTBLR.split(",")]))
         if len(camCrops) < 4:
             camCrops = dict(zip(["top", "bottom", "left", "right"], [0] * 4))
 
-        if camStreamPort == None:
+        if camStreamPort is None:
             camStreamPort = 0
 
-        if camSrc == None or roiName == None:
-            break # should break out of the loop when no more CAMERA env vars are found
+        if camSrc is None or roiName is None:
+            # should break out of loop when no more CAMERA env vars are found
+            break
 
-        srcPath, srcType = ('uri', 'uri') if '://' in camSrc else ('device', 'webcam')
+        srcPath, srcType = ('uri', 'uri')\
+            if '://' in camSrc else ('device', 'webcam')
         jsonConfig = {
             'source': {
                 srcPath: camSrc,
@@ -162,30 +214,32 @@ def create_pipelines():
                     "topic": "AnalyticsData",
                     "timeout": 1000
                 },
-                "frame":{
+                "frame": {
                     "type": "rtsp",
                     "path": EDGEX_ROI_EVENT
                 }
             },
             'tags': {
-                "roi_name":roiName,
-                "file-location":os.path.join(camFrameStore, FRAME_STORE_SPECIFIER)
+                "roi_name": roiName,
+                "file-location": os.path.join(
+                    camFrameStore, FRAME_STORE_SPECIFIER)
             },
-            'parameters' :{
-                "top":int(camCrops["top"]),
-                "left":int(camCrops["left"]),
-                "right":int(camCrops["right"]),
-                "bottom":int(camCrops["bottom"]),
-                "port":int(camStreamPort),
-                "inference_device":"CPU",
-                "file-location":os.path.join(camFrameStore, FRAME_STORE_SPECIFIER)
+            'parameters': {
+                "top": int(camCrops["top"]),
+                "left": int(camCrops["left"]),
+                "right": int(camCrops["right"]),
+                "bottom": int(camCrops["bottom"]),
+                "port": int(camStreamPort),
+                "inference_device": "CPU",
+                "file-location": os.path.join(
+                    camFrameStore, FRAME_STORE_SPECIFIER)
             },
-            'camEndpoint': camEndpoint
+            # 'camEndpoint': camEndpoint
         }
         cameraConfiguration.append(jsonConfig)
 
         # Delete existing frame_store and then re-create it writeable by all
-        print("Setting up frame store in %s" % camFrameStore)  
+        print("Setting up frame store in %s" % camFrameStore)
         if len(camFrameStore) > 0:
             if os.path.isdir(camFrameStore):
                 shutil.rmtree(camFrameStore)
@@ -194,11 +248,12 @@ def create_pipelines():
         i += 1
 
     if len(cameraConfiguration) < 1:
-        print("WARNING: Enter Exit Service could not create video pipeline(s), environment variable(s) not set correctly")
+        print("WARNING: Enter Exit Service could not create video pipeline(s),\
+        environment variable(s) not set correctly")
         return
 
     for camConfig in cameraConfiguration:
-        data = {}
+        '''data = {}
         data['source'] = camConfig['source']
         data['destination'] =  camConfig['destination']
         data['tags'] =  camConfig['tags']
@@ -212,7 +267,13 @@ def create_pipelines():
         if r.status_code == 200:
             print("Created new pipeline with id: %s"%r.text)
         else:
-            print("Error creating pipeline: %s"%r.text)
+            print("Error creating pipeline: %s"%r.text)'''
+        print("camSrc: ", camConfig['source']['uri'])
+        print("Start inferencing...")
+        create_inference_pipeline(
+            camConfig['source']['uri'], camConfig['tags']['roi_name'],
+            mqttDestHost, MQTT_INCOMING_TOPIC_NAME,
+            OVMS_HOST, OVMS_GRPC_PORT, MODEL_NAME)
 
 # TODO fix this for cam endpoints
 # def delete_pipeline(instance):

@@ -3,7 +3,7 @@
 
 paho_mqtt==1.6.1
 requests==2.32.0
-opencv-python-headless==4.7.0.72
+opencv-python-headless==4.8.1.78
 tensorflow==2.12.1
 tensorflow-serving-api==2.12.1
 grpcio==1.53.2

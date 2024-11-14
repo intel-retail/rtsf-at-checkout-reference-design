@@ -1,6 +1,11 @@
 name: Integration Test
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -10,9 +15,9 @@ jobs:
       runs-on: ubuntu-latest
       steps:
           - name: Checkout code
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
           - name: Install go
-            uses: actions/setup-go@v4
+            uses: actions/setup-go@v5.1.0
             with:
               go-version: '1.20'
           - name: Make Docker images
@@ -21,7 +26,7 @@ jobs:
               make run-base
               sleep 15
               cd rtsf-at-checkout-event-simulator && mkdir -p "$PWD"/test_results && go run main.go > "$PWD"/test_results/results.txt
-          - uses: actions/upload-artifact@v3
+          - uses: actions/upload-artifact@v4.4.3
             with:
               name: test_results
               path: ${{ github.workspace }}/test_results/

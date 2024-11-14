@@ -5,12 +5,12 @@
 
 name: trivy_image_scan
 
-# on: workflow_dispatch
 on:
+  workflow_dispatch:
+  pull_request:
   push:
     branches:
-    - master
-  pull_request:
+      - main
 
 permissions:
   contents: read
@@ -25,7 +25,7 @@ jobs:
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           with:
             ref: main
         # cv-region-of-interest
@@ -34,7 +34,7 @@ jobs:
             echo "running make build benchmark"
             make cv-roi
         - name: Run Trivy vulnerability scanner
-          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          uses: aquasecurity/trivy-action@master
           with:
             image-ref: 'rtsf-at-checkout/cv-region-of-interest:dev'
             format: 'template'
@@ -42,7 +42,7 @@ jobs:
             output: 'trivy-results-cv-region-of-interest.sarif'
             severity: 'CRITICAL,HIGH'
         - name: Upload Trivy scan results to GitHub Security tab
-          uses: github/codeql-action/upload-sarif@v2
+          uses: github/codeql-action/upload-sarif@v3.27.3
           with:
             sarif_file: 'trivy-results-cv-region-of-interest.sarif'
 
@@ -55,7 +55,7 @@ jobs:
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           with:
             ref: main
         # device-scale
@@ -64,7 +64,7 @@ jobs:
             echo "running make build benchmark"
             make device-scale
         - name: Run Trivy vulnerability scanner
-          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          uses: aquasecurity/trivy-action@master
           with:
             image-ref: 'rtsf-at-checkout/device-scale:dev'
             format: 'template'
@@ -72,7 +72,7 @@ jobs:
             output: 'trivy-results-device-scale.sarif'
             severity: 'CRITICAL,HIGH'
         - name: Upload Trivy scan results to GitHub Security tab
-          uses: github/codeql-action/upload-sarif@v2
+          uses: github/codeql-action/upload-sarif@v3.27.3
           with:
             sarif_file: 'trivy-results-device-scale.sarif'
 
@@ -85,7 +85,7 @@ jobs:
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           with:
             ref: main
         # reconciler
@@ -94,7 +94,7 @@ jobs:
             echo "running make build benchmark"
             make reconciler
         - name: Run Trivy vulnerability scanner
-          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          uses: aquasecurity/trivy-action@master
           with:
             image-ref: 'rtsf-at-checkout/event-reconciler:dev'
             format: 'template'
@@ -102,7 +102,7 @@ jobs:
             output: 'trivy-results-reconciler.sarif'
             severity: 'CRITICAL,HIGH'
         - name: Upload Trivy scan results to GitHub Security tab
-          uses: github/codeql-action/upload-sarif@v2
+          uses: github/codeql-action/upload-sarif@v3.27.3
           with:
             sarif_file: 'trivy-results-reconciler.sarif'
 
@@ -115,7 +115,7 @@ jobs:
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           with:
             ref: main
         # loss-detector
@@ -124,7 +124,7 @@ jobs:
             echo "running make build benchmark"
             make loss-detector
         - name: Run Trivy vulnerability scanner
-          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          uses: aquasecurity/trivy-action@master
           with:
             image-ref: 'rtsf-at-checkout/loss-detector:dev'
             format: 'template'
@@ -132,7 +132,7 @@ jobs:
             output: 'trivy-results-loss-detector.sarif'
             severity: 'CRITICAL,HIGH'
         - name: Upload Trivy scan results to GitHub Security tab
-          uses: github/codeql-action/upload-sarif@v2
+          uses: github/codeql-action/upload-sarif@v3.27.3
           with:
             sarif_file: 'trivy-results-loss-detector.sarif'
 
@@ -145,7 +145,7 @@ jobs:
       runs-on: "ubuntu-latest"
       steps:
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           with:
             ref: main
         # product-lookup
@@ -154,7 +154,7 @@ jobs:
             echo "running make build benchmark"
             make product-lookup
         - name: Run Trivy vulnerability scanner
-          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          uses: aquasecurity/trivy-action@master
           with:
             image-ref: 'rtsf-at-checkout/product-lookup:dev'
             format: 'template'
@@ -162,6 +162,6 @@ jobs:
             output: 'trivy-results-product-lookup.sarif'
             severity: 'CRITICAL,HIGH'
         - name: Upload Trivy scan results to GitHub Security tab
-          uses: github/codeql-action/upload-sarif@v2
+          uses: github/codeql-action/upload-sarif@v3.27.3
           with:
             sarif_file: 'trivy-results-product-lookup.sarif'

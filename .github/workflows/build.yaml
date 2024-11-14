@@ -1,6 +1,11 @@
 name: Build docker images
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -10,7 +15,19 @@ jobs:
       runs-on: ubuntu-latest
       steps:
           - name: Checkout code
-            uses: actions/checkout@v3
-          - name: Make Docker images
+            uses: actions/checkout@v4
+          - name: Make Docker image cv-roi
             run: |
-              make docker
+              make cv-roi
+          - name: Make Docker image device-scale
+            run: |
+              make device-scale
+          - name: Make Docker image reconciler
+            run: |
+              make reconciler
+          - name: Make Docker image loss-detector
+            run: |
+              make loss-detector
+          - name: Make Docker image product-loookup
+            run: |
+              make product-lookup
